@@ -1,4 +1,4 @@
-# crypto_news
+# Bit_News
 
 A Crypto News and Portfolio Tracker
 
