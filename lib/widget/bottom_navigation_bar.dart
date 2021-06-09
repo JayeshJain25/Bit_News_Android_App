@@ -1,9 +1,12 @@
-import 'package:crypto_news/screen/newsScreen.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 import '../my_flutter_app_icons.dart';
+import '../screen/favouriteScreen.dart';
+import '../screen/marketScreen.dart';
+import '../screen/newsScreen.dart';
+import '../screen/notificationScreen.dart';
 
 void main() => runApp(Nav());
 
@@ -27,11 +30,10 @@ class _MyCustomBottomNavigationBarState extends State<BottomNavigationBar> {
 
   List<Widget> _buildScreens() {
     return [
+      MarketScreen(),
+      FavouriteScreen(),
       NewsScreen(),
-      NewsScreen(),
-      NewsScreen(),
-      NewsScreen(),
-      NewsScreen(),
+      NotificationScreen(),
     ];
   }
 
@@ -49,6 +51,11 @@ class _MyCustomBottomNavigationBarState extends State<BottomNavigationBar> {
         items: <Widget>[
           const Icon(
             Icons.stacked_bar_chart,
+            size: 20,
+            color: Colors.white,
+          ),
+          const Icon(
+            Icons.star,
             size: 20,
             color: Colors.white,
           ),

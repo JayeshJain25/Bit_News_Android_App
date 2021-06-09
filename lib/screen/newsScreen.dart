@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 class NewsScreen extends StatefulWidget {
@@ -16,7 +17,12 @@ class _NewsScreenState extends State<NewsScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: Center(child: Text('News')),
+        title: Center(
+          child: Text(
+            'News',
+            style: GoogleFonts.poppins(),
+          ),
+        ),
         leading: IconButton(
           onPressed: () {},
           icon: Icon(
@@ -76,26 +82,30 @@ class _NewsScreenState extends State<NewsScreen> {
                       child: AutoSizeText(
                     'Following',
                     maxLines: 1,
+                    style: GoogleFonts.rubik(),
                   )),
                   Tab(
                       child: AutoSizeText(
                     'Recommended',
                     maxLines: 1,
+                    style: GoogleFonts.rubik(),
                   )),
                   Tab(
                       child: AutoSizeText(
                     'Everything',
                     maxLines: 1,
+                    style: GoogleFonts.rubik(),
                   )),
                   Tab(
                       child: AutoSizeText(
                     'Hot News', //Treding News
-                    maxLines: 1,
+                    maxLines: 1, style: GoogleFonts.rubik(),
                   )),
                   Tab(
                       child: AutoSizeText(
                     'Twitter',
                     maxLines: 1,
+                    style: GoogleFonts.rubik(),
                   )),
                 ],
               ),
@@ -149,7 +159,7 @@ class TopNews extends StatelessWidget {
           left: 30,
           child: Text(
             'BTC',
-            style: TextStyle(fontSize: 18, color: Colors.white),
+            style: GoogleFonts.rubik(fontSize: 18, color: Colors.white),
           ),
         ),
         Positioned(
@@ -159,7 +169,7 @@ class TopNews extends StatelessWidget {
               width: width * 0.81,
               child: Text(
                 'MATIC is Innovative, but It Looks as If It Might Not Be Very Useful',
-                style: TextStyle(
+                style: GoogleFonts.poppins(
                     color: Colors.white,
                     fontSize: 20,
                     fontWeight: FontWeight.bold),
