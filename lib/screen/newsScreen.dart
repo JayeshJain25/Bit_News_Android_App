@@ -39,7 +39,7 @@ class _NewsScreenState extends State<NewsScreen> {
               child: Column(
                 children: <Widget>[
                   SizedBox(
-                    height: 25,
+                    height: 15,
                   ),
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 20),
