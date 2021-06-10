@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:crypto_news/widget/drawerScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -9,6 +10,11 @@ class NewsScreen extends StatefulWidget {
 }
 
 class _NewsScreenState extends State<NewsScreen> {
+  double xOffset = 0;
+  double yOffset = 0;
+  double scaleFactor = 1;
+  bool isDrawerOpen = false;
+
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
@@ -16,97 +22,144 @@ class _NewsScreenState extends State<NewsScreen> {
 
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: AppBar(
-        title: Center(
-          child: Text(
-            'News',
-            style: GoogleFonts.poppins(),
-          ),
-        ),
-        leading: IconButton(
-          onPressed: () {},
-          icon: Icon(
-            Icons.menu_rounded,
-            color: Colors.white,
-          ),
-        ),
-        actions: <Widget>[
-          IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.search,
-                color: Colors.white,
-              ))
-        ],
-        backgroundColor: Colors.black,
-      ),
       body: SafeArea(
-        child: Column(
-          children: [
-            Container(
-              margin: EdgeInsets.all(15),
-              height: height / 3,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
+        child: Stack(
+          children: <Widget>[
+            DrawerScreen(),
+            AnimatedContainer(
+              transform: Matrix4.translationValues(xOffset, yOffset, 0)
+                ..scale(scaleFactor)
+                ..rotateY(isDrawerOpen ? -0.5 : 0),
+              decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: !isDrawerOpen
+                      ? BorderRadius.circular(0)
+                      : BorderRadius.circular(40)),
+              duration: Duration(milliseconds: 250),
+              child: Column(
                 children: <Widget>[
-                  TopNews(),
                   SizedBox(
-                    width: 20,
+                    height: 25,
                   ),
-                  TopNews(),
-                  SizedBox(
-                    width: 20,
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        isDrawerOpen
+                            ? IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    xOffset = 0;
+                                    yOffset = 0;
+                                    scaleFactor = 1;
+                                    isDrawerOpen = false;
+                                  });
+                                },
+                                icon: Icon(
+                                  Icons.arrow_back_ios,
+                                  color: Colors.white,
+                                ),
+                              )
+                            : IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    xOffset = 230;
+                                    yOffset = 150;
+                                    scaleFactor = 0.6;
+                                    isDrawerOpen = true;
+                                  });
+                                },
+                                icon: Icon(
+                                  Icons.menu_rounded,
+                                  color: Colors.white,
+                                ),
+                              ),
+                        AutoSizeText(
+                          'News',
+                          style: GoogleFonts.poppins(
+                              color: Colors.white, fontSize: 20),
+                        ),
+                        IconButton(
+                            onPressed: () {},
+                            icon: Icon(
+                              Icons.search,
+                              color: Colors.white,
+                            ))
+                      ],
+                    ),
                   ),
-                  TopNews(),
-                  SizedBox(
-                    width: 20,
+                  Column(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.all(15),
+                        height: height / 3,
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          children: <Widget>[
+                            TopNews(),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            TopNews(),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            TopNews(),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            TopNews(),
+                            SizedBox(
+                              width: 20,
+                            ),
+                          ],
+                        ),
+                      ),
+                      DefaultTabController(
+                        length: 5,
+                        child: TabBar(
+                          labelColor: Colors.white,
+                          isScrollable: true,
+                          indicator: BoxDecoration(
+                              color: HexColor("#4E8799"),
+                              borderRadius: BorderRadius.circular(25),
+                              shape: BoxShape.rectangle),
+                          tabs: [
+                            Tab(
+                                child: AutoSizeText(
+                              'Following',
+                              maxLines: 1,
+                              style: GoogleFonts.rubik(),
+                            )),
+                            Tab(
+                                child: AutoSizeText(
+                              'Recommended',
+                              maxLines: 1,
+                              style: GoogleFonts.rubik(),
+                            )),
+                            Tab(
+                                child: AutoSizeText(
+                              'Everything',
+                              maxLines: 1,
+                              style: GoogleFonts.rubik(),
+                            )),
+                            Tab(
+                                child: AutoSizeText(
+                              'Hot News', //Trending News
+                              maxLines: 1, style: GoogleFonts.rubik(),
+                            )),
+                            Tab(
+                                child: AutoSizeText(
+                              'Twitter',
+                              maxLines: 1,
+                              style: GoogleFonts.rubik(),
+                            )),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                  TopNews(),
-                  SizedBox(
-                    width: 20,
-                  ),
-                ],
-              ),
-            ),
-            DefaultTabController(
-              length: 5,
-              child: TabBar(
-                labelColor: Colors.white,
-                isScrollable: true,
-                indicator: BoxDecoration(
-                    color: HexColor("#4E8799"),
-                    borderRadius: BorderRadius.circular(25),
-                    shape: BoxShape.rectangle),
-                tabs: [
-                  Tab(
-                      child: AutoSizeText(
-                    'Following',
-                    maxLines: 1,
-                    style: GoogleFonts.rubik(),
-                  )),
-                  Tab(
-                      child: AutoSizeText(
-                    'Recommended',
-                    maxLines: 1,
-                    style: GoogleFonts.rubik(),
-                  )),
-                  Tab(
-                      child: AutoSizeText(
-                    'Everything',
-                    maxLines: 1,
-                    style: GoogleFonts.rubik(),
-                  )),
-                  Tab(
-                      child: AutoSizeText(
-                    'Hot News', //Trending News
-                    maxLines: 1, style: GoogleFonts.rubik(),
-                  )),
-                  Tab(
-                      child: AutoSizeText(
-                    'Twitter',
-                    maxLines: 1,
-                    style: GoogleFonts.rubik(),
-                  )),
                 ],
               ),
             ),
