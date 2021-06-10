@@ -98,7 +98,7 @@ class _NewsScreenState extends State<NewsScreen> {
                   )),
                   Tab(
                       child: AutoSizeText(
-                    'Hot News', //Treding News
+                    'Hot News', //Trending News
                     maxLines: 1, style: GoogleFonts.rubik(),
                   )),
                   Tab(

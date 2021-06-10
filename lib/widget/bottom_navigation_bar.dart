@@ -2,7 +2,6 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-import '../my_flutter_app_icons.dart';
 import '../screen/favouriteScreen.dart';
 import '../screen/marketScreen.dart';
 import '../screen/newsScreen.dart';
@@ -49,8 +48,8 @@ class _MyCustomBottomNavigationBarState extends State<BottomNavigationBar> {
         height: 50,
         animationCurve: Curves.fastOutSlowIn,
         items: <Widget>[
-          const Icon(
-            Icons.stacked_bar_chart,
+          const ImageIcon(
+            AssetImage('lib/assets/cryptocurrency.png'),
             size: 20,
             color: Colors.white,
           ),
@@ -59,8 +58,8 @@ class _MyCustomBottomNavigationBarState extends State<BottomNavigationBar> {
             size: 20,
             color: Colors.white,
           ),
-          const Icon(
-            MyFlutterApp.doc,
+          const ImageIcon(
+            AssetImage('lib/assets/news.png'),
             size: 20,
             color: Colors.white,
           ),
