@@ -1,8 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:crypto_news/widget/drawerScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+
+import '../widget/drawerScreen.dart';
 
 class NewsScreen extends StatefulWidget {
   @override
@@ -118,44 +119,47 @@ class _NewsScreenState extends State<NewsScreen> {
                       ),
                       DefaultTabController(
                         length: 5,
-                        child: TabBar(
-                          labelColor: Colors.white,
-                          isScrollable: true,
-                          indicator: BoxDecoration(
-                              color: HexColor("#4E8799"),
-                              borderRadius: BorderRadius.circular(25),
-                              shape: BoxShape.rectangle),
-                          tabs: [
-                            Tab(
-                                child: AutoSizeText(
-                              'Following',
-                              maxLines: 1,
-                              style: GoogleFonts.rubik(),
-                            )),
-                            Tab(
-                                child: AutoSizeText(
-                              'Recommended',
-                              maxLines: 1,
-                              style: GoogleFonts.rubik(),
-                            )),
-                            Tab(
-                                child: AutoSizeText(
-                              'Everything',
-                              maxLines: 1,
-                              style: GoogleFonts.rubik(),
-                            )),
-                            Tab(
-                                child: AutoSizeText(
-                              'Hot News', //Trending News
-                              maxLines: 1, style: GoogleFonts.rubik(),
-                            )),
-                            Tab(
-                                child: AutoSizeText(
-                              'Twitter',
-                              maxLines: 1,
-                              style: GoogleFonts.rubik(),
-                            )),
-                          ],
+                        child: Container(
+                          margin: EdgeInsets.only(left: 15,right: 15),
+                          child: TabBar(
+                            labelColor: Colors.white,
+                            isScrollable: true,
+                            indicator: BoxDecoration(
+                                color: HexColor("#4E8799"),
+                                borderRadius: BorderRadius.circular(25),
+                                shape: BoxShape.rectangle),
+                            tabs: [
+                              Tab(
+                                  child: AutoSizeText(
+                                'Following',
+                                maxLines: 1,
+                                style: GoogleFonts.rubik(),
+                              )),
+                              Tab(
+                                  child: AutoSizeText(
+                                'Recommended',
+                                maxLines: 1,
+                                style: GoogleFonts.rubik(),
+                              )),
+                              Tab(
+                                  child: AutoSizeText(
+                                'Everything',
+                                maxLines: 1,
+                                style: GoogleFonts.rubik(),
+                              )),
+                              Tab(
+                                  child: AutoSizeText(
+                                'Hot News', //Trending News
+                                maxLines: 1, style: GoogleFonts.rubik(),
+                              )),
+                              Tab(
+                                  child: AutoSizeText(
+                                'Twitter',
+                                maxLines: 1,
+                                style: GoogleFonts.rubik(),
+                              )),
+                            ],
+                          ),
                         ),
                       ),
                     ],

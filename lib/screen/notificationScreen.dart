@@ -73,7 +73,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                 ),
                               ),
                         AutoSizeText(
-                          'Notification',
+                          'Notifications',
                           style: GoogleFonts.poppins(
                               color: Colors.white, fontSize: 20),
                         ),
