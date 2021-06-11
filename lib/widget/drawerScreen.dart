@@ -1,3 +1,4 @@
+import 'package:animate_icons/animate_icons.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -13,8 +14,11 @@ class _DrawerScreenState extends State<DrawerScreen>
   late AnimationController _controller;
   late Animation<double> _animation;
 
+  late AnimateIconController settingAnimation;
+
   initState() {
     super.initState();
+    settingAnimation = AnimateIconController();
     _controller = AnimationController(
       duration: const Duration(seconds: 3),
       vsync: this,
@@ -36,10 +40,10 @@ class _DrawerScreenState extends State<DrawerScreen>
     return Container(
       color: HexColor("#121212"),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-
-            margin: const EdgeInsets.only(left: 25,top: 40),
+            margin: const EdgeInsets.only(left: 25, top: 40),
             child: Column(
               children: <Widget>[
                 Row(
@@ -59,12 +63,90 @@ class _DrawerScreenState extends State<DrawerScreen>
                     ),
                     FadeTransition(
                       opacity: _animation,
-                      child: AutoSizeText(
-                        "Jayesh Jain",
-                        style: GoogleFonts.poppins(
-                            fontSize: 22, color: Colors.white),
+                      child: Container(
+                        width: width * 0.37,
+                        child: FittedBox(
+                          child: Text(
+                            "Jayesh Jain",
+                            style: GoogleFonts.poppins(
+                                fontSize: 22, color: Colors.white),
+                          ),
+                        ),
                       ),
-                    )
+                    ),
+                    SizedBox(
+                      width: width * 0.27,
+                    ),
+                    AnimateIcons(
+                      startIcon: Icons.settings,
+                      endIcon: Icons.settings,
+                      controller: settingAnimation,
+                      size: 25,
+                      onStartIconPress: () {
+                        return true;
+                      },
+                      onEndIconPress: () {
+                        return true;
+                      },
+                      duration: Duration(milliseconds: 500),
+                      startIconColor: Colors.white,
+                      endIconColor: Colors.white,
+                      clockwise: false,
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: height * 0.17,
+                ),
+                Row(
+                  children: <Widget>[
+                    ImageIcon(
+                      AssetImage("lib/assets/exchange.png"),
+                      color: Colors.white,
+                    ),
+                    SizedBox(
+                      width: width * 0.03,
+                    ),
+                    FadeTransition(
+                      opacity: _animation,
+                      child: Container(
+                        width: width * 0.4,
+                        child: FittedBox(
+                          child: Text(
+                            "Conversion Tool",
+                            style: GoogleFonts.poppins(
+                                fontSize: 18, color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: height * 0.04,
+                ),
+                Row(
+                  children: <Widget>[
+                    Icon(
+                      Icons.group_rounded,
+                      color: Colors.white,
+                    ),
+                    SizedBox(
+                      width: width * 0.03,
+                    ),
+                    FadeTransition(
+                      opacity: _animation,
+                      child: Container(
+                        width: width * 0.3,
+                        child: FittedBox(
+                          child: Text(
+                            "Community",
+                            style: GoogleFonts.poppins(
+                                fontSize: 18, color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
                 )
               ],
