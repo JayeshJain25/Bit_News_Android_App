@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 
+import '../screen/settingScreen.dart';
+
 class DrawerScreen extends StatefulWidget {
   @override
   _DrawerScreenState createState() => _DrawerScreenState();
@@ -43,7 +45,7 @@ class _DrawerScreenState extends State<DrawerScreen>
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-            margin: const EdgeInsets.only(left: 25, top: 40),
+            margin: EdgeInsets.only(left: width * 0.055, top: width * 0.11),
             child: Column(
               children: <Widget>[
                 Row(
@@ -83,9 +85,13 @@ class _DrawerScreenState extends State<DrawerScreen>
                       controller: settingAnimation,
                       size: 25,
                       onStartIconPress: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => SettingScreen()));
                         return true;
                       },
                       onEndIconPress: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => SettingScreen()));
                         return true;
                       },
                       duration: Duration(milliseconds: 500),
@@ -104,7 +110,7 @@ class _DrawerScreenState extends State<DrawerScreen>
                     color: HexColor("#121212"),
                     child: InkWell(
                       borderRadius: BorderRadius.circular(25),
-                      splashColor: HexColor("#33fff"),
+                      splashColor: Colors.white30,
                       onTap: () {},
                       child: Padding(
                         padding: const EdgeInsets.all(4.0),
@@ -145,7 +151,7 @@ class _DrawerScreenState extends State<DrawerScreen>
                     color: HexColor("#121212"),
                     child: InkWell(
                       borderRadius: BorderRadius.circular(25),
-                      splashColor: HexColor("#33fff"),
+                      splashColor: Colors.white30,
                       onTap: () {},
                       child: Padding(
                         padding: const EdgeInsets.all(3.0),
