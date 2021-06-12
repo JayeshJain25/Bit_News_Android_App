@@ -98,56 +98,84 @@ class _DrawerScreenState extends State<DrawerScreen>
                 SizedBox(
                   height: height * 0.17,
                 ),
-                Row(
-                  children: <Widget>[
-                    ImageIcon(
-                      AssetImage("lib/assets/exchange.png"),
-                      color: Colors.white,
-                    ),
-                    SizedBox(
-                      width: width * 0.03,
-                    ),
-                    FadeTransition(
-                      opacity: _animation,
-                      child: Container(
-                        width: width * 0.4,
-                        child: FittedBox(
-                          child: Text(
-                            "Conversion Tool",
-                            style: GoogleFonts.poppins(
-                                fontSize: 18, color: Colors.white),
-                          ),
+                Container(
+                  margin: EdgeInsets.only(right: width * 0.423),
+                  child: Material(
+                    color: HexColor("#121212"),
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(25),
+                      splashColor: HexColor("#33fff"),
+                      onTap: () {},
+                      child: Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Row(
+                          children: <Widget>[
+                            ImageIcon(
+                              AssetImage("lib/assets/exchange.png"),
+                              color: Colors.white,
+                            ),
+                            SizedBox(
+                              width: width * 0.03,
+                            ),
+                            FadeTransition(
+                              opacity: _animation,
+                              child: Container(
+                                width: width * 0.4,
+                                child: FittedBox(
+                                  child: Text(
+                                    "Conversion Tool",
+                                    style: GoogleFonts.poppins(
+                                        fontSize: 18, color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
-                  ],
+                  ),
                 ),
                 SizedBox(
                   height: height * 0.04,
                 ),
-                Row(
-                  children: <Widget>[
-                    Icon(
-                      Icons.group_rounded,
-                      color: Colors.white,
-                    ),
-                    SizedBox(
-                      width: width * 0.03,
-                    ),
-                    FadeTransition(
-                      opacity: _animation,
-                      child: Container(
-                        width: width * 0.3,
-                        child: FittedBox(
-                          child: Text(
-                            "Community",
-                            style: GoogleFonts.poppins(
-                                fontSize: 18, color: Colors.white),
-                          ),
+                Container(
+                  margin: EdgeInsets.only(right: width * 0.523),
+                  child: Material(
+                    color: HexColor("#121212"),
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(25),
+                      splashColor: HexColor("#33fff"),
+                      onTap: () {},
+                      child: Padding(
+                        padding: const EdgeInsets.all(3.0),
+                        child: Row(
+                          children: <Widget>[
+                            Icon(
+                              Icons.group_rounded,
+                              color: Colors.white,
+                            ),
+                            SizedBox(
+                              width: width * 0.03,
+                            ),
+                            FadeTransition(
+                              opacity: _animation,
+                              child: Container(
+                                width: width * 0.3,
+                                child: FittedBox(
+                                  child: Text(
+                                    "Community",
+                                    style: GoogleFonts.poppins(
+                                        fontSize: 18, color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
-                  ],
+                  ),
                 )
               ],
             ),
