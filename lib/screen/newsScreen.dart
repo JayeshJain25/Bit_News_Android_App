@@ -120,7 +120,7 @@ class _NewsScreenState extends State<NewsScreen> {
                       DefaultTabController(
                         length: 5,
                         child: Container(
-                          margin: EdgeInsets.only(left: 15,right: 15),
+                          margin: EdgeInsets.only(left: 15, right: 15),
                           child: TabBar(
                             labelColor: Colors.white,
                             isScrollable: true,
@@ -213,10 +213,14 @@ class TopNews extends StatelessWidget {
         ),
         Positioned(
           top: 70,
-          left: 30,
-          child: Text(
-            'BTC',
-            style: GoogleFonts.rubik(fontSize: 18, color: Colors.white),
+          left: 28,
+          child: Container(
+            width: width * 0.2,
+            height: height * 0.03,
+            child: AutoSizeText(
+              'BTC',
+              style: GoogleFonts.rubik(fontSize: 18, color: Colors.white),
+            ),
           ),
         ),
         Positioned(
@@ -224,12 +228,15 @@ class TopNews extends StatelessWidget {
           child: Container(
               padding: const EdgeInsets.all(16.0),
               width: width * 0.81,
-              child: Text(
+              height: height * 0.23,
+              child: AutoSizeText(
                 'MATIC is Innovative, but It Looks as If It Might Not Be Very Useful',
+                minFontSize: 14,
+                maxLines: 4,
                 style: GoogleFonts.poppins(
                     color: Colors.white,
                     fontSize: 20,
-                    fontWeight: FontWeight.bold),
+                    fontWeight: FontWeight.bold,),
               )),
         ),
       ]),
