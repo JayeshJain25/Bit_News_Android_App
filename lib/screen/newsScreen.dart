@@ -253,10 +253,9 @@ class FollowingList extends StatelessWidget {
                             Container(
                                 margin: EdgeInsets.only(top: height * 0.04),
                                 width: width * 0.72,
-                                height: height * 0.05,
+                                height: height * 0.055,
                                 child: AutoSizeText(
                                   "Bitcoin Ransomware Payments Set 'Dangerous Precedent': House Oversight Chair",
-                                  minFontSize: 12,
                                   maxLines: 2,
                                   style: GoogleFonts.poppins(
                                     color: Colors.white,
@@ -269,7 +268,6 @@ class FollowingList extends StatelessWidget {
                                 height: height * 0.03,
                                 child: AutoSizeText(
                                   "Bitcoin Ransomware Payments Set 'Dangerous Precedent': House Oversight Chair",
-                                  minFontSize: 12,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   softWrap: false,
