@@ -40,7 +40,8 @@ class _DrawerScreenState extends State<DrawerScreen>
     var height = MediaQuery.of(context).size.height;
     _controller.forward();
     return Container(
-      color: HexColor("#121212"),
+      height: height,
+      color:Colors.black,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -107,7 +108,7 @@ class _DrawerScreenState extends State<DrawerScreen>
                 Container(
                   margin: EdgeInsets.only(right: width * 0.423),
                   child: Material(
-                    color: HexColor("#121212"),
+                    color: Colors.black,
                     child: InkWell(
                       borderRadius: BorderRadius.circular(25),
                       splashColor: Colors.white30,
@@ -148,7 +149,7 @@ class _DrawerScreenState extends State<DrawerScreen>
                 Container(
                   margin: EdgeInsets.only(right: width * 0.523),
                   child: Material(
-                    color: HexColor("#121212"),
+                    color: Colors.black,
                     child: InkWell(
                       borderRadius: BorderRadius.circular(25),
                       splashColor: Colors.white30,
