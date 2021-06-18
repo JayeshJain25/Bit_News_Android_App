@@ -25,21 +25,21 @@ class _NewsScreenState extends State<NewsScreen> {
 
     return Scaffold(
       backgroundColor: Colors.black,
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Stack(
-            children: <Widget>[
-              DrawerScreen(),
-              AnimatedContainer(
-                transform: Matrix4.translationValues(xOffset, yOffset, 0)
-                  ..scale(scaleFactor)
-                  ..rotateY(isDrawerOpen ? -0.5 : 0),
-                decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: !isDrawerOpen
-                        ? BorderRadius.circular(0)
-                        : BorderRadius.circular(40)),
-                duration: Duration(milliseconds: 250),
+      body: SafeArea(
+        child: Stack(
+          children: <Widget>[
+            DrawerScreen(),
+            AnimatedContainer(
+              transform: Matrix4.translationValues(xOffset, yOffset, 0)
+                ..scale(scaleFactor)
+                ..rotateY(isDrawerOpen ? -0.5 : 0),
+              decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: !isDrawerOpen
+                      ? BorderRadius.circular(0)
+                      : BorderRadius.circular(40)),
+              duration: Duration(milliseconds: 250),
+              child: SingleChildScrollView(
                 child: Column(
                   children: <Widget>[
                     SizedBox(
@@ -98,26 +98,19 @@ class _NewsScreenState extends State<NewsScreen> {
                         Container(
                           margin: EdgeInsets.all(15),
                           height: height / 3,
-                          child: ListView(
+                          child: ListView.builder(
+                            itemCount: 5,
                             scrollDirection: Axis.horizontal,
-                            children: <Widget>[
-                              TopNews(),
-                              SizedBox(
-                                width: 20,
-                              ),
-                              TopNews(),
-                              SizedBox(
-                                width: 20,
-                              ),
-                              TopNews(),
-                              SizedBox(
-                                width: 20,
-                              ),
-                              TopNews(),
-                              SizedBox(
-                                width: 20,
-                              ),
-                            ],
+                            itemBuilder: (BuildContext context, int index) {
+                              return Row(
+                                children: [
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  TopNews(),
+                                ],
+                              );
+                            },
                           ),
                         ),
                         DefaultTabController(
@@ -169,7 +162,7 @@ class _NewsScreenState extends State<NewsScreen> {
                               ),
                               Container(
                                 margin: EdgeInsets.all(width * 0.04),
-                                height: height * 0.36,
+                                height: height*0.36,
                                 child: TabBarView(children: <Widget>[
                                   FollowingList(),
                                   FollowingList(),
@@ -186,8 +179,8 @@ class _NewsScreenState extends State<NewsScreen> {
                   ],
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
