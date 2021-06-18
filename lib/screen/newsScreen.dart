@@ -93,33 +93,41 @@ class _NewsScreenState extends State<NewsScreen> {
                         ],
                       ),
                     ),
-                    Column(
-                      children: [
-                        Container(
-                          margin: EdgeInsets.all(15),
-                          height: height / 3,
-                          child: ListView.builder(
-                            itemCount: 5,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (BuildContext context, int index) {
-                              return Row(
-                                children: [
-                                  SizedBox(
-                                    width: 20,
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.81,
+                      child: DefaultTabController(
+                        length: 5,
+                        child: NestedScrollView(
+                          physics: NeverScrollableScrollPhysics(),
+                          headerSliverBuilder:
+                              (BuildContext context, bool innerBoxIsScrolled) {
+                            return [
+                              SliverAppBar(
+                                collapsedHeight: height * 0.37,
+                                expandedHeight: height * 0.37,
+                                flexibleSpace: Container(
+                                  margin: EdgeInsets.all(15),
+                                  height: height * 0.37,
+                                  child: ListView.builder(
+                                    itemCount: 5,
+                                    scrollDirection: Axis.horizontal,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return Row(
+                                        children: [
+                                          TopNews(),
+                                          SizedBox(
+                                            width: 20,
+                                          ),
+                                        ],
+                                      );
+                                    },
                                   ),
-                                  TopNews(),
-                                ],
-                              );
-                            },
-                          ),
-                        ),
-                        DefaultTabController(
-                          length: 5,
-                          child: Column(
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(left: 15, right: 15),
-                                child: TabBar(
+                                ),
+                                backgroundColor: Colors.black,
+                              ),
+                              SliverPersistentHeader(
+                                delegate: MyDelegate(TabBar(
                                   labelColor: Colors.white,
                                   isScrollable: true,
                                   indicator: BoxDecoration(
@@ -129,53 +137,53 @@ class _NewsScreenState extends State<NewsScreen> {
                                   tabs: [
                                     Tab(
                                         child: AutoSizeText(
-                                      'Following',
-                                      maxLines: 1,
-                                      style: GoogleFonts.rubik(),
-                                    )),
+                                          'Following',
+                                          maxLines: 1,
+                                          style: GoogleFonts.rubik(),
+                                        )),
                                     Tab(
                                         child: AutoSizeText(
-                                      'Recommended',
-                                      maxLines: 1,
-                                      style: GoogleFonts.rubik(),
-                                    )),
+                                          'Recommended',
+                                          maxLines: 1,
+                                          style: GoogleFonts.rubik(),
+                                        )),
                                     Tab(
                                         child: AutoSizeText(
-                                      'Everything',
-                                      maxLines: 1,
-                                      style: GoogleFonts.rubik(),
-                                    )),
+                                          'Everything',
+                                          maxLines: 1,
+                                          style: GoogleFonts.rubik(),
+                                        )),
                                     Tab(
                                         child: AutoSizeText(
-                                      'Hot News', //Trending News
-                                      maxLines: 1,
-                                      style: GoogleFonts.rubik(),
-                                    )),
+                                          'Hot News', //Trending News
+                                          maxLines: 1,
+                                          style: GoogleFonts.rubik(),
+                                        )),
                                     Tab(
                                         child: AutoSizeText(
-                                      'Twitter',
-                                      maxLines: 1,
-                                      style: GoogleFonts.rubik(),
-                                    )),
+                                          'Twitter',
+                                          maxLines: 1,
+                                          style: GoogleFonts.rubik(),
+                                        )),
                                   ],
-                                ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.all(width * 0.04),
-                                height: height*0.36,
-                                child: TabBarView(children: <Widget>[
-                                  FollowingList(),
-                                  FollowingList(),
-                                  FollowingList(),
-                                  FollowingList(),
-                                  FollowingList(),
-                                ]),
+                                )),
+                                floating: true,
                               )
-                            ],
+                            ];
+                          },
+                          body: Container(
+                            margin: EdgeInsets.all(width * 0.04),
+                            child: TabBarView(children: <Widget>[
+                              FollowingList(),
+                              FollowingList(),
+                              FollowingList(),
+                              FollowingList(),
+                              FollowingList(),
+                            ]),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    )
                   ],
                 ),
               ),
@@ -184,5 +192,32 @@ class _NewsScreenState extends State<NewsScreen> {
         ),
       ),
     );
+  }
+}
+
+class MyDelegate extends SliverPersistentHeaderDelegate {
+  final TabBar _tabBar;
+
+  MyDelegate(this._tabBar);
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return Container(
+      child: _tabBar,
+      margin: EdgeInsets.only(left: 15, right: 15),
+    );
+  }
+
+  @override
+  // TODO: implement maxExtent
+  double get maxExtent => _tabBar.preferredSize.height;
+
+  @override
+  double get minExtent => _tabBar.preferredSize.height;
+
+  @override
+  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
+    return false;
   }
 }
