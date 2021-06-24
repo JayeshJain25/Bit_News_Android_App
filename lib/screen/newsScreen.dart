@@ -137,34 +137,34 @@ class _NewsScreenState extends State<NewsScreen> {
                                   tabs: [
                                     Tab(
                                         child: AutoSizeText(
-                                          'Following',
-                                          maxLines: 1,
-                                          style: GoogleFonts.rubik(),
-                                        )),
+                                      'Following',
+                                      maxLines: 1,
+                                      style: GoogleFonts.rubik(),
+                                    )),
                                     Tab(
                                         child: AutoSizeText(
-                                          'Recommended',
-                                          maxLines: 1,
-                                          style: GoogleFonts.rubik(),
-                                        )),
+                                      'Recommended',
+                                      maxLines: 1,
+                                      style: GoogleFonts.rubik(),
+                                    )),
                                     Tab(
                                         child: AutoSizeText(
-                                          'Everything',
-                                          maxLines: 1,
-                                          style: GoogleFonts.rubik(),
-                                        )),
+                                      'Everything',
+                                      maxLines: 1,
+                                      style: GoogleFonts.rubik(),
+                                    )),
                                     Tab(
                                         child: AutoSizeText(
-                                          'Hot News', //Trending News
-                                          maxLines: 1,
-                                          style: GoogleFonts.rubik(),
-                                        )),
+                                      'Hot News', //Trending News
+                                      maxLines: 1,
+                                      style: GoogleFonts.rubik(),
+                                    )),
                                     Tab(
                                         child: AutoSizeText(
-                                          'Twitter',
-                                          maxLines: 1,
-                                          style: GoogleFonts.rubik(),
-                                        )),
+                                      'Twitter',
+                                      maxLines: 1,
+                                      style: GoogleFonts.rubik(),
+                                    )),
                                   ],
                                 )),
                                 floating: true,
@@ -210,7 +210,6 @@ class MyDelegate extends SliverPersistentHeaderDelegate {
   }
 
   @override
-  // TODO: implement maxExtent
   double get maxExtent => _tabBar.preferredSize.height;
 
   @override

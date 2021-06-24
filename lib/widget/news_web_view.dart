@@ -20,6 +20,13 @@ class _NewsWebViewState extends State<NewsWebView> {
           "News",
           style: GoogleFonts.rubik(color: Colors.white),
         ),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios),
+          color: Colors.white,
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
         actions: <Widget>[
           LikeButton(
             size: 25,
