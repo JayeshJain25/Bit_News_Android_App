@@ -6,11 +6,21 @@ import 'package:like_button/like_button.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class NewsWebView extends StatefulWidget {
+
+  final String newsUrl;
+
+  NewsWebView(this.newsUrl);
+
   @override
-  _NewsWebViewState createState() => _NewsWebViewState();
+  _NewsWebViewState createState() => _NewsWebViewState(newsUrl);
 }
 
 class _NewsWebViewState extends State<NewsWebView> {
+
+  final String newsUrl;
+
+  _NewsWebViewState(this.newsUrl);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +59,7 @@ class _NewsWebViewState extends State<NewsWebView> {
       ),
       body: WebView(
         initialUrl:
-            "https://www.coindesk.com/bitcoin-hashrate-china-mining-crackdown",
+            newsUrl,
         javascriptMode: JavascriptMode.unrestricted,
       ),
     );

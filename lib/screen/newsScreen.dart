@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:crypto_news/screen/newsSearchScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -85,7 +86,10 @@ class _NewsScreenState extends State<NewsScreen> {
                                 color: Colors.white, fontSize: 20),
                           ),
                           IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => NewsSearchScreen()));
+                              },
                               icon: Icon(
                                 Icons.search,
                                 color: Colors.white,
