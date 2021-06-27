@@ -1,5 +1,6 @@
 import 'package:animate_icons/animate_icons.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import '../screen/conversionToolScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -123,15 +124,21 @@ class _DrawerScreenState extends State<DrawerScreen>
                             SizedBox(
                               width: width * 0.03,
                             ),
-                            FadeTransition(
-                              opacity: _animation,
-                              child: Container(
-                                width: width * 0.4,
-                                child: FittedBox(
-                                  child: Text(
-                                    "Conversion Tool",
-                                    style: GoogleFonts.poppins(
-                                        fontSize: 18, color: Colors.white),
+                            InkWell(
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => ConversionToolScreen()));
+                              },
+                              child: FadeTransition(
+                                opacity: _animation,
+                                child: Container(
+                                  width: width * 0.4,
+                                  child: FittedBox(
+                                    child: Text(
+                                      "Conversion Tool",
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 18, color: Colors.white),
+                                    ),
                                   ),
                                 ),
                               ),

@@ -1,6 +1,4 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:crypto_news/model/newsModel.dart';
-import 'package:crypto_news/widget/news_web_view.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -8,6 +6,9 @@ import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorder
 import 'package:implicitly_animated_reorderable_list/transitions.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:provider/provider.dart';
+
+import '../provider/newsModel.dart';
+import '../widget/news_web_view.dart';
 
 class NewsSearchScreen extends StatefulWidget {
   @override
@@ -22,7 +23,7 @@ class _NewsSearchScreenState extends State<NewsSearchScreen> {
       child: Scaffold(
           backgroundColor: Colors.black,
           body: Consumer<NewsModel>(
-            builder: (ctx, model ,_) => FloatingSearchBar(
+            builder: (ctx, model, _) => FloatingSearchBar(
               hint: 'Search News',
               hintStyle: GoogleFonts.poppins(),
               scrollPadding: const EdgeInsets.only(top: 16, bottom: 56),
@@ -88,14 +89,13 @@ Widget buildExpandableBody(NewsModel model) {
 }
 
 Widget buildItem(BuildContext context, NewsStructureModel place) {
-
   var width = MediaQuery.of(context).size.width;
   var height = MediaQuery.of(context).size.height;
 
   return InkWell(
     onTap: () {
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => NewsWebView(place.newsUrl)));
+      Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => NewsWebView(place.newsUrl)));
     },
     child: Card(
       elevation: 2,

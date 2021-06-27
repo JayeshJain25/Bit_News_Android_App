@@ -1,5 +1,4 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:crypto_news/model/newsModel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -7,6 +6,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:provider/provider.dart';
 
 import './news_web_view.dart';
+import '../provider/newsModel.dart';
 import '../screen/seeAllNewsScreen.dart';
 
 class FollowingList extends StatelessWidget {

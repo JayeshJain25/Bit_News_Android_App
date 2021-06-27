@@ -40,6 +40,7 @@ dependencies:
   material_floating_search_bar: ^0.3.4
   provider: ^5.0.0
   implicitly_animated_reorderable_list: ^0.4.0
+  clippy_flutter: ^2.0.0-nullsafety.1
 
 dev_dependencies:
   flutter_test:

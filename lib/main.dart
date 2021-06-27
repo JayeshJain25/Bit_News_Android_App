@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import './widget/bottom_navigation_bar.dart';
 
 void main() {
-  runApp(Nav());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -13,6 +13,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       routes: {
       },
+      home: Nav(),
     );
   }
 }
