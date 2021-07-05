@@ -16,6 +16,76 @@ class NewsSearchScreen extends StatefulWidget {
 }
 
 class _NewsSearchScreenState extends State<NewsSearchScreen> {
+  late FloatingSearchBarController controller;
+
+  static const historyLength = 5;
+
+// The "raw" history that we don't access from the UI, prefilled with values
+  List<String> _searchHistory = [
+    ' bitcoin',
+    'dogecoin',
+    'ripple',
+    'pancake',
+  ];
+
+// The filtered & ordered history that's accessed from the UI
+  late List<String> filteredSearchHistory;
+
+// The currently searched-for term
+  String selectedTerm = "Search News";
+
+  List<String> filterSearchTerms({
+    required String filter,
+  }) {
+    if (filter.isNotEmpty) {
+      // Reversed because we want the last added items to appear first in the UI
+      return _searchHistory.reversed
+          .where((term) => term.startsWith(filter))
+          .toList();
+    } else {
+      return _searchHistory.reversed.toList();
+    }
+  }
+
+  void addSearchTerm(String term) {
+    if (_searchHistory.contains(term)) {
+      // This method will be implemented soon
+      putSearchTermFirst(term);
+      return;
+    }
+    if (term.isNotEmpty) {
+      _searchHistory.add(term);
+    }
+    if (_searchHistory.length > historyLength) {
+      _searchHistory.removeRange(0, _searchHistory.length - historyLength);
+    }
+    // Changes in _searchHistory mean that we have to update the filteredSearchHistory
+    filteredSearchHistory = filterSearchTerms(filter: "");
+  }
+
+  void deleteSearchTerm(String term) {
+    _searchHistory.removeWhere((t) => t == term);
+    filteredSearchHistory = filterSearchTerms(filter: "");
+  }
+
+  void putSearchTermFirst(String term) {
+    deleteSearchTerm(term);
+    addSearchTerm(term);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    controller = FloatingSearchBarController();
+    filteredSearchHistory = filterSearchTerms(filter: "");
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    controller.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -24,69 +94,162 @@ class _NewsSearchScreenState extends State<NewsSearchScreen> {
           backgroundColor: Colors.black,
           body: Consumer<NewsModel>(
             builder: (ctx, model, _) => FloatingSearchBar(
-              hint: 'Search News',
-              hintStyle: GoogleFonts.poppins(),
-              scrollPadding: const EdgeInsets.only(top: 16, bottom: 56),
-              transitionDuration: const Duration(milliseconds: 800),
-              transitionCurve: Curves.easeInOut,
-              physics: const BouncingScrollPhysics(),
-              axisAlignment: 0.0,
-              openAxisAlignment: 0.0,
-              width: 600,
-              borderRadius: BorderRadius.circular(20),
-              debounceDelay: const Duration(milliseconds: 500),
-              onQueryChanged: (query) {
-                model.onQueryChanged(query);
-              },
-              transition: CircularFloatingSearchBarTransition(),
-              actions: [
-                FloatingSearchBarAction(
-                  showIfOpened: false,
-                  child: const ImageIcon(
-                    AssetImage('lib/assets/news.png'),
-                    size: 20,
-                    color: Colors.black,
+                controller: controller,
+                hint: 'Search News',
+                title: Text(
+                  selectedTerm,
+                  style: GoogleFonts.poppins(),
+                ),
+                hintStyle: GoogleFonts.poppins(),
+                scrollPadding: const EdgeInsets.only(top: 16, bottom: 56),
+                transitionDuration: const Duration(milliseconds: 800),
+                transitionCurve: Curves.easeInOut,
+                physics: const BouncingScrollPhysics(),
+                axisAlignment: 0.0,
+                openAxisAlignment: 0.0,
+                width: 600,
+                borderRadius: BorderRadius.circular(20),
+                debounceDelay: const Duration(milliseconds: 500),
+                onQueryChanged: (query) {
+                  model.onQueryChanged(query);
+                  filteredSearchHistory = filterSearchTerms(filter: query);
+                },
+                onSubmitted: (query) {
+                  setState(() {
+                    addSearchTerm(query);
+                    selectedTerm = query;
+                  });
+                  controller.close();
+                },
+                transition: CircularFloatingSearchBarTransition(),
+                actions: [
+                  FloatingSearchBarAction(
+                    showIfOpened: false,
+                    child: const ImageIcon(
+                      AssetImage('lib/assets/news.png'),
+                      size: 20,
+                      color: Colors.black,
+                    ),
                   ),
-                ),
-                FloatingSearchBarAction.searchToClear(
-                  showIfClosed: false,
-                ),
-              ],
-              builder: (context, _) => buildExpandableBody(model),
-            ),
+                  FloatingSearchBarAction.searchToClear(
+                    showIfClosed: false,
+                  ),
+                ],
+                builder: (context, _) => ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Material(
+                        color: Colors.white,
+                        elevation: 4,
+                        child: Builder(
+                          builder: (context) {
+                            if (filteredSearchHistory.isEmpty &&
+                                controller.query.isEmpty) {
+                              return Container(
+                                height: 56,
+                                width: double.infinity,
+                                alignment: Alignment.center,
+                                child: Text(
+                                  'Start searching',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Theme.of(context).textTheme.caption,
+                                ),
+                              );
+                            } else if (filteredSearchHistory.isEmpty) {
+                              return ListTile(
+                                title: Text(controller.query),
+                                leading: const Icon(Icons.search),
+                                onTap: () {
+                                  setState(() {
+                                    addSearchTerm(controller.query);
+                                    selectedTerm = controller.query;
+                                  });
+                                  controller.close();
+                                },
+                              );
+                            } else {
+                              return Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: filteredSearchHistory
+                                    .map(
+                                      (term) => ListTile(
+                                        title: Text(
+                                          term,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: GoogleFonts.poppins(),
+                                        ),
+                                        leading: const Icon(Icons.history),
+                                        trailing: IconButton(
+                                          icon: const Icon(Icons.clear),
+                                          onPressed: () {
+                                            setState(() {
+                                              deleteSearchTerm(term);
+                                            });
+                                          },
+                                        ),
+                                        onTap: () {
+                                          setState(() {
+                                            putSearchTermFirst(term);
+                                            selectedTerm = term;
+                                          });
+                                          controller.close();
+                                        },
+                                      ),
+                                    )
+                                    .toList(),
+                              );
+                            }
+                          },
+                        ),
+                      ),
+                    ),
+                body: FloatingSearchBarScrollNotifier(
+                  child: Container(
+                    margin: EdgeInsets.only(
+                        top: MediaQuery.of(context).size.height * 0.08,
+                        left: 10,
+                        right: 10),
+                    child: ListView.builder(
+                        itemCount: model.suggestions.length,
+                        itemBuilder: (ctx, index) {
+                          return buildItem(context, model.suggestions[index]);
+                        }),
+                  ),
+                )),
           )),
     );
   }
 }
 
-Widget buildExpandableBody(NewsModel model) {
-  return Padding(
-    padding: const EdgeInsets.only(top: 16.0),
-    child: Material(
-      color: Colors.black,
-      elevation: 4.0,
-      borderRadius: BorderRadius.circular(8),
-      child: ImplicitlyAnimatedList<NewsStructureModel>(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        items: model.suggestions.take(6).toList(),
-        areItemsTheSame: (a, b) => a == b,
-        itemBuilder: (context, animation, place, i) {
-          return SizeFadeTransition(
-            animation: animation,
-            child: buildItem(context, place),
-          );
-        },
-        updateItemBuilder: (context, animation, place) {
-          return FadeTransition(
-            opacity: animation,
-            child: buildItem(context, place),
-          );
-        },
-      ),
-    ),
-  );
-}
+// Widget buildExpandableBody(NewsModel model) {
+//   return Padding(
+//     padding: const EdgeInsets.only(top: 16.0),
+//     child: Material(
+//       color: Colors.black,
+//       elevation: 4.0,
+//       borderRadius: BorderRadius.circular(8),
+//       child: ImplicitlyAnimatedList<NewsStructureModel>(
+//         shrinkWrap: true,
+//         physics: const NeverScrollableScrollPhysics(),
+//         items: model.suggestions.take(6).toList(),
+//         areItemsTheSame: (a, b) => a == b,
+//         itemBuilder: (context, animation, place, i) {
+//           return SizeFadeTransition(
+//             animation: animation,
+//             child: buildItem(context, place),
+//           );
+//         },
+//         updateItemBuilder: (context, animation, place) {
+//           return FadeTransition(
+//             opacity: animation,
+//             child: buildItem(context, place),
+//           );
+//         },
+//       ),
+//     ),
+//   );
+// }
 
 Widget buildItem(BuildContext context, NewsStructureModel place) {
   var width = MediaQuery.of(context).size.width;

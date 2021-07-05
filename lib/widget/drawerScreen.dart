@@ -1,9 +1,9 @@
 import 'package:animate_icons/animate_icons.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import '../screen/conversionToolScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../screen/conversionToolScreen.dart';
 import '../screen/settingScreen.dart';
 
 class DrawerScreen extends StatefulWidget {
@@ -41,7 +41,7 @@ class _DrawerScreenState extends State<DrawerScreen>
     _controller.forward();
     return Container(
       height: height,
-      color:Colors.black,
+      color: Colors.black,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -112,7 +112,10 @@ class _DrawerScreenState extends State<DrawerScreen>
                     child: InkWell(
                       borderRadius: BorderRadius.circular(25),
                       splashColor: Colors.white30,
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => ConversionToolScreen()));
+                      },
                       child: Padding(
                         padding: const EdgeInsets.all(4.0),
                         child: Row(
@@ -124,21 +127,15 @@ class _DrawerScreenState extends State<DrawerScreen>
                             SizedBox(
                               width: width * 0.03,
                             ),
-                            InkWell(
-                              onTap: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => ConversionToolScreen()));
-                              },
-                              child: FadeTransition(
-                                opacity: _animation,
-                                child: Container(
-                                  width: width * 0.4,
-                                  child: FittedBox(
-                                    child: Text(
-                                      "Conversion Tool",
-                                      style: GoogleFonts.poppins(
-                                          fontSize: 18, color: Colors.white),
-                                    ),
+                            FadeTransition(
+                              opacity: _animation,
+                              child: Container(
+                                width: width * 0.4,
+                                child: FittedBox(
+                                  child: Text(
+                                    "Conversion Tool",
+                                    style: GoogleFonts.poppins(
+                                        fontSize: 18, color: Colors.white),
                                   ),
                                 ),
                               ),
