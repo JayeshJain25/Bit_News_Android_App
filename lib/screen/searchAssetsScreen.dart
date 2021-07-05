@@ -259,6 +259,7 @@ class _SearchAssetsScreenState extends State<SearchAssetsScreen> {
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
     return InkWell(
+      borderRadius: BorderRadius.circular(20),
       onTap: () {},
       child: Card(
           margin: EdgeInsets.all(10),
