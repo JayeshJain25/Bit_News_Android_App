@@ -13,8 +13,8 @@ class TopNews extends StatelessWidget {
     return InkWell(
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) =>
-                NewsWebView("https://www.coindesk.com/bitcoin-hashrate-china-mining-crackdown")));
+            builder: (context) => NewsWebView(
+                "https://www.coindesk.com/bitcoin-hashrate-china-mining-crackdown")));
       },
       child: Container(
         width: width / 1.2,

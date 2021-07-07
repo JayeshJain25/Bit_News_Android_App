@@ -6,7 +6,6 @@ import 'package:like_button/like_button.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class NewsWebView extends StatefulWidget {
-
   final String newsUrl;
 
   NewsWebView(this.newsUrl);
@@ -16,7 +15,6 @@ class NewsWebView extends StatefulWidget {
 }
 
 class _NewsWebViewState extends State<NewsWebView> {
-
   final String newsUrl;
 
   _NewsWebViewState(this.newsUrl);
@@ -58,8 +56,7 @@ class _NewsWebViewState extends State<NewsWebView> {
         centerTitle: true,
       ),
       body: WebView(
-        initialUrl:
-            newsUrl,
+        initialUrl: newsUrl,
         javascriptMode: JavascriptMode.unrestricted,
       ),
     );

@@ -1,4 +1,4 @@
-import 'package:crypto_news/provider/cryptoAndFiatModel.dart';
+import 'package:crypto_news/provider/cryptoAndFiatProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -12,12 +12,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (ctx) => CryptoAndFiatModel(listModel: []),
+      create: (ctx) => CryptoAndFiatProvider(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        routes: {
-
-        },
+        routes: {},
         home: Nav(),
       ),
     );

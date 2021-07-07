@@ -4,10 +4,13 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:provider/provider.dart';
 
-import '../provider/cryptoAndFiatModel.dart';
+import '../model/cryptoAndFiatModel.dart';
+import '../provider/cryptoAndFiatProvider.dart';
 
 class SearchAssetsScreen extends StatefulWidget {
-  const SearchAssetsScreen({Key? key}) : super(key: key);
+  late int index;
+
+  SearchAssetsScreen({required this.index});
 
   @override
   _SearchAssetsScreenState createState() => _SearchAssetsScreenState();
@@ -18,7 +21,7 @@ class _SearchAssetsScreenState extends State<SearchAssetsScreen> {
 
   static const historyLength = 5;
 
-  List<String> _searchHistory = [' bitcoin', 'dogecoin', 'xrp'];
+  List<String> _searchHistory = [];
 
   late List<String> filteredSearchHistory;
 
@@ -80,7 +83,7 @@ class _SearchAssetsScreenState extends State<SearchAssetsScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: Colors.black,
-      body: Consumer<CryptoAndFiatModel>(
+      body: Consumer<CryptoAndFiatProvider>(
         builder: (ctx, model, _) => FloatingSearchBar(
             controller: controller,
             hint: 'Search Assets',
@@ -208,7 +211,9 @@ class _SearchAssetsScreenState extends State<SearchAssetsScreen> {
                     right: 10),
                 child: ListView.separated(
                     separatorBuilder: (context, index) {
-                      return Divider(color: HexColor("#6a6a6a"),);
+                      return Divider(
+                        color: HexColor("#6a6a6a"),
+                      );
                     },
                     itemCount: model.updatedList.length == 0
                         ? model.listModel.length
@@ -255,12 +260,17 @@ class _SearchAssetsScreenState extends State<SearchAssetsScreen> {
   //   );
   // }
 
-  Widget buildItem(BuildContext context, CryptoAndFiatStructureModel place) {
+  Widget buildItem(BuildContext context, CryptoAndFiatModel place) {
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
     return InkWell(
       borderRadius: BorderRadius.circular(20),
-      onTap: () {},
+      onTap: () {
+        Provider.of<CryptoAndFiatProvider>(context, listen: false)
+            .changeCardValue(widget.index, place);
+        //  list[widget.index] = place;
+        Navigator.of(context).pop();
+      },
       child: Card(
           margin: EdgeInsets.all(10),
           elevation: 4,
@@ -282,11 +292,11 @@ class _SearchAssetsScreenState extends State<SearchAssetsScreen> {
                             ))),
                 Text(
                   place.name,
-                  style: GoogleFonts.rubik(color: Colors.white,fontSize: 17),
+                  style: GoogleFonts.rubik(color: Colors.white, fontSize: 17),
                 ),
                 Text(
                   double.parse(place.price).toStringAsFixed(3).toString(),
-                  style: GoogleFonts.rubik(color: Colors.white,fontSize: 17),
+                  style: GoogleFonts.rubik(color: Colors.white, fontSize: 17),
                 )
               ],
             ),

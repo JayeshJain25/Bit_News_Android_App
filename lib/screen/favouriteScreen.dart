@@ -25,7 +25,8 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
             DrawerScreen(),
             AnimatedContainer(
               transform: Matrix4.translationValues(xOffset, yOffset, 0)
-                ..scale(scaleFactor)..rotateY(isDrawerOpen ? -0.5 : 0),
+                ..scale(scaleFactor)
+                ..rotateY(isDrawerOpen ? -0.5 : 0),
               decoration: BoxDecoration(
                   color: Colors.black,
                   borderRadius: !isDrawerOpen
