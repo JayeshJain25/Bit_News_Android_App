@@ -35,6 +35,9 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
     return paletteGenerator.dominantColor!.color;
   }
 
+  TextEditingController coin1Controller = TextEditingController(text: "1.00");
+  TextEditingController coin2Controller = TextEditingController();
+
   initState() {
     super.initState();
     Provider.of<CryptoAndFiatProvider>(context, listen: false)
@@ -153,13 +156,12 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                                         .image))
                                                 : Container(
                                                     child: Text(
-                                                      model
-                                                          .listModel[
-                                                              model.index1]
-                                                          .image,
-                                                      style: TextStyle(
-                                                          fontSize: 25),
-                                                    ))),
+                                                    model
+                                                        .listModel[model.index1]
+                                                        .image,
+                                                    style:
+                                                        TextStyle(fontSize: 25),
+                                                  ))),
                                       ),
                                       Positioned(
                                           left: 25,
@@ -236,7 +238,23 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                           width: width * 0.5,
                                           height: height * 0.1,
                                           child: TextFormField(
-                                            initialValue: "1.00",
+                                            controller: coin1Controller,
+                                            onChanged: (value) {
+                                              setState(() {
+                                                coin2Controller.text = model
+                                                    .getConversionRate(
+                                                        model
+                                                            .listModel[
+                                                                model.index1]
+                                                            .price,
+                                                        model
+                                                            .listModel[
+                                                                model.index2]
+                                                            .price,
+                                                        coin1Controller.text)
+                                                    .toString();
+                                              });
+                                            },
                                             style: GoogleFonts.rubik(
                                                 color: Colors.white,
                                                 fontSize: 25),
@@ -388,7 +406,19 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                           width: width * 0.5,
                                           height: height * 0.1,
                                           child: TextFormField(
-                                            initialValue: "1.00",
+                                            controller: coin2Controller
+                                              ..text = model
+                                                  .getConversionRate(
+                                                      model
+                                                          .listModel[
+                                                              model.index1]
+                                                          .price,
+                                                      model
+                                                          .listModel[
+                                                              model.index2]
+                                                          .price,
+                                                      coin1Controller.text)
+                                                  .toString(),
                                             style: GoogleFonts.rubik(
                                                 color: Colors.white,
                                                 fontSize: 25),

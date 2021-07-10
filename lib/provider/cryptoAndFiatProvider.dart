@@ -69,6 +69,16 @@ class CryptoAndFiatProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  double getConversionRate(
+      String coinV1, String coinV2, String conversionValue) {
+    if (conversionValue.isEmpty) {
+      return (double.parse(coinV1) * 0) / double.parse(coinV2);
+    } else {
+      return (double.parse(coinV1) * double.parse(conversionValue)) /
+          double.parse(coinV2);
+    }
+  }
+
   Future<void> fiatAndCryptoList() async {
     var url = "http://192.168.31.132:8948/news/get-list";
     // var url = "http://192.168.43.93:8948/news/get-list";
