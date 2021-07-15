@@ -1,6 +1,7 @@
 import 'package:crypto_news/provider/cryptoAndFiatProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
 
 import './widget/bottom_navigation_bar.dart';
 
@@ -13,11 +14,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (ctx) => CryptoAndFiatProvider(),
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        routes: {},
-        home: Nav(),
-      ),
+      child: Sizer(builder: (ctx, orientation, deviceType) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          routes: {},
+          home: Nav(),
+        );
+      }),
     );
   }
 }

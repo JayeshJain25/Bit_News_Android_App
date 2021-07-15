@@ -43,6 +43,9 @@ dependencies:
   clippy_flutter: ^2.0.0-nullsafety.1
   palette_generator: ^0.3.0
   sizer: ^2.0.13
+  story_view: ^0.13.1
+  dashed_circle: ^0.0.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

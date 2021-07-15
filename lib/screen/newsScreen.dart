@@ -1,8 +1,10 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:crypto_news/screen/newsSearchScreen.dart';
+import 'package:dashed_circle/dashed_circle.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:sizer/sizer.dart';
 
 import '../widget/drawerScreen.dart';
 import '../widget/following_list.dart';
@@ -13,11 +15,65 @@ class NewsScreen extends StatefulWidget {
   _NewsScreenState createState() => _NewsScreenState();
 }
 
-class _NewsScreenState extends State<NewsScreen> {
+class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
   double xOffset = 0;
   double yOffset = 0;
   double scaleFactor = 1;
   bool isDrawerOpen = false;
+
+  late Animation gap;
+  late AnimationController _animationController;
+  late Animation<Offset> _storiesAnimation;
+  late final reverse;
+  late AnimationController controller;
+  late final base;
+
+  List<String> imageUrlList = [
+    "https://icons.iconarchive.com/icons/cjdowner/cryptocurrency-flat/1024/Bitcoin-BTC-icon.png",
+    "https://assets.coingecko.com/coins/images/13120/large/Logo_final-21.png?1624892810",
+    "https://assets.coingecko.com/coins/images/756/large/nano-coin-logo.png?1547034501",
+    "https://assets.coingecko.com/coins/images/776/large/OMG_Network.jpg?1591167168",
+    "https://assets.coingecko.com/coins/images/63/large/digibyte.png?1547033717",
+    "https://assets.coingecko.com/coins/images/13725/large/xsushi.png?1612538526",
+    "https://assets.coingecko.com/coins/images/1060/large/icon-icx-logo.png?1547035003"
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    controller =
+        AnimationController(vsync: this, duration: const Duration(seconds: 4));
+
+    _animationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 2000));
+
+    final curve =
+        CurvedAnimation(parent: _animationController, curve: Curves.decelerate);
+
+    _storiesAnimation =
+        Tween<Offset>(begin: const Offset(-2, 0.0), end: Offset.zero)
+            .animate(curve);
+
+    base = CurvedAnimation(parent: controller, curve: Curves.easeOut);
+
+    reverse = Tween<double>(begin: 0.0, end: -1.0).animate(base);
+
+    gap = Tween<double>(begin: 3.0, end: 0.0).animate(base)
+      ..addListener(() {
+        setState(() {});
+      });
+
+    controller.forward();
+    _animationController.forward();
+  }
+
+  /// Dispose
+  @override
+  void dispose() {
+    _animationController.dispose();
+    controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +154,7 @@ class _NewsScreenState extends State<NewsScreen> {
                       ),
                     ),
                     Container(
-                      height: MediaQuery.of(context).size.height * 0.81,
+                      height: 81.h,
                       child: DefaultTabController(
                         length: 5,
                         child: NestedScrollView(
@@ -107,10 +163,48 @@ class _NewsScreenState extends State<NewsScreen> {
                               (BuildContext context, bool innerBoxIsScrolled) {
                             return [
                               SliverAppBar(
-                                collapsedHeight: height * 0.37,
-                                expandedHeight: height * 0.37,
+                                collapsedHeight: 37.h,
+                                expandedHeight: 37.h,
+                                title: Container(
+                                  height: 20.h,
+                                  child: ListView.builder(
+                                      itemCount: imageUrlList.length,
+                                      scrollDirection: Axis.horizontal,
+                                      itemBuilder: (ctx, index) => Container(
+                                            margin: EdgeInsets.only(
+                                                left: 1.5.w, right: 1.5.w),
+                                            child: SlideTransition(
+                                              position: _storiesAnimation,
+                                              child: Center(
+                                                child: RotationTransition(
+                                                  turns: base,
+                                                  child: DashedCircle(
+                                                    gapSize: gap.value,
+                                                    dashes: 40,
+                                                    color: HexColor("#4E8799"),
+                                                    child: RotationTransition(
+                                                        turns: reverse,
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(5.0),
+                                                          child: CircleAvatar(
+                                                            radius: 20,
+                                                            backgroundImage:
+                                                                NetworkImage(
+                                                                    imageUrlList[
+                                                                        index]),
+                                                          ),
+                                                        )),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          )),
+                                ),
                                 flexibleSpace: Container(
-                                  margin: EdgeInsets.all(15),
+                                  margin: EdgeInsets.only(
+                                      left: 15, right: 15, bottom: 15, top: 50),
                                   height: height * 0.37,
                                   child: ListView.builder(
                                     itemCount: 5,
