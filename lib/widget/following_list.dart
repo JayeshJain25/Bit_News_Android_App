@@ -44,68 +44,49 @@ class FollowingList extends StatelessWidget {
                 horizontalOffset: 150,
                 child: FadeInAnimation(
                   child: Consumer<NewsProvider>(
-                    builder: (ctx, model, _) => model.newsCompleteList.length ==
-                            0
-                        ? Center(
-                            child: CircularProgressIndicator(),
-                          )
-                        : InkWell(
-                            onTap: () {
-                              Get.to(() => NewsWebView(
-                                  model.newsCompleteList[index].url));
-                            },
-                            child: Card(
-                              elevation: 2,
-                              color: Colors.black,
-                              child: Row(
-                                children: <Widget>[
-                                  Column(
-                                    children: <Widget>[
-                                      Container(
-                                        height: height * 0.04,
+                    builder: (ctx, model, _) =>
+                        model.newsCompleteList.length == 0
+                            ? Center(
+                                child: CircularProgressIndicator(),
+                              )
+                            : InkWell(
+                                onTap: () {
+                                  Get.to(() => NewsWebView(
+                                      model.newsCompleteList[index].url));
+                                },
+                                child: Container(
+                                  margin: EdgeInsets.only(
+                                      left: 5, right: 5, top: 15, bottom: 5),
+                                  child: Card(
+                                    color: Colors.black,
+                                    elevation: 5,
+                                    child: ListTile(
+                                      leading: Container(
+                                        height: height * 0.1,
                                         width: width * 0.1,
                                         decoration: BoxDecoration(
                                             shape: BoxShape.circle,
                                             image: DecorationImage(
-                                                image: NetworkImage(model
-                                                    .newsCompleteList[index]
-                                                    .photoUrl))),
+                                              image: NetworkImage(model
+                                                  .newsCompleteList[index]
+                                                  .photoUrl),
+                                              fit: BoxFit.contain,
+                                            )),
                                       ),
-                                      Container(
-                                        margin: EdgeInsets.only(
-                                            left: width * 0.027,
-                                            top: width * 0.015),
-                                        width: width * 0.1,
-                                        height: height * 0.025,
-                                        child: AutoSizeText(
-                                          model.newsCompleteList[index].source,
-                                          style: GoogleFonts.rubik(
-                                              fontSize: 14,
-                                              color: HexColor("#6a6a6a")),
+                                      title: Container(
+                                          child: AutoSizeText(
+                                        model.newsCompleteList[index].title,
+                                        maxLines: 2,
+                                        style: GoogleFonts.poppins(
+                                          color: Colors.white,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold,
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  Column(
-                                    children: <Widget>[
-                                      Container(
-                                          margin: EdgeInsets.only(
-                                              top: height * 0.04),
-                                          width: width * 0.72,
-                                          height: height * 0.055,
-                                          child: AutoSizeText(
-                                            model.newsCompleteList[index].title,
-                                            maxLines: 2,
-                                            style: GoogleFonts.poppins(
-                                              color: Colors.white,
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          )),
-                                      Container(
-                                          width: width * 0.72,
-                                          height: height * 0.03,
-                                          child: AutoSizeText(
+                                      )),
+                                      subtitle: Column(
+                                        children: [
+                                          Container(
+                                              child: AutoSizeText(
                                             model.newsCompleteList[index]
                                                 .description,
                                             maxLines: 1,
@@ -116,25 +97,39 @@ class FollowingList extends StatelessWidget {
                                               fontSize: 15,
                                             ),
                                           )),
-                                      Container(
-                                          width: width * 0.5,
-                                          height: height * 0.03,
-                                          child: AutoSizeText(
-                                            model.newsCompleteList[index]
-                                                .publishedDate,
-                                            minFontSize: 12,
-                                            maxLines: 1,
-                                            style: GoogleFonts.poppins(
-                                              color: HexColor("#6a6a6a"),
-                                              fontSize: 15,
-                                            ),
-                                          )),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: <Widget>[
+                                              Container(
+                                                  child: AutoSizeText(
+                                                model.newsCompleteList[index]
+                                                    .publishedDate,
+                                                minFontSize: 12,
+                                                maxLines: 1,
+                                                style: GoogleFonts.poppins(
+                                                  color: HexColor("#6a6a6a"),
+                                                  fontSize: 15,
+                                                ),
+                                              )),
+                                              Container(
+                                                  child: AutoSizeText(
+                                                model.newsCompleteList[index]
+                                                    .source,
+                                                minFontSize: 12,
+                                                maxLines: 1,
+                                                style: GoogleFonts.poppins(
+                                                  color: HexColor("#6a6a6a"),
+                                                  fontSize: 15,
+                                                ),
+                                              )),
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                )),
                   ),
                 ),
               ),

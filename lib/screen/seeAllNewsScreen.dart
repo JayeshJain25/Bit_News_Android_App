@@ -1,8 +1,11 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:crypto_news/model/news_model.dart';
+import 'package:crypto_news/provider/news_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:provider/provider.dart';
 
 import '../widget/following_list_all_section.dart';
 
@@ -12,6 +15,15 @@ class SeeAllNewsScreen extends StatefulWidget {
 }
 
 class _SeeAllNewsScreenState extends State<SeeAllNewsScreen> {
+  List<NewsModel> newsList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    newsList =
+        Provider.of<NewsProvider>(context, listen: false).newsCompleteList;
+  }
+
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
@@ -38,7 +50,7 @@ class _SeeAllNewsScreenState extends State<SeeAllNewsScreen> {
       body: Container(
         height: height,
         child: DefaultTabController(
-          length: 5,
+          length: 4,
           child: NestedScrollView(
             physics: NeverScrollableScrollPhysics(),
             headerSliverBuilder:
@@ -77,12 +89,6 @@ class _SeeAllNewsScreenState extends State<SeeAllNewsScreen> {
                         maxLines: 1,
                         style: GoogleFonts.rubik(),
                       )),
-                      Tab(
-                          child: AutoSizeText(
-                        'Twitter',
-                        maxLines: 1,
-                        style: GoogleFonts.rubik(),
-                      )),
                     ],
                   )),
                   floating: true,
@@ -92,11 +98,18 @@ class _SeeAllNewsScreenState extends State<SeeAllNewsScreen> {
             body: Container(
               margin: EdgeInsets.all(width * 0.04),
               child: TabBarView(children: <Widget>[
-                FollowingListAllSection(),
-                FollowingListAllSection(),
-                FollowingListAllSection(),
-                FollowingListAllSection(),
-                FollowingListAllSection(),
+                FollowingListAllSection(
+                  newsList: newsList,
+                ),
+                FollowingListAllSection(
+                  newsList: newsList,
+                ),
+                FollowingListAllSection(
+                  newsList: newsList,
+                ),
+                FollowingListAllSection(
+                  newsList: newsList,
+                ),
               ]),
             ),
           ),

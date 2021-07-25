@@ -1,4 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:crypto_news/model/news_model.dart';
+import 'package:crypto_news/provider/news_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
@@ -8,30 +10,29 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:provider/provider.dart';
 
 import './news_web_view.dart';
-import '../provider/newsModel.dart';
 
 class FollowingListAllSection extends StatelessWidget {
+  final List<NewsModel> newsList;
+
+  FollowingListAllSection({required this.newsList});
+
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => NewsModel(),
-      child: CustomScrollView(
-        slivers: [
-          _TodayNewsList(index: 0),
-          _RecentNewsList(index: 1),
-        ],
-      ),
+    return CustomScrollView(
+      slivers: [
+        _TodayNewsList(index: 0, newsList: newsList),
+        _RecentNewsList(index: 1),
+      ],
     );
   }
 }
 
 class _TodayNewsList extends StatelessWidget {
-  const _TodayNewsList({
-    Key? key,
-    this.index,
-  }) : super(key: key);
+  const _TodayNewsList({Key? key, this.index, required this.newsList})
+      : super(key: key);
 
   final int? index;
+  final List<NewsModel> newsList;
 
   @override
   Widget build(BuildContext context) {
@@ -46,11 +47,10 @@ class _TodayNewsList extends StatelessWidget {
             child: SlideAnimation(
               horizontalOffset: 150,
               child: FadeInAnimation(
-                child: Consumer<NewsModel>(
+                child: Consumer<NewsProvider>(
                   builder: (ctx, model, _) => InkWell(
                     onTap: () {
-                      Get.to(() =>
-                              NewsWebView(model.suggestions[i].newsUrl));
+                      Get.to(() => NewsWebView(model.newsCompleteList[i].url));
                     },
                     child: Card(
                       elevation: 2,
@@ -58,67 +58,64 @@ class _TodayNewsList extends StatelessWidget {
                       child: Column(
                         children: [
                           Container(
+                            height: height * 0.2,
                             child: Image.network(
-                                "https://www.tbstat.com/cdn-cgi/image/q=80/wp/uploads/2019/05/london-streets-filter-1200x675.jpg"),
+                              model.newsCompleteList[i].photoUrl,
+                              fit: BoxFit.contain,
+                            ),
                           ),
-                          Row(
-                            children: <Widget>[
-                              Column(
-                                children: <Widget>[
-                                  Container(
-                                    height: height * 0.04,
-                                    width: width * 0.1,
-                                    child: Image(
-                                        fit: BoxFit.contain,
-                                        image: NetworkImage(
-                                            'https://icons.iconarchive.com/icons/cjdowner/cryptocurrency-flat/1024/Bitcoin-BTC-icon.png')),
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(
-                                        left: width * 0.027,
-                                        top: width * 0.015),
-                                    width: width * 0.1,
-                                    height: height * 0.025,
-                                    child: AutoSizeText(
-                                      'BTC',
-                                      style: GoogleFonts.rubik(
-                                          fontSize: 14,
-                                          color: HexColor("#6a6a6a")),
-                                    ),
-                                  ),
-                                ],
+                          ListTile(
+                            title: Container(
+                                child: AutoSizeText(
+                              model.newsCompleteList[i].title,
+                              maxLines: 2,
+                              style: GoogleFonts.poppins(
+                                color: Colors.white,
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
                               ),
-                              Column(
-                                children: <Widget>[
-                                  Container(
-                                      margin:
-                                          EdgeInsets.only(top: height * 0.02),
-                                      width: width * 0.72,
-                                      height: height * 0.055,
-                                      child: AutoSizeText(
-                                        "Bitcoin Ransomware Payments Set 'Dangerous Precedent': House Oversight Chair",
-                                        maxLines: 2,
-                                        style: GoogleFonts.poppins(
-                                          color: Colors.white,
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      )),
-                                  Container(
-                                      width: width * 0.5,
-                                      height: height * 0.03,
-                                      child: AutoSizeText(
-                                        "- 3 hours ago",
-                                        minFontSize: 12,
-                                        maxLines: 1,
-                                        style: GoogleFonts.poppins(
-                                          color: HexColor("#6a6a6a"),
-                                          fontSize: 15,
-                                        ),
-                                      )),
-                                ],
-                              )
-                            ],
+                            )),
+                            subtitle: Column(
+                              children: [
+                                Container(
+                                    child: AutoSizeText(
+                                  model.newsCompleteList[i].description,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  softWrap: false,
+                                  style: GoogleFonts.poppins(
+                                    color: HexColor("#6a6a6a"),
+                                    fontSize: 15,
+                                  ),
+                                )),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Container(
+                                        child: AutoSizeText(
+                                      model.newsCompleteList[i].publishedDate,
+                                      minFontSize: 12,
+                                      maxLines: 1,
+                                      style: GoogleFonts.poppins(
+                                        color: HexColor("#6a6a6a"),
+                                        fontSize: 15,
+                                      ),
+                                    )),
+                                    Container(
+                                        child: AutoSizeText(
+                                      model.newsCompleteList[i].source,
+                                      minFontSize: 12,
+                                      maxLines: 1,
+                                      style: GoogleFonts.poppins(
+                                        color: HexColor("#6a6a6a"),
+                                        fontSize: 15,
+                                      ),
+                                    )),
+                                  ],
+                                )
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -128,7 +125,7 @@ class _TodayNewsList extends StatelessWidget {
               ),
             ),
           ),
-          childCount: 10,
+          childCount: newsList.length,
         ),
       ),
       builder: (BuildContext context, SliverStickyHeaderState state) =>
@@ -167,11 +164,10 @@ class _RecentNewsList extends StatelessWidget {
             child: SlideAnimation(
               horizontalOffset: 150,
               child: FadeInAnimation(
-                child: Consumer<NewsModel>(
+                child: Consumer<NewsProvider>(
                   builder: (ctx, model, _) => InkWell(
                     onTap: () {
-                      Get.to(() =>
-                              NewsWebView(model.suggestions[i].newsUrl));
+                      Get.to(() => NewsWebView(model.newsCompleteList[i].url));
                     },
                     child: Card(
                       elevation: 2,
