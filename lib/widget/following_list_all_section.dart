@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:provider/provider.dart';
@@ -48,9 +49,8 @@ class _TodayNewsList extends StatelessWidget {
                 child: Consumer<NewsModel>(
                   builder: (ctx, model, _) => InkWell(
                     onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) =>
-                              NewsWebView(model.suggestions[i].newsUrl)));
+                      Get.to(() =>
+                              NewsWebView(model.suggestions[i].newsUrl));
                     },
                     child: Card(
                       elevation: 2,
@@ -170,9 +170,8 @@ class _RecentNewsList extends StatelessWidget {
                 child: Consumer<NewsModel>(
                   builder: (ctx, model, _) => InkWell(
                     onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) =>
-                              NewsWebView(model.suggestions[i].newsUrl)));
+                      Get.to(() =>
+                              NewsWebView(model.suggestions[i].newsUrl));
                     },
                     child: Card(
                       elevation: 2,

@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
@@ -255,8 +256,8 @@ Widget buildItem(BuildContext context, NewsStructureModel place) {
 
   return InkWell(
     onTap: () {
-      Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => NewsWebView(place.newsUrl)));
+      Get.to(
+          () => NewsWebView(place.newsUrl));
     },
     child: Card(
       elevation: 2,

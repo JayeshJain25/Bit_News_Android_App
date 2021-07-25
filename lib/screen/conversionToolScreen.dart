@@ -4,6 +4,7 @@ import 'package:animate_icons/animate_icons.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:clippy_flutter/clippy_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:palette_generator/palette_generator.dart';
@@ -79,7 +80,7 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
           icon: Icon(Icons.arrow_back_ios),
           color: Colors.white,
           onPressed: () {
-            Navigator.of(context).pop();
+            Get.back();
           },
         ),
         title: AutoSizeText('Conversion Tool',
@@ -190,11 +191,8 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                         left: 60,
                                         child: InkWell(
                                           onTap: () {
-                                            Navigator.of(context).push(
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        SearchAssetsScreen(
-                                                            index: 0)));
+                                            Get.to(() =>
+                                                SearchAssetsScreen(index: 0));
                                           },
                                           child: Container(
                                             width: width * 0.2,
@@ -214,12 +212,9 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                         left: 70,
                                         child: InkWell(
                                           onTap: () {
-                                            Navigator.of(context).push(
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        SearchAssetsScreen(
-                                                          index: 0,
-                                                        )));
+                                            Get.to(() => SearchAssetsScreen(
+                                                  index: 0,
+                                                ));
                                           },
                                           child: Container(
                                               width: width * 0.2,
@@ -357,12 +352,9 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                         left: 60,
                                         child: InkWell(
                                           onTap: () {
-                                            Navigator.of(context).push(
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        SearchAssetsScreen(
-                                                          index: 1,
-                                                        )));
+                                            Get.to(() => SearchAssetsScreen(
+                                                  index: 1,
+                                                ));
                                           },
                                           child: Container(
                                             width: width * 0.2,
@@ -382,12 +374,9 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                         left: 70,
                                         child: InkWell(
                                           onTap: () {
-                                            Navigator.of(context).push(
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        SearchAssetsScreen(
-                                                          index: 1,
-                                                        )));
+                                            Get.to(() => SearchAssetsScreen(
+                                                  index: 1,
+                                                ));
                                           },
                                           child: Container(
                                               width: width * 0.2,

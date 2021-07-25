@@ -45,6 +45,7 @@ dependencies:
   sizer: ^2.0.13
   story_view: ^0.13.1
   dashed_circle: ^0.0.2
+  get: ^4.1.4
 
 dev_dependencies:
   flutter_test:

@@ -1,6 +1,7 @@
 import 'package:animate_icons/animate_icons.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../screen/conversionToolScreen.dart';
@@ -86,13 +87,11 @@ class _DrawerScreenState extends State<DrawerScreen>
                       controller: settingAnimation,
                       size: 25,
                       onStartIconPress: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => SettingScreen()));
+                        Get.to(() => SettingScreen());
                         return true;
                       },
                       onEndIconPress: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => SettingScreen()));
+                        Get.to(() => SettingScreen());
                         return true;
                       },
                       duration: Duration(milliseconds: 500),
@@ -113,8 +112,7 @@ class _DrawerScreenState extends State<DrawerScreen>
                       borderRadius: BorderRadius.circular(25),
                       splashColor: Colors.white30,
                       onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => ConversionToolScreen()));
+                        Get.to(() => ConversionToolScreen());
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(4.0),

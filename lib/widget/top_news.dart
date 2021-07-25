@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 
@@ -12,9 +13,8 @@ class TopNews extends StatelessWidget {
     var height = MediaQuery.of(context).size.height;
     return InkWell(
       onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => NewsWebView(
-                "https://www.coindesk.com/bitcoin-hashrate-china-mining-crackdown")));
+        Get.to(() => NewsWebView(
+                "https://www.coindesk.com/bitcoin-hashrate-china-mining-crackdown"));
       },
       child: Container(
         width: width / 1.2,

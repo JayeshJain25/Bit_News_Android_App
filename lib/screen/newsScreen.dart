@@ -1,9 +1,12 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:crypto_news/provider/news_provider.dart';
 import 'package:crypto_news/screen/newsSearchScreen.dart';
 import 'package:dashed_circle/dashed_circle.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 import '../widget/drawerScreen.dart';
@@ -40,6 +43,10 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
 
   @override
   void initState() {
+
+    Provider.of<NewsProvider>(context, listen: false)
+        .newsList();
+
     super.initState();
     controller =
         AnimationController(vsync: this, duration: const Duration(seconds: 4));
@@ -77,9 +84,6 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    var width = MediaQuery.of(context).size.width;
-    var height = MediaQuery.of(context).size.height;
-
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
@@ -143,8 +147,7 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
                           ),
                           IconButton(
                               onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => NewsSearchScreen()));
+                                Get.to(() => NewsSearchScreen());
                               },
                               icon: Icon(
                                 Icons.search,
@@ -156,7 +159,7 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
                     Container(
                       height: 81.h,
                       child: DefaultTabController(
-                        length: 5,
+                        length: 4,
                         child: NestedScrollView(
                           physics: NeverScrollableScrollPhysics(),
                           headerSliverBuilder:
@@ -205,7 +208,7 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
                                 flexibleSpace: Container(
                                   margin: EdgeInsets.only(
                                       left: 15, right: 15, bottom: 15, top: 50),
-                                  height: height * 0.37,
+                                  height: 37.h,
                                   child: ListView.builder(
                                     itemCount: 5,
                                     scrollDirection: Axis.horizontal,
@@ -257,12 +260,6 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
                                       maxLines: 1,
                                       style: GoogleFonts.rubik(),
                                     )),
-                                    Tab(
-                                        child: AutoSizeText(
-                                      'Twitter',
-                                      maxLines: 1,
-                                      style: GoogleFonts.rubik(),
-                                    )),
                                   ],
                                 )),
                                 floating: true,
@@ -270,9 +267,8 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
                             ];
                           },
                           body: Container(
-                            margin: EdgeInsets.all(width * 0.04),
+                            margin: EdgeInsets.all(0.4.w),
                             child: TabBarView(children: <Widget>[
-                              FollowingList(),
                               FollowingList(),
                               FollowingList(),
                               FollowingList(),

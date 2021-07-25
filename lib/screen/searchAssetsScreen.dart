@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
@@ -269,7 +270,7 @@ class _SearchAssetsScreenState extends State<SearchAssetsScreen> {
         Provider.of<CryptoAndFiatProvider>(context, listen: false)
             .changeCardValue(widget.index, place);
         //  list[widget.index] = place;
-        Navigator.of(context).pop();
+        Get.back();
       },
       child: Card(
           margin: EdgeInsets.all(10),
