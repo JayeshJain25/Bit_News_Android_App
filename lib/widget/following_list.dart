@@ -16,7 +16,7 @@ class FollowingList extends StatelessWidget {
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
     return AnimationLimiter(
-      child: ListView.builder(
+      child: ListView.separated(
           shrinkWrap: true,
           itemCount: 11,
           itemBuilder: (BuildContext context, int index) {
@@ -134,7 +134,10 @@ class FollowingList extends StatelessWidget {
                 ),
               ),
             );
-          }),
+          }, separatorBuilder: (BuildContext context, int index) {
+        return Divider( indent: width*0.21,
+        endIndent: width*0.09,color: HexColor("#404040"));
+      },),
     );
   }
 }

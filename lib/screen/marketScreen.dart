@@ -1,9 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:crypto_news/model/graphModel.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:syncfusion_flutter_charts/charts.dart';
 import '../widget/drawerScreen.dart';
-
 class MarketScreen extends StatefulWidget {
   @override
   _MarketScreenState createState() => _MarketScreenState();
@@ -14,6 +14,14 @@ class _MarketScreenState extends State<MarketScreen> {
   double yOffset = 0;
   double scaleFactor = 1;
   bool isDrawerOpen = false;
+  late TooltipBehavior _tooltipBehavior;
+
+  @override
+  void initState() {
+        super.initState();
+        _tooltipBehavior = TooltipBehavior(enable: true);
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +93,11 @@ class _MarketScreenState extends State<MarketScreen> {
                             ))
                       ],
                     ),
-                  )
+                  ),
+                  // Container(
+                  //   height: 200,
+                  //   child:
+                  // )
                 ],
               ),
             )

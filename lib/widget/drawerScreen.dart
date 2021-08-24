@@ -119,7 +119,7 @@ class _DrawerScreenState extends State<DrawerScreen>
                         child: Row(
                           children: <Widget>[
                             ImageIcon(
-                              AssetImage("lib/assets/exchange.png"),
+                              AssetImage("lib/assets/equal.png"),
                               color: Colors.white,
                             ),
                             SizedBox(
@@ -147,44 +147,44 @@ class _DrawerScreenState extends State<DrawerScreen>
                 SizedBox(
                   height: height * 0.04,
                 ),
-                Container(
-                  margin: EdgeInsets.only(right: width * 0.523),
-                  child: Material(
-                    color: Colors.black,
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(25),
-                      splashColor: Colors.white30,
-                      onTap: () {},
-                      child: Padding(
-                        padding: const EdgeInsets.all(3.0),
-                        child: Row(
-                          children: <Widget>[
-                            Icon(
-                              Icons.group_rounded,
-                              color: Colors.white,
-                            ),
-                            SizedBox(
-                              width: width * 0.03,
-                            ),
-                            FadeTransition(
-                              opacity: _animation,
-                              child: Container(
-                                width: width * 0.3,
-                                child: FittedBox(
-                                  child: Text(
-                                    "Community",
-                                    style: GoogleFonts.poppins(
-                                        fontSize: 18, color: Colors.white),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                )
+                // Container(
+                //   margin: EdgeInsets.only(right: width * 0.523),
+                //   child: Material(
+                //     color: Colors.black,
+                //     child: InkWell(
+                //       borderRadius: BorderRadius.circular(25),
+                //       splashColor: Colors.white30,
+                //       onTap: () {},
+                //       child: Padding(
+                //         padding: const EdgeInsets.all(3.0),
+                //         child: Row(
+                //           children: <Widget>[
+                //             Icon(
+                //               Icons.group_rounded,
+                //               color: Colors.white,
+                //             ),
+                //             SizedBox(
+                //               width: width * 0.03,
+                //             ),
+                //             FadeTransition(
+                //               opacity: _animation,
+                //               child: Container(
+                //                 width: width * 0.3,
+                //                 child: FittedBox(
+                //                   child: Text(
+                //                     "Community",
+                //                     style: GoogleFonts.poppins(
+                //                         fontSize: 18, color: Colors.white),
+                //                   ),
+                //                 ),
+                //               ),
+                //             ),
+                //           ],
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // )
               ],
             ),
           ),
