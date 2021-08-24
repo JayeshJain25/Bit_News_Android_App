@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:crypto_news/helper/hepler.dart';
 import 'package:crypto_news/provider/news_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
@@ -11,6 +12,9 @@ import './news_web_view.dart';
 import '../screen/seeAllNewsScreen.dart';
 
 class FollowingList extends StatelessWidget {
+
+  final _helper = Helper();
+
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
@@ -62,15 +66,14 @@ class FollowingList extends StatelessWidget {
                                     elevation: 5,
                                     child: ListTile(
                                       leading: Container(
-                                        height: height * 0.1,
-                                        width: width * 0.1,
+                                        height: height,
+                                        width: width * 0.2,
                                         decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
                                             image: DecorationImage(
                                               image: NetworkImage(model
                                                   .newsCompleteList[index]
                                                   .photoUrl),
-                                              fit: BoxFit.contain,
+                                              fit: BoxFit.fill,
                                             )),
                                       ),
                                       title: Container(
@@ -103,13 +106,13 @@ class FollowingList extends StatelessWidget {
                                             children: <Widget>[
                                               Container(
                                                   child: AutoSizeText(
-                                                model.newsCompleteList[index]
-                                                    .publishedDate,
+                                                _helper.convertToAgo(model.newsCompleteList[index]
+                                                    .publishedDate),
                                                 minFontSize: 12,
                                                 maxLines: 1,
                                                 style: GoogleFonts.poppins(
                                                   color: HexColor("#6a6a6a"),
-                                                  fontSize: 15,
+                                                  fontSize: 14,
                                                 ),
                                               )),
                                               Container(
