@@ -85,7 +85,7 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Color(0xFF121212),
       body: SafeArea(
         child: Stack(
           children: <Widget>[
@@ -95,7 +95,7 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
                 ..scale(scaleFactor)
                 ..rotateY(isDrawerOpen ? -0.5 : 0),
               decoration: BoxDecoration(
-                  color: Colors.black,
+                  color: Color(0xFF121212),
                   borderRadius: !isDrawerOpen
                       ? BorderRadius.circular(0)
                       : BorderRadius.circular(40)),
@@ -225,7 +225,7 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
                                     },
                                   ),
                                 ),
-                                backgroundColor: Colors.black,
+                                backgroundColor: Color(0xFF121212),
                               ),
                               SliverPersistentHeader(
                                 delegate: MyDelegate(TabBar(

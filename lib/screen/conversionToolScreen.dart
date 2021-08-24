@@ -72,7 +72,7 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
     var height = MediaQuery.of(context).size.height;
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      backgroundColor: Colors.black,
+      backgroundColor: Color(0xFF121212),
       appBar: AppBar(
         backgroundColor: Colors.black,
         centerTitle: true,

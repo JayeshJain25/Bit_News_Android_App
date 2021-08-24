@@ -62,8 +62,8 @@ class FollowingList extends StatelessWidget {
                                   margin: EdgeInsets.only(
                                       left: 5, right: 5, top: 15, bottom: 5),
                                   child: Card(
-                                    color: Colors.black,
-                                    elevation: 5,
+                                    color: Color(0xFF121212),
+                                    elevation: 0,
                                     child: ListTile(
                                       leading: Container(
                                         height: height,
@@ -138,8 +138,8 @@ class FollowingList extends StatelessWidget {
               ),
             );
           }, separatorBuilder: (BuildContext context, int index) {
-        return Divider( indent: width*0.21,
-        endIndent: width*0.09,color: HexColor("#404040"));
+        return Divider( indent: width*0.31,
+        endIndent: width*0.06,color: HexColor("#404040"),thickness: 1,);
       },),
     );
   }

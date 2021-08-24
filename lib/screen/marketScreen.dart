@@ -1,5 +1,4 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:crypto_news/model/graphModel.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -26,7 +25,7 @@ class _MarketScreenState extends State<MarketScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Color(0xFF121212),
       body: SafeArea(
         child: Stack(
           children: <Widget>[
@@ -37,7 +36,7 @@ class _MarketScreenState extends State<MarketScreen> {
                 ..rotateY(isDrawerOpen ? -0.5 : 0),
               duration: Duration(milliseconds: 250),
               decoration: BoxDecoration(
-                  color: Colors.black,
+                  color:  Color(0xFF121212),
                   borderRadius: !isDrawerOpen
                       ? BorderRadius.circular(0)
                       : BorderRadius.circular(40)),

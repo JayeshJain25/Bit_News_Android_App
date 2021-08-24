@@ -18,7 +18,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor:  Color(0xFF121212),
       body: SafeArea(
         child: Stack(
           children: <Widget>[
@@ -28,7 +28,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                 ..scale(scaleFactor)
                 ..rotateY(isDrawerOpen ? -0.5 : 0),
               decoration: BoxDecoration(
-                  color: Colors.black,
+                  color:  Color(0xFF121212),
                   borderRadius: !isDrawerOpen
                       ? BorderRadius.circular(0)
                       : BorderRadius.circular(40)),

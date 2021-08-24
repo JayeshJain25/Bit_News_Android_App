@@ -42,7 +42,7 @@ class _DrawerScreenState extends State<DrawerScreen>
     _controller.forward();
     return Container(
       height: height,
-      color: Colors.black,
+      color:  Color(0xFF121212),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
