@@ -107,7 +107,7 @@ class _DrawerScreenState extends State<DrawerScreen>
                 Container(
                   margin: EdgeInsets.only(right: width * 0.423),
                   child: Material(
-                    color: Colors.black,
+                    color:  Color(0xFF121212),
                     child: InkWell(
                       borderRadius: BorderRadius.circular(25),
                       splashColor: Colors.white30,

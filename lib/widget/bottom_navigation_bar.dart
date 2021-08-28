@@ -5,9 +5,9 @@ import '../screen/marketScreen.dart';
 import '../screen/newsScreen.dart';
 import '../screen/notificationScreen.dart';
 
-void main() => runApp(Nav());
 
 class Nav extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
