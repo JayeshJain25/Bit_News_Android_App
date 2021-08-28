@@ -18,13 +18,13 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
      super.initState();
-     Timer(Duration(seconds: 3), () => Get.to(Nav()));
+     Timer(Duration(seconds: 3), () => Get.to(() => Nav()));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Color(0xFF121212),
       body:  Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
