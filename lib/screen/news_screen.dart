@@ -166,48 +166,48 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
                               SliverAppBar(
                                 collapsedHeight: 37.h,
                                 expandedHeight: 37.h,
-                                title: SizedBox(
-                                  height: 20.h,
-                                  child: ListView.builder(
-                                      itemCount: imageUrlList.length,
-                                      scrollDirection: Axis.horizontal,
-                                      itemBuilder: (ctx, index) => Container(
-                                            margin: EdgeInsets.only(
-                                                left: 1.5.w, right: 1.5.w),
-                                            child: SlideTransition(
-                                              position: _storiesAnimation,
-                                              child: Center(
-                                                child: RotationTransition(
-                                                  turns: base,
-                                                  child: DashedCircle(
-                                                    gapSize: gap.value,
-                                                    dashes: 40,
-                                                    color:
-                                                        const Color(0xFF4E8799),
-                                                    child: RotationTransition(
-                                                        turns: reverse,
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(5.0),
-                                                          child: CircleAvatar(
-                                                            radius: 20,
-                                                            backgroundImage:
-                                                                NetworkImage(
-                                                                    imageUrlList[
-                                                                        index]),
-                                                          ),
-                                                        )),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          )),
-                                ),
+                                // title: SizedBox(
+                                //   height: 20.h,
+                                //   child: ListView.builder(
+                                //       itemCount: imageUrlList.length,
+                                //       scrollDirection: Axis.horizontal,
+                                //       itemBuilder: (ctx, index) => Container(
+                                //             margin: EdgeInsets.only(
+                                //                 left: 1.5.w, right: 1.5.w),
+                                //             child: SlideTransition(
+                                //               position: _storiesAnimation,
+                                //               child: Center(
+                                //                 child: RotationTransition(
+                                //                   turns: base,
+                                //                   child: DashedCircle(
+                                //                     gapSize: gap.value,
+                                //                     dashes: 40,
+                                //                     color:
+                                //                         const Color(0xFF4E8799),
+                                //                     child: RotationTransition(
+                                //                         turns: reverse,
+                                //                         child: Padding(
+                                //                           padding:
+                                //                               const EdgeInsets
+                                //                                   .all(5.0),
+                                //                           child: CircleAvatar(
+                                //                             radius: 20,
+                                //                             backgroundImage:
+                                //                                 NetworkImage(
+                                //                                     imageUrlList[
+                                //                                         index]),
+                                //                           ),
+                                //                         )),
+                                //                   ),
+                                //                 ),
+                                //               ),
+                                //             ),
+                                //           )),
+                                // ),
                                 flexibleSpace: Container(
                                   margin: const EdgeInsets.only(
-                                      left: 15, right: 15, bottom: 15, top: 50),
-                                  height: 37.h,
+                                      left: 15, right: 15, bottom: 15, top: 15),
+                                  height: 33.h,
                                   child: ListView.builder(
                                     itemCount: 5,
                                     scrollDirection: Axis.horizontal,
