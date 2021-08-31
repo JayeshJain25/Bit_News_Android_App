@@ -2,7 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../widget/drawerScreen.dart';
+import '../widget/drawer_screen.dart';
 
 class NotificationScreen extends StatefulWidget {
   @override
@@ -18,7 +18,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:  Color(0xFF121212),
+      backgroundColor: const Color(0xFF121212),
       body: SafeArea(
         child: Stack(
           children: <Widget>[
@@ -28,50 +28,51 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 ..scale(scaleFactor)
                 ..rotateY(isDrawerOpen ? -0.5 : 0),
               decoration: BoxDecoration(
-                  color:  Color(0xFF121212),
+                  color: const Color(0xFF121212),
                   borderRadius: !isDrawerOpen
                       ? BorderRadius.circular(0)
                       : BorderRadius.circular(40)),
-              duration: Duration(milliseconds: 250),
+              duration: const Duration(milliseconds: 250),
               child: Column(
                 children: <Widget>[
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                   Container(
-                    margin: EdgeInsets.symmetric(horizontal: 20),
+                    margin: const EdgeInsets.symmetric(horizontal: 20),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        isDrawerOpen
-                            ? IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    xOffset = 0;
-                                    yOffset = 0;
-                                    scaleFactor = 1;
-                                    isDrawerOpen = false;
-                                  });
-                                },
-                                icon: Icon(
-                                  Icons.arrow_back_ios,
-                                  color: Colors.white,
-                                ),
-                              )
-                            : IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    xOffset = 230;
-                                    yOffset = 150;
-                                    scaleFactor = 0.6;
-                                    isDrawerOpen = true;
-                                  });
-                                },
-                                icon: Icon(
-                                  Icons.menu_rounded,
-                                  color: Colors.white,
-                                ),
-                              ),
+                        if (isDrawerOpen)
+                          IconButton(
+                            onPressed: () {
+                              setState(() {
+                                xOffset = 0;
+                                yOffset = 0;
+                                scaleFactor = 1;
+                                isDrawerOpen = false;
+                              });
+                            },
+                            icon: const Icon(
+                              Icons.arrow_back_ios,
+                              color: Colors.white,
+                            ),
+                          )
+                        else
+                          IconButton(
+                            onPressed: () {
+                              setState(() {
+                                xOffset = 230;
+                                yOffset = 150;
+                                scaleFactor = 0.6;
+                                isDrawerOpen = true;
+                              });
+                            },
+                            icon: const Icon(
+                              Icons.menu_rounded,
+                              color: Colors.white,
+                            ),
+                          ),
                         AutoSizeText(
                           'Notifications',
                           style: GoogleFonts.poppins(
@@ -79,7 +80,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         ),
                         IconButton(
                             onPressed: () {},
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.search,
                               color: Colors.white,
                             ))

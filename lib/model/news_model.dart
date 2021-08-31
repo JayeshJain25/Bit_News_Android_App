@@ -17,21 +17,21 @@ class NewsModel {
       required this.photoUrl});
 
   factory NewsModel.fromJson(Map<String, dynamic> json) => NewsModel(
-      title: json['title'],
-      source: json['source'],
-      description: json['description'],
-      content: json['content'],
-      publishedDate: json['publishedDate'],
-      url: json['url'],
-      photoUrl: json['photoUrl']);
+      title: json['title'] as String,
+      source: json['source'] as String,
+      description: json['description'] as String,
+      content: json['content'] as String,
+      publishedDate: json['publishedDate'] as String,
+      url: json['url'] as String,
+      photoUrl: json['photoUrl'] as String);
 
   Map<String, dynamic> toJson() => {
-        'title': this.title,
-        'source': this.source,
-        'description': this.description,
-        'content': this.content,
-        'publishedDate': this.publishedDate,
-        'url': this.url,
-        'photoUrl': this.photoUrl,
+        'title': title,
+        'source': source,
+        'description': description,
+        'content': content,
+        'publishedDate': publishedDate,
+        'url': url,
+        'photoUrl': photoUrl,
       };
 }

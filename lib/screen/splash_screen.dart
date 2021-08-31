@@ -17,21 +17,24 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-     super.initState();
-     Timer(Duration(seconds: 3), () => Get.to(() => Nav()));
+    super.initState();
+    Timer(const Duration(seconds: 3), () => Get.to(() => Nav()));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF121212),
-      body:  Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset("lib/assets/logo.png"),
-            Text("CryptoX",style: GoogleFonts.poppins(color: Colors.white,fontSize: 25),),
-          ],
-        ),
+      backgroundColor: const Color(0xFF121212),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset("lib/assets/logo.png"),
+          Text(
+            "CryptoX",
+            style: GoogleFonts.poppins(color: Colors.white, fontSize: 25),
+          ),
+        ],
+      ),
     );
   }
 }

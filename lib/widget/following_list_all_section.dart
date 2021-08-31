@@ -6,7 +6,6 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:provider/provider.dart';
 
 import './news_web_view.dart';
@@ -14,14 +13,14 @@ import './news_web_view.dart';
 class FollowingListAllSection extends StatelessWidget {
   final List<NewsModel> newsList;
 
-  FollowingListAllSection({required this.newsList});
+  const FollowingListAllSection({required this.newsList});
 
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
       slivers: [
         _TodayNewsList(index: 0, newsList: newsList),
-        _RecentNewsList(index: 1),
+        const _RecentNewsList(index: 1),
       ],
     );
   }
@@ -36,8 +35,7 @@ class _TodayNewsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var width = MediaQuery.of(context).size.width;
-    var height = MediaQuery.of(context).size.height;
+    final height = MediaQuery.of(context).size.height;
     return SliverStickyHeader.builder(
       sliver: SliverList(
         delegate: SliverChildBuilderDelegate(
@@ -57,7 +55,7 @@ class _TodayNewsList extends StatelessWidget {
                       color: Colors.black,
                       child: Column(
                         children: [
-                          Container(
+                          SizedBox(
                             height: height * 0.2,
                             child: Image.network(
                               model.newsCompleteList[i].photoUrl,
@@ -65,8 +63,7 @@ class _TodayNewsList extends StatelessWidget {
                             ),
                           ),
                           ListTile(
-                            title: Container(
-                                child: AutoSizeText(
+                            title: AutoSizeText(
                               model.newsCompleteList[i].title,
                               maxLines: 2,
                               style: GoogleFonts.poppins(
@@ -74,44 +71,39 @@ class _TodayNewsList extends StatelessWidget {
                                 fontSize: 15,
                                 fontWeight: FontWeight.bold,
                               ),
-                            )),
+                            ),
                             subtitle: Column(
                               children: [
-                                Container(
-                                    child: AutoSizeText(
+                                AutoSizeText(
                                   model.newsCompleteList[i].description,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   softWrap: false,
                                   style: GoogleFonts.poppins(
-                                    color: HexColor("#6a6a6a"),
+                                    color: const Color(0xFF6a6a6a),
                                     fontSize: 15,
                                   ),
-                                )),
+                                ),
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
-                                    Container(
-                                        child: AutoSizeText(
+                                    AutoSizeText(
                                       model.newsCompleteList[i].publishedDate,
-                                      minFontSize: 12,
                                       maxLines: 1,
                                       style: GoogleFonts.poppins(
-                                        color: HexColor("#6a6a6a"),
+                                        color: const Color(0xFF6a6a6a),
                                         fontSize: 15,
                                       ),
-                                    )),
-                                    Container(
-                                        child: AutoSizeText(
+                                    ),
+                                    AutoSizeText(
                                       model.newsCompleteList[i].source,
-                                      minFontSize: 12,
                                       maxLines: 1,
                                       style: GoogleFonts.poppins(
-                                        color: HexColor("#6a6a6a"),
+                                        color: const Color(0xFF6a6a6a),
                                         fontSize: 15,
                                       ),
-                                    )),
+                                    ),
                                   ],
                                 )
                               ],
@@ -132,11 +124,11 @@ class _TodayNewsList extends StatelessWidget {
           Container(
         height: 40.0,
         color: (Colors.black).withOpacity(1.0 - state.scrollPercentage),
-        padding: EdgeInsets.symmetric(horizontal: 16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
         alignment: Alignment.centerLeft,
         child: Text(
           'TODAY',
-          style: GoogleFonts.poppins(color: HexColor("#6a6a6a")),
+          style: GoogleFonts.poppins(color: const Color(0xFF6a6a6a)),
         ),
       ),
     );
@@ -153,8 +145,8 @@ class _RecentNewsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var width = MediaQuery.of(context).size.width;
-    var height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     return SliverStickyHeader.builder(
       sliver: SliverList(
         delegate: SliverChildBuilderDelegate(
@@ -176,10 +168,10 @@ class _RecentNewsList extends StatelessWidget {
                         children: <Widget>[
                           Column(
                             children: <Widget>[
-                              Container(
+                              SizedBox(
                                 height: height * 0.04,
                                 width: width * 0.1,
-                                child: Image(
+                                child: const Image(
                                     fit: BoxFit.contain,
                                     image: NetworkImage(
                                         'https://icons.iconarchive.com/icons/cjdowner/cryptocurrency-flat/1024/Bitcoin-BTC-icon.png')),
@@ -192,7 +184,8 @@ class _RecentNewsList extends StatelessWidget {
                                 child: AutoSizeText(
                                   'BTC',
                                   style: GoogleFonts.rubik(
-                                      fontSize: 14, color: HexColor("#6a6a6a")),
+                                      fontSize: 14,
+                                      color: const Color(0xFF6a6a6a)),
                                 ),
                               ),
                             ],
@@ -212,7 +205,7 @@ class _RecentNewsList extends StatelessWidget {
                                       fontWeight: FontWeight.bold,
                                     ),
                                   )),
-                              Container(
+                              SizedBox(
                                   width: width * 0.72,
                                   height: height * 0.03,
                                   child: AutoSizeText(
@@ -221,19 +214,18 @@ class _RecentNewsList extends StatelessWidget {
                                     overflow: TextOverflow.ellipsis,
                                     softWrap: false,
                                     style: GoogleFonts.poppins(
-                                      color: HexColor("#6a6a6a"),
+                                      color: const Color(0xFF6a6a6a),
                                       fontSize: 15,
                                     ),
                                   )),
-                              Container(
+                              SizedBox(
                                   width: width * 0.5,
                                   height: height * 0.03,
                                   child: AutoSizeText(
                                     "- 3 hours ago",
-                                    minFontSize: 12,
                                     maxLines: 1,
                                     style: GoogleFonts.poppins(
-                                      color: HexColor("#6a6a6a"),
+                                      color: const Color(0xFF6a6a6a),
                                       fontSize: 15,
                                     ),
                                   )),
@@ -254,11 +246,11 @@ class _RecentNewsList extends StatelessWidget {
           Container(
         height: 40.0,
         color: (Colors.black).withOpacity(1.0 - state.scrollPercentage),
-        padding: EdgeInsets.symmetric(horizontal: 16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
         alignment: Alignment.centerLeft,
         child: Text(
           'RECENT',
-          style: GoogleFonts.poppins(color: HexColor("#6a6a6a")),
+          style: GoogleFonts.poppins(color: const Color(0xFF6a6a6a)),
         ),
       ),
     );

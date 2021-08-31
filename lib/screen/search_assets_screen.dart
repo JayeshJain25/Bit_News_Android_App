@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:provider/provider.dart';
 
-import '../model/cryptoAndFiatModel.dart';
-import '../provider/cryptoAndFiatProvider.dart';
+import '../model/crypto_and_fiat_model.dart';
+import '../provider/crypto_and_fiat_provider.dart';
 
 class SearchAssetsScreen extends StatefulWidget {
-  late int index;
+  final int index;
 
-  SearchAssetsScreen({required this.index});
+  const SearchAssetsScreen({required this.index});
 
   @override
   _SearchAssetsScreenState createState() => _SearchAssetsScreenState();
@@ -22,7 +21,7 @@ class _SearchAssetsScreenState extends State<SearchAssetsScreen> {
 
   static const historyLength = 5;
 
-  List<String> _searchHistory = [];
+  final List<String> _searchHistory = [];
 
   late List<String> filteredSearchHistory;
 
@@ -79,8 +78,6 @@ class _SearchAssetsScreenState extends State<SearchAssetsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var width = MediaQuery.of(context).size.width;
-    var height = MediaQuery.of(context).size.height;
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: Colors.black,
@@ -97,7 +94,6 @@ class _SearchAssetsScreenState extends State<SearchAssetsScreen> {
             transitionDuration: const Duration(milliseconds: 800),
             transitionCurve: Curves.easeInOut,
             physics: const BouncingScrollPhysics(),
-            axisAlignment: 0.0,
             openAxisAlignment: 0.0,
             width: 600,
             borderRadius: BorderRadius.circular(20),
@@ -120,9 +116,8 @@ class _SearchAssetsScreenState extends State<SearchAssetsScreen> {
             },
             transition: CircularFloatingSearchBarTransition(),
             actions: [
-              FloatingSearchBarAction(
-                showIfOpened: false,
-                child: const ImageIcon(
+              const FloatingSearchBarAction(
+                child: ImageIcon(
                   AssetImage('lib/assets/news.png'),
                   size: 20,
                   color: Colors.black,
@@ -212,17 +207,17 @@ class _SearchAssetsScreenState extends State<SearchAssetsScreen> {
                     right: 10),
                 child: ListView.separated(
                     separatorBuilder: (context, index) {
-                      return Divider(
-                        color: HexColor("#6a6a6a"),
+                      return const Divider(
+                        color: Color(0xFF6a6a6a),
                       );
                     },
-                    itemCount: model.updatedList.length == 0
+                    itemCount: model.updatedList.isEmpty
                         ? model.listModel.length
                         : model.updatedList.length,
                     itemBuilder: (ctx, index) {
                       return buildItem(
                           context,
-                          model.updatedList.length == 0
+                          model.updatedList.isEmpty
                               ? model.listModel[index]
                               : model.updatedList[index]);
                     }),
@@ -262,8 +257,8 @@ class _SearchAssetsScreenState extends State<SearchAssetsScreen> {
   // }
 
   Widget buildItem(BuildContext context, CryptoAndFiatModel place) {
-    var width = MediaQuery.of(context).size.width;
-    var height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     return InkWell(
       borderRadius: BorderRadius.circular(20),
       onTap: () {
@@ -273,23 +268,23 @@ class _SearchAssetsScreenState extends State<SearchAssetsScreen> {
         Get.back();
       },
       child: Card(
-          margin: EdgeInsets.all(10),
+          margin: const EdgeInsets.all(10),
           elevation: 4,
           color: Colors.black,
           child: Center(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Container(
+                SizedBox(
                     height: height * 0.1,
                     width: width * 0.1,
                     child: place.image.startsWith("https")
                         ? Image.network(place.image)
                         : Container(
-                            margin: EdgeInsets.only(top: 28),
+                            margin: const EdgeInsets.only(top: 28),
                             child: Text(
                               place.image,
-                              style: TextStyle(fontSize: 25),
+                              style: const TextStyle(fontSize: 25),
                             ))),
                 Text(
                   place.name,

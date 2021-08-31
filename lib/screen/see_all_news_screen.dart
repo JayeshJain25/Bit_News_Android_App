@@ -4,7 +4,6 @@ import 'package:crypto_news/provider/news_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:provider/provider.dart';
 
 import '../widget/following_list_all_section.dart';
@@ -26,14 +25,14 @@ class _SeeAllNewsScreenState extends State<SeeAllNewsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var width = MediaQuery.of(context).size.width;
-    var height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: Colors.black,
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios),
+          icon: const Icon(Icons.arrow_back_ios),
           color: Colors.white,
           onPressed: () {
             Get.back();
@@ -47,12 +46,12 @@ class _SeeAllNewsScreenState extends State<SeeAllNewsScreen> {
             )),
         centerTitle: true,
       ),
-      body: Container(
+      body: SizedBox(
         height: height,
         child: DefaultTabController(
           length: 4,
           child: NestedScrollView(
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             headerSliverBuilder:
                 (BuildContext context, bool innerBoxIsScrolled) {
               return [
@@ -61,9 +60,8 @@ class _SeeAllNewsScreenState extends State<SeeAllNewsScreen> {
                     labelColor: Colors.white,
                     isScrollable: true,
                     indicator: BoxDecoration(
-                        color: HexColor("#4E8799"),
-                        borderRadius: BorderRadius.circular(25),
-                        shape: BoxShape.rectangle),
+                        color: const Color(0xFF4E8799),
+                        borderRadius: BorderRadius.circular(25)),
                     tabs: [
                       Tab(
                           child: AutoSizeText(
@@ -128,8 +126,8 @@ class MyDelegate extends SliverPersistentHeaderDelegate {
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(
+      margin: const EdgeInsets.only(left: 15, right: 15),
       child: _tabBar,
-      margin: EdgeInsets.only(left: 15, right: 15),
     );
   }
 

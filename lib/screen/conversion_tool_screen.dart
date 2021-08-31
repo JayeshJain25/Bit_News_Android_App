@@ -6,12 +6,11 @@ import 'package:clippy_flutter/clippy_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
 
-import '../provider/cryptoAndFiatProvider.dart';
-import '../screen/searchAssetsScreen.dart';
+import '../provider/crypto_and_fiat_provider.dart';
+import '../screen/search_assets_screen.dart';
 
 class ConversionToolScreen extends StatefulWidget {
   @override
@@ -26,7 +25,7 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
   late Animation<double> cardAnimation;
 
   late AnimationController _controller;
-  late Animation _animation;
+  late Animation<double> _animation;
 
   late PaletteColor paletteColor;
 
@@ -39,7 +38,8 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
   TextEditingController coin1Controller = TextEditingController(text: "1.00");
   TextEditingController coin2Controller = TextEditingController();
 
-  initState() {
+  @override
+  void initState() {
     super.initState();
     Provider.of<CryptoAndFiatProvider>(context, listen: false)
         .fiatAndCryptoList();
@@ -51,7 +51,7 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
     cardController.forward();
 
     _controller = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 1200));
+        vsync: this, duration: const Duration(milliseconds: 1200));
     _animation = Tween(begin: 0.5, end: 0.0).animate(_controller)
       ..addListener(() {
         setState(() {});
@@ -68,16 +68,16 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
 
   @override
   Widget build(BuildContext context) {
-    var width = MediaQuery.of(context).size.width;
-    var height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      backgroundColor: Color(0xFF121212),
+      backgroundColor: const Color(0xFF121212),
       appBar: AppBar(
         backgroundColor: Colors.black,
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios),
+          icon: const Icon(Icons.arrow_back_ios),
           color: Colors.white,
           onPressed: () {
             Get.back();
@@ -90,8 +90,8 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
             )),
       ),
       body: Consumer<CryptoAndFiatProvider>(
-        builder: (ctx, model, _) => model.listModel.length == 0
-            ? Center(
+        builder: (ctx, model, _) => model.listModel.isEmpty
+            ? const Center(
                 child: CircularProgressIndicator(),
               )
             : SingleChildScrollView(
@@ -100,7 +100,7 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: <Widget>[
-                        SizedBox(
+                        const SizedBox(
                           height: 50,
                         ),
                         Transform(
@@ -109,7 +109,7 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                             ..rotateX(pi * _animation.value),
                           alignment: FractionalOffset.center,
                           child: Container(
-                            margin: EdgeInsets.only(bottom: 15),
+                            margin: const EdgeInsets.only(bottom: 15),
                             height: height * 0.25,
                             child: FadeTransition(
                               opacity: cardAnimation,
@@ -117,7 +117,7 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                 elevation: 4,
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10)),
-                                margin: EdgeInsets.all(15),
+                                margin: const EdgeInsets.all(15),
                                 child: FutureBuilder<Color>(
                                   future: getImagePalette(
                                       model.listModel[model.index1].image),
@@ -125,16 +125,16 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                       Container(
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                            color: Colors.black, width: 0),
+                                        border: Border.all(width: 0),
                                         gradient: LinearGradient(
                                             begin: Alignment.bottomCenter,
                                             end: Alignment.topCenter,
                                             colors: [
-                                              snap.connectionState ==
-                                                      ConnectionState.done
-                                                  ? snap.requireData
-                                                  : HexColor("#491f01"),
+                                              if (snap.connectionState ==
+                                                  ConnectionState.done)
+                                                snap.requireData
+                                              else
+                                                const Color(0xFF491f01),
                                               Colors.black
                                             ])),
                                     child: Stack(children: <Widget>[
@@ -155,14 +155,13 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                                     image: NetworkImage(model
                                                         .listModel[model.index1]
                                                         .image))
-                                                : Container(
-                                                    child: Text(
+                                                : Text(
                                                     model
                                                         .listModel[model.index1]
                                                         .image,
-                                                    style:
-                                                        TextStyle(fontSize: 25),
-                                                  ))),
+                                                    style: const TextStyle(
+                                                        fontSize: 25),
+                                                  )),
                                       ),
                                       Positioned(
                                           left: 25,
@@ -177,14 +176,14 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                                       .listModel[model.index1]
                                                       .image))
                                               : Container(
-                                                  margin:
-                                                      EdgeInsets.only(top: 15),
+                                                  margin: const EdgeInsets.only(
+                                                      top: 15),
                                                   child: Text(
                                                     model
                                                         .listModel[model.index1]
                                                         .image,
-                                                    style:
-                                                        TextStyle(fontSize: 25),
+                                                    style: const TextStyle(
+                                                        fontSize: 25),
                                                   ))),
                                       Positioned(
                                         top: 19,
@@ -192,9 +191,10 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                         child: InkWell(
                                           onTap: () {
                                             Get.to(() =>
-                                                SearchAssetsScreen(index: 0));
+                                                const SearchAssetsScreen(
+                                                    index: 0));
                                           },
-                                          child: Container(
+                                          child: SizedBox(
                                             width: width * 0.2,
                                             height: height * 0.03,
                                             child: AutoSizeText(
@@ -212,14 +212,15 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                         left: 70,
                                         child: InkWell(
                                           onTap: () {
-                                            Get.to(() => SearchAssetsScreen(
-                                                  index: 0,
-                                                ));
+                                            Get.to(
+                                                () => const SearchAssetsScreen(
+                                                      index: 0,
+                                                    ));
                                           },
-                                          child: Container(
+                                          child: SizedBox(
                                               width: width * 0.2,
                                               height: height * 0.06,
-                                              child: Icon(
+                                              child: const Icon(
                                                 Icons.arrow_drop_down_rounded,
                                                 color: Colors.white,
                                                 size: 32,
@@ -229,7 +230,7 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                       Positioned(
                                         top: 100,
                                         left: 26,
-                                        child: Container(
+                                        child: SizedBox(
                                           width: width * 0.5,
                                           height: height * 0.1,
                                           child: TextFormField(
@@ -253,7 +254,7 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                             style: GoogleFonts.rubik(
                                                 color: Colors.white,
                                                 fontSize: 25),
-                                            decoration: InputDecoration(
+                                            decoration: const InputDecoration(
                                               border: InputBorder.none,
                                             ),
                                             keyboardType: TextInputType
@@ -265,13 +266,12 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                         right: 20,
                                         top: 150,
                                         child: Arc(
-                                          arcType: ArcType.CONVEX,
                                           edge: Edge.TOP,
                                           height: height * 0.1,
                                           clipShadows: [
                                             ClipShadow(color: Colors.black)
                                           ],
-                                          child: new Container(
+                                          child: Container(
                                             height: height * 0.1,
                                             width: width * 0.5,
                                             color: Colors.black,
@@ -295,7 +295,7 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                               ..rotateX(-pi * _animation.value),
                             alignment: FractionalOffset.center,
                             child: Container(
-                              margin: EdgeInsets.only(top: 15),
+                              margin: const EdgeInsets.only(top: 15),
                               height: height * 0.25,
                               child: FadeTransition(
                                 opacity: cardAnimation,
@@ -303,20 +303,20 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                   elevation: 4,
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10)),
-                                  margin: EdgeInsets.all(15),
+                                  margin: const EdgeInsets.all(15),
                                   child: Container(
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                            color: Colors.black, width: 0),
+                                        border: Border.all(width: 0),
                                         gradient: LinearGradient(
                                             begin: Alignment.topCenter,
                                             end: Alignment.bottomCenter,
                                             colors: [
-                                              snap.connectionState ==
-                                                      ConnectionState.done
-                                                  ? snap.requireData
-                                                  : HexColor("#491f01"),
+                                              if (snap.connectionState ==
+                                                  ConnectionState.done)
+                                                snap.requireData
+                                              else
+                                                const Color(0xFF491f01),
                                               Colors.black
                                             ])),
                                     child: Stack(children: <Widget>[
@@ -352,11 +352,12 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                         left: 60,
                                         child: InkWell(
                                           onTap: () {
-                                            Get.to(() => SearchAssetsScreen(
-                                                  index: 1,
-                                                ));
+                                            Get.to(
+                                                () => const SearchAssetsScreen(
+                                                      index: 1,
+                                                    ));
                                           },
-                                          child: Container(
+                                          child: SizedBox(
                                             width: width * 0.2,
                                             height: height * 0.03,
                                             child: AutoSizeText(
@@ -374,14 +375,15 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                         left: 70,
                                         child: InkWell(
                                           onTap: () {
-                                            Get.to(() => SearchAssetsScreen(
-                                                  index: 1,
-                                                ));
+                                            Get.to(
+                                                () => const SearchAssetsScreen(
+                                                      index: 1,
+                                                    ));
                                           },
-                                          child: Container(
+                                          child: SizedBox(
                                               width: width * 0.2,
                                               height: height * 0.06,
-                                              child: Icon(
+                                              child: const Icon(
                                                 Icons.arrow_drop_down_rounded,
                                                 color: Colors.white,
                                                 size: 32,
@@ -391,7 +393,7 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                       Positioned(
                                         bottom: 70,
                                         left: 26,
-                                        child: Container(
+                                        child: SizedBox(
                                           width: width * 0.5,
                                           height: height * 0.1,
                                           child: TextFormField(
@@ -411,7 +413,7 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                             style: GoogleFonts.rubik(
                                                 color: Colors.white,
                                                 fontSize: 25),
-                                            decoration: InputDecoration(
+                                            decoration: const InputDecoration(
                                               border: InputBorder.none,
                                             ),
                                             keyboardType: TextInputType
@@ -423,13 +425,11 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                         right: 20,
                                         bottom: 150,
                                         child: Arc(
-                                          arcType: ArcType.CONVEX,
-                                          edge: Edge.BOTTOM,
                                           height: height * 0.1,
                                           clipShadows: [
                                             ClipShadow(color: Colors.black)
                                           ],
-                                          child: new Container(
+                                          child: Container(
                                             height: height * 0.1,
                                             width: width * 0.5,
                                             color: Colors.black,
@@ -451,7 +451,7 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                       child: Container(
                         height: height * 0.09,
                         width: width * 0.3,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                             color: Colors.orange, shape: BoxShape.circle),
                         child: AnimateIcons(
                           startIcon: Icons.rotate_right_rounded,
@@ -460,21 +460,23 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                           size: 45,
                           onStartIconPress: () {
                             cardController.reverse();
-                            Future.delayed(Duration(milliseconds: 900), () {
+                            Future.delayed(const Duration(milliseconds: 900),
+                                () {
                               cardController.forward();
-                              model.switchValue(true);
+                              model.switchValue(oldStatus: true);
                             });
                             return true;
                           },
                           onEndIconPress: () {
                             cardController.reverse();
-                            Future.delayed(Duration(milliseconds: 900), () {
+                            Future.delayed(const Duration(milliseconds: 900),
+                                () {
                               cardController.forward();
-                              model.switchValue(false);
+                              model.switchValue(oldStatus: false);
                             });
                             return true;
                           },
-                          duration: Duration(milliseconds: 500),
+                          duration: const Duration(milliseconds: 500),
                           startIconColor: Colors.white,
                           endIconColor: Colors.white,
                           clockwise: false,

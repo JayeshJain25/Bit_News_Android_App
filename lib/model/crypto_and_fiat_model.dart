@@ -23,14 +23,14 @@ class CryptoAndFiatModel {
 
   factory CryptoAndFiatModel.fromJson(Map<String, dynamic> json) =>
       CryptoAndFiatModel(
-        id: json["id"],
-        symbol: json["symbol"],
-        name: json["name"],
-        price: json["price"],
-        marketCap: json["market_cap"],
-        totalVolume: json["total_volume"],
-        rank: json["rank"],
-        image: json["image"],
+        id: json["id"] as String,
+        symbol: json["symbol"] as String,
+        name: json["name"] as String,
+        price: json["price"] as String,
+        marketCap: json["market_cap"] as String,
+        totalVolume: json["total_volume"] as String,
+        rank: json["rank"] as String,
+        image: json["image"] as String,
         gradientColor: "",
       );
 

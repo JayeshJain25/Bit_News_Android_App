@@ -2,11 +2,10 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:provider/provider.dart';
 
-import '../provider/newsModel.dart';
+import '../provider/news_model.dart';
 import '../widget/news_web_view.dart';
 
 class NewsSearchScreen extends StatefulWidget {
@@ -20,7 +19,7 @@ class _NewsSearchScreenState extends State<NewsSearchScreen> {
   static const historyLength = 5;
 
 // The "raw" history that we don't access from the UI, prefilled with values
-  List<String> _searchHistory = [
+  final List<String> _searchHistory = [
     ' bitcoin',
     'dogecoin',
     'ripple',
@@ -104,7 +103,6 @@ class _NewsSearchScreenState extends State<NewsSearchScreen> {
                 transitionDuration: const Duration(milliseconds: 800),
                 transitionCurve: Curves.easeInOut,
                 physics: const BouncingScrollPhysics(),
-                axisAlignment: 0.0,
                 openAxisAlignment: 0.0,
                 width: 600,
                 borderRadius: BorderRadius.circular(20),
@@ -122,9 +120,8 @@ class _NewsSearchScreenState extends State<NewsSearchScreen> {
                 },
                 transition: CircularFloatingSearchBarTransition(),
                 actions: [
-                  FloatingSearchBarAction(
-                    showIfOpened: false,
-                    child: const ImageIcon(
+                  const FloatingSearchBarAction(
+                    child: ImageIcon(
                       AssetImage('lib/assets/news.png'),
                       size: 20,
                       color: Colors.black,
@@ -251,31 +248,28 @@ class _NewsSearchScreenState extends State<NewsSearchScreen> {
 // }
 
 Widget buildItem(BuildContext context, NewsStructureModel place) {
-  var width = MediaQuery.of(context).size.width;
-  var height = MediaQuery.of(context).size.height;
+  final width = MediaQuery.of(context).size.width;
+  final height = MediaQuery.of(context).size.height;
 
   return InkWell(
     onTap: () {
-      Get.to(
-          () => NewsWebView(place.newsUrl));
+      Get.to(() => NewsWebView(place.newsUrl));
     },
     child: Card(
       elevation: 2,
       color: Colors.black,
       child: Column(
         children: [
-          Container(
-            child: Image.network(
-                "https://www.tbstat.com/cdn-cgi/image/q=80/wp/uploads/2019/05/london-streets-filter-1200x675.jpg"),
-          ),
+          Image.network(
+              "https://www.tbstat.com/cdn-cgi/image/q=80/wp/uploads/2019/05/london-streets-filter-1200x675.jpg"),
           Row(
             children: <Widget>[
               Column(
                 children: <Widget>[
-                  Container(
+                  SizedBox(
                     height: height * 0.04,
                     width: width * 0.1,
-                    child: Image(
+                    child: const Image(
                         fit: BoxFit.contain,
                         image: NetworkImage(
                             'https://icons.iconarchive.com/icons/cjdowner/cryptocurrency-flat/1024/Bitcoin-BTC-icon.png')),
@@ -288,7 +282,7 @@ Widget buildItem(BuildContext context, NewsStructureModel place) {
                     child: AutoSizeText(
                       'BTC',
                       style: GoogleFonts.rubik(
-                          fontSize: 14, color: HexColor("#6a6a6a")),
+                          fontSize: 14, color: const Color(0xFF6a6a6a)),
                     ),
                   ),
                 ],
@@ -308,15 +302,14 @@ Widget buildItem(BuildContext context, NewsStructureModel place) {
                           fontWeight: FontWeight.bold,
                         ),
                       )),
-                  Container(
+                  SizedBox(
                       width: width * 0.5,
                       height: height * 0.03,
                       child: AutoSizeText(
                         "- 3 hours ago",
-                        minFontSize: 12,
                         maxLines: 1,
                         style: GoogleFonts.poppins(
-                          color: HexColor("#6a6a6a"),
+                          color: const Color(0xFF6a6a6a),
                           fontSize: 15,
                         ),
                       )),

@@ -1,15 +1,14 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:crypto_news/provider/news_provider.dart';
-import 'package:crypto_news/screen/newsSearchScreen.dart';
+import 'package:crypto_news/screen/news_search_screen.dart';
 import 'package:dashed_circle/dashed_circle.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-import '../widget/drawerScreen.dart';
+import '../widget/drawer_screen.dart';
 import '../widget/following_list.dart';
 import '../widget/top_news.dart';
 
@@ -24,12 +23,12 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
   double scaleFactor = 1;
   bool isDrawerOpen = false;
 
-  late Animation gap;
+  late Animation<double> gap;
   late AnimationController _animationController;
   late Animation<Offset> _storiesAnimation;
-  late final reverse;
+  late Animation<double> reverse;
   late AnimationController controller;
-  late final base;
+  late Animation<double> base;
 
   List<String> imageUrlList = [
     "https://icons.iconarchive.com/icons/cjdowner/cryptocurrency-flat/1024/Bitcoin-BTC-icon.png",
@@ -43,9 +42,7 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
 
   @override
   void initState() {
-
-    Provider.of<NewsProvider>(context, listen: false)
-        .newsList();
+    Provider.of<NewsProvider>(context, listen: false).newsList();
 
     super.initState();
     controller =
@@ -85,7 +82,7 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF121212),
+      backgroundColor: const Color(0xFF121212),
       body: SafeArea(
         child: Stack(
           children: <Widget>[
@@ -95,51 +92,52 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
                 ..scale(scaleFactor)
                 ..rotateY(isDrawerOpen ? -0.5 : 0),
               decoration: BoxDecoration(
-                  color: Color(0xFF121212),
+                  color: const Color(0xFF121212),
                   borderRadius: !isDrawerOpen
                       ? BorderRadius.circular(0)
                       : BorderRadius.circular(40)),
-              duration: Duration(milliseconds: 250),
+              duration: const Duration(milliseconds: 250),
               child: SingleChildScrollView(
                 child: Column(
                   children: <Widget>[
-                    SizedBox(
+                    const SizedBox(
                       height: 15,
                     ),
                     Container(
-                      margin: EdgeInsets.symmetric(horizontal: 20),
+                      margin: const EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          isDrawerOpen
-                              ? IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      xOffset = 0;
-                                      yOffset = 0;
-                                      scaleFactor = 1;
-                                      isDrawerOpen = false;
-                                    });
-                                  },
-                                  icon: Icon(
-                                    Icons.arrow_back_ios,
-                                    color: Colors.white,
-                                  ),
-                                )
-                              : IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      xOffset = 230;
-                                      yOffset = 150;
-                                      scaleFactor = 0.6;
-                                      isDrawerOpen = true;
-                                    });
-                                  },
-                                  icon: Icon(
-                                    Icons.menu_rounded,
-                                    color: Colors.white,
-                                  ),
-                                ),
+                          if (isDrawerOpen)
+                            IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  xOffset = 0;
+                                  yOffset = 0;
+                                  scaleFactor = 1;
+                                  isDrawerOpen = false;
+                                });
+                              },
+                              icon: const Icon(
+                                Icons.arrow_back_ios,
+                                color: Colors.white,
+                              ),
+                            )
+                          else
+                            IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  xOffset = 230;
+                                  yOffset = 150;
+                                  scaleFactor = 0.6;
+                                  isDrawerOpen = true;
+                                });
+                              },
+                              icon: const Icon(
+                                Icons.menu_rounded,
+                                color: Colors.white,
+                              ),
+                            ),
                           AutoSizeText(
                             'News',
                             style: GoogleFonts.poppins(
@@ -149,26 +147,26 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
                               onPressed: () {
                                 Get.to(() => NewsSearchScreen());
                               },
-                              icon: Icon(
+                              icon: const Icon(
                                 Icons.search,
                                 color: Colors.white,
                               ))
                         ],
                       ),
                     ),
-                    Container(
+                    SizedBox(
                       height: 81.h,
                       child: DefaultTabController(
                         length: 4,
                         child: NestedScrollView(
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           headerSliverBuilder:
                               (BuildContext context, bool innerBoxIsScrolled) {
                             return [
                               SliverAppBar(
                                 collapsedHeight: 37.h,
                                 expandedHeight: 37.h,
-                                title: Container(
+                                title: SizedBox(
                                   height: 20.h,
                                   child: ListView.builder(
                                       itemCount: imageUrlList.length,
@@ -184,7 +182,8 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
                                                   child: DashedCircle(
                                                     gapSize: gap.value,
                                                     dashes: 40,
-                                                    color: HexColor("#4E8799"),
+                                                    color:
+                                                        const Color(0xFF4E8799),
                                                     child: RotationTransition(
                                                         turns: reverse,
                                                         child: Padding(
@@ -206,7 +205,7 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
                                           )),
                                 ),
                                 flexibleSpace: Container(
-                                  margin: EdgeInsets.only(
+                                  margin: const EdgeInsets.only(
                                       left: 15, right: 15, bottom: 15, top: 50),
                                   height: 37.h,
                                   child: ListView.builder(
@@ -217,7 +216,7 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
                                       return Row(
                                         children: [
                                           TopNews(),
-                                          SizedBox(
+                                          const SizedBox(
                                             width: 20,
                                           ),
                                         ],
@@ -225,16 +224,15 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
                                     },
                                   ),
                                 ),
-                                backgroundColor: Color(0xFF121212),
+                                backgroundColor: const Color(0xFF121212),
                               ),
                               SliverPersistentHeader(
                                 delegate: MyDelegate(TabBar(
                                   labelColor: Colors.white,
                                   isScrollable: true,
                                   indicator: BoxDecoration(
-                                      color: HexColor("#4E8799"),
-                                      borderRadius: BorderRadius.circular(25),
-                                      shape: BoxShape.rectangle),
+                                      color: const Color(0xFF4E8799),
+                                      borderRadius: BorderRadius.circular(25)),
                                   tabs: [
                                     Tab(
                                         child: AutoSizeText(
@@ -298,8 +296,8 @@ class MyDelegate extends SliverPersistentHeaderDelegate {
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(
+      margin: const EdgeInsets.only(left: 15, right: 15),
       child: _tabBar,
-      margin: EdgeInsets.only(left: 15, right: 15),
     );
   }
 

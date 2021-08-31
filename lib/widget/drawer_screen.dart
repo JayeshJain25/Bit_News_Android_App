@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../screen/conversionToolScreen.dart';
-import '../screen/settingScreen.dart';
+import '../screen/conversion_tool_screen.dart';
+import '../screen/setting_screen.dart';
 
 class DrawerScreen extends StatefulWidget {
   @override
@@ -19,7 +19,8 @@ class _DrawerScreenState extends State<DrawerScreen>
 
   late AnimateIconController settingAnimation;
 
-  initState() {
+  @override
+  void initState() {
     super.initState();
     settingAnimation = AnimateIconController();
     _controller = AnimationController(
@@ -37,12 +38,12 @@ class _DrawerScreenState extends State<DrawerScreen>
 
   @override
   Widget build(BuildContext context) {
-    var width = MediaQuery.of(context).size.width;
-    var height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     _controller.forward();
     return Container(
       height: height,
-      color:  Color(0xFF121212),
+      color: const Color(0xFF121212),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -67,7 +68,7 @@ class _DrawerScreenState extends State<DrawerScreen>
                     ),
                     FadeTransition(
                       opacity: _animation,
-                      child: Container(
+                      child: SizedBox(
                         width: width * 0.37,
                         child: FittedBox(
                           child: Text(
@@ -94,7 +95,7 @@ class _DrawerScreenState extends State<DrawerScreen>
                         Get.to(() => SettingScreen());
                         return true;
                       },
-                      duration: Duration(milliseconds: 500),
+                      duration: const Duration(milliseconds: 500),
                       startIconColor: Colors.white,
                       endIconColor: Colors.white,
                       clockwise: false,
@@ -107,7 +108,7 @@ class _DrawerScreenState extends State<DrawerScreen>
                 Container(
                   margin: EdgeInsets.only(right: width * 0.423),
                   child: Material(
-                    color:  Color(0xFF121212),
+                    color: const Color(0xFF121212),
                     child: InkWell(
                       borderRadius: BorderRadius.circular(25),
                       splashColor: Colors.white30,
@@ -118,7 +119,7 @@ class _DrawerScreenState extends State<DrawerScreen>
                         padding: const EdgeInsets.all(4.0),
                         child: Row(
                           children: <Widget>[
-                            ImageIcon(
+                            const ImageIcon(
                               AssetImage("lib/assets/equal.png"),
                               color: Colors.white,
                             ),
@@ -127,7 +128,7 @@ class _DrawerScreenState extends State<DrawerScreen>
                             ),
                             FadeTransition(
                               opacity: _animation,
-                              child: Container(
+                              child: SizedBox(
                                 width: width * 0.4,
                                 child: FittedBox(
                                   child: Text(
