@@ -80,7 +80,7 @@ class CryptoAndFiatProvider with ChangeNotifier {
   }
 
   Future<void> fiatAndCryptoList() async {
-    const url = "http://192.168.31.132:8948/news/get-list";
+    const url = "http://192.168.31.132:8948/cryptocurrency/get-crypto-fiat-list";
     // var url = "http://192.168.43.93:8948/news/get-list";
     try {
       final response = await http.get(Uri.parse(url));
