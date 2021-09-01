@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-void main() => runApp(SplashScreen());
+void main() => runApp(const SplashScreen());
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -28,10 +28,11 @@ class _SplashScreenState extends State<SplashScreen> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset("lib/assets/logo.png"),
-          Text(
-            "CryptoX",
-            style: GoogleFonts.poppins(color: Colors.white, fontSize: 25),
+          Image.asset(
+            "lib/assets/logo.png",
+          ), Text(
+              "CryptoX",
+              style: GoogleFonts.poppins(color: Colors.white, fontSize: 25),
           ),
         ],
       ),
