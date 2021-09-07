@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:provider/provider.dart';
-
+import 'package:cached_network_image/cached_network_image.dart';
 import '../model/crypto_and_fiat_model.dart';
 import '../provider/crypto_and_fiat_provider.dart';
 
@@ -21,11 +21,15 @@ class _SearchAssetsScreenState extends State<SearchAssetsScreen> {
 
   static const historyLength = 5;
 
+  late  int page = 0;
+
   final List<String> _searchHistory = [];
 
   late List<String> filteredSearchHistory;
 
   String selectedTerm = "Search Assets";
+
+  final _scrollController = ScrollController();
 
   List<String> filterSearchTerms({
     required String filter,
@@ -63,10 +67,23 @@ class _SearchAssetsScreenState extends State<SearchAssetsScreen> {
     addSearchTerm(term);
   }
 
+  void pagination() {
+    if (_scrollController.offset >=
+        _scrollController.position.maxScrollExtent &&
+        !_scrollController.position.outOfRange) {
+      setState(() {
+        page++;
+        Provider.of<CryptoAndFiatProvider>(context, listen: false)
+            .fiatAndCryptoList(page);
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     controller = FloatingSearchBarController();
+    _scrollController.addListener(pagination);
     filteredSearchHistory = filterSearchTerms(filter: "");
   }
 
@@ -214,6 +231,7 @@ class _SearchAssetsScreenState extends State<SearchAssetsScreen> {
                     itemCount: model.updatedList.isEmpty
                         ? model.listModel.length
                         : model.updatedList.length,
+                    controller:_scrollController ,
                     itemBuilder: (ctx, index) {
                       return buildItem(
                           context,
@@ -279,7 +297,7 @@ class _SearchAssetsScreenState extends State<SearchAssetsScreen> {
                     height: height * 0.1,
                     width: width * 0.1,
                     child: place.image.startsWith("https")
-                        ? Image.network(place.image)
+                        ? CachedNetworkImage( imageUrl: place.image,)
                         : Container(
                             margin: const EdgeInsets.only(top: 28),
                             child: Text(
@@ -291,7 +309,7 @@ class _SearchAssetsScreenState extends State<SearchAssetsScreen> {
                   style: GoogleFonts.rubik(color: Colors.white, fontSize: 17),
                 ),
                 Text(
-                  double.parse(place.price).toStringAsFixed(3).toString(),
+                  place.price.toStringAsFixed(3).toString(),
                   style: GoogleFonts.rubik(color: Colors.white, fontSize: 17),
                 )
               ],

@@ -5,14 +5,6 @@ import '../screen/market_screen.dart';
 import '../screen/news_screen.dart';
 import '../screen/notification_screen.dart';
 
-class Nav extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: AppBottomNavigationBar(),
-    );
-  }
-}
 
 class AppBottomNavigationBar extends StatefulWidget {
   @override

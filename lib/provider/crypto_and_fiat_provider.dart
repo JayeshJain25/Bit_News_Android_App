@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:crypto_news/helper/api_endpoints.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -70,23 +71,26 @@ class CryptoAndFiatProvider with ChangeNotifier {
   }
 
   double getConversionRate(
-      String coinV1, String coinV2, String conversionValue) {
+      double coinV1, double coinV2, String conversionValue) {
     if (conversionValue.isEmpty) {
-      return (double.parse(coinV1) * 0) / double.parse(coinV2);
+      return (coinV1 * 0) / coinV2;
     } else {
-      return (double.parse(coinV1) * double.parse(conversionValue)) /
-          double.parse(coinV2);
+      return (coinV1 * double.parse(conversionValue)) / coinV2;
     }
   }
 
-  Future<void> fiatAndCryptoList() async {
-    const url = "http://192.168.31.132:8948/cryptocurrency/get-crypto-fiat-list";
+  Future<void> fiatAndCryptoList(int page) async {
+    final url =
+        "${ApiEndpoints.basUrl}cryptocurrency/get-crypto-fiat-list?page=$page";
+    //final url = "http://192.168.31.132:8948/cryptocurrency/get-crypto-fiat-list?page=$page";
     // var url = "http://192.168.43.93:8948/news/get-list";
     try {
       final response = await http.get(Uri.parse(url));
       final r = json.decode(response.body) as List<dynamic>;
       final CryptoAndFiatProvider model = CryptoAndFiatProvider.fromJson(r);
-      listModel = model.listModel;
+      for (final element in model.listModel) {
+        listModel.add(element);
+      }
       notifyListeners();
     } catch (error) {
       rethrow;

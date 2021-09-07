@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:crypto_news/model/news_model.dart';
 import 'package:crypto_news/provider/news_provider.dart';
 import 'package:flutter/material.dart';
@@ -57,9 +58,9 @@ class _TodayNewsList extends StatelessWidget {
                         children: [
                           SizedBox(
                             height: height * 0.2,
-                            child: Image.network(
-                              model.newsCompleteList[i].photoUrl,
+                            child: CachedNetworkImage(
                               fit: BoxFit.contain,
+                              imageUrl: model.newsCompleteList[i].photoUrl,
                             ),
                           ),
                           ListTile(

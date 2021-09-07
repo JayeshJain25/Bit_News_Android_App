@@ -1,10 +1,10 @@
 class CryptoAndFiatModel {
   final String id;
   final String name;
-  final String price;
-  final String marketCap;
-  final String totalVolume;
-  final String rank;
+  final double price;
+  final double marketCap;
+  final double totalVolume;
+  final double rank;
   final String symbol;
   final String image;
   final String gradientColor;
@@ -26,10 +26,10 @@ class CryptoAndFiatModel {
         id: json["id"] as String,
         symbol: json["symbol"] as String,
         name: json["name"] as String,
-        price: json["price"] as String,
-        marketCap: json["market_cap"] as String,
-        totalVolume: json["total_volume"] as String,
-        rank: json["rank"] as String,
+        price: json["price"] as double,
+        marketCap: json["market_cap"] as double,
+        totalVolume: json["total_volume"] as double,
+        rank: json["rank"] as double,
         image: json["image"] as String,
         gradientColor: "",
       );

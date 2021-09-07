@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:animate_icons/animate_icons.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:clippy_flutter/clippy_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -31,7 +32,7 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
 
   Future<Color> getImagePalette(String url) async {
     final PaletteGenerator paletteGenerator =
-        await PaletteGenerator.fromImageProvider(NetworkImage(url));
+        await PaletteGenerator.fromImageProvider(CachedNetworkImageProvider(url));
     return paletteGenerator.dominantColor!.color;
   }
 
@@ -42,7 +43,7 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
   void initState() {
     super.initState();
     Provider.of<CryptoAndFiatProvider>(context, listen: false)
-        .fiatAndCryptoList();
+        .fiatAndCryptoList(0);
     exchangeCardBtnAnimation = AnimateIconController();
     cardController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 700));
@@ -152,7 +153,7 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                                     height: height * 0.25,
                                                     width: width * 0.25,
                                                     fit: BoxFit.contain,
-                                                    image: NetworkImage(model
+                                                    image: CachedNetworkImageProvider(model
                                                         .listModel[model.index1]
                                                         .image))
                                                 : Text(
@@ -172,7 +173,7 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                                   height: height * 0.07,
                                                   width: width * 0.07,
                                                   fit: BoxFit.contain,
-                                                  image: NetworkImage(model
+                                                  image: CachedNetworkImageProvider(model
                                                       .listModel[model.index1]
                                                       .image))
                                               : Container(
@@ -331,7 +332,7 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                               height: height * 0.25,
                                               width: width * 0.25,
                                               fit: BoxFit.contain,
-                                              image: NetworkImage(model
+                                              image: CachedNetworkImageProvider(model
                                                   .listModel[model.index2]
                                                   .image)),
                                         ),
@@ -343,7 +344,7 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                             height: height * 0.07,
                                             width: width * 0.07,
                                             fit: BoxFit.contain,
-                                            image: NetworkImage(model
+                                            image: CachedNetworkImageProvider(model
                                                 .listModel[model.index2]
                                                 .image)),
                                       ),
