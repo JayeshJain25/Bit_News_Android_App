@@ -18,12 +18,16 @@ class NewsProvider with ChangeNotifier {
     newsCompleteList = list;
   }
 
+  final _apiEndpoints = ApiEndpoints();
+
   Future<void> newsList() async {
+
+
     const url = "${ApiEndpoints.basUrl}news/get-news-list";
     //const url = "http://192.168.31.132:8948/news/get-news-list";
     // var url = "http://192.168.43.93:8948/news/get-list";
     try {
-      final response = await http.get(Uri.parse(url));
+      final response = await http.get(Uri.parse(url),headers: <String, String>{'authorization': _apiEndpoints.basicAuth});
       final r = json.decode(response.body) as List<dynamic>;
       final NewsProvider model = NewsProvider.fromJson(r);
       newsCompleteList = model.newsCompleteList;

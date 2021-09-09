@@ -1,6 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:crypto_news/helper/hepler.dart';
+import 'package:crypto_news/helper/helper.dart';
 import 'package:crypto_news/provider/news_provider.dart';
 import 'package:crypto_news/screen/see_all_news_screen.dart';
 import 'package:flutter/material.dart';
@@ -68,7 +68,7 @@ class FollowingList extends StatelessWidget {
                                   width: width * 0.2,
                                   decoration: BoxDecoration(
                                       image: DecorationImage(
-                                    image: CachedNetworkImageProvider(model.newsCompleteList[index].photoUrl),
+                                    image: CachedNetworkImageProvider(_helper.extractImgUrl(model.newsCompleteList[index].photoUrl)),
                                     fit: BoxFit.fill,
                                   )),
                                 ),

@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:crypto_news/helper/helper.dart';
 import 'package:crypto_news/model/news_model.dart';
 import 'package:crypto_news/provider/news_provider.dart';
 import 'package:flutter/material.dart';
@@ -28,11 +29,12 @@ class FollowingListAllSection extends StatelessWidget {
 }
 
 class _TodayNewsList extends StatelessWidget {
-  const _TodayNewsList({Key? key, this.index, required this.newsList})
+   _TodayNewsList({Key? key, this.index, required this.newsList})
       : super(key: key);
 
   final int? index;
   final List<NewsModel> newsList;
+  final _helper = Helper();
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +62,7 @@ class _TodayNewsList extends StatelessWidget {
                             height: height * 0.2,
                             child: CachedNetworkImage(
                               fit: BoxFit.contain,
-                              imageUrl: model.newsCompleteList[i].photoUrl,
+                              imageUrl: _helper.extractImgUrl(model.newsCompleteList[i].photoUrl),
                             ),
                           ),
                           ListTile(

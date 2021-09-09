@@ -20,6 +20,7 @@ class CryptoAndFiatProvider with ChangeNotifier {
   List<CryptoAndFiatModel> updatedList = [];
 
   CryptoAndFiatProvider();
+  final _apiEndpoints = ApiEndpoints();
 
   void changeValue() {
     if (queryValue.isNotEmpty) {
@@ -29,12 +30,11 @@ class CryptoAndFiatProvider with ChangeNotifier {
     }
   }
 
-  void onQueryChanged() {
+  Future<void> onQueryChanged() async{
     if (newQuery.isNotEmpty) {
-      updatedList = listModel
-          .where((name) =>
-              name.name.toLowerCase().startsWith(newQuery.toLowerCase()))
-          .toList();
+     await getCryptoAndFiatBySearch(newQuery).then((value) => {
+       updatedList = listModel
+     });
     } else {
       updatedList = listModel;
     }
@@ -79,13 +79,34 @@ class CryptoAndFiatProvider with ChangeNotifier {
     }
   }
 
+
+  Future<void> getCryptoAndFiatBySearch(String name) async{
+    updatedList.clear();
+    final url =
+        "${ApiEndpoints.basUrl}cryptocurrency/get-crypto-fiat-list-by-search?name=$name";
+    //final url = "http://192.168.31.132:8948/cryptocurrency/get-crypto-fiat-list?page=$page";
+    // var url = "http://192.168.43.93:8948/news/get-list";
+    try {
+      final response = await http.get(Uri.parse(url),headers: <String, String>{'authorization': _apiEndpoints.basicAuth});
+      final r = json.decode(response.body) as List<dynamic>;
+      final CryptoAndFiatProvider model = CryptoAndFiatProvider.fromJson(r);
+      for (final element in model.listModel) {
+        updatedList.add(element);
+      }
+      notifyListeners();
+    } catch (error) {
+      rethrow;
+    }
+  }
+
   Future<void> fiatAndCryptoList(int page) async {
+
     final url =
         "${ApiEndpoints.basUrl}cryptocurrency/get-crypto-fiat-list?page=$page";
     //final url = "http://192.168.31.132:8948/cryptocurrency/get-crypto-fiat-list?page=$page";
     // var url = "http://192.168.43.93:8948/news/get-list";
     try {
-      final response = await http.get(Uri.parse(url));
+      final response = await http.get(Uri.parse(url),headers: <String, String>{'authorization': _apiEndpoints.basicAuth});
       final r = json.decode(response.body) as List<dynamic>;
       final CryptoAndFiatProvider model = CryptoAndFiatProvider.fromJson(r);
       for (final element in model.listModel) {

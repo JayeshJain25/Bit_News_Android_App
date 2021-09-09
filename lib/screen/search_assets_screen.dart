@@ -118,7 +118,7 @@ class _SearchAssetsScreenState extends State<SearchAssetsScreen> {
             onQueryChanged: (query) {
               model.queryValue = query;
               model.changeValue();
-              model.onQueryChanged();
+              model.getCryptoAndFiatBySearch(query);
               filteredSearchHistory = filterSearchTerms(filter: query);
             },
             onSubmitted: (query) {
@@ -127,7 +127,7 @@ class _SearchAssetsScreenState extends State<SearchAssetsScreen> {
                 selectedTerm = query;
                 model.queryValue = query;
                 model.changeValue();
-                model.onQueryChanged();
+                model.getCryptoAndFiatBySearch(query);
               });
               controller.close();
             },

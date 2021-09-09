@@ -75,7 +75,8 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
       resizeToAvoidBottomInset: true,
       backgroundColor: const Color(0xFF121212),
       appBar: AppBar(
-        backgroundColor: Colors.black,
+
+        backgroundColor:const Color(0xFF121212),
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
