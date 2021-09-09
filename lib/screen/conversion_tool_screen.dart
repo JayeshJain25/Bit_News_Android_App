@@ -121,8 +121,7 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                     borderRadius: BorderRadius.circular(10)),
                                 margin: const EdgeInsets.all(15),
                                 child: FutureBuilder<Color>(
-                                  future: getImagePalette(
-                                      model.listModel[model.index1].image),
+                                  future: getImagePalette(model.cardData[model.index1].image),
                                   builder: (ctx, AsyncSnapshot<Color> snap) =>
                                       Container(
                                     decoration: BoxDecoration(
@@ -147,43 +146,41 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                             colorFilter: ColorFilter.mode(
                                                 Colors.black.withOpacity(0.15),
                                                 BlendMode.dstIn),
-                                            child: model.listModel[model.index1]
-                                                    .image
-                                                    .startsWith("https")
+                                            child: model.cardData[model.index1]
+                                                .image
+                                                .startsWith("https")
                                                 ? Image(
                                                     height: height * 0.25,
                                                     width: width * 0.25,
                                                     fit: BoxFit.contain,
-                                                    image: CachedNetworkImageProvider(model
-                                                        .listModel[model.index1]
+                                                    image: CachedNetworkImageProvider( model
+                                                        .cardData[model.index1]
                                                         .image))
-                                                : Text(
-                                                    model
-                                                        .listModel[model.index1]
-                                                        .image,
+                                                : Text(model
+                                                .cardData[model.index1]
+                                                .image,
                                                     style: const TextStyle(
                                                         fontSize: 25),
                                                   )),
                                       ),
                                       Positioned(
                                           left: 25,
-                                          child: model
-                                                  .listModel[model.index1].image
-                                                  .startsWith("https")
+                                          child:(model.cardData[model.index1]
+                                              .image
+                                              .startsWith("https"))
                                               ? Image(
                                                   height: height * 0.07,
                                                   width: width * 0.07,
                                                   fit: BoxFit.contain,
                                                   image: CachedNetworkImageProvider(model
-                                                      .listModel[model.index1]
+                                                      .cardData[model.index1]
                                                       .image))
                                               : Container(
                                                   margin: const EdgeInsets.only(
                                                       top: 15),
-                                                  child: Text(
-                                                    model
-                                                        .listModel[model.index1]
-                                                        .image,
+                                                  child: Text(model
+                                                      .cardData[model.index1]
+                                                      .image,
                                                     style: const TextStyle(
                                                         fontSize: 25),
                                                   ))),
@@ -199,8 +196,8 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                           child: SizedBox(
                                             width: width * 0.2,
                                             height: height * 0.03,
-                                            child: AutoSizeText(
-                                              model.listModel[model.index1]
+                                            child: AutoSizeText(model
+                                                  .cardData[model.index1]
                                                   .symbol,
                                               style: GoogleFonts.rubik(
                                                   fontSize: 18,
@@ -240,15 +237,13 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                             onChanged: (value) {
                                               setState(() {
                                                 coin2Controller.text = model
-                                                    .getConversionRate(
-                                                        model
-                                                            .listModel[
-                                                                model.index1]
-                                                            .price,
-                                                        model
-                                                            .listModel[
-                                                                model.index2]
-                                                            .price,
+                                                    .getConversionRate(model
+                                                            .cardData[
+                                                        model.index1]
+                                                            .price, model
+                                                        .cardData[
+                                                    model.index2]
+                                                        .price,
                                                         coin1Controller.text)
                                                     .toString();
                                               });
@@ -271,12 +266,12 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                           edge: Edge.TOP,
                                           height: height * 0.1,
                                           clipShadows: [
-                                            ClipShadow(color: Colors.black)
+                                            ClipShadow(color:  const Color(0xFF121212))
                                           ],
                                           child: Container(
                                             height: height * 0.1,
                                             width: width * 0.5,
-                                            color: Colors.black,
+                                            color:  const Color(0xFF121212),
                                           ),
                                         ),
                                       ),
@@ -288,8 +283,8 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                           ),
                         ),
                         FutureBuilder(
-                          future: getImagePalette(
-                              model.listModel[model.index2].image),
+                          future: getImagePalette(model.cardData[model.index2]
+                              .image),
                           builder: (ctx, AsyncSnapshot<Color> snap) =>
                               Transform(
                             transform: Matrix4.identity()
@@ -329,25 +324,46 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                           colorFilter: ColorFilter.mode(
                                               Colors.black.withOpacity(0.15),
                                               BlendMode.dstIn),
-                                          child: Image(
+                                          child: (model.cardData[model.index2]
+                                              .image
+                                              .startsWith("https"))
+                                              ? Image(
                                               height: height * 0.25,
                                               width: width * 0.25,
                                               fit: BoxFit.contain,
                                               image: CachedNetworkImageProvider(model
-                                                  .listModel[model.index2]
-                                                  .image)),
+                                                  .cardData[model.index2]
+                                                  .image))
+                                              : Text(model
+                                              .cardData[model.index2]
+                                              .image,
+                                            style: const TextStyle(
+                                                fontSize: 25),
+                                          ),
                                         ),
                                       ),
                                       Positioned(
                                         bottom: 12,
                                         left: 25,
-                                        child: Image(
+                                        child:  (model.cardData[model.index2]
+                                            .image
+                                            .startsWith("https"))
+                                            ? Image(
                                             height: height * 0.07,
                                             width: width * 0.07,
                                             fit: BoxFit.contain,
-                                            image: CachedNetworkImageProvider(model
-                                                .listModel[model.index2]
-                                                .image)),
+                                            image: CachedNetworkImageProvider( model
+                                                .cardData[model.index2]
+                                                .image))
+                                            : Container(
+                                            margin: const EdgeInsets.only(
+                                                top: 15),
+                                            child: Text(model
+                                                .cardData[model.index2]
+                                                .image,
+                                              style: const TextStyle(
+                                                  fontSize: 25),
+                                            )),
                                       ),
                                       Positioned(
                                         bottom: 25,
@@ -363,8 +379,8 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                             width: width * 0.2,
                                             height: height * 0.03,
                                             child: AutoSizeText(
-                                              model.listModel[model.index2]
-                                                  .symbol,
+                                            model.cardData[model.index2]
+                                                 .symbol ,
                                               style: GoogleFonts.rubik(
                                                   fontSize: 18,
                                                   color: Colors.white),
@@ -401,15 +417,13 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                           child: TextFormField(
                                             controller: coin2Controller
                                               ..text = model
-                                                  .getConversionRate(
-                                                      model
-                                                          .listModel[
-                                                              model.index1]
-                                                          .price,
-                                                      model
-                                                          .listModel[
-                                                              model.index2]
-                                                          .price,
+                                                  .getConversionRate(model
+                                                         .cardData[
+                                                     model.index1]
+                                                         .price ,model
+                                                      .cardData[
+                                                  model.index2]
+                                                      .price,
                                                       coin1Controller.text)
                                                   .toString(),
                                             style: GoogleFonts.rubik(
@@ -429,12 +443,12 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                         child: Arc(
                                           height: height * 0.1,
                                           clipShadows: [
-                                            ClipShadow(color: Colors.black)
+                                            ClipShadow(color:  const Color(0xFF121212))
                                           ],
                                           child: Container(
                                             height: height * 0.1,
                                             width: width * 0.5,
-                                            color: Colors.black,
+                                            color:  const Color(0xFF121212),
                                           ),
                                         ),
                                       ),

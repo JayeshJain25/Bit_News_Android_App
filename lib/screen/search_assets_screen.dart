@@ -1,9 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:provider/provider.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+
 import '../model/crypto_and_fiat_model.dart';
 import '../provider/crypto_and_fiat_provider.dart';
 
@@ -203,7 +204,7 @@ class _SearchAssetsScreenState extends State<SearchAssetsScreen> {
                                         selectedTerm = term;
                                         model.queryValue = term;
                                         model.changeValue();
-                                        model.onQueryChanged();
+                                        model.getCryptoAndFiatBySearch(term);
                                       });
                                       controller.close();
                                     },

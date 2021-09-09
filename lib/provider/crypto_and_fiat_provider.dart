@@ -18,28 +18,11 @@ class CryptoAndFiatProvider with ChangeNotifier {
 
   List<CryptoAndFiatModel> listModel = [];
   List<CryptoAndFiatModel> updatedList = [];
+  List<CryptoAndFiatModel> cardData = [];
 
   CryptoAndFiatProvider();
+
   final _apiEndpoints = ApiEndpoints();
-
-  void changeValue() {
-    if (queryValue.isNotEmpty) {
-      newQuery = queryValue;
-    } else {
-      queryValue = newQuery;
-    }
-  }
-
-  Future<void> onQueryChanged() async{
-    if (newQuery.isNotEmpty) {
-     await getCryptoAndFiatBySearch(newQuery).then((value) => {
-       updatedList = listModel
-     });
-    } else {
-      updatedList = listModel;
-    }
-    notifyListeners();
-  }
 
   CryptoAndFiatProvider.fromJson(List<dynamic> parsedJson) {
     List<CryptoAndFiatModel> list = [];
@@ -47,6 +30,14 @@ class CryptoAndFiatProvider with ChangeNotifier {
         .map((e) => CryptoAndFiatModel.fromJson(e as Map<String, dynamic>))
         .toList();
     listModel = list;
+  }
+
+  void changeValue() {
+    if (queryValue.isNotEmpty) {
+      newQuery = queryValue;
+    } else {
+      queryValue = newQuery;
+    }
   }
 
   void switchValue({required bool oldStatus}) {
@@ -58,14 +49,14 @@ class CryptoAndFiatProvider with ChangeNotifier {
   }
 
   void changeCardValue(int index, CryptoAndFiatModel model) {
-    int value = 0;
-    if (listModel.contains(model)) {
-      value = listModel.indexOf(model);
-    }
-    if (index == 0) {
-      index1 = value;
+    if (index == 0 && isSwitched == false) {
+      cardData[0] = model;
+    } else if (index == 1 && isSwitched == false) {
+      cardData[1] = model;
+    } else if (index == 0 && isSwitched == true) {
+      cardData[1] = model;
     } else {
-      index2 = value;
+      cardData[0] = model;
     }
     notifyListeners();
   }
@@ -79,15 +70,15 @@ class CryptoAndFiatProvider with ChangeNotifier {
     }
   }
 
-
-  Future<void> getCryptoAndFiatBySearch(String name) async{
+  Future<void> getCryptoAndFiatBySearch(String name) async {
     updatedList.clear();
     final url =
         "${ApiEndpoints.basUrl}cryptocurrency/get-crypto-fiat-list-by-search?name=$name";
     //final url = "http://192.168.31.132:8948/cryptocurrency/get-crypto-fiat-list?page=$page";
     // var url = "http://192.168.43.93:8948/news/get-list";
     try {
-      final response = await http.get(Uri.parse(url),headers: <String, String>{'authorization': _apiEndpoints.basicAuth});
+      final response = await http.get(Uri.parse(url),
+          headers: <String, String>{'authorization': _apiEndpoints.basicAuth});
       final r = json.decode(response.body) as List<dynamic>;
       final CryptoAndFiatProvider model = CryptoAndFiatProvider.fromJson(r);
       for (final element in model.listModel) {
@@ -100,17 +91,21 @@ class CryptoAndFiatProvider with ChangeNotifier {
   }
 
   Future<void> fiatAndCryptoList(int page) async {
-
     final url =
         "${ApiEndpoints.basUrl}cryptocurrency/get-crypto-fiat-list?page=$page";
     //final url = "http://192.168.31.132:8948/cryptocurrency/get-crypto-fiat-list?page=$page";
     // var url = "http://192.168.43.93:8948/news/get-list";
     try {
-      final response = await http.get(Uri.parse(url),headers: <String, String>{'authorization': _apiEndpoints.basicAuth});
+      final response = await http.get(Uri.parse(url),
+          headers: <String, String>{'authorization': _apiEndpoints.basicAuth});
       final r = json.decode(response.body) as List<dynamic>;
       final CryptoAndFiatProvider model = CryptoAndFiatProvider.fromJson(r);
       for (final element in model.listModel) {
         listModel.add(element);
+      }
+      if (page == 0) {
+        cardData.add(listModel[0]);
+        cardData.add(listModel[1]);
       }
       notifyListeners();
     } catch (error) {
