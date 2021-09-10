@@ -4,6 +4,7 @@ import 'package:animate_icons/animate_icons.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:clippy_flutter/clippy_flutter.dart';
+import 'package:crypto_news/helper/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -30,9 +31,12 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
 
   late PaletteColor paletteColor;
 
+  final _helper = Helper();
+
   Future<Color> getImagePalette(String url) async {
     final PaletteGenerator paletteGenerator =
-        await PaletteGenerator.fromImageProvider(CachedNetworkImageProvider(url));
+        await PaletteGenerator.fromImageProvider(
+            CachedNetworkImageProvider(url));
     return paletteGenerator.dominantColor!.color;
   }
 
@@ -75,8 +79,7 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
       resizeToAvoidBottomInset: true,
       backgroundColor: const Color(0xFF121212),
       appBar: AppBar(
-
-        backgroundColor:const Color(0xFF121212),
+        backgroundColor: const Color(0xFF121212),
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
@@ -116,177 +119,578 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                             child: FadeTransition(
                               opacity: cardAnimation,
                               child: Card(
-                                elevation: 4,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10)),
-                                margin: const EdgeInsets.all(15),
-                                child: FutureBuilder<Color>(
-                                  future: getImagePalette(model.cardData[model.index1].image),
-                                  builder: (ctx, AsyncSnapshot<Color> snap) =>
-                                      Container(
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(width: 0),
-                                        gradient: LinearGradient(
-                                            begin: Alignment.bottomCenter,
-                                            end: Alignment.topCenter,
-                                            colors: [
-                                              if (snap.connectionState ==
-                                                  ConnectionState.done)
-                                                snap.requireData
-                                              else
-                                                const Color(0xFF491f01),
-                                              Colors.black
-                                            ])),
-                                    child: Stack(children: <Widget>[
-                                      Positioned(
-                                        right: 15,
-                                        top: -30,
-                                        child: ColorFiltered(
+                                  elevation: 4,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10)),
+                                  margin: const EdgeInsets.all(15),
+                                  child: model.cardData[model.index1].image
+                                          .startsWith("https")
+                                      ? FutureBuilder<Color>(
+                                          future: getImagePalette(model
+                                              .cardData[model.index1].image),
+                                          builder: (ctx,
+                                                  AsyncSnapshot<Color> snap) =>
+                                              Container(
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                border: Border.all(width: 0),
+                                                gradient: LinearGradient(
+                                                    begin:
+                                                        Alignment.bottomCenter,
+                                                    end: Alignment.topCenter,
+                                                    colors: [
+                                                      if (snap.connectionState ==
+                                                          ConnectionState.done)
+                                                        snap.requireData
+                                                      else
+                                                        const Color(0xFF491f01),
+                                                      Colors.black
+                                                    ])),
+                                            child: Stack(children: <Widget>[
+                                              Positioned(
+                                                right: 15,
+                                                top: -30,
+                                                child: ColorFiltered(
+                                                    colorFilter:
+                                                        ColorFilter.mode(
+                                                            Colors
+                                                                .black
+                                                                .withOpacity(
+                                                                    0.15),
+                                                            BlendMode.dstIn),
+                                                    child: model
+                                                            .cardData[model
+                                                                .index1]
+                                                            .image
+                                                            .startsWith("https")
+                                                        ? Image(
+                                                            height:
+                                                                height * 0.25,
+                                                            width: width * 0.25,
+                                                            fit: BoxFit.contain,
+                                                            image: CachedNetworkImageProvider(
+                                                                model
+                                                                    .cardData[model
+                                                                        .index1]
+                                                                    .image))
+                                                        : Text(
+                                                            model
+                                                                .cardData[model
+                                                                    .index1]
+                                                                .image,
+                                                            style:
+                                                                const TextStyle(
+                                                                    fontSize:
+                                                                        25),
+                                                          )),
+                                              ),
+                                              Positioned(
+                                                  left: 25,
+                                                  child: (model
+                                                          .cardData[
+                                                              model.index1]
+                                                          .image
+                                                          .startsWith("https"))
+                                                      ? Image(
+                                                          height: height * 0.07,
+                                                          width: width * 0.07,
+                                                          fit: BoxFit.contain,
+                                                          image: CachedNetworkImageProvider(
+                                                              model
+                                                                  .cardData[model
+                                                                      .index1]
+                                                                  .image))
+                                                      : Container(
+                                                          margin:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  top: 15),
+                                                          child: Text(
+                                                            model
+                                                                .cardData[model
+                                                                    .index1]
+                                                                .image,
+                                                            style:
+                                                                const TextStyle(
+                                                                    fontSize:
+                                                                        25),
+                                                          ))),
+                                              Positioned(
+                                                top: 19,
+                                                left: 60,
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    Get.to(() =>
+                                                        const SearchAssetsScreen(
+                                                            index: 0));
+                                                  },
+                                                  child: SizedBox(
+                                                    width: width * 0.2,
+                                                    height: height * 0.03,
+                                                    child: AutoSizeText(
+                                                      model
+                                                          .cardData[
+                                                              model.index1]
+                                                          .symbol,
+                                                      style: GoogleFonts.rubik(
+                                                          fontSize: 18,
+                                                          color: Colors.white),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              Positioned(
+                                                top: 4,
+                                                left: 70,
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    Get.to(() =>
+                                                        const SearchAssetsScreen(
+                                                          index: 0,
+                                                        ));
+                                                  },
+                                                  child: SizedBox(
+                                                      width: width * 0.2,
+                                                      height: height * 0.06,
+                                                      child: const Icon(
+                                                        Icons
+                                                            .arrow_drop_down_rounded,
+                                                        color: Colors.white,
+                                                        size: 32,
+                                                      )),
+                                                ),
+                                              ),
+                                              Positioned(
+                                                top: 100,
+                                                left: 26,
+                                                child: SizedBox(
+                                                  width: width * 0.5,
+                                                  height: height * 0.1,
+                                                  child: TextFormField(
+                                                    controller: coin1Controller,
+                                                    onChanged: (value) {
+                                                      setState(() {
+                                                        coin2Controller.text = model
+                                                            .getConversionRate(
+                                                                model
+                                                                    .cardData[model
+                                                                        .index1]
+                                                                    .price,
+                                                                model
+                                                                    .cardData[model
+                                                                        .index2]
+                                                                    .price,
+                                                                coin1Controller
+                                                                    .text)
+                                                            .toString();
+                                                      });
+                                                    },
+                                                    style: GoogleFonts.rubik(
+                                                        color: Colors.white,
+                                                        fontSize: 25),
+                                                    decoration:
+                                                        const InputDecoration(
+                                                      border: InputBorder.none,
+                                                    ),
+                                                    keyboardType: TextInputType
+                                                        .number, // Only numbers can be entered
+                                                  ),
+                                                ),
+                                              ),
+                                              Positioned(
+                                                right: 20,
+                                                top: 150,
+                                                child: Arc(
+                                                  edge: Edge.TOP,
+                                                  height: height * 0.1,
+                                                  clipShadows: [
+                                                    ClipShadow(
+                                                        color: const Color(
+                                                            0xFF121212))
+                                                  ],
+                                                  child: Container(
+                                                    height: height * 0.1,
+                                                    width: width * 0.5,
+                                                    color:
+                                                        const Color(0xFF121212),
+                                                  ),
+                                                ),
+                                              ),
+                                            ]),
+                                          ),
+                                        )
+                                      : Container(
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              border: Border.all(width: 0),
+                                              gradient: LinearGradient(
+                                                  begin: Alignment.bottomCenter,
+                                                  end: Alignment.topCenter,
+                                                  colors: [
+                                                    _helper.flagColor[model
+                                                        .cardData[model.index1]
+                                                        .name]!,
+                                                    Colors.black
+                                                  ])),
+                                          child: Stack(children: <Widget>[
+                                            Positioned(
+                                              right: 15,
+                                              top: -30,
+                                              child: ColorFiltered(
+                                                  colorFilter: ColorFilter.mode(
+                                                      Colors.black
+                                                          .withOpacity(0.15),
+                                                      BlendMode.dstIn),
+                                                  child: model
+                                                          .cardData[
+                                                              model.index1]
+                                                          .image
+                                                          .startsWith("https")
+                                                      ? Image(
+                                                          height: height * 0.25,
+                                                          width: width * 0.25,
+                                                          fit: BoxFit.contain,
+                                                          image: CachedNetworkImageProvider(
+                                                              model
+                                                                  .cardData[model
+                                                                      .index1]
+                                                                  .image))
+                                                      : Text(
+                                                          model
+                                                              .cardData[
+                                                                  model.index1]
+                                                              .image,
+                                                          style:
+                                                              const TextStyle(
+                                                                  fontSize: 25),
+                                                        )),
+                                            ),
+                                            Positioned(
+                                                left: 25,
+                                                child: (model
+                                                        .cardData[model.index1]
+                                                        .image
+                                                        .startsWith("https"))
+                                                    ? Image(
+                                                        height: height * 0.07,
+                                                        width: width * 0.07,
+                                                        fit: BoxFit.contain,
+                                                        image: CachedNetworkImageProvider(
+                                                            model
+                                                                .cardData[model
+                                                                    .index1]
+                                                                .image))
+                                                    : Container(
+                                                        margin: const EdgeInsets
+                                                            .only(top: 15),
+                                                        child: Text(
+                                                          model
+                                                              .cardData[
+                                                                  model.index1]
+                                                              .image,
+                                                          style:
+                                                              const TextStyle(
+                                                                  fontSize: 25),
+                                                        ))),
+                                            Positioned(
+                                              top: 19,
+                                              left: 60,
+                                              child: InkWell(
+                                                onTap: () {
+                                                  Get.to(() =>
+                                                      const SearchAssetsScreen(
+                                                          index: 0));
+                                                },
+                                                child: SizedBox(
+                                                  width: width * 0.2,
+                                                  height: height * 0.03,
+                                                  child: AutoSizeText(
+                                                    model.cardData[model.index1]
+                                                        .symbol,
+                                                    style: GoogleFonts.rubik(
+                                                        fontSize: 18,
+                                                        color: Colors.white),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            Positioned(
+                                              top: 4,
+                                              left: 70,
+                                              child: InkWell(
+                                                onTap: () {
+                                                  Get.to(() =>
+                                                      const SearchAssetsScreen(
+                                                        index: 0,
+                                                      ));
+                                                },
+                                                child: SizedBox(
+                                                    width: width * 0.2,
+                                                    height: height * 0.06,
+                                                    child: const Icon(
+                                                      Icons
+                                                          .arrow_drop_down_rounded,
+                                                      color: Colors.white,
+                                                      size: 32,
+                                                    )),
+                                              ),
+                                            ),
+                                            Positioned(
+                                              top: 100,
+                                              left: 26,
+                                              child: SizedBox(
+                                                width: width * 0.5,
+                                                height: height * 0.1,
+                                                child: TextFormField(
+                                                  controller: coin1Controller,
+                                                  onChanged: (value) {
+                                                    setState(() {
+                                                      coin2Controller.text = model
+                                                          .getConversionRate(
+                                                              model
+                                                                  .cardData[model
+                                                                      .index1]
+                                                                  .price,
+                                                              model
+                                                                  .cardData[model
+                                                                      .index2]
+                                                                  .price,
+                                                              coin1Controller
+                                                                  .text)
+                                                          .toString();
+                                                    });
+                                                  },
+                                                  style: GoogleFonts.rubik(
+                                                      color: Colors.white,
+                                                      fontSize: 25),
+                                                  decoration:
+                                                      const InputDecoration(
+                                                    border: InputBorder.none,
+                                                  ),
+                                                  keyboardType: TextInputType
+                                                      .number, // Only numbers can be entered
+                                                ),
+                                              ),
+                                            ),
+                                            Positioned(
+                                              right: 20,
+                                              top: 150,
+                                              child: Arc(
+                                                edge: Edge.TOP,
+                                                height: height * 0.1,
+                                                clipShadows: [
+                                                  ClipShadow(
+                                                      color: const Color(
+                                                          0xFF121212))
+                                                ],
+                                                child: Container(
+                                                  height: height * 0.1,
+                                                  width: width * 0.5,
+                                                  color:
+                                                      const Color(0xFF121212),
+                                                ),
+                                              ),
+                                            ),
+                                          ]),
+                                        )),
+                            ),
+                          ),
+                        ),
+                        if (model.cardData[model.index2].image
+                            .startsWith("https"))
+                          FutureBuilder(
+                            future: getImagePalette(
+                                model.cardData[model.index2].image),
+                            builder: (ctx, AsyncSnapshot<Color> snap) =>
+                                Transform(
+                              transform: Matrix4.identity()
+                                ..setEntry(3, 2, 0.002)
+                                ..rotateX(-pi * _animation.value),
+                              alignment: FractionalOffset.center,
+                              child: Container(
+                                margin: const EdgeInsets.only(top: 15),
+                                height: height * 0.25,
+                                child: FadeTransition(
+                                  opacity: cardAnimation,
+                                  child: Card(
+                                    elevation: 4,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    margin: const EdgeInsets.all(15),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          border: Border.all(width: 0),
+                                          gradient: LinearGradient(
+                                              begin: Alignment.topCenter,
+                                              end: Alignment.bottomCenter,
+                                              colors: [
+                                                if (snap.connectionState ==
+                                                    ConnectionState.done)
+                                                  snap.requireData
+                                                else
+                                                  const Color(0xFF491f01),
+                                                Colors.black
+                                              ])),
+                                      child: Stack(children: <Widget>[
+                                        Positioned(
+                                          right: 15,
+                                          bottom: -30,
+                                          child: ColorFiltered(
                                             colorFilter: ColorFilter.mode(
                                                 Colors.black.withOpacity(0.15),
                                                 BlendMode.dstIn),
-                                            child: model.cardData[model.index1]
-                                                .image
-                                                .startsWith("https")
+                                            child: (model.cardData[model.index2]
+                                                    .image
+                                                    .startsWith("https"))
                                                 ? Image(
                                                     height: height * 0.25,
                                                     width: width * 0.25,
                                                     fit: BoxFit.contain,
-                                                    image: CachedNetworkImageProvider( model
-                                                        .cardData[model.index1]
-                                                        .image))
-                                                : Text(model
-                                                .cardData[model.index1]
-                                                .image,
+                                                    image:
+                                                        CachedNetworkImageProvider(
+                                                            model
+                                                                .cardData[model
+                                                                    .index2]
+                                                                .image))
+                                                : Text(
+                                                    model.cardData[model.index2]
+                                                        .image,
                                                     style: const TextStyle(
                                                         fontSize: 25),
-                                                  )),
-                                      ),
-                                      Positioned(
+                                                  ),
+                                          ),
+                                        ),
+                                        Positioned(
+                                          bottom: 12,
                                           left: 25,
-                                          child:(model.cardData[model.index1]
-                                              .image
-                                              .startsWith("https"))
+                                          child: (model
+                                                  .cardData[model.index2].image
+                                                  .startsWith("https"))
                                               ? Image(
                                                   height: height * 0.07,
                                                   width: width * 0.07,
                                                   fit: BoxFit.contain,
-                                                  image: CachedNetworkImageProvider(model
-                                                      .cardData[model.index1]
-                                                      .image))
+                                                  image:
+                                                      CachedNetworkImageProvider(
+                                                          model
+                                                              .cardData[
+                                                                  model.index2]
+                                                              .image))
                                               : Container(
                                                   margin: const EdgeInsets.only(
                                                       top: 15),
-                                                  child: Text(model
-                                                      .cardData[model.index1]
-                                                      .image,
+                                                  child: Text(
+                                                    model.cardData[model.index2]
+                                                        .image,
                                                     style: const TextStyle(
                                                         fontSize: 25),
-                                                  ))),
-                                      Positioned(
-                                        top: 19,
-                                        left: 60,
-                                        child: InkWell(
-                                          onTap: () {
-                                            Get.to(() =>
-                                                const SearchAssetsScreen(
-                                                    index: 0));
-                                          },
-                                          child: SizedBox(
-                                            width: width * 0.2,
-                                            height: height * 0.03,
-                                            child: AutoSizeText(model
-                                                  .cardData[model.index1]
-                                                  .symbol,
-                                              style: GoogleFonts.rubik(
-                                                  fontSize: 18,
-                                                  color: Colors.white),
-                                            ),
-                                          ),
+                                                  )),
                                         ),
-                                      ),
-                                      Positioned(
-                                        top: 4,
-                                        left: 70,
-                                        child: InkWell(
-                                          onTap: () {
-                                            Get.to(
-                                                () => const SearchAssetsScreen(
-                                                      index: 0,
-                                                    ));
-                                          },
-                                          child: SizedBox(
-                                              width: width * 0.2,
-                                              height: height * 0.06,
-                                              child: const Icon(
-                                                Icons.arrow_drop_down_rounded,
-                                                color: Colors.white,
-                                                size: 32,
-                                              )),
-                                        ),
-                                      ),
-                                      Positioned(
-                                        top: 100,
-                                        left: 26,
-                                        child: SizedBox(
-                                          width: width * 0.5,
-                                          height: height * 0.1,
-                                          child: TextFormField(
-                                            controller: coin1Controller,
-                                            onChanged: (value) {
-                                              setState(() {
-                                                coin2Controller.text = model
-                                                    .getConversionRate(model
-                                                            .cardData[
-                                                        model.index1]
-                                                            .price, model
-                                                        .cardData[
-                                                    model.index2]
-                                                        .price,
-                                                        coin1Controller.text)
-                                                    .toString();
-                                              });
+                                        Positioned(
+                                          bottom: 25,
+                                          left: 60,
+                                          child: InkWell(
+                                            onTap: () {
+                                              Get.to(() =>
+                                                  const SearchAssetsScreen(
+                                                    index: 1,
+                                                  ));
                                             },
-                                            style: GoogleFonts.rubik(
-                                                color: Colors.white,
-                                                fontSize: 25),
-                                            decoration: const InputDecoration(
-                                              border: InputBorder.none,
+                                            child: SizedBox(
+                                              width: width * 0.2,
+                                              height: height * 0.03,
+                                              child: AutoSizeText(
+                                                model.cardData[model.index2]
+                                                    .symbol,
+                                                style: GoogleFonts.rubik(
+                                                    fontSize: 18,
+                                                    color: Colors.white),
+                                              ),
                                             ),
-                                            keyboardType: TextInputType
-                                                .number, // Only numbers can be entered
                                           ),
                                         ),
-                                      ),
-                                      Positioned(
-                                        right: 20,
-                                        top: 150,
-                                        child: Arc(
-                                          edge: Edge.TOP,
-                                          height: height * 0.1,
-                                          clipShadows: [
-                                            ClipShadow(color:  const Color(0xFF121212))
-                                          ],
-                                          child: Container(
-                                            height: height * 0.1,
+                                        Positioned(
+                                          bottom: 15,
+                                          left: 70,
+                                          child: InkWell(
+                                            onTap: () {
+                                              Get.to(() =>
+                                                  const SearchAssetsScreen(
+                                                    index: 1,
+                                                  ));
+                                            },
+                                            child: SizedBox(
+                                                width: width * 0.2,
+                                                height: height * 0.06,
+                                                child: const Icon(
+                                                  Icons.arrow_drop_down_rounded,
+                                                  color: Colors.white,
+                                                  size: 32,
+                                                )),
+                                          ),
+                                        ),
+                                        Positioned(
+                                          bottom: 70,
+                                          left: 26,
+                                          child: SizedBox(
                                             width: width * 0.5,
-                                            color:  const Color(0xFF121212),
+                                            height: height * 0.1,
+                                            child: TextFormField(
+                                              controller: coin2Controller
+                                                ..text = model
+                                                    .getConversionRate(
+                                                        model
+                                                            .cardData[
+                                                                model.index1]
+                                                            .price,
+                                                        model
+                                                            .cardData[
+                                                                model.index2]
+                                                            .price,
+                                                        coin1Controller.text)
+                                                    .toString(),
+                                              style: GoogleFonts.rubik(
+                                                  color: Colors.white,
+                                                  fontSize: 25),
+                                              decoration: const InputDecoration(
+                                                border: InputBorder.none,
+                                              ),
+                                              keyboardType: TextInputType
+                                                  .number, // Only numbers can be entered
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ]),
+                                        Positioned(
+                                          right: 20,
+                                          bottom: 150,
+                                          child: Arc(
+                                            height: height * 0.1,
+                                            clipShadows: [
+                                              ClipShadow(
+                                                  color:
+                                                      const Color(0xFF121212))
+                                            ],
+                                            child: Container(
+                                              height: height * 0.1,
+                                              width: width * 0.5,
+                                              color: const Color(0xFF121212),
+                                            ),
+                                          ),
+                                        ),
+                                      ]),
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                        ),
-                        FutureBuilder(
-                          future: getImagePalette(model.cardData[model.index2]
-                              .image),
-                          builder: (ctx, AsyncSnapshot<Color> snap) =>
-                              Transform(
+                          )
+                        else
+                          Transform(
                             transform: Matrix4.identity()
                               ..setEntry(3, 2, 0.002)
                               ..rotateX(-pi * _animation.value),
@@ -309,11 +713,9 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                             begin: Alignment.topCenter,
                                             end: Alignment.bottomCenter,
                                             colors: [
-                                              if (snap.connectionState ==
-                                                  ConnectionState.done)
-                                                snap.requireData
-                                              else
-                                                const Color(0xFF491f01),
+                                              _helper.flagColor[model
+                                                  .cardData[model.index2]
+                                                  .name]!,
                                               Colors.black
                                             ])),
                                     child: Stack(children: <Widget>[
@@ -324,46 +726,52 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                           colorFilter: ColorFilter.mode(
                                               Colors.black.withOpacity(0.15),
                                               BlendMode.dstIn),
-                                          child: (model.cardData[model.index2]
-                                              .image
-                                              .startsWith("https"))
+                                          child: (model
+                                                  .cardData[model.index2].image
+                                                  .startsWith("https"))
                                               ? Image(
-                                              height: height * 0.25,
-                                              width: width * 0.25,
-                                              fit: BoxFit.contain,
-                                              image: CachedNetworkImageProvider(model
-                                                  .cardData[model.index2]
-                                                  .image))
-                                              : Text(model
-                                              .cardData[model.index2]
-                                              .image,
-                                            style: const TextStyle(
-                                                fontSize: 25),
-                                          ),
+                                                  height: height * 0.25,
+                                                  width: width * 0.25,
+                                                  fit: BoxFit.contain,
+                                                  image:
+                                                      CachedNetworkImageProvider(
+                                                          model
+                                                              .cardData[
+                                                                  model.index2]
+                                                              .image))
+                                              : Text(
+                                                  model.cardData[model.index2]
+                                                      .image,
+                                                  style: const TextStyle(
+                                                      fontSize: 25),
+                                                ),
                                         ),
                                       ),
                                       Positioned(
                                         bottom: 12,
                                         left: 25,
-                                        child:  (model.cardData[model.index2]
-                                            .image
-                                            .startsWith("https"))
+                                        child: (model
+                                                .cardData[model.index2].image
+                                                .startsWith("https"))
                                             ? Image(
-                                            height: height * 0.07,
-                                            width: width * 0.07,
-                                            fit: BoxFit.contain,
-                                            image: CachedNetworkImageProvider( model
-                                                .cardData[model.index2]
-                                                .image))
+                                                height: height * 0.07,
+                                                width: width * 0.07,
+                                                fit: BoxFit.contain,
+                                                image:
+                                                    CachedNetworkImageProvider(
+                                                        model
+                                                            .cardData[
+                                                                model.index2]
+                                                            .image))
                                             : Container(
-                                            margin: const EdgeInsets.only(
-                                                top: 15),
-                                            child: Text(model
-                                                .cardData[model.index2]
-                                                .image,
-                                              style: const TextStyle(
-                                                  fontSize: 25),
-                                            )),
+                                                margin: const EdgeInsets.only(
+                                                    top: 15),
+                                                child: Text(
+                                                  model.cardData[model.index2]
+                                                      .image,
+                                                  style: const TextStyle(
+                                                      fontSize: 25),
+                                                )),
                                       ),
                                       Positioned(
                                         bottom: 25,
@@ -379,8 +787,8 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                             width: width * 0.2,
                                             height: height * 0.03,
                                             child: AutoSizeText(
-                                            model.cardData[model.index2]
-                                                 .symbol ,
+                                              model.cardData[model.index2]
+                                                  .symbol,
                                               style: GoogleFonts.rubik(
                                                   fontSize: 18,
                                                   color: Colors.white),
@@ -417,13 +825,15 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                           child: TextFormField(
                                             controller: coin2Controller
                                               ..text = model
-                                                  .getConversionRate(model
-                                                         .cardData[
-                                                     model.index1]
-                                                         .price ,model
-                                                      .cardData[
-                                                  model.index2]
-                                                      .price,
+                                                  .getConversionRate(
+                                                      model
+                                                          .cardData[
+                                                              model.index1]
+                                                          .price,
+                                                      model
+                                                          .cardData[
+                                                              model.index2]
+                                                          .price,
                                                       coin1Controller.text)
                                                   .toString(),
                                             style: GoogleFonts.rubik(
@@ -443,12 +853,13 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                         child: Arc(
                                           height: height * 0.1,
                                           clipShadows: [
-                                            ClipShadow(color:  const Color(0xFF121212))
+                                            ClipShadow(
+                                                color: const Color(0xFF121212))
                                           ],
                                           child: Container(
                                             height: height * 0.1,
                                             width: width * 0.5,
-                                            color:  const Color(0xFF121212),
+                                            color: const Color(0xFF121212),
                                           ),
                                         ),
                                       ),
@@ -457,8 +868,7 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                 ),
                               ),
                             ),
-                          ),
-                        ),
+                          )
                       ],
                     ),
                     Positioned(
