@@ -7,6 +7,7 @@ class CryptoAndFiatModel {
   final double rank;
   final String symbol;
   final String image;
+  final String type;
   final String gradientColor;
 
   const CryptoAndFiatModel({
@@ -18,6 +19,7 @@ class CryptoAndFiatModel {
     required this.totalVolume,
     required this.rank,
     required this.image,
+    required this.type,
     required this.gradientColor,
   });
 
@@ -31,6 +33,7 @@ class CryptoAndFiatModel {
         totalVolume: json["total_volume"] as double,
         rank: json["rank"] as double,
         image: json["image"] as String,
+        type: json['type'] as String,
         gradientColor: "",
       );
 
@@ -43,6 +46,7 @@ class CryptoAndFiatModel {
         "total_volume": totalVolume,
         "rank": rank,
         "image": image,
+        "type" : type,
         "gradientColor": gradientColor
       };
 }

@@ -282,7 +282,15 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                                                         .index2]
                                                                     .price,
                                                                 coin1Controller
-                                                                    .text)
+                                                                    .text,
+                                                                model
+                                                                    .cardData[model
+                                                                        .index1]
+                                                                    .type,
+                                                                model
+                                                                    .cardData[model
+                                                                        .index2]
+                                                                    .type,73) // TODO Need to add real time india fiat price
                                                             .toString();
                                                       });
                                                     },
@@ -339,33 +347,37 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                               right: 15,
                                               top: -30,
                                               child: ColorFiltered(
-                                                  colorFilter: ColorFilter.mode(
-                                                      Colors.black
-                                                          .withOpacity(0.15),
-                                                      BlendMode.dstIn),
-                                                  child: model
-                                                          .cardData[
-                                                              model.index1]
-                                                          .image
-                                                          .startsWith("https")
-                                                      ? Image(
-                                                          height: height * 0.25,
-                                                          width: width * 0.25,
-                                                          fit: BoxFit.contain,
-                                                          image: CachedNetworkImageProvider(
-                                                              model
-                                                                  .cardData[model
-                                                                      .index1]
-                                                                  .image))
-                                                      : Text(
+                                                colorFilter: ColorFilter.mode(
+                                                    Colors.black
+                                                        .withOpacity(0.15),
+                                                    BlendMode.dstIn),
+                                                child: model
+                                                        .cardData[model.index1]
+                                                        .image
+                                                        .startsWith("https")
+                                                    ? Image(
+                                                        height: height * 0.25,
+                                                        width: width * 0.25,
+                                                        fit: BoxFit.contain,
+                                                        image: CachedNetworkImageProvider(
+                                                            model
+                                                                .cardData[model
+                                                                    .index1]
+                                                                .image))
+                                                    : Container(
+                                                        margin: const EdgeInsets
+                                                            .only(bottom: 70),
+                                                        child: Text(
                                                           model
                                                               .cardData[
                                                                   model.index1]
                                                               .image,
                                                           style:
                                                               const TextStyle(
-                                                                  fontSize: 25),
-                                                        )),
+                                                                  fontSize: 70),
+                                                        ),
+                                                      ),
+                                              ),
                                             ),
                                             Positioned(
                                                 left: 25,
@@ -458,7 +470,15 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                                                       .index2]
                                                                   .price,
                                                               coin1Controller
-                                                                  .text)
+                                                                  .text,
+                                                          model
+                                                              .cardData[model
+                                                              .index1]
+                                                              .type,
+                                                          model
+                                                              .cardData[model
+                                                              .index2]
+                                                              .type,73) // TODO Need to add real time india fiat price
                                                           .toString();
                                                     });
                                                   },
@@ -641,6 +661,7 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                             width: width * 0.5,
                                             height: height * 0.1,
                                             child: TextFormField(
+                                              enabled: false,
                                               controller: coin2Controller
                                                 ..text = model
                                                     .getConversionRate(
@@ -652,7 +673,15 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                                             .cardData[
                                                                 model.index2]
                                                             .price,
-                                                        coin1Controller.text)
+                                                        coin1Controller.text,
+                                                    model
+                                                        .cardData[model
+                                                        .index1]
+                                                        .type,
+                                                    model
+                                                        .cardData[model
+                                                        .index2]
+                                                        .type,73) // TODO Need to add real time india fiat price
                                                     .toString(),
                                               style: GoogleFonts.rubik(
                                                   color: Colors.white,
@@ -739,11 +768,15 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                                               .cardData[
                                                                   model.index2]
                                                               .image))
-                                              : Text(
-                                                  model.cardData[model.index2]
-                                                      .image,
-                                                  style: const TextStyle(
-                                                      fontSize: 25),
+                                              : Container(
+                                                  margin: const EdgeInsets.only(
+                                                      bottom: 70),
+                                                  child: Text(
+                                                    model.cardData[model.index2]
+                                                        .image,
+                                                    style: const TextStyle(
+                                                        fontSize: 70),
+                                                  ),
                                                 ),
                                         ),
                                       ),
@@ -765,7 +798,7 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                                             .image))
                                             : Container(
                                                 margin: const EdgeInsets.only(
-                                                    top: 15),
+                                                    bottom: 12),
                                                 child: Text(
                                                   model.cardData[model.index2]
                                                       .image,
@@ -823,6 +856,7 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                           width: width * 0.5,
                                           height: height * 0.1,
                                           child: TextFormField(
+                                            enabled: false,
                                             controller: coin2Controller
                                               ..text = model
                                                   .getConversionRate(
@@ -834,7 +868,15 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                                           .cardData[
                                                               model.index2]
                                                           .price,
-                                                      coin1Controller.text)
+                                                      coin1Controller.text,
+                                                  model
+                                                      .cardData[model
+                                                      .index1]
+                                                      .type,
+                                                  model
+                                                      .cardData[model
+                                                      .index2]
+                                                      .type,73) // TODO Need to add real time india fiat price
                                                   .toString(),
                                             style: GoogleFonts.rubik(
                                                 color: Colors.white,
