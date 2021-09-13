@@ -42,7 +42,7 @@ class _SeeAllNewsScreenState extends State<SeeAllNewsScreen> {
         title: AutoSizeText('Latest',
             style: GoogleFonts.poppins(
               color: Colors.white,
-              fontSize: 20,
+              fontSize: 20, fontWeight: FontWeight.bold
             )),
         centerTitle: true,
       ),

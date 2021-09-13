@@ -76,7 +76,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                         AutoSizeText(
                           'Following',
                           style: GoogleFonts.poppins(
-                              color: Colors.white, fontSize: 20),
+                              color: Colors.white, fontSize: 20,fontWeight: FontWeight.bold),
                         ),
                         IconButton(
                             onPressed: () {},

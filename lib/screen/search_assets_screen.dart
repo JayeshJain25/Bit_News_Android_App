@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:provider/provider.dart';
 
@@ -246,35 +247,6 @@ class _SearchAssetsScreenState extends State<SearchAssetsScreen> {
     );
   }
 
-  // Widget buildExpandableBody(CryptoAndFiatModel model) {
-  //   return Padding(
-  //     padding: const EdgeInsets.only(top: 16.0),
-  //     child: Material(
-  //       color: Colors.black,
-  //       elevation: 4.0,
-  //       borderRadius: BorderRadius.circular(8),
-  //       child: ImplicitlyAnimatedList<CryptoAndFiatStructureModel>(
-  //         shrinkWrap: true,
-  //         physics: const NeverScrollableScrollPhysics(),
-  //         items: model.listModel.take(model.listModel.length).toList(),
-  //         areItemsTheSame: (a, b) => a == b,
-  //         itemBuilder: (context, animation, place, i) {
-  //           return SizeFadeTransition(
-  //             animation: animation,
-  //             child: buildItem(context, place),
-  //           );
-  //         },
-  //         updateItemBuilder: (context, animation, place) {
-  //           return FadeTransition(
-  //             opacity: animation,
-  //             child: buildItem(context, place),
-  //           );
-  //         },
-  //       ),
-  //     ),
-  //   );
-  // }
-
   Widget buildItem(BuildContext context, CryptoAndFiatModel place) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
@@ -290,12 +262,10 @@ class _SearchAssetsScreenState extends State<SearchAssetsScreen> {
           margin: const EdgeInsets.all(10),
           elevation: 4,
           color: Colors.black,
-          child: Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child:  Row(
               children: <Widget>[
-                SizedBox(
-                    height: height * 0.1,
+                Container(
+                    height: height * 0.07,
                     width: width * 0.1,
                     child: place.image.startsWith("https")
                         ? CachedNetworkImage( imageUrl: place.image,)
@@ -305,17 +275,22 @@ class _SearchAssetsScreenState extends State<SearchAssetsScreen> {
                               place.image,
                               style: const TextStyle(fontSize: 25),
                             ))),
-                Text(
-                  place.name,
-                  style: GoogleFonts.rubik(color: Colors.white, fontSize: 17),
+                Expanded(
+                  child: Container(
+                    margin: EdgeInsets.only(left: width*0.07),
+                    child: Text(
+                      place.name,
+                      style: GoogleFonts.rubik(color: Colors.white, fontSize: 17),
+                    ),
+                  ),
                 ),
                 Text(
-                  place.price.toStringAsFixed(3).toString(),
+                    "\u{20B9}${NumberFormat.compact().format(place.price)}",
                   style: GoogleFonts.rubik(color: Colors.white, fontSize: 17),
                 )
               ],
             ),
-          )),
+          ),
     );
   }
 }

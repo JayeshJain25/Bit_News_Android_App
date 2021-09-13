@@ -62,66 +62,81 @@ class FollowingList extends StatelessWidget {
                             child: Card(
                               color: const Color(0xFF121212),
                               elevation: 0,
-                              child: ListTile(
-                                leading: Container(
-                                  height: height,
-                                  width: width * 0.2,
-                                  decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                    image: CachedNetworkImageProvider(_helper.extractImgUrl(model.newsCompleteList[index].photoUrl)),
-                                    fit: BoxFit.fill,
-                                  )),
-                                ),
-                                title: AutoSizeText(
-                                  model.newsCompleteList[index].title,
-                                  maxLines: 2,
-                                  style: GoogleFonts.poppins(
-                                    color: Colors.white,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                subtitle: Column(
-                                  children: [
-                                    AutoSizeText(
-                                      model.newsCompleteList[index].description,
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      softWrap: false,
-                                      style: GoogleFonts.poppins(
-                                        color: const Color(0xFF6a6a6a),
-                                        fontSize: 15,
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(15.0),
+                                    child: CachedNetworkImage(
+                                      imageUrl: _helper.extractImgUrl(
+                                        model.newsCompleteList[index].photoUrl,
                                       ),
+                                      height: height*0.09,
+                                      width: width * 0.21,
+                                      fit: BoxFit.fill,
                                     ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        AutoSizeText(
-                                          _helper.convertToAgo(model
-                                              .newsCompleteList[index]
-                                              .publishedDate),
-                                          maxLines: 1,
-                                          style: GoogleFonts.poppins(
-                                            color: const Color(0xFF6a6a6a),
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                        Flexible(
-                                          child: AutoSizeText(
-                                            model.newsCompleteList[index].source,
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
+                                  ),
+                                  Expanded(
+                                    child: Container(
+                                      margin: const EdgeInsets.only(left: 15),
+                                      child: Column(
+                                        children: [
+                                          AutoSizeText(
+                                            model.newsCompleteList[index].title,
+                                            maxLines: 2,
                                             style: GoogleFonts.poppins(
-                                              color: const Color(0xFF6a6a6a),
+                                              color: Colors.white,
                                               fontSize: 13,
+                                              fontWeight: FontWeight.w400,
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
+                                          Column(
+                                            children: [
+                                              AutoSizeText(
+                                                model.newsCompleteList[index].description,
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                softWrap: false,
+                                                style: GoogleFonts.poppins(
+                                                  color: const Color(0xFF6a6a6a),
+                                                  fontSize: 15,
+                                                ),
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                                children: <Widget>[
+                                                  AutoSizeText(
+                                                    _helper.convertToAgo(model
+                                                        .newsCompleteList[index]
+                                                        .publishedDate),
+                                                    maxLines: 1,
+                                                    style: GoogleFonts.poppins(
+                                                      color: const Color(0xFF6a6a6a),
+                                                      fontSize: 12,
+                                                    ),
+                                                  ),
+                                                  Flexible(
+                                                    child: AutoSizeText(
+                                                      model
+                                                          .newsCompleteList[index].source,
+                                                      maxLines: 1,
+                                                      overflow: TextOverflow.ellipsis,
+                                                      style: GoogleFonts.poppins(
+                                                        color: const Color(0xFF6a6a6a),
+                                                        fontSize: 13,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           )),
@@ -132,8 +147,8 @@ class FollowingList extends StatelessWidget {
         },
         separatorBuilder: (BuildContext context, int index) {
           return Divider(
-            indent: width * 0.31,
-            endIndent: width * 0.06,
+            indent: width * 0.28,
+            endIndent: width * 0.04,
             color: const Color(0xFF404040),
             thickness: 1,
           );

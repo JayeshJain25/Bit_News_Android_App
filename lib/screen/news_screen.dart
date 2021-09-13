@@ -71,7 +71,7 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
     _animationController.forward();
   }
 
-  /// Dispose
+  // Dispose
   @override
   void dispose() {
     _animationController.dispose();
@@ -141,7 +141,7 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
                           AutoSizeText(
                             'News',
                             style: GoogleFonts.poppins(
-                                color: Colors.white, fontSize: 20),
+                                color: Colors.white, fontSize: 20,fontWeight: FontWeight.bold),
                           ),
                           IconButton(
                               onPressed: () {
@@ -164,6 +164,7 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
                               (BuildContext context, bool innerBoxIsScrolled) {
                             return [
                               SliverAppBar(
+                                automaticallyImplyLeading: false,
                                 collapsedHeight: 37.h,
                                 expandedHeight: 37.h,
                                 // title: SizedBox(

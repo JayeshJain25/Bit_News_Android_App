@@ -91,7 +91,7 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
         title: AutoSizeText('Conversion Tool',
             style: GoogleFonts.poppins(
               color: Colors.white,
-              fontSize: 20,
+              fontSize: 20,fontWeight: FontWeight.bold
             )),
       ),
       body: Consumer<CryptoAndFiatProvider>(
@@ -174,16 +174,16 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                                                     .cardData[model
                                                                         .index1]
                                                                     .image))
-                                                        : Text(
-                                                            model
-                                                                .cardData[model
-                                                                    .index1]
-                                                                .image,
-                                                            style:
-                                                                const TextStyle(
-                                                                    fontSize:
-                                                                        25),
-                                                          )),
+                                                        : Container(
+                                                      margin: const EdgeInsets.only(
+                                                          top: 70),
+                                                      child: Text(
+                                                        model.cardData[model.index2]
+                                                            .image,
+                                                        style: const TextStyle(
+                                                            fontSize: 70),
+                                                      ),
+                                                    ),),
                                               ),
                                               Positioned(
                                                   left: 25,
@@ -232,7 +232,7 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                                       model
                                                           .cardData[
                                                               model.index1]
-                                                          .symbol,
+                                                          .symbol.toUpperCase(),
                                                       style: GoogleFonts.rubik(
                                                           fontSize: 18,
                                                           color: Colors.white),
@@ -366,7 +366,7 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                                                 .image))
                                                     : Container(
                                                         margin: const EdgeInsets
-                                                            .only(bottom: 70),
+                                                            .only(top: 70),
                                                         child: Text(
                                                           model
                                                               .cardData[
@@ -420,7 +420,7 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                                   height: height * 0.03,
                                                   child: AutoSizeText(
                                                     model.cardData[model.index1]
-                                                        .symbol,
+                                                        .symbol.toUpperCase(),
                                                     style: GoogleFonts.rubik(
                                                         fontSize: 18,
                                                         color: Colors.white),
@@ -626,7 +626,7 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                               height: height * 0.03,
                                               child: AutoSizeText(
                                                 model.cardData[model.index2]
-                                                    .symbol,
+                                                    .symbol.toUpperCase(),
                                                 style: GoogleFonts.rubik(
                                                     fontSize: 18,
                                                     color: Colors.white),
@@ -821,7 +821,7 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                             height: height * 0.03,
                                             child: AutoSizeText(
                                               model.cardData[model.index2]
-                                                  .symbol,
+                                                  .symbol.toUpperCase(),
                                               style: GoogleFonts.rubik(
                                                   fontSize: 18,
                                                   color: Colors.white),

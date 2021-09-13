@@ -39,6 +39,7 @@ class _TodayNewsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
     return SliverStickyHeader.builder(
       sliver: SliverList(
         delegate: SliverChildBuilderDelegate(
@@ -53,66 +54,71 @@ class _TodayNewsList extends StatelessWidget {
                     onTap: () {
                       Get.to(() => NewsWebView(model.newsCompleteList[i].url));
                     },
-                    child: Card(
-                      elevation: 2,
-                      color: Colors.black,
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: height * 0.2,
-                            child: CachedNetworkImage(
-                              fit: BoxFit.contain,
-                              imageUrl: _helper.extractImgUrl(model.newsCompleteList[i].photoUrl),
-                            ),
-                          ),
-                          ListTile(
-                            title: AutoSizeText(
-                              model.newsCompleteList[i].title,
-                              maxLines: 2,
-                              style: GoogleFonts.poppins(
-                                color: Colors.white,
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
+                    child: Container(
+                      margin: const EdgeInsets.only(bottom: 15),
+                      child: Card(
+                        elevation: 2,
+                        color: Colors.black,
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: height * 0.2,
+                              width: width*0.81,
+                              child: CachedNetworkImage(
+                                fit: BoxFit.fill,
+                                imageUrl: _helper.extractImgUrl(model.newsCompleteList[i].photoUrl),
+                                errorWidget: (context, url,error) => CachedNetworkImage(  fit: BoxFit.fill,imageUrl: "https://www.translationvalley.com/wp-content/uploads/2020/03/no-iamge-placeholder.jpg"),
                               ),
                             ),
-                            subtitle: Column(
-                              children: [
-                                AutoSizeText(
-                                  model.newsCompleteList[i].description,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  softWrap: false,
-                                  style: GoogleFonts.poppins(
-                                    color: const Color(0xFF6a6a6a),
-                                    fontSize: 15,
-                                  ),
+                            ListTile(
+                              title: AutoSizeText(
+                                model.newsCompleteList[i].title,
+                                maxLines: 2,
+                                style: GoogleFonts.poppins(
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w400,
                                 ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    AutoSizeText(
-                                      model.newsCompleteList[i].publishedDate,
-                                      maxLines: 1,
-                                      style: GoogleFonts.poppins(
-                                        color: const Color(0xFF6a6a6a),
-                                        fontSize: 15,
-                                      ),
+                              ),
+                              subtitle: Column(
+                                children: [
+                                  AutoSizeText(
+                                    model.newsCompleteList[i].description,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    softWrap: false,
+                                    style: GoogleFonts.poppins(
+                                      color: const Color(0xFF6a6a6a),
+                                      fontSize: 15,
                                     ),
-                                    AutoSizeText(
-                                      model.newsCompleteList[i].source,
-                                      maxLines: 1,
-                                      style: GoogleFonts.poppins(
-                                        color: const Color(0xFF6a6a6a),
-                                        fontSize: 15,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      AutoSizeText(
+                                        _helper.convertToAgo(model.newsCompleteList[i].publishedDate),
+                                        maxLines: 1,
+                                        style: GoogleFonts.poppins(
+                                          color: const Color(0xFF6a6a6a),
+                                          fontSize: 15,
+                                        ),
                                       ),
-                                    ),
-                                  ],
-                                )
-                              ],
+                                      AutoSizeText(
+                                        model.newsCompleteList[i].source,
+                                        maxLines: 1,
+                                        style: GoogleFonts.poppins(
+                                          color: const Color(0xFF6a6a6a),
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),

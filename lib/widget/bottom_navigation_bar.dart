@@ -46,8 +46,9 @@ class _MyCustomBottomNavigationBarState extends State<AppBottomNavigationBar>
         backgroundColor: const Color(0xFF121212),
         showSelectedLabels: false,
         showUnselectedLabels: false,
-        selectedIconTheme: const IconThemeData(color: Colors.amberAccent),
-        selectedItemColor: Colors.amberAccent,
+        unselectedItemColor: Colors.white60,
+        selectedIconTheme: const IconThemeData(color: Colors.white),
+        selectedItemColor: Colors.white,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             backgroundColor: Color(0xFF121212),
@@ -67,7 +68,7 @@ class _MyCustomBottomNavigationBarState extends State<AppBottomNavigationBar>
             backgroundColor: Color(0xFF121212),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.notifications_outlined),
+            icon: Icon(Icons.notifications_none),
             label: 'Calls',
             backgroundColor: Color(0xFF121212),
           ),
