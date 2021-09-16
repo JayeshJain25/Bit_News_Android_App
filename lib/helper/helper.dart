@@ -18,6 +18,23 @@ class Helper {
     }
   }
 
+  String convertToSmallerAgo(String input) {
+    final DateTime time1 = DateTime.parse("$input 00:00:00Z");
+    final Duration diff = DateTime.now().difference(time1);
+
+    if (diff.inDays >= 1) {
+      return '${diff.inDays}d ago';
+    } else if (diff.inHours >= 1) {
+      return '${diff.inHours}h ago';
+    } else if (diff.inMinutes >= 1) {
+      return '${diff.inMinutes}m ago';
+    } else if (diff.inSeconds >= 1) {
+      return '${diff.inSeconds}s ago';
+    } else {
+      return 'just now';
+    }
+  }
+
   String extractImgUrl(String imgUrl) {
     if (imgUrl.startsWith("(")) {
       final String newUrl = imgUrl.substring(2);

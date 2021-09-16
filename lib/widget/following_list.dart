@@ -71,7 +71,12 @@ class FollowingList extends StatelessWidget {
                                       imageUrl: _helper.extractImgUrl(
                                         model.newsCompleteList[index].photoUrl,
                                       ),
-                                      height: height*0.09,
+                                      errorWidget: (context, url, error) =>
+                                          CachedNetworkImage(
+                                              fit: BoxFit.fill,
+                                              imageUrl:
+                                                  "https://www.translationvalley.com/wp-content/uploads/2020/03/no-iamge-placeholder.jpg"),
+                                      height: height * 0.09,
                                       width: width * 0.21,
                                       fit: BoxFit.fill,
                                     ),
@@ -93,18 +98,21 @@ class FollowingList extends StatelessWidget {
                                           Column(
                                             children: [
                                               AutoSizeText(
-                                                model.newsCompleteList[index].description,
+                                                model.newsCompleteList[index]
+                                                    .description,
                                                 maxLines: 1,
                                                 overflow: TextOverflow.ellipsis,
                                                 softWrap: false,
                                                 style: GoogleFonts.poppins(
-                                                  color: const Color(0xFF6a6a6a),
+                                                  color:
+                                                      const Color(0xFF6a6a6a),
                                                   fontSize: 15,
                                                 ),
                                               ),
                                               Row(
                                                 mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: <Widget>[
                                                   AutoSizeText(
                                                     _helper.convertToAgo(model
@@ -112,18 +120,24 @@ class FollowingList extends StatelessWidget {
                                                         .publishedDate),
                                                     maxLines: 1,
                                                     style: GoogleFonts.poppins(
-                                                      color: const Color(0xFF6a6a6a),
+                                                      color: const Color(
+                                                          0xFF6a6a6a),
                                                       fontSize: 12,
                                                     ),
                                                   ),
                                                   Flexible(
                                                     child: AutoSizeText(
                                                       model
-                                                          .newsCompleteList[index].source,
+                                                          .newsCompleteList[
+                                                              index]
+                                                          .source,
                                                       maxLines: 1,
-                                                      overflow: TextOverflow.ellipsis,
-                                                      style: GoogleFonts.poppins(
-                                                        color: const Color(0xFF6a6a6a),
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      style:
+                                                          GoogleFonts.poppins(
+                                                        color: const Color(
+                                                            0xFF6a6a6a),
                                                         fontSize: 13,
                                                       ),
                                                     ),

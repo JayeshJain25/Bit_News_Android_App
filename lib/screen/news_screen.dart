@@ -216,7 +216,7 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
                                         (BuildContext context, int index) {
                                       return Row(
                                         children: [
-                                          TopNews(),
+                                          TopNews(index),
                                           const SizedBox(
                                             width: 20,
                                           ),
