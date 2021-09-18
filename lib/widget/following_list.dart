@@ -9,8 +9,6 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import './news_web_view.dart';
-
 class FollowingList extends StatelessWidget {
   final _helper = Helper();
 
@@ -53,8 +51,82 @@ class FollowingList extends StatelessWidget {
                         )
                       : InkWell(
                           onTap: () {
-                            Get.to(() =>
-                                NewsWebView(model.newsCompleteList[index].url));
+                            // Get.to(() =>
+                            //     NewsWebView(model.newsCompleteList[index].url));
+                            showModalBottomSheet(
+                                backgroundColor: Colors.white70,
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(20),
+                                    topRight: Radius.circular(20),
+                                  ),
+                                ),
+                                context: context,
+                                builder: (context) {
+                                  return Container(
+                                    margin: const EdgeInsets.only(top: 15),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: <Widget>[
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                                color: Colors.black,
+                                              ),
+                                              width: width * 0.2,
+                                              height: height * 0.05,
+                                              child: Center(
+                                                heightFactor: 1,
+                                                child: Text(
+                                                  model.newsCompleteList[index]
+                                                      .source,
+                                                  style: const TextStyle(
+                                                      color: Colors.white),
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                                color: const Color(0xFFf4f4f5),
+                                              ),
+                                              width: width * 0.2,
+                                              height: height * 0.05,
+                                              child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: const <Widget>[
+                                                    Icon(
+                                                      Icons.watch_later_outlined,
+                                                      color: Colors.grey,
+                                                      size: 17,
+                                                    ),
+                                                    Text(" 2 h")
+                                                  ],
+                                              ),
+                                            ),
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                                color: const Color(0xFFf4f4f5),
+                                              ),
+                                              width: width * 0.2,
+                                              height: height * 0.05,
+                                            )
+                                          ],
+                                        ),
+                                        AutoSizeText(model
+                                            .newsCompleteList[index].summary)
+                                      ],
+                                    ),
+                                  );
+                                });
                           },
                           child: Container(
                             margin: const EdgeInsets.only(

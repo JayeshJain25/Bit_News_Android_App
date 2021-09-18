@@ -54,6 +54,7 @@ class _MyCustomBottomNavigationBarState extends State<AppBottomNavigationBar>
             backgroundColor: Color(0xFF121212),
             icon: ImageIcon(
               AssetImage('lib/assets/market.png'),
+
             ),
             label: 'Calls',
           ),

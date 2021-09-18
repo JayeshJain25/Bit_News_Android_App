@@ -165,8 +165,8 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
                             return [
                               SliverAppBar(
                                 automaticallyImplyLeading: false,
-                                collapsedHeight: 37.h,
-                                expandedHeight: 37.h,
+                                collapsedHeight: 45.h,
+                                expandedHeight: 45.h,
                                 // title: SizedBox(
                                 //   height: 20.h,
                                 //   child: ListView.builder(
@@ -208,7 +208,7 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
                                 flexibleSpace: Container(
                                   margin: const EdgeInsets.only(
                                       left: 15, right: 15, bottom: 15, top: 15),
-                                  height: 33.h,
+                                  height: 45.h,
                                   child: ListView.builder(
                                     itemCount: 5,
                                     scrollDirection: Axis.horizontal,
