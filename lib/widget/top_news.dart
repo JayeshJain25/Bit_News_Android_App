@@ -42,7 +42,7 @@ class TopNews extends StatelessWidget {
                   children: <Widget>[
                     ColorFiltered(
                       colorFilter: ColorFilter.mode(
-                        Colors.black.withOpacity(0.7),
+                        Colors.black.withOpacity(0.6),
                         BlendMode.dstIn,
                       ),
                       child: ClipRRect(
@@ -96,7 +96,7 @@ class TopNews extends StatelessWidget {
                           minFontSize: 11,
                           maxLines: 4,
                           style: GoogleFonts.poppins(
-                            color: Colors.white,
+                            color: const Color(0xFFd9d8d9),
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
                           ),
@@ -104,45 +104,57 @@ class TopNews extends StatelessWidget {
                       ),
                     ),
                     Positioned(
-                      top: height * 0.3,
-                      left: width * 0.6,
+                      top: height * 0.37,
+                      left: width * 0.025,
                       child: Container(
-                        padding: const EdgeInsets.only(
-                          left: 16.0,
+                        decoration: BoxDecoration(
+                          borderRadius:
+                          BorderRadius.circular(20),
+                          color: Colors.white70,
                         ),
                         width: width * 0.25,
-                        height: height * 0.06,
-                        child: AutoSizeText(
-                          _helper.convertToSmallerAgo(
-                            model.newsCompleteList[index].publishedDate,
-                          ),
-                          minFontSize: 10,
-                          maxLines: 4,
-                          style: GoogleFonts.poppins(
-                            color: const Color(0xFFd9d8d9),
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
+                        height: height * 0.03,
+                        child: Center(
+                          heightFactor: 1,
+                          child: AutoSizeText(
+                            _helper.convertToSmallerAgo(
+                              model.newsCompleteList[index].publishedDate,
+                            ),
+                            minFontSize: 10,
+                            maxLines: 4,
+                            style: GoogleFonts.poppins(
+                              color:Colors.black,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center,
                           ),
                         ),
                       ),
                     ),
                     Positioned(
                       top: height * 0.37,
-                      left: width * 0.26,
+                      left: width * 0.47,
                       child: Container(
-                        padding: const EdgeInsets.only(
-                          left: 16.0,
+                        decoration: BoxDecoration(
+                          borderRadius:
+                          BorderRadius.circular(20),
+                          color: Colors.white70,
                         ),
-                        width: width * 0.4,
-                        height: height * 0.06,
-                        child: AutoSizeText(
-                            "${model.newsCompleteList[index].readTime.split(" ")[0]} ${ model.newsCompleteList[index].readTime.split(" ")[1]} Reads",
-                          minFontSize: 10,
-                          maxLines: 4,
-                          style: GoogleFonts.poppins(
-                            color: const Color(0xFFd9d8d9),
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
+                        width: width * 0.3,
+                        height: height * 0.03,
+                        child: Center(
+                          heightFactor: 1,
+                          child: AutoSizeText(
+                              "${model.newsCompleteList[index].readTime.split(" ")[0]} ${ model.newsCompleteList[index].readTime.split(" ")[1]} Reads",
+                            minFontSize: 10,
+                            maxLines: 4,
+                            style: GoogleFonts.poppins(
+                              color:Colors.black,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center,
                           ),
                         ),
                       ),

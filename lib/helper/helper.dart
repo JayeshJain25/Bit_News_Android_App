@@ -2,24 +2,24 @@ import 'package:flutter/cupertino.dart';
 
 class Helper {
   String convertToAgo(String input) {
-    final DateTime time1 = DateTime.parse("$input 00:00:00Z");
+    final DateTime time1 = DateTime.parse("$input Z");
     final Duration diff = DateTime.now().difference(time1);
 
     if (diff.inDays >= 1) {
       return 'about ${diff.inDays} days ago';
     } else if (diff.inHours >= 1) {
-      return 'about ${diff.inHours} hours ago';
+      return 'about ${diff.inHours} hrs ago';
     } else if (diff.inMinutes >= 1) {
-      return 'about ${diff.inMinutes} minutes ago';
+      return 'about ${diff.inMinutes} mins ago';
     } else if (diff.inSeconds >= 1) {
-      return 'about ${diff.inSeconds} seconds ago';
+      return 'about ${diff.inSeconds} secs ago';
     } else {
       return 'just now';
     }
   }
 
   String convertToSmallerAgo(String input) {
-    final DateTime time1 = DateTime.parse("$input 00:00:00Z");
+    final DateTime time1 = DateTime.parse("$input Z");
     final Duration diff = DateTime.now().difference(time1);
 
     if (diff.inDays >= 1) {
