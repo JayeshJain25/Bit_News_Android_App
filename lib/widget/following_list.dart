@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:crypto_news/helper/helper.dart';
 import 'package:crypto_news/provider/news_provider.dart';
+import 'package:crypto_news/screen/news_summary_screen.dart';
 import 'package:crypto_news/screen/see_all_news_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,9 +10,7 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:sizer/sizer.dart';
 
-import 'news_web_view.dart';
 
 class FollowingList extends StatelessWidget {
   final _helper = Helper();
@@ -55,157 +54,8 @@ class FollowingList extends StatelessWidget {
                         )
                       : InkWell(
                           onTap: () {
-                            showModalBottomSheet(
-                              isScrollControlled: true,
-                              backgroundColor: Colors.white,
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(20),
-                                  topRight: Radius.circular(20),
-                                ),
-                              ),
-                              context: context,
-                              builder: (context) {
-                                return  Container(
-                                    margin: const EdgeInsets.only(top: 15),
-                                    child: CustomPaint(
-                                      painter: BluePainter(),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            children: <Widget>[
-                                              Container(
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(20),
-                                                  color: Colors.black,
-                                                ),
-                                                width: width * 0.32,
-                                                height: height * 0.05,
-                                                child: Center(
-                                                  heightFactor: 1,
-                                                  child: AutoSizeText(
-                                                    model.newsCompleteList[index]
-                                                        .source,
-                                                    maxLines: 2,
-                                                    style: GoogleFonts.poppins(
-                                                        color: Colors.white,fontSize: 14),
-                                                    textAlign: TextAlign.center,
-                                                  ),
-                                                ),
-                                              ),
-                                              Container(
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(20),
-                                                  color: const Color(0xFFf4f4f5),
-                                                ),
-                                                width: width * 0.2,
-                                                height: height * 0.05,
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: <Widget>[
-                                                    const Icon(
-                                                      Icons.watch_later_outlined,
-                                                      color: Colors.grey,
-                                                      size: 17,
-                                                    ),
-                                                    AutoSizeText(
-                                                      " ${model.newsCompleteList[index].readTime.split(" ")[0]} ${ model.newsCompleteList[index].readTime.split(" ")[1]}",
-                                                      style: GoogleFonts.poppins(),
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                              Container(
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(20),
-                                                  color: const Color(0xFFf4f4f5),
-                                                ),
-                                                width: width * 0.2,
-                                                height: height * 0.05,
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: <Widget>[
-                                                    const Icon(
-                                                      Icons.remove_red_eye,
-                                                      color: Colors.grey,
-                                                      size: 17,
-                                                    ),
-                                                    Text(
-                                                      " 376",
-                                                      style: GoogleFonts.poppins(),
-                                                    )
-                                                  ],
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            height: 15,
-                                          ),
-                                          Container(
-                                            margin: const EdgeInsets.only(
-                                                left: 15, top: 15),
-                                            child: AutoSizeText(
-                                              "Summary of news",
-                                              style:
-                                                  GoogleFonts.poppins(fontSize: 14,fontWeight: FontWeight.bold),
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            height: 15,
-                                          ),
-                                          Container(
-                                            height: 40.h,
-                                            padding: const EdgeInsets.all(10),
-                                            child: SingleChildScrollView(
-                                              child: AutoSizeText(
-                                                model.newsCompleteList[index]
-                                                    .summary,
-                                                style: GoogleFonts.poppins(
-                                                    fontSize: 14,color: Colors.black),
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            height: 15,
-                                          ),
-                                          Container(
-                                            margin: const EdgeInsets.only(
-                                                left: 15, bottom: 15),
-                                            child: ElevatedButton(
-                                              onPressed: () {
-                                                Get.to(() => NewsWebView(model
-                                                    .newsCompleteList[index].url));
-                                              },
-                                              style: ButtonStyle(
-                                                shape: MaterialStateProperty.all<
-                                                    RoundedRectangleBorder>(
-                                                  RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(18.0),
-                                                  ),
-                                                ),
-                                              ),
-                                              child:  Text(
-                                                  "View Full Article ->",style:  GoogleFonts.poppins(fontSize: 14),),
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                              },
-                            );
+                            Get.to(() => NewsSummaryScreen(model
+                                .newsCompleteList[index]));
                           },
                           child: Container(
                             margin: const EdgeInsets.only(
