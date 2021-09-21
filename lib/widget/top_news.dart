@@ -134,7 +134,7 @@ class TopNews extends StatelessWidget {
                     ),
                     Positioned(
                       top: height * 0.37,
-                      left: width * 0.47,
+                      left: width * 0.4,
                       child: Container(
                         decoration: BoxDecoration(
                           borderRadius:
