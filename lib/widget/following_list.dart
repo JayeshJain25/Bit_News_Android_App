@@ -11,7 +11,6 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-
 class FollowingList extends StatelessWidget {
   final _helper = Helper();
 
@@ -54,12 +53,19 @@ class FollowingList extends StatelessWidget {
                         )
                       : InkWell(
                           onTap: () {
-                            Get.to(() => NewsSummaryScreen(model
-                                .newsCompleteList[index]));
+                            Get.to(
+                              () => NewsSummaryScreen(
+                                model.newsCompleteList[index],
+                              ),
+                            );
                           },
                           child: Container(
                             margin: const EdgeInsets.only(
-                                left: 5, right: 5, top: 15, bottom: 5),
+                              left: 5,
+                              right: 5,
+                              top: 15,
+                              bottom: 5,
+                            ),
                             child: Card(
                               color: const Color(0xFF121212),
                               elevation: 0,
@@ -74,12 +80,13 @@ class FollowingList extends StatelessWidget {
                                       ),
                                       errorWidget: (context, url, error) =>
                                           CachedNetworkImage(
-                                              fit: BoxFit.fill,
-                                              imageUrl:
-                                                  "https://www.translationvalley.com/wp-content/uploads/2020/03/no-iamge-placeholder.jpg"),
+                                        fit: BoxFit.fill,
+                                        imageUrl:
+                                            "https://www.translationvalley.com/wp-content/uploads/2020/03/no-iamge-placeholder.jpg",
+                                      ),
                                       height: height * 0.09,
                                       width: width * 0.21,
-                                      fit: BoxFit.fill,
+                                      fit: BoxFit.cover,
                                     ),
                                   ),
                                   Expanded(
@@ -87,13 +94,18 @@ class FollowingList extends StatelessWidget {
                                       margin: const EdgeInsets.only(left: 15),
                                       child: Column(
                                         children: [
-                                          AutoSizeText(
-                                            model.newsCompleteList[index].title,
-                                            maxLines: 2,
-                                            style: GoogleFonts.poppins(
-                                              color: Colors.white,
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.w400,
+                                          Container(
+                                            margin: const EdgeInsets.only(
+                                                bottom: 7,),
+                                            child: AutoSizeText(
+                                              model.newsCompleteList[index]
+                                                  .title,
+                                              maxLines: 2,
+                                              style: GoogleFonts.poppins(
+                                                color: Colors.white,
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w400,
+                                              ),
                                             ),
                                           ),
                                           Column(
@@ -101,12 +113,11 @@ class FollowingList extends StatelessWidget {
                                               AutoSizeText(
                                                 model.newsCompleteList[index]
                                                     .description,
-                                                maxLines: 1,
+                                                maxLines: 2,
                                                 overflow: TextOverflow.ellipsis,
                                                 softWrap: false,
-                                                style: GoogleFonts.poppins(
-                                                  color:
-                                                      const Color(0xFF6a6a6a),
+                                                style: GoogleFonts.rubik(
+                                                  color: Colors.white70,
                                                   fontSize: 15,
                                                 ),
                                               ),
@@ -116,14 +127,20 @@ class FollowingList extends StatelessWidget {
                                                         .spaceBetween,
                                                 children: <Widget>[
                                                   AutoSizeText(
-                                                    _helper.convertToAgo(model
-                                                        .newsCompleteList[index]
-                                                        .publishedDate),
+                                                    "${_helper.convertToAgo(
+                                                      model
+                                                          .newsCompleteList[
+                                                              index]
+                                                          .publishedDate,
+                                                    )} \u2022",
                                                     maxLines: 1,
                                                     style: GoogleFonts.poppins(
                                                       color: const Color(
-                                                          0xFF6a6a6a),
+                                                        0xFF6a6a6a,
+                                                      ),
                                                       fontSize: 12,
+                                                      fontWeight:
+                                                          FontWeight.w500,
                                                     ),
                                                   ),
                                                   Flexible(
@@ -138,8 +155,11 @@ class FollowingList extends StatelessWidget {
                                                       style:
                                                           GoogleFonts.poppins(
                                                         color: const Color(
-                                                            0xFF6a6a6a),
+                                                          0xFF6a6a6a,
+                                                        ),
                                                         fontSize: 13,
+                                                        fontWeight:
+                                                            FontWeight.w500,
                                                       ),
                                                     ),
                                                   ),
@@ -154,7 +174,8 @@ class FollowingList extends StatelessWidget {
                                 ],
                               ),
                             ),
-                          )),
+                          ),
+                        ),
                 ),
               ),
             ),
@@ -170,65 +191,5 @@ class FollowingList extends StatelessWidget {
         },
       ),
     );
-  }
-}
-
-class BluePainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final height = size.height;
-    final width = size.width;
-    final Paint paint = Paint();
-
-    final Path mainBackground = Path();
-    mainBackground.addRect(Rect.fromLTRB(0, 0, width, height));
-    paint.color = Colors.white;
-    canvas.drawPath(mainBackground, paint);
-
-    final Path ovalPath = Path();
-    // Start paint from 20% height to the left
-    ovalPath.moveTo(0, height * 0.2);
-
-    // paint a curve from current position to middle of the screen
-    ovalPath.quadraticBezierTo(
-        width * 0.45, height * 0.25, width * 0.51, height * 0.5);
-
-    // Paint a curve from current position to bottom left of screen at width * 0.1
-    ovalPath.quadraticBezierTo(width * 0.58, height * 0.8, width * 0.1, height);
-
-    // draw remaining line to bottom left side
-    ovalPath.lineTo(0, height);
-
-    // Close line to reset it back
-    ovalPath.close();
-
-    paint.color = Colors.blue.shade600;
-    canvas.drawPath(ovalPath, paint);
-
-    final Path ovalPath1 = Path();
-    // Start paint from 20% height to the left
-    ovalPath1.moveTo(width, height * 0.2);
-
-    // paint a curve from current position to middle of the screen
-    ovalPath1.quadraticBezierTo(
-        width * 0.3, height * 0.25, width * 0.3, height * 0.5);
-
-    // Paint a curve from current position to bottom left of screen at width * 0.1
-    ovalPath1.quadraticBezierTo(width * 0.4, height * 0.8, width, height);
-
-    // draw remaining line to bottom left side
-    ovalPath1.lineTo(width, 0);
-
-    // Close line to reset it back
-    ovalPath1.close();
-
-    paint.color = Colors.red.shade600;
-    canvas.drawPath(ovalPath1, paint);
-
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return oldDelegate != this;
   }
 }

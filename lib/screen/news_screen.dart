@@ -111,58 +111,58 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
                     ),
                     Container(
                       margin: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          if (isDrawerOpen)
-                            IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  xOffset = 0;
-                                  yOffset = 0;
-                                  scaleFactor = 1;
-                                  isDrawerOpen = false;
-                                });
-                              },
-                              icon: const Icon(
-                                Icons.arrow_back_ios,
-                                color: Colors.white,
-                              ),
-                            )
-                          else
-                            IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  xOffset = 230;
-                                  yOffset = 150;
-                                  scaleFactor = 0.6;
-                                  isDrawerOpen = true;
-                                });
-                              },
-                              icon: const Icon(
-                                Icons.menu_rounded,
-                                color: Colors.white,
-                              ),
-                            ),
+                      child:
+                      // Row(
+                      //   children: <Widget>[
+                          // if (isDrawerOpen)
+                          //   IconButton(
+                          //     onPressed: () {
+                          //       setState(() {
+                          //         xOffset = 0;
+                          //         yOffset = 0;
+                          //         scaleFactor = 1;
+                          //         isDrawerOpen = false;
+                          //       });
+                          //     },
+                          //     icon: const Icon(
+                          //       Icons.arrow_back_ios,
+                          //       color: Colors.white,
+                          //     ),
+                          //   )
+                          // else
+                          //   IconButton(
+                          //     onPressed: () {
+                          //       setState(() {
+                          //         xOffset = 230;
+                          //         yOffset = 150;
+                          //         scaleFactor = 0.6;
+                          //         isDrawerOpen = true;
+                          //       });
+                          //     },
+                          //     icon: const Icon(
+                          //       Icons.menu_rounded,
+                          //       color: Colors.white,
+                          //     ),
+                          //   ),
                           AutoSizeText(
-                            'News',
+                            'CryptoX',
                             style: GoogleFonts.poppins(
                               color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
+                              fontSize: 23,
+                              fontWeight: FontWeight.w600,
                             )
-                          ),
-                          IconButton(
-                            onPressed: () {
-                              Get.to(() => NewsSearchScreen());
-                            },
-                            icon: const Icon(
-                              Icons.search,
-                              color: Colors.white,
-                            ),
-                          )
-                        ],
-                      ),
+                          ,),
+                          // IconButton(
+                          //   onPressed: () {
+                          //     Get.to(() => NewsSearchScreen());
+                          //   },
+                          //   icon: const Icon(
+                          //     Icons.search,
+                          //     color: Colors.white,
+                          //   ),
+                          // )
+                      //  ],
+                    //  ),
                     ),
                     SizedBox(
                       height: 81.h,
@@ -257,7 +257,6 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
                                           },
                                         ),
                                       ),
-
                                     ],
                                   ),
                                 ),

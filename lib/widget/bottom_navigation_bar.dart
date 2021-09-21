@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:google_nav_bar/google_nav_bar.dart';
 import '../screen/favourite_screen.dart';
 import '../screen/market_screen.dart';
 import '../screen/news_screen.dart';
@@ -42,41 +42,59 @@ class _MyCustomBottomNavigationBarState extends State<AppBottomNavigationBar>
       body: Center(
         child: _buildScreens().elementAt(_currentIndex),
       ),
-      bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: GNav(
+        tabMargin: const EdgeInsets.only(top: 10,bottom: 10,left: 5,right: 5),
         backgroundColor: const Color(0xFF121212),
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        unselectedItemColor: Colors.white60,
-        selectedIconTheme: const IconThemeData(color: Colors.white),
-        selectedItemColor: Colors.white,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            backgroundColor: Color(0xFF121212),
-            icon: ImageIcon(
-              AssetImage('lib/assets/market.png'),
+        rippleColor: Colors.grey.shade800, // tab button ripple color when pressed
+        hoverColor: Colors.grey.shade700, // tab button hover color
+        tabBorderRadius: 20,
+        tabActiveBorder: Border.all(color: Colors.white, width: 0.5),
+        curve: Curves.easeOutExpo,
+        duration: const Duration(milliseconds: 600),
+        gap: 5,
+        activeColor: Colors.white,
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
 
+        tabs:const [
+          GButton(
+            backgroundColor: Color(0xFF121212),
+            leading:  SizedBox(
+            width: 24,
+            height: 24,
+            child: ImageIcon(AssetImage('lib/assets/market.png'),color: Colors.white),
+          ),
+            text: 'Market', icon:  Icons.notifications_none,iconColor: Colors.transparent,
+          ),
+          GButton(
+            leading:  SizedBox(
+              width: 24,
+              height: 24,
+              child:  ImageIcon(AssetImage('lib/assets/star.png'),color: Colors.white),
             ),
-            label: 'Calls',
-          ),
-          BottomNavigationBarItem(
-            icon: ImageIcon(AssetImage('lib/assets/star.png')),
-            label: 'Calls',
+            icon:  Icons.notifications_none,iconColor: Colors.transparent,
+            text: 'Favourite',
             backgroundColor: Color(0xFF121212),
           ),
-          BottomNavigationBarItem(
-            icon: ImageIcon(AssetImage('lib/assets/news.png')),
-            label: 'Calls',
+          GButton(
+            leading:  SizedBox(
+              width: 24,
+              height: 24,
+              child: ImageIcon(AssetImage('lib/assets/news.png'),color: Colors.white),
+            ),
+            icon:  Icons.notifications_none,iconColor: Colors.transparent,
+            text: 'News',
             backgroundColor: Color(0xFF121212),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.notifications_none),
-            label: 'Calls',
+          GButton(
+            icon: Icons.notifications_none,
+            text: 'Notification',
+            iconColor: Colors.white,
             backgroundColor: Color(0xFF121212),
           ),
         ],
-        currentIndex: _currentIndex,
+        selectedIndex: _currentIndex,
         //New
-        onTap: _onItemTapped,
+        onTabChange: _onItemTapped,
       ),
     );
   }

@@ -65,7 +65,20 @@ class _NewsSummaryScreenState extends State<NewsSummaryScreen> {
                   ),
                 ),
                 Positioned(
-                  top: height * 0.28,
+                  top: height * 0.12,
+                  child: Container(
+                    width: width,
+                    height: height * 0.25,
+                    decoration:    BoxDecoration(
+                        gradient:  LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.center,
+                      colors: [Colors.transparent,Colors.blueAccent.withOpacity(1).withOpacity(0.2)],
+                    ),),
+                  ),
+                ),
+                Positioned(
+                  top: height * 0.29,
                   child: SizedBox(
                     width: width,
                     child: Row(
@@ -74,7 +87,7 @@ class _NewsSummaryScreenState extends State<NewsSummaryScreen> {
                         Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
-                            color: Colors.white,
+                            color: Colors.transparent,
                           ),
                           width: width * 0.32,
                           height: height * 0.05,
@@ -83,10 +96,11 @@ class _NewsSummaryScreenState extends State<NewsSummaryScreen> {
                             child: AutoSizeText(
                               widget.newsData.source,
                               maxLines: 2,
-                              style: GoogleFonts.poppins(
-                                color: Colors.black,
+                              style: GoogleFonts.rubik(
+                                color: Colors.white,
                                 fontSize: 14,
-                              ),
+                                fontWeight: FontWeight.w500
+                              ,),
                               textAlign: TextAlign.center,
                             ),
                           ),
@@ -94,7 +108,7 @@ class _NewsSummaryScreenState extends State<NewsSummaryScreen> {
                         Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
-                            color: Colors.white,
+                            color: Colors.transparent,
                           ),
                           width: width * 0.2,
                           height: height * 0.05,
@@ -103,14 +117,14 @@ class _NewsSummaryScreenState extends State<NewsSummaryScreen> {
                             children: <Widget>[
                               const Icon(
                                 Icons.watch_later_outlined,
-                                color: Colors.black,
+                                color: Colors.white,
                                 size: 17,
                               ),
                               AutoSizeText(
                                 " ${widget.newsData.readTime.split(
                                   " ",
                                 )[0]} ${widget.newsData.readTime.split(" ")[1]}",
-                                style: GoogleFonts.poppins(),
+                                style: GoogleFonts.rubik(color: Colors.white,  fontWeight: FontWeight.w500,),
                               )
                             ],
                           ),
@@ -118,7 +132,7 @@ class _NewsSummaryScreenState extends State<NewsSummaryScreen> {
                         Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
-                            color: Colors.white,
+                            color: Colors.transparent,
                           ),
                           width: width * 0.2,
                           height: height * 0.05,
@@ -127,12 +141,12 @@ class _NewsSummaryScreenState extends State<NewsSummaryScreen> {
                             children: <Widget>[
                               const Icon(
                                 Icons.remove_red_eye,
-                                color: Colors.black,
+                                color: Colors.white,
                                 size: 17,
                               ),
                               Text(
                                 " 376",
-                                style: GoogleFonts.poppins(),
+                                style: GoogleFonts.rubik(color: Colors.white, fontWeight: FontWeight.w500,),
                               )
                             ],
                           ),
@@ -175,7 +189,7 @@ class _NewsSummaryScreenState extends State<NewsSummaryScreen> {
                       child: AutoSizeText(
                         widget.newsData.title,
                         style: GoogleFonts.rubik(
-                          fontSize: 16,
+                          fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
@@ -189,8 +203,9 @@ class _NewsSummaryScreenState extends State<NewsSummaryScreen> {
                       child: SingleChildScrollView(
                         child: AutoSizeText(
                           widget.newsData.summary,
-                          style: GoogleFonts.poppins(
-                            fontSize: 14,
+                          style: GoogleFonts.rubik(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 16,
                             color: Colors.white,
                           ),
                           textAlign: TextAlign.justify,
