@@ -10,6 +10,7 @@ class SettingScreen extends StatelessWidget {
       resizeToAvoidBottomInset: true,
       backgroundColor: Colors.black,
       appBar: AppBar(
+        elevation: 0,
         backgroundColor: Colors.black,
         centerTitle: true,
         leading: IconButton(

@@ -53,13 +53,13 @@ class TopNews extends StatelessWidget {
                               imageUrl: _helper.extractImgUrl(
                                 model.newsCompleteList[index].photoUrl,
                               ),
+
                               errorWidget: (context, url, error) =>
                                   Image.asset(
                                     "lib/assets/logo.png",
                                     fit: BoxFit.cover,
                                   ),
                               height: height * 0.5,
-                              width: width * 0.8,
                             ),
                           ),
                         ),
@@ -67,12 +67,12 @@ class TopNews extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    top: height * 0.225,
+                    top: height * 0.243,
                     child: Container(
                       padding: const EdgeInsets.only(
-                          top: 10, left: 15, right: 15, bottom: 10),
-                      width: width * 0.74,
-                      height: height * 0.19,
+                          top: 10, left: 15, right: 15, bottom: 10,),
+                      width: width * 0.875,
+                      height: height * 0.16,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: Colors.black.withOpacity(0.8),
@@ -82,7 +82,7 @@ class TopNews extends StatelessWidget {
                         children: <Widget>[
                           Container(
                             margin:
-                                const EdgeInsets.only(left: 0.5, right: 0.5),
+                                const EdgeInsets.only(left: 0.5, right: 0.5,bottom: 5),
                             width: width * 0.75,
                             height: height * 0.1,
                             child: AutoSizeText(
@@ -96,49 +96,45 @@ class TopNews extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Container(
-                            margin: const EdgeInsets.only(top: 10),
-                            width: width * 0.4,
-                            height: height * 0.05,
-                            child: AutoSizeText(
-                              model.newsCompleteList[index].source,
-                              minFontSize: 11,
-                              maxLines: 4,
-                              style: GoogleFonts.rubik(
-                                color: const Color(0xFFd9d8d9),
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                width: width * 0.4,
+                                height: height * 0.03,
+                                child: AutoSizeText(
+                                  model.newsCompleteList[index].source,
+                                  minFontSize: 11,
+                                  maxLines: 4,
+                                  style: GoogleFonts.rubik(
+                                    color: const Color(0xFFd9d8d9),
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
                               ),
-                            ),
+                                  Container(
+                                    width: width * 0.25,
+                                    height: height * 0.03,
+                                    child: AutoSizeText(
+                                        _helper.convertToSmallerAgo(
+                                          model.newsCompleteList[index].publishedDate,
+                                        ),
+                                        minFontSize: 10,
+                                        maxLines: 4,
+                                        style: GoogleFonts.rubik(
+                                          color: const Color(0xFFd9d8d9),
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                  )
+                            ],
                           ),
                           // Row(
                           //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           //   children: <Widget>[
-                          //     Container(
-                          //       decoration: BoxDecoration(
-                          //         borderRadius:
-                          //         BorderRadius.circular(20),
-                          //         color: Colors.white70,
-                          //       ),
-                          //       width: width * 0.25,
-                          //       height: height * 0.03,
-                          //       child: Center(
-                          //         heightFactor: 1,
-                          //         child: AutoSizeText(
-                          //           _helper.convertToSmallerAgo(
-                          //             model.newsCompleteList[index].publishedDate,
-                          //           ),
-                          //           minFontSize: 10,
-                          //           maxLines: 4,
-                          //           style: GoogleFonts.poppins(
-                          //             color:Colors.black,
-                          //             fontSize: 14,
-                          //             fontWeight: FontWeight.bold,
-                          //           ),
-                          //           textAlign: TextAlign.center,
-                          //         ),
-                          //       ),
-                          //     ),Container(
+                    //,Container(
                           //       margin: const EdgeInsets.only(right: 5),
                           //       decoration: BoxDecoration(
                           //         borderRadius:

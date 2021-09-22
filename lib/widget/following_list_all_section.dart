@@ -99,14 +99,19 @@ class _TodayNewsList extends StatelessWidget {
                               ),
                               subtitle: Column(
                                 children: [
-                                  AutoSizeText(
-                                    model.newsCompleteList[i].description,
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    softWrap: false,
-                                    style: GoogleFonts.poppins(
-                                      color: Colors.white70,
-                                      fontSize: 15,
+                                  Container(
+                                    margin: const EdgeInsets.only(
+                                      bottom: 7,
+                                    ),
+                                    child: AutoSizeText(
+                                      model.newsCompleteList[i].description,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      softWrap: false,
+                                      style: GoogleFonts.poppins(
+                                        color: Colors.white70,
+                                        fontSize: 15,
+                                      ),
                                     ),
                                   ),
                                   Row(
@@ -120,7 +125,7 @@ class _TodayNewsList extends StatelessWidget {
                                         )} \u2022",
                                         maxLines: 1,
                                         style: GoogleFonts.poppins(
-                                          color: const Color(0xFF6a6a6a),
+                                          color: Colors.white70,
                                           fontSize: 15,
                                         ),
                                       ),
@@ -128,7 +133,7 @@ class _TodayNewsList extends StatelessWidget {
                                         model.newsCompleteList[i].source,
                                         maxLines: 1,
                                         style: GoogleFonts.poppins(
-                                          color: const Color(0xFF6a6a6a),
+                                          color: Colors.white70,
                                           fontSize: 15,
                                           fontWeight: FontWeight.w500,
                                         ),

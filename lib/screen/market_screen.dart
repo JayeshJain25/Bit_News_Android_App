@@ -43,6 +43,7 @@ class _MarketScreenState extends State<MarketScreen> {
     return Scaffold(
       backgroundColor: const Color(0xFF121212),
       appBar: AppBar(
+        elevation: 0,
         backgroundColor: const Color(0xFF121212),
         title: AutoSizeText(
           'Market',

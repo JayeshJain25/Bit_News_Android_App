@@ -80,16 +80,19 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         backgroundColor: const Color(0xFF121212),
-        title: AutoSizeText(
-          'CryptoX',
-          style: GoogleFonts.poppins(
-            color: Colors.white,
-            fontSize: 23,
-            fontWeight: FontWeight.w600,
+        title: Container(
+          margin : const EdgeInsets.only(left: 20,top: 5),
+          child: AutoSizeText(
+            'Discover',
+            style: GoogleFonts.poppins(
+              color: Colors.white,
+              fontSize: 23,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ),
-        centerTitle: true,
         automaticallyImplyLeading: false,
       ),
       backgroundColor: const Color(0xFF121212),
@@ -147,6 +150,7 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
                       //           )),
                       // ),
                       flexibleSpace: Container(
+                        padding: const EdgeInsets.only(top: 10,left: 10,right: 10),
                         margin: const EdgeInsets.only(
                           left: 15,
                           right: 15,
@@ -154,10 +158,7 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
                           top: 15,
                         ),
                         height: 45.h,
-                        child: Column(
-                          children: [
-                            Expanded(
-                              child: CarouselSlider.builder(
+                        child:CarouselSlider.builder(
                                 carouselController: _controller,
                                 options: CarouselOptions(
                                   onPageChanged: (index, reason) {
@@ -166,11 +167,12 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
                                     });
                                   },
                                   height: 45.h,
+                                  viewportFraction: 1,
                                   autoPlay: true,
+                                  enlargeCenterPage: true,
                                   autoPlayInterval: const Duration(seconds: 10),
                                   autoPlayAnimationDuration:
                                       const Duration(milliseconds: 1500),
-                                  enlargeCenterPage: true,
                                 ),
                                 itemCount: 5,
                                 itemBuilder: (
@@ -181,48 +183,46 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
                                   return TopNews(index);
                                 },
                               ),
-                            ),
-                          ],
-                        ),
                       ),
                       backgroundColor: const Color(0xFF121212),
                     ),
                     SliverPersistentHeader(
                       delegate: MyDelegate(
                         TabBar(
-                          labelColor: Colors.white,
+                          labelColor: Colors.black,
+                          unselectedLabelColor: Colors.white,
                           isScrollable: true,
                           indicator: BoxDecoration(
                             color: const Color(0xFF4E8799),
-                            borderRadius: BorderRadius.circular(25),
+                            borderRadius: BorderRadius.circular(45),
                           ),
                           tabs: [
                             Tab(
                               child: AutoSizeText(
-                                'Following',
+                                'News Feed',
                                 maxLines: 1,
-                                style: GoogleFonts.rubik(),
+                                style: GoogleFonts.poppins(fontWeight: FontWeight.w600),
                               ),
                             ),
                             Tab(
                               child: AutoSizeText(
-                                'Recommended',
+                                'Bitcoin',
                                 maxLines: 1,
-                                style: GoogleFonts.rubik(),
+                                style: GoogleFonts.rubik(fontWeight: FontWeight.w600),
                               ),
                             ),
                             Tab(
                               child: AutoSizeText(
-                                'Everything',
+                                'Ethereum',
                                 maxLines: 1,
-                                style: GoogleFonts.rubik(),
+                                style: GoogleFonts.rubik(fontWeight: FontWeight.w600),
                               ),
                             ),
                             Tab(
                               child: AutoSizeText(
-                                'Hot News', //Trending News
+                                'NFT', //Trending News
                                 maxLines: 1,
-                                style: GoogleFonts.rubik(),
+                                style: GoogleFonts.rubik(fontWeight: FontWeight.w600),
                               ),
                             ),
                           ],

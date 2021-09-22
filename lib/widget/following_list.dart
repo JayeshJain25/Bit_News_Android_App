@@ -110,21 +110,23 @@ class FollowingList extends StatelessWidget {
                                           ),
                                           Column(
                                             children: [
-                                              AutoSizeText(
-                                                model.newsCompleteList[index]
-                                                    .description,
-                                                maxLines: 2,
-                                                overflow: TextOverflow.ellipsis,
-                                                softWrap: false,
-                                                style: GoogleFonts.rubik(
-                                                  color: Colors.white70,
-                                                  fontSize: 15,
+                                              Container(
+                                                margin: const EdgeInsets.only(
+                                                  bottom: 7,
+                                                ),
+                                                child: AutoSizeText(
+                                                  model.newsCompleteList[index]
+                                                      .description,
+                                                  maxLines: 2,
+                                                  overflow: TextOverflow.ellipsis,
+                                                  softWrap: false,
+                                                  style: GoogleFonts.rubik(
+                                                    color: Colors.white70,
+                                                    fontSize: 15,
+                                                  ),
                                                 ),
                                               ),
                                               Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
                                                 children: <Widget>[
                                                   AutoSizeText(
                                                     "${_helper.convertToAgo(
@@ -132,34 +134,33 @@ class FollowingList extends StatelessWidget {
                                                           .newsCompleteList[
                                                               index]
                                                           .publishedDate,
-                                                    )} \u2022",
+                                                    )}  \u2022",
                                                     maxLines: 1,
                                                     style: GoogleFonts.poppins(
-                                                      color: const Color(
-                                                        0xFF6a6a6a,
-                                                      ),
+                                                      color: Colors.white70,
                                                       fontSize: 12,
                                                       fontWeight:
                                                           FontWeight.w500,
                                                     ),
                                                   ),
                                                   Flexible(
-                                                    child: AutoSizeText(
-                                                      model
-                                                          .newsCompleteList[
-                                                              index]
-                                                          .source,
-                                                      maxLines: 1,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      style:
-                                                          GoogleFonts.poppins(
-                                                        color: const Color(
-                                                          0xFF6a6a6a,
+                                                    child: Container(
+                                                      margin: const EdgeInsets.only(left: 5),
+                                                      child: AutoSizeText(
+                                                        model
+                                                            .newsCompleteList[
+                                                                index]
+                                                            .source,
+                                                        maxLines: 1,
+                                                        overflow:
+                                                            TextOverflow.ellipsis,
+                                                        style:
+                                                            GoogleFonts.poppins(
+                                                          color:Colors.white70,
+                                                          fontSize: 13,
+                                                          fontWeight:
+                                                              FontWeight.w500,
                                                         ),
-                                                        fontSize: 13,
-                                                        fontWeight:
-                                                            FontWeight.w500,
                                                       ),
                                                     ),
                                                   ),
