@@ -54,10 +54,9 @@ class _NewsSummaryScreenState extends State<NewsSummaryScreen> {
                     imageUrl: _helper.extractImgUrl(
                       widget.newsData.photoUrl,
                     ),
-                    errorWidget: (context, url, error) => CachedNetworkImage(
-                      fit: BoxFit.fill,
-                      imageUrl:
-                          "https://www.translationvalley.com/wp-content/uploads/2020/03/no-iamge-placeholder.jpg",
+                    errorWidget: (context, url, error) => Image.asset(
+                      "lib/assets/logo.png",
+                      fit: BoxFit.cover,
                     ),
                     height: height * 0.37,
                     width: width,
@@ -69,12 +68,16 @@ class _NewsSummaryScreenState extends State<NewsSummaryScreen> {
                   child: Container(
                     width: width,
                     height: height * 0.25,
-                    decoration:    BoxDecoration(
-                        gradient:  LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.center,
-                      colors: [Colors.transparent,Colors.blueAccent.withOpacity(1).withOpacity(0.2)],
-                    ),),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.center,
+                        colors: [
+                          Colors.transparent,
+                          Colors.blueAccent.withOpacity(1).withOpacity(0.2)
+                        ],
+                      ),
+                    ),
                   ),
                 ),
                 Positioned(
@@ -99,8 +102,8 @@ class _NewsSummaryScreenState extends State<NewsSummaryScreen> {
                               style: GoogleFonts.rubik(
                                 color: Colors.white,
                                 fontSize: 14,
-                                fontWeight: FontWeight.w500
-                              ,),
+                                fontWeight: FontWeight.w500,
+                              ),
                               textAlign: TextAlign.center,
                             ),
                           ),
@@ -124,7 +127,10 @@ class _NewsSummaryScreenState extends State<NewsSummaryScreen> {
                                 " ${widget.newsData.readTime.split(
                                   " ",
                                 )[0]} ${widget.newsData.readTime.split(" ")[1]}",
-                                style: GoogleFonts.rubik(color: Colors.white,  fontWeight: FontWeight.w500,),
+                                style: GoogleFonts.rubik(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               )
                             ],
                           ),
@@ -146,7 +152,10 @@ class _NewsSummaryScreenState extends State<NewsSummaryScreen> {
                               ),
                               Text(
                                 " 376",
-                                style: GoogleFonts.rubik(color: Colors.white, fontWeight: FontWeight.w500,),
+                                style: GoogleFonts.rubik(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               )
                             ],
                           ),

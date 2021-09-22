@@ -20,12 +20,14 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (ctx) => NewsProvider()),
         ChangeNotifierProvider(create: (ctx) => CryptoMarketDataProvider()),
       ],
-      child: Sizer(builder: (ctx, orientation, deviceType) {
-        return const GetMaterialApp(
-          debugShowCheckedModeBanner: false,
-          home: SplashScreen(),
-        );
-      }),
+      child: Sizer(
+        builder: (ctx, orientation, deviceType) {
+          return const GetMaterialApp(
+            debugShowCheckedModeBanner: false,
+            home: SplashScreen(),
+          );
+        },
+      ),
     );
   }
 }

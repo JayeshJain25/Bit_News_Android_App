@@ -62,11 +62,14 @@ class CryptoAndFiatProvider with ChangeNotifier {
   }
 
   double getConversionRate(double coinV1, double coinV2, String conversionValue,
-      String type1, String type2,double fiatIndianPrice) {
+      String type1, String type2, double fiatIndianPrice) {
     if (type1 == "Crypto" && type2 == "Fiat" && conversionValue.isNotEmpty) {
-      return ((coinV1*coinV2)/fiatIndianPrice) * double.parse(conversionValue);
-    } else if (type2 == "Crypto" && type1 == "Fiat" && conversionValue.isNotEmpty) {
-      final double cryptoPriceFiat = (coinV1*coinV2)/fiatIndianPrice;
+      return ((coinV1 * coinV2) / fiatIndianPrice) *
+          double.parse(conversionValue);
+    } else if (type2 == "Crypto" &&
+        type1 == "Fiat" &&
+        conversionValue.isNotEmpty) {
+      final double cryptoPriceFiat = (coinV1 * coinV2) / fiatIndianPrice;
       return double.parse(conversionValue) / cryptoPriceFiat;
     } else if (conversionValue.isEmpty) {
       return (coinV1 * 0) / coinV2;

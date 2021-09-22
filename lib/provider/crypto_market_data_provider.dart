@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:crypto_news/helper/api_endpoints.dart';
@@ -7,12 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class CryptoMarketDataProvider with ChangeNotifier {
-
   CryptoMarketDataProvider();
 
   final _apiEndpoints = ApiEndpoints();
 
-   List<CryptoMarketDataModel> listModel = [];
+  List<CryptoMarketDataModel> listModel = [];
 
   CryptoMarketDataProvider.fromJson(List<dynamic> parsedJson) {
     List<CryptoMarketDataModel> list = [];
@@ -31,7 +29,8 @@ class CryptoMarketDataProvider with ChangeNotifier {
       final response = await http.get(Uri.parse(url),
           headers: <String, String>{'authorization': _apiEndpoints.basicAuth});
       final r = json.decode(response.body) as List<dynamic>;
-      final CryptoMarketDataProvider model = CryptoMarketDataProvider.fromJson(r);
+      final CryptoMarketDataProvider model =
+          CryptoMarketDataProvider.fromJson(r);
       for (final element in model.listModel) {
         listModel.add(element);
       }

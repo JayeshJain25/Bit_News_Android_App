@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
-
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
 
@@ -18,7 +16,8 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Timer(const Duration(seconds: 3), () => Get.to(() => AppBottomNavigationBar()));
+    Timer(const Duration(seconds: 3),
+        () => Get.to(() => AppBottomNavigationBar()));
   }
 
   @override
@@ -30,9 +29,10 @@ class _SplashScreenState extends State<SplashScreen> {
         children: [
           Image.asset(
             "lib/assets/logo.png",
-          ), Text(
-              "CryptoX",
-              style: GoogleFonts.poppins(color: Colors.white, fontSize: 25),
+          ),
+          Text(
+            "CryptoX",
+            style: GoogleFonts.poppins(color: Colors.white, fontSize: 25),
           ),
         ],
       ),

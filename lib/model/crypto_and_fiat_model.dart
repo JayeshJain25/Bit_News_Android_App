@@ -46,7 +46,7 @@ class CryptoAndFiatModel {
         "total_volume": totalVolume,
         "rank": rank,
         "image": image,
-        "type" : type,
+        "type": type,
         "gradientColor": gradientColor
       };
 }

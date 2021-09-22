@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:crypto_news/helper/helper.dart';
 import 'package:crypto_news/model/news_model.dart';
 import 'package:crypto_news/provider/news_provider.dart';
+import 'package:crypto_news/screen/news_summary_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
@@ -29,7 +30,7 @@ class FollowingListAllSection extends StatelessWidget {
 }
 
 class _TodayNewsList extends StatelessWidget {
-   _TodayNewsList({Key? key, this.index, required this.newsList})
+  _TodayNewsList({Key? key, this.index, required this.newsList})
       : super(key: key);
 
   final int? index;
@@ -52,43 +53,59 @@ class _TodayNewsList extends StatelessWidget {
                 child: Consumer<NewsProvider>(
                   builder: (ctx, model, _) => InkWell(
                     onTap: () {
-                      Get.to(() => NewsWebView(model.newsCompleteList[i].url));
+                      Get.to(
+                        () => NewsSummaryScreen(
+                          model.newsCompleteList[i],
+                        ),
+                      );
                     },
                     child: Container(
                       margin: const EdgeInsets.only(bottom: 15),
                       child: Card(
-                        elevation: 2,
-                        color: Colors.black,
+                        elevation: 0,
+                        color: const Color(0xFF121212),
                         child: Column(
                           children: [
-                            SizedBox(
-                              height: height * 0.2,
-                              width: width*0.81,
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(15.0),
                               child: CachedNetworkImage(
-                                fit: BoxFit.fill,
-                                imageUrl: _helper.extractImgUrl(model.newsCompleteList[i].photoUrl),
-                                errorWidget: (context, url,error) => CachedNetworkImage(  fit: BoxFit.fill,imageUrl: "https://www.translationvalley.com/wp-content/uploads/2020/03/no-iamge-placeholder.jpg"),
+                                fit: BoxFit.cover,
+                                imageUrl: _helper.extractImgUrl(
+                                  model.newsCompleteList[i].photoUrl,
+                                ),
+                                errorWidget: (context, url, error) =>
+                                    Image.asset(
+                                      "lib/assets/logo.png",
+                                  fit: BoxFit.cover,
+                                ),
+                                height: height * 0.2,
+                                width: width * 0.81,
                               ),
                             ),
                             ListTile(
-                              title: AutoSizeText(
-                                model.newsCompleteList[i].title,
-                                maxLines: 2,
-                                style: GoogleFonts.poppins(
-                                  color: Colors.white,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w400,
+                              title: Container(
+                                margin: const EdgeInsets.only(
+                                  bottom: 7,
+                                ),
+                                child: AutoSizeText(
+                                  model.newsCompleteList[i].title,
+                                  maxLines: 2,
+                                  style: GoogleFonts.poppins(
+                                    color: Colors.white,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                 ),
                               ),
                               subtitle: Column(
                                 children: [
                                   AutoSizeText(
                                     model.newsCompleteList[i].description,
-                                    maxLines: 1,
+                                    maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                     softWrap: false,
                                     style: GoogleFonts.poppins(
-                                      color: const Color(0xFF6a6a6a),
+                                      color: Colors.white70,
                                       fontSize: 15,
                                     ),
                                   ),
@@ -97,7 +114,10 @@ class _TodayNewsList extends StatelessWidget {
                                         MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
                                       AutoSizeText(
-                                        _helper.convertToAgo(model.newsCompleteList[i].publishedDate),
+                                        "${_helper.convertToAgo(
+                                          model.newsCompleteList[i]
+                                              .publishedDate,
+                                        )} \u2022",
                                         maxLines: 1,
                                         style: GoogleFonts.poppins(
                                           color: const Color(0xFF6a6a6a),
@@ -110,6 +130,7 @@ class _TodayNewsList extends StatelessWidget {
                                         style: GoogleFonts.poppins(
                                           color: const Color(0xFF6a6a6a),
                                           fontSize: 15,
+                                          fontWeight: FontWeight.w500,
                                         ),
                                       ),
                                     ],
@@ -132,12 +153,14 @@ class _TodayNewsList extends StatelessWidget {
       builder: (BuildContext context, SliverStickyHeaderState state) =>
           Container(
         height: 40.0,
-        color: (Colors.black).withOpacity(1.0 - state.scrollPercentage),
+        color:
+            const Color(0xFF121212).withOpacity(1.0 - state.scrollPercentage),
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         alignment: Alignment.centerLeft,
         child: Text(
           'TODAY',
-          style: GoogleFonts.poppins(color: const Color(0xFF6a6a6a)),
+          style: GoogleFonts.poppins(
+              color: Colors.white, fontSize: 15, fontWeight: FontWeight.w500),
         ),
       ),
     );
@@ -181,20 +204,25 @@ class _RecentNewsList extends StatelessWidget {
                                 height: height * 0.04,
                                 width: width * 0.1,
                                 child: const Image(
-                                    fit: BoxFit.contain,
-                                    image: NetworkImage(
-                                        'https://icons.iconarchive.com/icons/cjdowner/cryptocurrency-flat/1024/Bitcoin-BTC-icon.png')),
+                                  fit: BoxFit.contain,
+                                  image: NetworkImage(
+                                    'https://icons.iconarchive.com/icons/cjdowner/cryptocurrency-flat/1024/Bitcoin-BTC-icon.png',
+                                  ),
+                                ),
                               ),
                               Container(
                                 margin: EdgeInsets.only(
-                                    left: width * 0.027, top: width * 0.015),
+                                  left: width * 0.027,
+                                  top: width * 0.015,
+                                ),
                                 width: width * 0.1,
                                 height: height * 0.025,
                                 child: AutoSizeText(
                                   'BTC',
                                   style: GoogleFonts.rubik(
-                                      fontSize: 14,
-                                      color: const Color(0xFF6a6a6a)),
+                                    fontSize: 14,
+                                    color: const Color(0xFF6a6a6a),
+                                  ),
                                 ),
                               ),
                             ],
@@ -202,42 +230,45 @@ class _RecentNewsList extends StatelessWidget {
                           Column(
                             children: <Widget>[
                               Container(
-                                  margin: EdgeInsets.only(top: height * 0.04),
-                                  width: width * 0.72,
-                                  height: height * 0.055,
-                                  child: AutoSizeText(
-                                    "Bitcoin Ransomware Payments Set 'Dangerous Precedent': House Oversight Chair",
-                                    maxLines: 2,
-                                    style: GoogleFonts.poppins(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  )),
+                                margin: EdgeInsets.only(top: height * 0.04),
+                                width: width * 0.72,
+                                height: height * 0.055,
+                                child: AutoSizeText(
+                                  "Bitcoin Ransomware Payments Set 'Dangerous Precedent': House Oversight Chair",
+                                  maxLines: 2,
+                                  style: GoogleFonts.poppins(
+                                    color: Colors.white,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
                               SizedBox(
-                                  width: width * 0.72,
-                                  height: height * 0.03,
-                                  child: AutoSizeText(
-                                    "Bitcoin Ransomware Payments Set 'Dangerous Precedent': House Oversight Chair",
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    softWrap: false,
-                                    style: GoogleFonts.poppins(
-                                      color: const Color(0xFF6a6a6a),
-                                      fontSize: 15,
-                                    ),
-                                  )),
+                                width: width * 0.72,
+                                height: height * 0.03,
+                                child: AutoSizeText(
+                                  "Bitcoin Ransomware Payments Set 'Dangerous Precedent': House Oversight Chair",
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  softWrap: false,
+                                  style: GoogleFonts.poppins(
+                                    color: const Color(0xFF6a6a6a),
+                                    fontSize: 15,
+                                  ),
+                                ),
+                              ),
                               SizedBox(
-                                  width: width * 0.5,
-                                  height: height * 0.03,
-                                  child: AutoSizeText(
-                                    "- 3 hours ago",
-                                    maxLines: 1,
-                                    style: GoogleFonts.poppins(
-                                      color: const Color(0xFF6a6a6a),
-                                      fontSize: 15,
-                                    ),
-                                  )),
+                                width: width * 0.5,
+                                height: height * 0.03,
+                                child: AutoSizeText(
+                                  "- 3 hours ago",
+                                  maxLines: 1,
+                                  style: GoogleFonts.poppins(
+                                    color: const Color(0xFF6a6a6a),
+                                    fontSize: 15,
+                                  ),
+                                ),
+                              ),
                             ],
                           )
                         ],
@@ -254,12 +285,14 @@ class _RecentNewsList extends StatelessWidget {
       builder: (BuildContext context, SliverStickyHeaderState state) =>
           Container(
         height: 40.0,
-        color: (Colors.black).withOpacity(1.0 - state.scrollPercentage),
+        color:
+            const Color(0xFF121212).withOpacity(1.0 - state.scrollPercentage),
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         alignment: Alignment.centerLeft,
         child: Text(
           'RECENT',
-          style: GoogleFonts.poppins(color: const Color(0xFF6a6a6a)),
+          style: GoogleFonts.poppins(
+              color: Colors.white, fontSize: 15, fontWeight: FontWeight.w500),
         ),
       ),
     );

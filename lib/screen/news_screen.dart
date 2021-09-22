@@ -1,15 +1,12 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:crypto_news/provider/news_provider.dart';
-import 'package:crypto_news/screen/news_search_screen.dart';
 import 'package:crypto_news/widget/top_news.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-import '../widget/drawer_screen.dart';
 import '../widget/following_list.dart';
 
 class NewsScreen extends StatefulWidget {
@@ -18,11 +15,6 @@ class NewsScreen extends StatefulWidget {
 }
 
 class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
-  double xOffset = 0;
-  double yOffset = 0;
-  double scaleFactor = 1;
-  bool isDrawerOpen = false;
-
   late Animation<double> gap;
   late AnimationController _animationController;
   late Animation<Offset> _storiesAnimation;
@@ -87,245 +79,173 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color(0xFF121212),
+        title: AutoSizeText(
+          'CryptoX',
+          style: GoogleFonts.poppins(
+            color: Colors.white,
+            fontSize: 23,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        centerTitle: true,
+        automaticallyImplyLeading: false,
+      ),
       backgroundColor: const Color(0xFF121212),
       body: SafeArea(
-        child: Stack(
-          children: <Widget>[
-            DrawerScreen(),
-            AnimatedContainer(
-              transform: Matrix4.translationValues(xOffset, yOffset, 0)
-                ..scale(scaleFactor)
-                ..rotateY(isDrawerOpen ? -0.5 : 0),
-              decoration: BoxDecoration(
-                color: const Color(0xFF121212),
-                borderRadius: !isDrawerOpen
-                    ? BorderRadius.circular(0)
-                    : BorderRadius.circular(40),
-              ),
-              duration: const Duration(milliseconds: 250),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: <Widget>[
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 20),
-                      child:
-                      // Row(
-                      //   children: <Widget>[
-                          // if (isDrawerOpen)
-                          //   IconButton(
-                          //     onPressed: () {
-                          //       setState(() {
-                          //         xOffset = 0;
-                          //         yOffset = 0;
-                          //         scaleFactor = 1;
-                          //         isDrawerOpen = false;
-                          //       });
-                          //     },
-                          //     icon: const Icon(
-                          //       Icons.arrow_back_ios,
-                          //       color: Colors.white,
-                          //     ),
-                          //   )
-                          // else
-                          //   IconButton(
-                          //     onPressed: () {
-                          //       setState(() {
-                          //         xOffset = 230;
-                          //         yOffset = 150;
-                          //         scaleFactor = 0.6;
-                          //         isDrawerOpen = true;
-                          //       });
-                          //     },
-                          //     icon: const Icon(
-                          //       Icons.menu_rounded,
-                          //       color: Colors.white,
-                          //     ),
-                          //   ),
-                          AutoSizeText(
-                            'CryptoX',
-                            style: GoogleFonts.poppins(
-                              color: Colors.white,
-                              fontSize: 23,
-                              fontWeight: FontWeight.w600,
-                            )
-                          ,),
-                          // IconButton(
-                          //   onPressed: () {
-                          //     Get.to(() => NewsSearchScreen());
-                          //   },
-                          //   icon: const Icon(
-                          //     Icons.search,
-                          //     color: Colors.white,
-                          //   ),
-                          // )
-                      //  ],
-                    //  ),
-                    ),
-                    SizedBox(
-                      height: 81.h,
-                      child: DefaultTabController(
-                        length: 4,
-                        child: NestedScrollView(
-                          physics: const NeverScrollableScrollPhysics(),
-                          headerSliverBuilder:
-                              (BuildContext context, bool innerBoxIsScrolled) {
-                            return [
-                              SliverAppBar(
-                                automaticallyImplyLeading: false,
-                                collapsedHeight: 45.h,
-                                expandedHeight: 45.h,
-                                // title: SizedBox(
-                                //   height: 20.h,
-                                //   child: ListView.builder(
-                                //       itemCount: imageUrlList.length,
-                                //       scrollDirection: Axis.horizontal,
-                                //       itemBuilder: (ctx, index) => Container(
-                                //             margin: EdgeInsets.only(
-                                //                 left: 1.5.w, right: 1.5.w),
-                                //             child: SlideTransition(
-                                //               position: _storiesAnimation,
-                                //               child: Center(
-                                //                 child: RotationTransition(
-                                //                   turns: base,
-                                //                   child: DashedCircle(
-                                //                     gapSize: gap.value,
-                                //                     dashes: 40,
-                                //                     color:
-                                //                         const Color(0xFF4E8799),
-                                //                     child: RotationTransition(
-                                //                         turns: reverse,
-                                //                         child: Padding(
-                                //                           padding:
-                                //                               const EdgeInsets
-                                //                                   .all(5.0),
-                                //                           child: CircleAvatar(
-                                //                             radius: 20,
-                                //                             backgroundImage:
-                                //                                 NetworkImage(
-                                //                                     imageUrlList[
-                                //                                         index]),
-                                //                           ),
-                                //                         )),
-                                //                   ),
-                                //                 ),
-                                //               ),
-                                //             ),
-                                //           )),
-                                // ),
-                                flexibleSpace: Container(
-                                  margin: const EdgeInsets.only(
-                                    left: 15,
-                                    right: 15,
-                                    bottom: 15,
-                                    top: 15,
-                                  ),
+        child: SingleChildScrollView(
+          child: SizedBox(
+            height: 81.h,
+            child: DefaultTabController(
+              length: 4,
+              child: NestedScrollView(
+                physics: const NeverScrollableScrollPhysics(),
+                headerSliverBuilder:
+                    (BuildContext context, bool innerBoxIsScrolled) {
+                  return [
+                    SliverAppBar(
+                      automaticallyImplyLeading: false,
+                      collapsedHeight: 45.h,
+                      expandedHeight: 45.h,
+                      // title: SizedBox(
+                      //   height: 20.h,
+                      //   child: ListView.builder(
+                      //       itemCount: imageUrlList.length,
+                      //       scrollDirection: Axis.horizontal,
+                      //       itemBuilder: (ctx, index) => Container(
+                      //             margin: EdgeInsets.only(
+                      //                 left: 1.5.w, right: 1.5.w),
+                      //             child: SlideTransition(
+                      //               position: _storiesAnimation,
+                      //               child: Center(
+                      //                 child: RotationTransition(
+                      //                   turns: base,
+                      //                   child: DashedCircle(
+                      //                     gapSize: gap.value,
+                      //                     dashes: 40,
+                      //                     color:
+                      //                         const Color(0xFF4E8799),
+                      //                     child: RotationTransition(
+                      //                         turns: reverse,
+                      //                         child: Padding(
+                      //                           padding:
+                      //                               const EdgeInsets
+                      //                                   .all(5.0),
+                      //                           child: CircleAvatar(
+                      //                             radius: 20,
+                      //                             backgroundImage:
+                      //                                 NetworkImage(
+                      //                                     imageUrlList[
+                      //                                         index]),
+                      //                           ),
+                      //                         )),
+                      //                   ),
+                      //                 ),
+                      //               ),
+                      //             ),
+                      //           )),
+                      // ),
+                      flexibleSpace: Container(
+                        margin: const EdgeInsets.only(
+                          left: 15,
+                          right: 15,
+                          bottom: 15,
+                          top: 15,
+                        ),
+                        height: 45.h,
+                        child: Column(
+                          children: [
+                            Expanded(
+                              child: CarouselSlider.builder(
+                                carouselController: _controller,
+                                options: CarouselOptions(
+                                  onPageChanged: (index, reason) {
+                                    setState(() {
+                                      _current = index;
+                                    });
+                                  },
                                   height: 45.h,
-                                  child: Column(
-                                    children: [
-                                      Expanded(
-                                        child: CarouselSlider.builder(
-                                          carouselController: _controller,
-                                          options: CarouselOptions(
-                                            onPageChanged: (index, reason) {
-                                              setState(() {
-                                                _current = index;
-                                              });
-                                            },
-                                            height: 45.h,
-                                            initialPage: 0,
-                                            enableInfiniteScroll: true,
-                                            reverse: false,
-                                            autoPlay: true,
-                                            autoPlayInterval:
-                                                const Duration(seconds: 10),
-                                            autoPlayAnimationDuration:
-                                                const Duration(milliseconds: 1500),
-                                            autoPlayCurve: Curves.fastOutSlowIn,
-                                            enlargeCenterPage: true,
-                                            scrollDirection: Axis.horizontal,
-                                          ),
-                                          itemCount: 5,
-                                          itemBuilder: (
-                                            BuildContext context,
-                                            int index,
-                                            int realIndex,
-                                          ) {
-                                            return TopNews(index);
-                                          },
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                  autoPlay: true,
+                                  autoPlayInterval: const Duration(seconds: 10),
+                                  autoPlayAnimationDuration:
+                                      const Duration(milliseconds: 1500),
+                                  enlargeCenterPage: true,
                                 ),
-                                backgroundColor: const Color(0xFF121212),
+                                itemCount: 5,
+                                itemBuilder: (
+                                  BuildContext context,
+                                  int index,
+                                  int realIndex,
+                                ) {
+                                  return TopNews(index);
+                                },
                               ),
-                              SliverPersistentHeader(
-                                delegate: MyDelegate(
-                                  TabBar(
-                                    labelColor: Colors.white,
-                                    isScrollable: true,
-                                    indicator: BoxDecoration(
-                                      color: const Color(0xFF4E8799),
-                                      borderRadius: BorderRadius.circular(25),
-                                    ),
-                                    tabs: [
-                                      Tab(
-                                        child: AutoSizeText(
-                                          'Following',
-                                          maxLines: 1,
-                                          style: GoogleFonts.rubik(),
-                                        ),
-                                      ),
-                                      Tab(
-                                        child: AutoSizeText(
-                                          'Recommended',
-                                          maxLines: 1,
-                                          style: GoogleFonts.rubik(),
-                                        ),
-                                      ),
-                                      Tab(
-                                        child: AutoSizeText(
-                                          'Everything',
-                                          maxLines: 1,
-                                          style: GoogleFonts.rubik(),
-                                        ),
-                                      ),
-                                      Tab(
-                                        child: AutoSizeText(
-                                          'Hot News', //Trending News
-                                          maxLines: 1,
-                                          style: GoogleFonts.rubik(),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                floating: true,
-                              )
-                            ];
-                          },
-                          body: Container(
-                            margin: EdgeInsets.all(0.4.w),
-                            child: TabBarView(
-                              children: <Widget>[
-                                FollowingList(),
-                                FollowingList(),
-                                FollowingList(),
-                                FollowingList(),
-                              ],
                             ),
-                          ),
+                          ],
                         ),
                       ),
+                      backgroundColor: const Color(0xFF121212),
+                    ),
+                    SliverPersistentHeader(
+                      delegate: MyDelegate(
+                        TabBar(
+                          labelColor: Colors.white,
+                          isScrollable: true,
+                          indicator: BoxDecoration(
+                            color: const Color(0xFF4E8799),
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          tabs: [
+                            Tab(
+                              child: AutoSizeText(
+                                'Following',
+                                maxLines: 1,
+                                style: GoogleFonts.rubik(),
+                              ),
+                            ),
+                            Tab(
+                              child: AutoSizeText(
+                                'Recommended',
+                                maxLines: 1,
+                                style: GoogleFonts.rubik(),
+                              ),
+                            ),
+                            Tab(
+                              child: AutoSizeText(
+                                'Everything',
+                                maxLines: 1,
+                                style: GoogleFonts.rubik(),
+                              ),
+                            ),
+                            Tab(
+                              child: AutoSizeText(
+                                'Hot News', //Trending News
+                                maxLines: 1,
+                                style: GoogleFonts.rubik(),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      floating: true,
                     )
-                  ],
+                  ];
+                },
+                body: Container(
+                  margin: EdgeInsets.all(0.4.w),
+                  child: TabBarView(
+                    children: <Widget>[
+                      FollowingList(),
+                      FollowingList(),
+                      FollowingList(),
+                      FollowingList(),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ],
+          ),
         ),
       ),
     );

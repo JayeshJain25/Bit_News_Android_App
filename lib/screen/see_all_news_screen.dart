@@ -29,7 +29,7 @@ class _SeeAllNewsScreenState extends State<SeeAllNewsScreen> {
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      backgroundColor: Colors.black,
+      backgroundColor: const Color(0xFF121212),
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
@@ -38,12 +38,13 @@ class _SeeAllNewsScreenState extends State<SeeAllNewsScreen> {
             Get.back();
           },
         ),
-        backgroundColor: Colors.black,
+        backgroundColor: const Color(0xFF121212),
         title: AutoSizeText('Latest',
             style: GoogleFonts.poppins(
               color: Colors.white,
-              fontSize: 20, fontWeight: FontWeight.bold
-            )),
+              fontSize: 23,
+              fontWeight: FontWeight.w600,
+            ),),
         centerTitle: true,
       ),
       body: SizedBox(
@@ -61,34 +62,34 @@ class _SeeAllNewsScreenState extends State<SeeAllNewsScreen> {
                     isScrollable: true,
                     indicator: BoxDecoration(
                         color: const Color(0xFF4E8799),
-                        borderRadius: BorderRadius.circular(25)),
+                        borderRadius: BorderRadius.circular(25),),
                     tabs: [
                       Tab(
                           child: AutoSizeText(
                         'Following',
                         maxLines: 1,
                         style: GoogleFonts.rubik(),
-                      )),
+                      ),),
                       Tab(
                           child: AutoSizeText(
                         'Recommended',
                         maxLines: 1,
                         style: GoogleFonts.rubik(),
-                      )),
+                      ),),
                       Tab(
                           child: AutoSizeText(
                         'Everything',
                         maxLines: 1,
                         style: GoogleFonts.rubik(),
-                      )),
+                      ),),
                       Tab(
                           child: AutoSizeText(
                         'Hot News', //Trending News
                         maxLines: 1,
                         style: GoogleFonts.rubik(),
-                      )),
+                      ),),
                     ],
-                  )),
+                  ),),
                   floating: true,
                 )
               ];
@@ -108,7 +109,7 @@ class _SeeAllNewsScreenState extends State<SeeAllNewsScreen> {
                 FollowingListAllSection(
                   newsList: newsList,
                 ),
-              ]),
+              ],),
             ),
           ),
         ),
@@ -124,7 +125,7 @@ class MyDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
+      BuildContext context, double shrinkOffset, bool overlapsContent,) {
     return Container(
       margin: const EdgeInsets.only(left: 15, right: 15),
       child: _tabBar,

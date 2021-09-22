@@ -23,7 +23,7 @@ class _SearchAssetsScreenState extends State<SearchAssetsScreen> {
 
   static const historyLength = 5;
 
-  late  int page = 0;
+  late int page = 0;
 
   final List<String> _searchHistory = [];
 
@@ -71,7 +71,7 @@ class _SearchAssetsScreenState extends State<SearchAssetsScreen> {
 
   void pagination() {
     if (_scrollController.offset >=
-        _scrollController.position.maxScrollExtent &&
+            _scrollController.position.maxScrollExtent &&
         !_scrollController.position.outOfRange) {
       setState(() {
         page++;
@@ -233,7 +233,7 @@ class _SearchAssetsScreenState extends State<SearchAssetsScreen> {
                     itemCount: model.updatedList.isEmpty
                         ? model.listModel.length
                         : model.updatedList.length,
-                    controller:_scrollController ,
+                    controller: _scrollController,
                     itemBuilder: (ctx, index) {
                       return buildItem(
                           context,
@@ -259,38 +259,40 @@ class _SearchAssetsScreenState extends State<SearchAssetsScreen> {
         Get.back();
       },
       child: Card(
-          margin: const EdgeInsets.all(10),
-          elevation: 4,
-          color: Colors.black,
-          child:  Row(
-              children: <Widget>[
-                Container(
-                    height: height * 0.07,
-                    width: width * 0.1,
-                    child: place.image.startsWith("https")
-                        ? CachedNetworkImage( imageUrl: place.image,)
-                        : Container(
-                            margin: const EdgeInsets.only(top: 28),
-                            child: Text(
-                              place.image,
-                              style: const TextStyle(fontSize: 25),
-                            ))),
-                Expanded(
-                  child: Container(
-                    margin: EdgeInsets.only(left: width*0.07),
-                    child: Text(
-                      place.name,
-                      style: GoogleFonts.rubik(color: Colors.white, fontSize: 17),
-                    ),
-                  ),
-                ),
-                Text(
-                    "\u{20B9}${NumberFormat.compact().format(place.price)}",
+        margin: const EdgeInsets.all(10),
+        elevation: 4,
+        color: Colors.black,
+        child: Row(
+          children: <Widget>[
+            Container(
+                height: height * 0.07,
+                width: width * 0.1,
+                child: place.image.startsWith("https")
+                    ? CachedNetworkImage(
+                        imageUrl: place.image,
+                      )
+                    : Container(
+                        margin: const EdgeInsets.only(top: 28),
+                        child: Text(
+                          place.image,
+                          style: const TextStyle(fontSize: 25),
+                        ))),
+            Expanded(
+              child: Container(
+                margin: EdgeInsets.only(left: width * 0.07),
+                child: Text(
+                  place.name,
                   style: GoogleFonts.rubik(color: Colors.white, fontSize: 17),
-                )
-              ],
+                ),
+              ),
             ),
-          ),
+            Text(
+              "\u{20B9}${NumberFormat.compact().format(place.price)}",
+              style: GoogleFonts.rubik(color: Colors.white, fontSize: 17),
+            )
+          ],
+        ),
+      ),
     );
   }
 }

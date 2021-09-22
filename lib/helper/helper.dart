@@ -45,15 +45,14 @@ class Helper {
     }
   }
 
-
-  Map<String, Color> flagColor =  {
-    "Euro":  const Color(0xFF0825cb),
+  Map<String, Color> flagColor = {
+    "Euro": const Color(0xFF0825cb),
     "Japanese Yen": const Color(0xFFfeced0),
     "Bulgarian Lev": const Color(0xFF00966e),
     "Czech Koruna": const Color(0xFF11457e),
     "Danish Krona": const Color(0xFFc7042d),
     "British Pound": const Color(0xFF012169),
-    "Hungarian Forint":const Color(0xFF477050),
+    "Hungarian Forint": const Color(0xFF477050),
     "Polish Zloty": const Color(0xFFff0000),
     "Romanian Leu": const Color(0xFFFCD116),
     "Swedish Krona": const Color(0xFF006aa8),

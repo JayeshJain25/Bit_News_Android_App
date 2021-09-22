@@ -79,11 +79,10 @@ class FollowingList extends StatelessWidget {
                                         model.newsCompleteList[index].photoUrl,
                                       ),
                                       errorWidget: (context, url, error) =>
-                                          CachedNetworkImage(
-                                        fit: BoxFit.fill,
-                                        imageUrl:
-                                            "https://www.translationvalley.com/wp-content/uploads/2020/03/no-iamge-placeholder.jpg",
-                                      ),
+                                          Image.asset(
+                                            "lib/assets/logo.png",
+                                            fit: BoxFit.cover,
+                                          ),
                                       height: height * 0.09,
                                       width: width * 0.21,
                                       fit: BoxFit.cover,
@@ -96,7 +95,8 @@ class FollowingList extends StatelessWidget {
                                         children: [
                                           Container(
                                             margin: const EdgeInsets.only(
-                                                bottom: 7,),
+                                              bottom: 7,
+                                            ),
                                             child: AutoSizeText(
                                               model.newsCompleteList[index]
                                                   .title,
