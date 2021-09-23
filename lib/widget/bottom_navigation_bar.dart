@@ -60,78 +60,73 @@ class _MyCustomBottomNavigationBarState extends State<AppBottomNavigationBar>
       ),
       bottomNavigationBar: GNav(
         tabMargin:
-            const EdgeInsets.only(top: 10, bottom: 10, left: 7, right: 7),
+            const EdgeInsets.only(top: 10, bottom: 10, left: 15, right: 15),
         backgroundColor: const Color(0xFF121212),
-        rippleColor: Colors.grey.shade800,
-        hoverColor: Colors.grey.shade700,
-        tabBorderRadius: 20,
-        tabActiveBorder: Border.all(color: Colors.white, width: 0.5),
         curve: Curves.easeOutExpo,
         duration: const Duration(milliseconds: 600),
-        gap: 10,
-        activeColor: Colors.white,
+        activeColor: const Color(0xFF4E8799),
+        color: Colors.white38,
         padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
 
-        tabs: const [
+        tabs: [
           GButton(
-            backgroundColor: Color(0xFF121212),
+            backgroundColor: const Color(0xFF121212),
             leading: SizedBox(
               width: 24,
               height: 24,
               child: ImageIcon(
-                AssetImage('lib/assets/home.png'),
-                color: Colors.white,
+                const AssetImage('lib/assets/home.png'),
+                color:
+                    _currentIndex == 0 ? const Color(0xFF4E8799) : Colors.white,
               ),
             ),
-            text: 'Home',
             icon: Icons.notifications_none,
             iconColor: Colors.transparent,
           ),
           GButton(
-            backgroundColor: Color(0xFF121212),
+            backgroundColor: const Color(0xFF121212),
             leading: SizedBox(
               width: 24,
               height: 24,
               child: ImageIcon(
-                AssetImage('lib/assets/market.png'),
-                color: Colors.white,
-              ),
-            ),
-            text: 'Market',
-            icon: Icons.notifications_none,
-            iconColor: Colors.transparent,
-          ),
-          GButton(
-            leading: SizedBox(
-              width: 24,
-              height: 24,
-              child: ImageIcon(
-                AssetImage('lib/assets/star.png'),
-                color: Colors.white,
+                const AssetImage('lib/assets/market.png'),
+                color:
+                    _currentIndex == 1 ? const Color(0xFF4E8799) : Colors.white,
               ),
             ),
             icon: Icons.notifications_none,
             iconColor: Colors.transparent,
-            text: 'Favourite',
-            backgroundColor: Color(0xFF121212),
           ),
           GButton(
             leading: SizedBox(
               width: 24,
               height: 24,
               child: ImageIcon(
-                AssetImage('lib/assets/news.png'),
-                color: Colors.white,
+                const AssetImage('lib/assets/star.png'),
+                color:
+                    _currentIndex == 2 ? const Color(0xFF4E8799) : Colors.white,
               ),
             ),
             icon: Icons.notifications_none,
             iconColor: Colors.transparent,
-            text: 'News',
-            backgroundColor: Color(0xFF121212),
+            backgroundColor: const Color(0xFF121212),
           ),
           GButton(
+            leading: SizedBox(
+              width: 24,
+              height: 24,
+              child: ImageIcon(
+                const AssetImage('lib/assets/news.png'),
+                color:
+                    _currentIndex == 3 ? const Color(0xFF4E8799) : Colors.white,
+              ),
+            ),
+            icon: Icons.notifications_none,
+            iconColor: Colors.transparent,
+            backgroundColor: const Color(0xFF121212),
+          ),
+          const GButton(
             icon: Icons.notifications,
-            text: 'Notification',
             iconColor: Colors.white,
             backgroundColor: Color(0xFF121212),
           ),
