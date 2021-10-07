@@ -11,7 +11,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-class FollowingList extends StatelessWidget {
+class BitcoinNews extends StatelessWidget {
   final _helper = Helper();
 
   @override
@@ -47,7 +47,7 @@ class FollowingList extends StatelessWidget {
               horizontalOffset: 150,
               child: FadeInAnimation(
                 child: Consumer<NewsProvider>(
-                  builder: (ctx, model, _) => model.newsCompleteList.isEmpty
+                  builder: (ctx, model, _) => model.bitcoinNewsList.isEmpty
                       ? const Center(
                           child: CircularProgressIndicator(),
                         )
@@ -55,7 +55,7 @@ class FollowingList extends StatelessWidget {
                           onTap: () {
                             Get.to(
                               () => NewsSummaryScreen(
-                                model.newsCompleteList[index],
+                                model.bitcoinNewsList[index],
                               ),
                             );
                           },
@@ -76,13 +76,13 @@ class FollowingList extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(15.0),
                                     child: CachedNetworkImage(
                                       imageUrl: _helper.extractImgUrl(
-                                        model.newsCompleteList[index].photoUrl,
+                                        model.bitcoinNewsList[index].photoUrl,
                                       ),
                                       errorWidget: (context, url, error) =>
                                           Image.asset(
-                                            "lib/assets/logo.png",
-                                            fit: BoxFit.cover,
-                                          ),
+                                        "lib/assets/logo.png",
+                                        fit: BoxFit.cover,
+                                      ),
                                       height: height * 0.09,
                                       width: width * 0.21,
                                       fit: BoxFit.cover,
@@ -98,8 +98,8 @@ class FollowingList extends StatelessWidget {
                                               bottom: 7,
                                             ),
                                             child: AutoSizeText(
-                                              model.newsCompleteList[index]
-                                                  .title,
+                                              model
+                                                  .bitcoinNewsList[index].title,
                                               maxLines: 2,
                                               style: GoogleFonts.poppins(
                                                 color: Colors.white,
@@ -115,10 +115,11 @@ class FollowingList extends StatelessWidget {
                                                   bottom: 7,
                                                 ),
                                                 child: AutoSizeText(
-                                                  model.newsCompleteList[index]
+                                                  model.bitcoinNewsList[index]
                                                       .description,
                                                   maxLines: 2,
-                                                  overflow: TextOverflow.ellipsis,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
                                                   softWrap: false,
                                                   style: GoogleFonts.rubik(
                                                     color: Colors.white70,
@@ -131,7 +132,7 @@ class FollowingList extends StatelessWidget {
                                                   AutoSizeText(
                                                     "${_helper.convertToAgo(
                                                       model
-                                                          .newsCompleteList[
+                                                          .bitcoinNewsList[
                                                               index]
                                                           .publishedDate,
                                                     )}  \u2022",
@@ -145,18 +146,21 @@ class FollowingList extends StatelessWidget {
                                                   ),
                                                   Flexible(
                                                     child: Container(
-                                                      margin: const EdgeInsets.only(left: 5),
+                                                      margin:
+                                                          const EdgeInsets.only(
+                                                        left: 5,
+                                                      ),
                                                       child: AutoSizeText(
                                                         model
-                                                            .newsCompleteList[
+                                                            .bitcoinNewsList[
                                                                 index]
                                                             .source,
                                                         maxLines: 1,
-                                                        overflow:
-                                                            TextOverflow.ellipsis,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
                                                         style:
                                                             GoogleFonts.poppins(
-                                                          color:Colors.white70,
+                                                          color: Colors.white70,
                                                           fontSize: 13,
                                                           fontWeight:
                                                               FontWeight.w500,

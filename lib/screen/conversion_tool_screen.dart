@@ -48,7 +48,7 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
   void initState() {
     super.initState();
     Provider.of<CryptoAndFiatProvider>(context, listen: false)
-        .fiatAndCryptoList(0);
+        .fiatAndCryptoList(1);
     exchangeCardBtnAnimation = AnimateIconController();
     cardController = AnimationController(
       vsync: this,

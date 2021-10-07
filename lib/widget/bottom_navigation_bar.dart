@@ -64,7 +64,7 @@ class _MyCustomBottomNavigationBarState extends State<AppBottomNavigationBar>
         backgroundColor: const Color(0xFF121212),
         curve: Curves.easeOutExpo,
         duration: const Duration(milliseconds: 600),
-        activeColor: const Color(0xFF4E8799),
+        activeColor: const Color(0xFF52CAF5),
         color: Colors.white38,
         padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
 
@@ -77,7 +77,7 @@ class _MyCustomBottomNavigationBarState extends State<AppBottomNavigationBar>
               child: ImageIcon(
                 const AssetImage('lib/assets/home.png'),
                 color:
-                    _currentIndex == 0 ? const Color(0xFF4E8799) : Colors.white,
+                    _currentIndex == 0 ? const Color(0xFF52CAF5) : Colors.white,
               ),
             ),
             icon: Icons.notifications_none,
@@ -91,7 +91,7 @@ class _MyCustomBottomNavigationBarState extends State<AppBottomNavigationBar>
               child: ImageIcon(
                 const AssetImage('lib/assets/market.png'),
                 color:
-                    _currentIndex == 1 ? const Color(0xFF4E8799) : Colors.white,
+                    _currentIndex == 1 ? const Color(0xFF52CAF5) : Colors.white,
               ),
             ),
             icon: Icons.notifications_none,
@@ -104,7 +104,7 @@ class _MyCustomBottomNavigationBarState extends State<AppBottomNavigationBar>
               child: ImageIcon(
                 const AssetImage('lib/assets/star.png'),
                 color:
-                    _currentIndex == 2 ? const Color(0xFF4E8799) : Colors.white,
+                    _currentIndex == 2 ? const Color(0xFF52CAF5) : Colors.white,
               ),
             ),
             icon: Icons.notifications_none,
@@ -118,7 +118,7 @@ class _MyCustomBottomNavigationBarState extends State<AppBottomNavigationBar>
               child: ImageIcon(
                 const AssetImage('lib/assets/news.png'),
                 color:
-                    _currentIndex == 3 ? const Color(0xFF4E8799) : Colors.white,
+                    _currentIndex == 3 ? const Color(0xFF52CAF5) : Colors.white,
               ),
             ),
             icon: Icons.notifications_none,

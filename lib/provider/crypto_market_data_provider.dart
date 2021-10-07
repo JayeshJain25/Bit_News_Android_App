@@ -8,8 +8,6 @@ import 'package:http/http.dart' as http;
 class CryptoMarketDataProvider with ChangeNotifier {
   CryptoMarketDataProvider();
 
-  final _apiEndpoints = ApiEndpoints();
-
   List<CryptoMarketDataModel> listModel = [];
 
   CryptoMarketDataProvider.fromJson(List<dynamic> parsedJson) {
@@ -22,12 +20,14 @@ class CryptoMarketDataProvider with ChangeNotifier {
 
   Future<void> cryptoMarketDataByPagination(int page) async {
     final url =
-        "${ApiEndpoints.basUrl}cryptocurrency/get-crypto-market-data-list?page=$page";
+        "${ApiEndpoints.baseUrl}cryptocurrency/crypto-market-data/?page=$page";
     //final url = "http://192.168.31.132:8948/cryptocurrency/get-crypto-fiat-list?page=$page";
     // var url = "http://192.168.43.93:8948/news/get-list";
     try {
-      final response = await http.get(Uri.parse(url),
-          headers: <String, String>{'authorization': _apiEndpoints.basicAuth});
+      final response = await http.get(
+        Uri.parse(url),
+        //headers: <String, String>{'authorization': _apiEndpoints.basicAuth}
+      );
       final r = json.decode(response.body) as List<dynamic>;
       final CryptoMarketDataProvider model =
           CryptoMarketDataProvider.fromJson(r);

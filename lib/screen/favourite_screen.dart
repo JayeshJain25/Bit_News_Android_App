@@ -14,15 +14,17 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: const Color(0xFF121212),
-        title: AutoSizeText(
-          'Following',
-          style: GoogleFonts.poppins(
-            color: Colors.white,
-            fontSize: 23,
-            fontWeight: FontWeight.w600,
+        title: Container(
+          margin: const EdgeInsets.only(left: 20, top: 5),
+          child: AutoSizeText(
+            'Following',
+            style: GoogleFonts.poppins(
+              color: Colors.white,
+              fontSize: 23,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ),
-        centerTitle: true,
         automaticallyImplyLeading: false,
       ),
       backgroundColor: const Color(0xFF121212),

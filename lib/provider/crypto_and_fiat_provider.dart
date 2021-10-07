@@ -61,8 +61,14 @@ class CryptoAndFiatProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  double getConversionRate(double coinV1, double coinV2, String conversionValue,
-      String type1, String type2, double fiatIndianPrice) {
+  double getConversionRate(
+    double coinV1,
+    double coinV2,
+    String conversionValue,
+    String type1,
+    String type2,
+    double fiatIndianPrice,
+  ) {
     if (type1 == "Crypto" && type2 == "Fiat" && conversionValue.isNotEmpty) {
       return ((coinV1 * coinV2) / fiatIndianPrice) *
           double.parse(conversionValue);
@@ -81,12 +87,14 @@ class CryptoAndFiatProvider with ChangeNotifier {
   Future<void> getCryptoAndFiatBySearch(String name) async {
     updatedList.clear();
     final url =
-        "${ApiEndpoints.basUrl}cryptocurrency/get-crypto-fiat-list-by-search?name=$name";
+        "${ApiEndpoints.baseUrl}cryptocurrency/get-crypto-fiat-list-by-search/?name=$name";
     //final url = "http://192.168.31.132:8948/cryptocurrency/get-crypto-fiat-list?page=$page";
     // var url = "http://192.168.43.93:8948/news/get-list";
     try {
-      final response = await http.get(Uri.parse(url),
-          headers: <String, String>{'authorization': _apiEndpoints.basicAuth});
+      final response = await http.get(
+        Uri.parse(url),
+        //headers: <String, String>{'authorization': _apiEndpoints.basicAuth}
+      );
       final r = json.decode(response.body) as List<dynamic>;
       final CryptoAndFiatProvider model = CryptoAndFiatProvider.fromJson(r);
       for (final element in model.listModel) {
@@ -99,13 +107,14 @@ class CryptoAndFiatProvider with ChangeNotifier {
   }
 
   Future<void> fiatAndCryptoList(int page) async {
-    final url =
-        "${ApiEndpoints.basUrl}cryptocurrency/get-crypto-fiat-list?page=$page";
+    final url = "${ApiEndpoints.baseUrl}cryptocurrency/crypto-fiat/?page=$page";
     //final url = "http://192.168.31.132:8948/cryptocurrency/get-crypto-fiat-list?page=$page";
     // var url = "http://192.168.43.93:8948/news/get-list";
     try {
-      final response = await http.get(Uri.parse(url),
-          headers: <String, String>{'authorization': _apiEndpoints.basicAuth});
+      final response = await http.get(
+        Uri.parse(url),
+        //headers: <String, String>{'authorization': _apiEndpoints.basicAuth}
+      );
       final r = json.decode(response.body) as List<dynamic>;
       final CryptoAndFiatProvider model = CryptoAndFiatProvider.fromJson(r);
       for (final element in model.listModel) {

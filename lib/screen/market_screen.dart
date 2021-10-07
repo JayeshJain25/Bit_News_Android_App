@@ -32,7 +32,7 @@ class _MarketScreenState extends State<MarketScreen> {
   void initState() {
     super.initState();
     Provider.of<CryptoMarketDataProvider>(context, listen: false)
-        .cryptoMarketDataByPagination(0);
+        .cryptoMarketDataByPagination(1);
     _scrollController.addListener(pagination);
   }
 
@@ -45,15 +45,17 @@ class _MarketScreenState extends State<MarketScreen> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: const Color(0xFF121212),
-        title: AutoSizeText(
-          'Market',
-          style: GoogleFonts.poppins(
-            color: Colors.white,
-            fontSize: 23,
-            fontWeight: FontWeight.w600,
+        title: Container(
+          margin: const EdgeInsets.only(left: 20, top: 5),
+          child: AutoSizeText(
+            'Market',
+            style: GoogleFonts.poppins(
+              color: Colors.white,
+              fontSize: 23,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ),
-        centerTitle: true,
         automaticallyImplyLeading: false,
       ),
       body: SafeArea(

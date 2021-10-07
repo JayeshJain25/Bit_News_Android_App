@@ -1,13 +1,16 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:crypto_news/provider/news_provider.dart';
+import 'package:crypto_news/widget/bitcoin_news.dart';
+import 'package:crypto_news/widget/ethereum_news.dart';
+import 'package:crypto_news/widget/nft_news.dart';
 import 'package:crypto_news/widget/top_news.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-import '../widget/following_list.dart';
+import '../widget/news_feed.dart';
 
 class NewsScreen extends StatefulWidget {
   @override
@@ -37,7 +40,10 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    Provider.of<NewsProvider>(context, listen: false).newsList();
+    Provider.of<NewsProvider>(context, listen: false).getNewsFeed(1);
+    Provider.of<NewsProvider>(context, listen: false).getBitcoinNews(1);
+    Provider.of<NewsProvider>(context, listen: false).getEthereumNews(1);
+    Provider.of<NewsProvider>(context, listen: false).getNFTNews(1);
 
     super.initState();
     controller =
@@ -83,7 +89,7 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
         elevation: 0,
         backgroundColor: const Color(0xFF121212),
         title: Container(
-          margin : const EdgeInsets.only(left: 20,top: 5),
+          margin: const EdgeInsets.only(left: 20, top: 5),
           child: AutoSizeText(
             'Discover',
             style: GoogleFonts.poppins(
@@ -150,7 +156,8 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
                       //           )),
                       // ),
                       flexibleSpace: Container(
-                        padding: const EdgeInsets.only(top: 10,left: 10,right: 10),
+                        padding:
+                            const EdgeInsets.only(top: 10, left: 10, right: 10),
                         margin: const EdgeInsets.only(
                           left: 15,
                           right: 15,
@@ -158,31 +165,31 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
                           top: 15,
                         ),
                         height: 45.h,
-                        child:CarouselSlider.builder(
-                                carouselController: _controller,
-                                options: CarouselOptions(
-                                  onPageChanged: (index, reason) {
-                                    setState(() {
-                                      _current = index;
-                                    });
-                                  },
-                                  height: 45.h,
-                                  viewportFraction: 1,
-                                  autoPlay: true,
-                                  enlargeCenterPage: true,
-                                  autoPlayInterval: const Duration(seconds: 10),
-                                  autoPlayAnimationDuration:
-                                      const Duration(milliseconds: 1500),
-                                ),
-                                itemCount: 5,
-                                itemBuilder: (
-                                  BuildContext context,
-                                  int index,
-                                  int realIndex,
-                                ) {
-                                  return TopNews(index);
-                                },
-                              ),
+                        child: CarouselSlider.builder(
+                          carouselController: _controller,
+                          options: CarouselOptions(
+                            onPageChanged: (index, reason) {
+                              setState(() {
+                                _current = index;
+                              });
+                            },
+                            height: 45.h,
+                            viewportFraction: 1,
+                            autoPlay: true,
+                            enlargeCenterPage: true,
+                            autoPlayInterval: const Duration(seconds: 10),
+                            autoPlayAnimationDuration:
+                                const Duration(milliseconds: 1500),
+                          ),
+                          itemCount: 5,
+                          itemBuilder: (
+                            BuildContext context,
+                            int index,
+                            int realIndex,
+                          ) {
+                            return TopNews(index);
+                          },
+                        ),
                       ),
                       backgroundColor: const Color(0xFF121212),
                     ),
@@ -193,7 +200,7 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
                           unselectedLabelColor: Colors.white,
                           isScrollable: true,
                           indicator: BoxDecoration(
-                            color: const Color(0xFF4E8799),
+                            color: const Color(0xFF52CAF5),
                             borderRadius: BorderRadius.circular(45),
                           ),
                           tabs: [
@@ -201,28 +208,36 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
                               child: AutoSizeText(
                                 'News Feed',
                                 maxLines: 1,
-                                style: GoogleFonts.poppins(fontWeight: FontWeight.w600),
+                                style: GoogleFonts.poppins(
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                             ),
                             Tab(
                               child: AutoSizeText(
                                 'Bitcoin',
                                 maxLines: 1,
-                                style: GoogleFonts.rubik(fontWeight: FontWeight.w600),
+                                style: GoogleFonts.rubik(
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                             ),
                             Tab(
                               child: AutoSizeText(
                                 'Ethereum',
                                 maxLines: 1,
-                                style: GoogleFonts.rubik(fontWeight: FontWeight.w600),
+                                style: GoogleFonts.rubik(
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                             ),
                             Tab(
                               child: AutoSizeText(
                                 'NFT', //Trending News
                                 maxLines: 1,
-                                style: GoogleFonts.rubik(fontWeight: FontWeight.w600),
+                                style: GoogleFonts.rubik(
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                             ),
                           ],
@@ -236,10 +251,10 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
                   margin: EdgeInsets.all(0.4.w),
                   child: TabBarView(
                     children: <Widget>[
-                      FollowingList(),
-                      FollowingList(),
-                      FollowingList(),
-                      FollowingList(),
+                      NewsFeed(),
+                      BitcoinNews(),
+                      EthereumNews(),
+                      NFTNews(),
                     ],
                   ),
                 ),

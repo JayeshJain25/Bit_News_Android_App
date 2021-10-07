@@ -40,6 +40,9 @@ class Helper {
       final String newUrl = imgUrl.substring(2);
       final List<String> newUrlArray = newUrl.split(",");
       return newUrlArray[0].substring(0, newUrlArray[0].length - 1);
+    } else if (imgUrl.startsWith("[")) {
+      final String newUrl = imgUrl.substring(2);
+      return newUrl.split("']")[0];
     } else {
       return imgUrl;
     }
