@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:crypto_news/helper/helper.dart';
 import 'package:crypto_news/model/news_model.dart';
+import 'package:crypto_news/provider/crypto_and_fiat_provider.dart';
 import 'package:crypto_news/provider/news_provider.dart';
 import 'package:crypto_news/screen/news_summary_screen.dart';
 import 'package:flutter/material.dart';
@@ -13,17 +14,45 @@ import 'package:provider/provider.dart';
 
 import './news_web_view.dart';
 
-class FollowingListAllSection extends StatelessWidget {
+class FollowingListAllSection extends StatefulWidget {
   final List<NewsModel> newsList;
 
   const FollowingListAllSection({required this.newsList});
 
   @override
+  State<FollowingListAllSection> createState() =>
+      _FollowingListAllSectionState();
+}
+
+class _FollowingListAllSectionState extends State<FollowingListAllSection> {
+  final _scrollController = ScrollController();
+  late int page = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(pagination);
+  }
+
+  void pagination() {
+    final position = _scrollController.offset /
+        (_scrollController.position.maxScrollExtent -
+            _scrollController.position.minScrollExtent);
+    if (position > 0.1 && !_scrollController.position.outOfRange) {
+      setState(() {
+        page++;
+        Provider.of<NewsProvider>(context, listen: false).getNewsFeed(page);
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return CustomScrollView(
+      controller: _scrollController,
       slivers: [
-        _TodayNewsList(index: 0, newsList: newsList),
-        const _RecentNewsList(index: 1),
+        _TodayNewsList(index: 0, newsList: widget.newsList),
+        // const _RecentNewsList(index: 1),
       ],
     );
   }
@@ -55,7 +84,7 @@ class _TodayNewsList extends StatelessWidget {
                     onTap: () {
                       Get.to(
                         () => NewsSummaryScreen(
-                          model.newsCompleteList[i],
+                          newsList[i],
                         ),
                       );
                     },
@@ -71,11 +100,11 @@ class _TodayNewsList extends StatelessWidget {
                               child: CachedNetworkImage(
                                 fit: BoxFit.cover,
                                 imageUrl: _helper.extractImgUrl(
-                                  model.newsCompleteList[i].photoUrl,
+                                  newsList[i].photoUrl,
                                 ),
                                 errorWidget: (context, url, error) =>
                                     Image.asset(
-                                      "lib/assets/logo.png",
+                                  "lib/assets/logo.png",
                                   fit: BoxFit.cover,
                                 ),
                                 height: height * 0.2,
@@ -88,7 +117,7 @@ class _TodayNewsList extends StatelessWidget {
                                   bottom: 7,
                                 ),
                                 child: AutoSizeText(
-                                  model.newsCompleteList[i].title,
+                                  newsList[i].title,
                                   maxLines: 2,
                                   style: GoogleFonts.poppins(
                                     color: Colors.white,
@@ -104,7 +133,7 @@ class _TodayNewsList extends StatelessWidget {
                                       bottom: 7,
                                     ),
                                     child: AutoSizeText(
-                                      model.newsCompleteList[i].description,
+                                      newsList[i].description,
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
                                       softWrap: false,
@@ -120,8 +149,7 @@ class _TodayNewsList extends StatelessWidget {
                                     children: <Widget>[
                                       AutoSizeText(
                                         "${_helper.convertToAgo(
-                                          model.newsCompleteList[i]
-                                              .publishedDate,
+                                          newsList[i].publishedDate,
                                         )} \u2022",
                                         maxLines: 1,
                                         style: GoogleFonts.poppins(
@@ -130,7 +158,7 @@ class _TodayNewsList extends StatelessWidget {
                                         ),
                                       ),
                                       AutoSizeText(
-                                        model.newsCompleteList[i].source,
+                                        newsList[i].source,
                                         maxLines: 1,
                                         style: GoogleFonts.poppins(
                                           color: Colors.white70,
@@ -165,7 +193,10 @@ class _TodayNewsList extends StatelessWidget {
         child: Text(
           'TODAY',
           style: GoogleFonts.poppins(
-              color: Colors.white, fontSize: 15, fontWeight: FontWeight.w500),
+            color: Colors.white,
+            fontSize: 15,
+            fontWeight: FontWeight.w500,
+          ),
         ),
       ),
     );

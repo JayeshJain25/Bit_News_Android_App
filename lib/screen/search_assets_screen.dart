@@ -102,147 +102,151 @@ class _SearchAssetsScreenState extends State<SearchAssetsScreen> {
       backgroundColor: Colors.black,
       body: Consumer<CryptoAndFiatProvider>(
         builder: (ctx, model, _) => FloatingSearchBar(
-            controller: controller,
-            hint: 'Search Assets',
-            title: Text(
-              selectedTerm,
-              style: GoogleFonts.poppins(),
-            ),
-            hintStyle: GoogleFonts.poppins(),
-            scrollPadding: const EdgeInsets.only(top: 16, bottom: 56),
-            transitionDuration: const Duration(milliseconds: 800),
-            transitionCurve: Curves.easeInOut,
-            physics: const BouncingScrollPhysics(),
-            openAxisAlignment: 0.0,
-            width: 600,
-            borderRadius: BorderRadius.circular(20),
-            debounceDelay: const Duration(milliseconds: 500),
-            onQueryChanged: (query) {
+          controller: controller,
+          hint: 'Search Assets',
+          title: Text(
+            selectedTerm,
+            style: GoogleFonts.poppins(),
+          ),
+          hintStyle: GoogleFonts.poppins(),
+          scrollPadding: const EdgeInsets.only(top: 16, bottom: 56),
+          transitionDuration: const Duration(milliseconds: 800),
+          transitionCurve: Curves.easeInOut,
+          physics: const BouncingScrollPhysics(),
+          openAxisAlignment: 0.0,
+          width: 600,
+          borderRadius: BorderRadius.circular(20),
+          debounceDelay: const Duration(milliseconds: 500),
+          onQueryChanged: (query) {
+            model.queryValue = query;
+            model.changeValue();
+            model.getCryptoAndFiatBySearch(query);
+            filteredSearchHistory = filterSearchTerms(filter: query);
+          },
+          onSubmitted: (query) {
+            setState(() {
+              addSearchTerm(query);
+              selectedTerm = query;
               model.queryValue = query;
               model.changeValue();
               model.getCryptoAndFiatBySearch(query);
-              filteredSearchHistory = filterSearchTerms(filter: query);
-            },
-            onSubmitted: (query) {
-              setState(() {
-                addSearchTerm(query);
-                selectedTerm = query;
-                model.queryValue = query;
-                model.changeValue();
-                model.getCryptoAndFiatBySearch(query);
-              });
-              controller.close();
-            },
-            transition: CircularFloatingSearchBarTransition(),
-            actions: [
-              const FloatingSearchBarAction(
-                child: ImageIcon(
-                  AssetImage('lib/assets/news.png'),
-                  size: 20,
-                  color: Colors.black,
-                ),
+            });
+            controller.close();
+          },
+          transition: CircularFloatingSearchBarTransition(),
+          actions: [
+            const FloatingSearchBarAction(
+              child: ImageIcon(
+                AssetImage('lib/assets/news.png'),
+                size: 20,
+                color: Colors.black,
               ),
-              FloatingSearchBarAction.searchToClear(
-                showIfClosed: false,
-              ),
-            ],
-            builder: (context, _) => ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: Material(
-                    color: Colors.white,
-                    elevation: 4,
-                    child: Builder(
-                      builder: (context) {
-                        if (filteredSearchHistory.isEmpty &&
-                            controller.query.isEmpty) {
-                          return Container(
-                            height: 56,
-                            width: double.infinity,
-                            alignment: Alignment.center,
-                            child: Text(
-                              'Start searching',
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: Theme.of(context).textTheme.caption,
-                            ),
-                          );
-                        } else if (filteredSearchHistory.isEmpty) {
-                          return ListTile(
-                            title: Text(controller.query),
-                            leading: const Icon(Icons.search),
-                            onTap: () {
-                              setState(() {
-                                addSearchTerm(controller.query);
-                                selectedTerm = controller.query;
-                              });
-                              controller.close();
-                            },
-                          );
-                        } else {
-                          return Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: filteredSearchHistory
-                                .map(
-                                  (term) => ListTile(
-                                    title: Text(
-                                      term,
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: GoogleFonts.poppins(),
-                                    ),
-                                    leading: const Icon(Icons.history),
-                                    trailing: IconButton(
-                                      icon: const Icon(Icons.clear),
-                                      onPressed: () {
-                                        setState(() {
-                                          deleteSearchTerm(term);
-                                        });
-                                      },
-                                    ),
-                                    onTap: () {
-                                      setState(() {
-                                        putSearchTermFirst(term);
-                                        selectedTerm = term;
-                                        model.queryValue = term;
-                                        model.changeValue();
-                                        model.getCryptoAndFiatBySearch(term);
-                                      });
-                                      controller.close();
-                                    },
-                                  ),
-                                )
-                                .toList(),
-                          );
-                        }
+            ),
+            FloatingSearchBarAction.searchToClear(
+              showIfClosed: false,
+            ),
+          ],
+          builder: (context, _) => ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: Material(
+              color: Colors.white,
+              elevation: 4,
+              child: Builder(
+                builder: (context) {
+                  if (filteredSearchHistory.isEmpty &&
+                      controller.query.isEmpty) {
+                    return Container(
+                      height: 56,
+                      width: double.infinity,
+                      alignment: Alignment.center,
+                      child: Text(
+                        'Start searching',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.caption,
+                      ),
+                    );
+                  } else if (filteredSearchHistory.isEmpty) {
+                    return ListTile(
+                      title: Text(controller.query),
+                      leading: const Icon(Icons.search),
+                      onTap: () {
+                        setState(() {
+                          addSearchTerm(controller.query);
+                          selectedTerm = controller.query;
+                        });
+                        controller.close();
                       },
-                    ),
-                  ),
-                ),
-            body: FloatingSearchBarScrollNotifier(
-              child: Container(
-                margin: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * 0.08,
-                    left: 10,
-                    right: 10),
-                child: ListView.separated(
-                    separatorBuilder: (context, index) {
-                      return const Divider(
-                        color: Color(0xFF6a6a6a),
-                      );
-                    },
-                    itemCount: model.updatedList.isEmpty
-                        ? model.listModel.length
-                        : model.updatedList.length,
-                    controller: _scrollController,
-                    itemBuilder: (ctx, index) {
-                      return buildItem(
-                          context,
-                          model.updatedList.isEmpty
-                              ? model.listModel[index]
-                              : model.updatedList[index]);
-                    }),
+                    );
+                  } else {
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: filteredSearchHistory
+                          .map(
+                            (term) => ListTile(
+                              title: Text(
+                                term,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: GoogleFonts.poppins(),
+                              ),
+                              leading: const Icon(Icons.history),
+                              trailing: IconButton(
+                                icon: const Icon(Icons.clear),
+                                onPressed: () {
+                                  setState(() {
+                                    deleteSearchTerm(term);
+                                  });
+                                },
+                              ),
+                              onTap: () {
+                                setState(() {
+                                  putSearchTermFirst(term);
+                                  selectedTerm = term;
+                                  model.queryValue = term;
+                                  model.changeValue();
+                                  model.getCryptoAndFiatBySearch(term);
+                                });
+                                controller.close();
+                              },
+                            ),
+                          )
+                          .toList(),
+                    );
+                  }
+                },
               ),
-            )),
+            ),
+          ),
+          body: FloatingSearchBarScrollNotifier(
+            child: Container(
+              margin: EdgeInsets.only(
+                top: MediaQuery.of(context).size.height * 0.08,
+                left: 10,
+                right: 10,
+              ),
+              child: ListView.separated(
+                separatorBuilder: (context, index) {
+                  return const Divider(
+                    color: Color(0xFF6a6a6a),
+                  );
+                },
+                itemCount: model.updatedList.isEmpty
+                    ? model.listModel.length
+                    : model.updatedList.length,
+                controller: _scrollController,
+                itemBuilder: (ctx, index) {
+                  return buildItem(
+                    context,
+                    model.updatedList.isEmpty
+                        ? model.listModel[index]
+                        : model.updatedList[index],
+                  );
+                },
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -264,19 +268,21 @@ class _SearchAssetsScreenState extends State<SearchAssetsScreen> {
         color: Colors.black,
         child: Row(
           children: <Widget>[
-            Container(
-                height: height * 0.07,
-                width: width * 0.1,
-                child: place.image.startsWith("https")
-                    ? CachedNetworkImage(
-                        imageUrl: place.image,
-                      )
-                    : Container(
-                        margin: const EdgeInsets.only(top: 28),
-                        child: Text(
-                          place.image,
-                          style: const TextStyle(fontSize: 25),
-                        ))),
+            SizedBox(
+              height: height * 0.07,
+              width: width * 0.1,
+              child: place.image.startsWith("https")
+                  ? CachedNetworkImage(
+                      imageUrl: place.image,
+                    )
+                  : Container(
+                      margin: const EdgeInsets.only(top: 28),
+                      child: Text(
+                        place.image,
+                        style: const TextStyle(fontSize: 25),
+                      ),
+                    ),
+            ),
             Expanded(
               child: Container(
                 margin: EdgeInsets.only(left: width * 0.07),

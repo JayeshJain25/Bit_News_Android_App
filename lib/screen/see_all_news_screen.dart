@@ -15,12 +15,20 @@ class SeeAllNewsScreen extends StatefulWidget {
 
 class _SeeAllNewsScreenState extends State<SeeAllNewsScreen> {
   List<NewsModel> newsList = [];
+  List<NewsModel> newsList2 = [];
+  List<NewsModel> newsList3 = [];
+  List<NewsModel> newsList4 = [];
 
   @override
   void initState() {
     super.initState();
     newsList =
         Provider.of<NewsProvider>(context, listen: false).newsCompleteList;
+    newsList2 =
+        Provider.of<NewsProvider>(context, listen: false).bitcoinNewsList;
+    newsList3 =
+        Provider.of<NewsProvider>(context, listen: false).ethereumNewsList;
+    newsList4 = Provider.of<NewsProvider>(context, listen: false).nftNewsList;
   }
 
   @override
@@ -39,13 +47,14 @@ class _SeeAllNewsScreenState extends State<SeeAllNewsScreen> {
           },
         ),
         backgroundColor: const Color(0xFF121212),
-        title: AutoSizeText('Latest',
-            style: GoogleFonts.poppins(
-              color: Colors.white,
-              fontSize: 23,
-              fontWeight: FontWeight.w600,
-            ),),
-        centerTitle: true,
+        title: AutoSizeText(
+          'Latest',
+          style: GoogleFonts.poppins(
+            color: Colors.white,
+            fontSize: 23,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
       ),
       body: SizedBox(
         height: height,
@@ -57,59 +66,77 @@ class _SeeAllNewsScreenState extends State<SeeAllNewsScreen> {
                 (BuildContext context, bool innerBoxIsScrolled) {
               return [
                 SliverPersistentHeader(
-                  delegate: MyDelegate(TabBar(
-                    labelColor: Colors.white,
-                    isScrollable: true,
-                    indicator: BoxDecoration(
-                        color: const Color(0xFF4E8799),
-                        borderRadius: BorderRadius.circular(25),),
-                    tabs: [
-                      Tab(
+                  delegate: MyDelegate(
+                    TabBar(
+                      labelColor: Colors.black,
+                      unselectedLabelColor: Colors.white,
+                      isScrollable: true,
+                      indicator: BoxDecoration(
+                        color: const Color(0xFF52CAF5),
+                        borderRadius: BorderRadius.circular(45),
+                      ),
+                      tabs: [
+                        Tab(
                           child: AutoSizeText(
-                        'Following',
-                        maxLines: 1,
-                        style: GoogleFonts.rubik(),
-                      ),),
-                      Tab(
+                            'News Feed',
+                            maxLines: 1,
+                            style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                        Tab(
                           child: AutoSizeText(
-                        'Recommended',
-                        maxLines: 1,
-                        style: GoogleFonts.rubik(),
-                      ),),
-                      Tab(
+                            'Bitcoin',
+                            maxLines: 1,
+                            style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                        Tab(
                           child: AutoSizeText(
-                        'Everything',
-                        maxLines: 1,
-                        style: GoogleFonts.rubik(),
-                      ),),
-                      Tab(
+                            'Ethereum',
+                            maxLines: 1,
+                            style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                        Tab(
                           child: AutoSizeText(
-                        'Hot News', //Trending News
-                        maxLines: 1,
-                        style: GoogleFonts.rubik(),
-                      ),),
-                    ],
-                  ),),
+                            'NFT',
+                            maxLines: 1,
+                            style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                   floating: true,
                 )
               ];
             },
             body: Container(
               margin: EdgeInsets.all(width * 0.04),
-              child: TabBarView(children: <Widget>[
-                FollowingListAllSection(
-                  newsList: newsList,
-                ),
-                FollowingListAllSection(
-                  newsList: newsList,
-                ),
-                FollowingListAllSection(
-                  newsList: newsList,
-                ),
-                FollowingListAllSection(
-                  newsList: newsList,
-                ),
-              ],),
+              child: TabBarView(
+                children: <Widget>[
+                  FollowingListAllSection(
+                    newsList: newsList,
+                  ),
+                  FollowingListAllSection(
+                    newsList: newsList2,
+                  ),
+                  FollowingListAllSection(
+                    newsList: newsList3,
+                  ),
+                  FollowingListAllSection(
+                    newsList: newsList4,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -125,7 +152,10 @@ class MyDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent,) {
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
     return Container(
       margin: const EdgeInsets.only(left: 15, right: 15),
       child: _tabBar,
