@@ -15,6 +15,7 @@ class _MarketScreenState extends State<MarketScreen> {
   final _scrollController = ScrollController();
 
   int page = 0;
+  bool isLoading = false;
 
   void pagination() {
     if (_scrollController.offset >=
@@ -22,8 +23,12 @@ class _MarketScreenState extends State<MarketScreen> {
         !_scrollController.position.outOfRange) {
       setState(() {
         page++;
+        isLoading = true;
         Provider.of<CryptoMarketDataProvider>(context, listen: false)
-            .cryptoMarketDataByPagination(page);
+            .cryptoMarketDataByPagination(page + 1)
+            .then(
+              (value) => {isLoading = false},
+            );
       });
     }
   }
@@ -62,96 +67,106 @@ class _MarketScreenState extends State<MarketScreen> {
         child: Consumer<CryptoMarketDataProvider>(
           builder: (ctx, model, _) => SizedBox(
             height: height * 0.82,
-            child: ListView.separated(
-              controller: _scrollController,
-              itemBuilder: (ctx, index) {
-                return InkWell(
-                  onTap: () {},
-                  child: Card(
-                    margin: const EdgeInsets.all(10),
-                    elevation: 0,
-                    color: const Color(0xFF121212),
-                    child: Row(
-                      children: <Widget>[
-                        Text(
-                          model.listModel[index].rank.toStringAsFixed(0),
-                          style: GoogleFonts.rubik(
-                            color: Colors.white,
-                            fontSize: 17,
-                          ),
-                        ),
-                        Container(
-                          height: height * 0.07,
-                          width: width * 0.1,
-                          margin: EdgeInsets.only(left: width * 0.07),
-                          child: CachedNetworkImage(
-                            imageUrl: model.listModel[index].image,
-                          ),
-                        ),
-                        Expanded(
-                          child: Container(
-                            margin: EdgeInsets.only(left: width * 0.07),
-                            child: Text(
-                              model.listModel[index].name,
-                              style: GoogleFonts.rubik(
-                                color: Colors.white,
-                                fontSize: 17,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              "\u{20B9}${NumberFormat.compact().format(model.listModel[index].price)}",
-                              style: GoogleFonts.rubik(
-                                color: Colors.white,
-                                fontSize: 17,
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.only(top: 5),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                color: model.listModel[index]
-                                            .priceChangePercentage24h >=
-                                        0
-                                    ? const Color(0xFF01331b)
-                                    : const Color(0xFF42070c),
-                              ),
-                              width: 65,
-                              height: 20,
-                              child: Text(
-                                model.listModel[index]
-                                            .priceChangePercentage24h >=
-                                        0
-                                    ? "+${model.listModel[index].priceChangePercentage24h.toStringAsFixed(2)}%"
-                                    : "${model.listModel[index].priceChangePercentage24h.toStringAsFixed(2)}%",
+            child: Column(
+              children: [
+                Expanded(
+                  child: ListView.separated(
+                    controller: _scrollController,
+                    itemBuilder: (ctx, index) {
+                      return InkWell(
+                        onTap: () {},
+                        child: Card(
+                          margin: const EdgeInsets.all(10),
+                          elevation: 0,
+                          color: const Color(0xFF121212),
+                          child: Row(
+                            children: <Widget>[
+                              Text(
+                                model.listModel[index].rank.toStringAsFixed(0),
                                 style: GoogleFonts.rubik(
-                                  color: model.listModel[index]
-                                              .priceChangePercentage24h >
-                                          0
-                                      ? const Color(0xFF00a55b)
-                                      : const Color(0xFFd82e35),
+                                  color: Colors.white,
                                   fontSize: 17,
                                 ),
-                                textAlign: TextAlign.center,
                               ),
-                            )
-                          ],
+                              Container(
+                                height: height * 0.07,
+                                width: width * 0.1,
+                                margin: EdgeInsets.only(left: width * 0.07),
+                                child: CachedNetworkImage(
+                                  imageUrl: model.listModel[index].image,
+                                ),
+                              ),
+                              Expanded(
+                                child: Container(
+                                  margin: EdgeInsets.only(left: width * 0.07),
+                                  child: Text(
+                                    model.listModel[index].name,
+                                    style: GoogleFonts.rubik(
+                                      color: Colors.white,
+                                      fontSize: 17,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    "\u{20B9}${NumberFormat.compact().format(model.listModel[index].price)}",
+                                    style: GoogleFonts.rubik(
+                                      color: Colors.white,
+                                      fontSize: 17,
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: const EdgeInsets.only(top: 5),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      color: model.listModel[index]
+                                                  .priceChangePercentage24h >=
+                                              0
+                                          ? const Color(0xFF01331b)
+                                          : const Color(0xFF42070c),
+                                    ),
+                                    width: 65,
+                                    height: 20,
+                                    child: Text(
+                                      model.listModel[index]
+                                                  .priceChangePercentage24h >=
+                                              0
+                                          ? "+${model.listModel[index].priceChangePercentage24h.toStringAsFixed(2)}%"
+                                          : "${model.listModel[index].priceChangePercentage24h.toStringAsFixed(2)}%",
+                                      style: GoogleFonts.rubik(
+                                        color: model.listModel[index]
+                                                    .priceChangePercentage24h >
+                                                0
+                                            ? const Color(0xFF00a55b)
+                                            : const Color(0xFFd82e35),
+                                        fontSize: 17,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                      ],
-                    ),
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return const Divider(
+                        color: Color(0xFF6a6a6a),
+                      );
+                    },
+                    itemCount: model.listModel.length,
                   ),
-                );
-              },
-              separatorBuilder: (context, index) {
-                return const Divider(
-                  color: Color(0xFF6a6a6a),
-                );
-              },
-              itemCount: model.listModel.length,
+                ),
+                if (isLoading == true)
+                  const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+              ],
             ),
           ),
         ),

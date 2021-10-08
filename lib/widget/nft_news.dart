@@ -18,40 +18,37 @@ class NFTNews extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    return AnimationLimiter(
-      child: ListView.separated(
-        shrinkWrap: true,
-        itemCount: 11,
-        itemBuilder: (BuildContext context, int index) {
-          if (index == 10) {
-            return Container(
-              margin: const EdgeInsets.all(5),
-              child: GestureDetector(
-                onTap: () {
-                  Get.to(() => SeeAllNewsScreen());
-                },
-                child: Center(
-                  child: Text(
-                    "See all",
-                    style:
-                        GoogleFonts.poppins(color: Colors.white, fontSize: 15),
-                  ),
-                ),
-              ),
-            );
-          }
-          return AnimationConfiguration.staggeredList(
-            position: index,
-            duration: const Duration(milliseconds: 375),
-            child: SlideAnimation(
-              horizontalOffset: 150,
-              child: FadeInAnimation(
-                child: Consumer<NewsProvider>(
-                  builder: (ctx, model, _) => model.nftNewsList.isEmpty
-                      ? const Center(
-                          child: CircularProgressIndicator(),
-                        )
-                      : InkWell(
+    return Consumer<NewsProvider>(
+      builder: (ctx, model, _) => model.nftNewsList.isNotEmpty
+          ? AnimationLimiter(
+              child: ListView.separated(
+                shrinkWrap: true,
+                itemCount: 11,
+                itemBuilder: (BuildContext context, int index) {
+                  if (index == 10) {
+                    return Container(
+                      margin: const EdgeInsets.all(5),
+                      child: GestureDetector(
+                        onTap: () {
+                          Get.to(() => SeeAllNewsScreen());
+                        },
+                        child: Center(
+                          child: Text(
+                            "See all",
+                            style: GoogleFonts.poppins(
+                                color: Colors.white, fontSize: 15),
+                          ),
+                        ),
+                      ),
+                    );
+                  }
+                  return AnimationConfiguration.staggeredList(
+                    position: index,
+                    duration: const Duration(milliseconds: 375),
+                    child: SlideAnimation(
+                      horizontalOffset: 150,
+                      child: FadeInAnimation(
+                        child: InkWell(
                           onTap: () {
                             Get.to(
                               () => NewsSummaryScreen(
@@ -176,20 +173,23 @@ class NFTNews extends StatelessWidget {
                             ),
                           ),
                         ),
-                ),
+                      ),
+                    ),
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) {
+                  return Divider(
+                    indent: width * 0.28,
+                    endIndent: width * 0.04,
+                    color: const Color(0xFF404040),
+                    thickness: 1,
+                  );
+                },
               ),
+            )
+          : const Center(
+              child: CircularProgressIndicator(),
             ),
-          );
-        },
-        separatorBuilder: (BuildContext context, int index) {
-          return Divider(
-            indent: width * 0.28,
-            endIndent: width * 0.04,
-            color: const Color(0xFF404040),
-            thickness: 1,
-          );
-        },
-      ),
     );
   }
 }

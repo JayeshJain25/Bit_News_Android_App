@@ -43,6 +43,8 @@ class Helper {
     } else if (imgUrl.startsWith("[")) {
       final String newUrl = imgUrl.substring(2);
       return newUrl.split("']")[0];
+    } else if (!imgUrl.startsWith("https")) {
+      return "https://$imgUrl";
     } else {
       return imgUrl;
     }

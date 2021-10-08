@@ -2,7 +2,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:crypto_news/helper/helper.dart';
 import 'package:crypto_news/model/news_model.dart';
-import 'package:crypto_news/provider/crypto_and_fiat_provider.dart';
 import 'package:crypto_news/provider/news_provider.dart';
 import 'package:crypto_news/screen/news_summary_screen.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +25,9 @@ class FollowingListAllSection extends StatefulWidget {
 
 class _FollowingListAllSectionState extends State<FollowingListAllSection> {
   final _scrollController = ScrollController();
+
   late int page = 0;
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -35,13 +36,16 @@ class _FollowingListAllSectionState extends State<FollowingListAllSection> {
   }
 
   void pagination() {
-    final position = _scrollController.offset /
-        (_scrollController.position.maxScrollExtent -
-            _scrollController.position.minScrollExtent);
-    if (position > 0.1 && !_scrollController.position.outOfRange) {
+    if (_scrollController.offset >=
+            _scrollController.position.maxScrollExtent &&
+        !_scrollController.position.outOfRange) {
       setState(() {
         page++;
-        Provider.of<NewsProvider>(context, listen: false).getNewsFeed(page);
+        Provider.of<NewsProvider>(context, listen: false)
+            .getNewsFeed(page + 1)
+            .then(
+              (value) => {isLoading = false},
+            );
       });
     }
   }
@@ -147,14 +151,16 @@ class _TodayNewsList extends StatelessWidget {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
-                                      AutoSizeText(
-                                        "${_helper.convertToAgo(
-                                          newsList[i].publishedDate,
-                                        )} \u2022",
-                                        maxLines: 1,
-                                        style: GoogleFonts.poppins(
-                                          color: Colors.white70,
-                                          fontSize: 15,
+                                      Expanded(
+                                        child: AutoSizeText(
+                                          "${_helper.convertToAgo(
+                                            newsList[i].publishedDate,
+                                          )} \u2022",
+                                          maxLines: 1,
+                                          style: GoogleFonts.poppins(
+                                            color: Colors.white70,
+                                            fontSize: 15,
+                                          ),
                                         ),
                                       ),
                                       AutoSizeText(
