@@ -15,8 +15,12 @@ import './news_web_view.dart';
 
 class FollowingListAllSection extends StatefulWidget {
   final List<NewsModel> newsList;
+  final String newsValue;
 
-  const FollowingListAllSection({required this.newsList});
+  const FollowingListAllSection({
+    required this.newsList,
+    required this.newsValue,
+  });
 
   @override
   State<FollowingListAllSection> createState() =>
@@ -41,11 +45,31 @@ class _FollowingListAllSectionState extends State<FollowingListAllSection> {
         !_scrollController.position.outOfRange) {
       setState(() {
         page++;
-        Provider.of<NewsProvider>(context, listen: false)
-            .getNewsFeed(page + 1)
-            .then(
-              (value) => {isLoading = false},
-            );
+        if (widget.newsValue == "all") {
+          Provider.of<NewsProvider>(context, listen: false)
+              .getNewsFeed(page + 1)
+              .then(
+                (value) => {isLoading = false},
+              );
+        } else if (widget.newsValue == "bitcoin") {
+          Provider.of<NewsProvider>(context, listen: false)
+              .getBitcoinNews(page + 1)
+              .then(
+                (value) => {isLoading = false},
+              );
+        } else if (widget.newsValue == "ethereum") {
+          Provider.of<NewsProvider>(context, listen: false)
+              .getEthereumNews(page + 1)
+              .then(
+                (value) => {isLoading = false},
+              );
+        } else if (widget.newsValue == "nft") {
+          Provider.of<NewsProvider>(context, listen: false)
+              .getNFTNews(page + 1)
+              .then(
+                (value) => {isLoading = false},
+              );
+        }
       });
     }
   }
@@ -69,6 +93,14 @@ class _TodayNewsList extends StatelessWidget {
   final int? index;
   final List<NewsModel> newsList;
   final _helper = Helper();
+
+  double getDescriptionLength(int lengthOfDesc) {
+    if (lengthOfDesc > 100) {
+      return 7;
+    } else {
+      return 0;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -119,6 +151,7 @@ class _TodayNewsList extends StatelessWidget {
                               title: Container(
                                 margin: const EdgeInsets.only(
                                   bottom: 7,
+                                  top: 7,
                                 ),
                                 child: AutoSizeText(
                                   newsList[i].title,
@@ -133,8 +166,10 @@ class _TodayNewsList extends StatelessWidget {
                               subtitle: Column(
                                 children: [
                                   Container(
-                                    margin: const EdgeInsets.only(
-                                      bottom: 7,
+                                    margin: EdgeInsets.only(
+                                      bottom: getDescriptionLength(
+                                        newsList[i].description.length,
+                                      ),
                                     ),
                                     child: AutoSizeText(
                                       newsList[i].description,

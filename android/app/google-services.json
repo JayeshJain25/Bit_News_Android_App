@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "258683599220",
+    "project_id": "cryptox-aabf8",
+    "storage_bucket": "cryptox-aabf8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:258683599220:android:057f1ca115856ad024d421",
+        "android_client_info": {
+          "package_name": "com.example.crypto_news"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "258683599220-m7mn85o4434qtfbnduqvvvhpk4jul2ob.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.crypto_news",
+            "certificate_hash": "b0b5fc2a8d0582554c764bf1c214772025b1dbbd"
+          }
+        },
+        {
+          "client_id": "258683599220-idd692d8q7paem74cccrcdo0p6mj0utc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXEN_Na77JB1SRc-0ti56J8MigBJhryG8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "258683599220-idd692d8q7paem74cccrcdo0p6mj0utc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

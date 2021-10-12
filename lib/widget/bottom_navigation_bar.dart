@@ -6,7 +6,6 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import '../screen/favourite_screen.dart';
 import '../screen/market_screen.dart';
 import '../screen/news_screen.dart';
-import '../screen/notification_screen.dart';
 import 'no_internet.dart';
 
 class AppBottomNavigationBar extends StatefulWidget {
@@ -37,7 +36,6 @@ class _MyCustomBottomNavigationBarState extends State<AppBottomNavigationBar>
       MarketScreen(),
       FavouriteScreen(),
       NewsScreen(),
-      NotificationScreen(),
     ];
   }
 
@@ -60,8 +58,8 @@ class _MyCustomBottomNavigationBarState extends State<AppBottomNavigationBar>
       ),
       bottomNavigationBar: GNav(
         tabMargin:
-            const EdgeInsets.only(top: 10, bottom: 10, left: 15, right: 15),
-        backgroundColor: const Color(0xFF121212),
+            const EdgeInsets.only(top: 10, bottom: 10, left: 25, right: 25),
+        backgroundColor: const Color(0xFF010101),
         curve: Curves.easeOutExpo,
         duration: const Duration(milliseconds: 600),
         activeColor: const Color(0xFF52CAF5),
@@ -70,7 +68,7 @@ class _MyCustomBottomNavigationBarState extends State<AppBottomNavigationBar>
 
         tabs: [
           GButton(
-            backgroundColor: const Color(0xFF121212),
+            backgroundColor: const Color(0xFF010101),
             leading: SizedBox(
               width: 24,
               height: 24,
@@ -84,7 +82,7 @@ class _MyCustomBottomNavigationBarState extends State<AppBottomNavigationBar>
             iconColor: Colors.transparent,
           ),
           GButton(
-            backgroundColor: const Color(0xFF121212),
+            backgroundColor: const Color(0xFF010101),
             leading: SizedBox(
               width: 24,
               height: 24,
@@ -109,7 +107,7 @@ class _MyCustomBottomNavigationBarState extends State<AppBottomNavigationBar>
             ),
             icon: Icons.notifications_none,
             iconColor: Colors.transparent,
-            backgroundColor: const Color(0xFF121212),
+            backgroundColor: const Color(0xFF010101),
           ),
           GButton(
             leading: SizedBox(
@@ -123,12 +121,7 @@ class _MyCustomBottomNavigationBarState extends State<AppBottomNavigationBar>
             ),
             icon: Icons.notifications_none,
             iconColor: Colors.transparent,
-            backgroundColor: const Color(0xFF121212),
-          ),
-          const GButton(
-            icon: Icons.notifications,
-            iconColor: Colors.white,
-            backgroundColor: Color(0xFF121212),
+            backgroundColor: const Color(0xFF010101),
           ),
         ],
         selectedIndex: _currentIndex,

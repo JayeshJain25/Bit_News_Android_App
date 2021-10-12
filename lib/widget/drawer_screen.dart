@@ -58,9 +58,10 @@ class _DrawerScreenState extends State<DrawerScreen>
                       child: AutoSizeText(
                         'J',
                         style: GoogleFonts.poppins(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white),
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                     SizedBox(
@@ -74,7 +75,9 @@ class _DrawerScreenState extends State<DrawerScreen>
                           child: Text(
                             "Jayesh Jain",
                             style: GoogleFonts.poppins(
-                                fontSize: 22, color: Colors.white),
+                              fontSize: 22,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
@@ -134,7 +137,9 @@ class _DrawerScreenState extends State<DrawerScreen>
                                   child: Text(
                                     "Conversion Tool",
                                     style: GoogleFonts.poppins(
-                                        fontSize: 18, color: Colors.white),
+                                      fontSize: 18,
+                                      color: Colors.white,
+                                    ),
                                   ),
                                 ),
                               ),

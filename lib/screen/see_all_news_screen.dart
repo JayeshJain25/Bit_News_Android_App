@@ -39,16 +39,21 @@ class _SeeAllNewsScreenState extends State<SeeAllNewsScreen> {
       resizeToAvoidBottomInset: true,
       backgroundColor: const Color(0xFF121212),
       appBar: AppBar(
+        elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios),
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            size: 22,
+          ),
           color: Colors.white,
           onPressed: () {
             Get.back();
           },
         ),
         backgroundColor: const Color(0xFF121212),
+        leadingWidth: 25,
         title: AutoSizeText(
-          'Latest',
+          'CryptoX',
           style: GoogleFonts.poppins(
             color: Colors.white,
             fontSize: 23,
@@ -125,15 +130,19 @@ class _SeeAllNewsScreenState extends State<SeeAllNewsScreen> {
                 children: <Widget>[
                   FollowingListAllSection(
                     newsList: newsList,
+                    newsValue: "all",
                   ),
                   FollowingListAllSection(
                     newsList: newsList2,
+                    newsValue: "bitcoin",
                   ),
                   FollowingListAllSection(
                     newsList: newsList3,
+                    newsValue: "ethereum",
                   ),
                   FollowingListAllSection(
                     newsList: newsList4,
+                    newsValue: "nft",
                   ),
                 ],
               ),

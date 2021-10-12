@@ -6,13 +6,13 @@ class Helper {
     final Duration diff = DateTime.now().difference(time1);
 
     if (diff.inDays >= 1) {
-      return 'about ${diff.inDays} days ago';
+      return '${diff.inDays} days ago';
     } else if (diff.inHours >= 1) {
-      return 'about ${diff.inHours} hrs ago';
+      return '${diff.inHours} hrs ago';
     } else if (diff.inMinutes >= 1) {
-      return 'about ${diff.inMinutes} mins ago';
+      return '${diff.inMinutes} mins ago';
     } else if (diff.inSeconds >= 1) {
-      return 'about ${diff.inSeconds} secs ago';
+      return '${diff.inSeconds} secs ago';
     } else {
       return 'just now';
     }
