@@ -1,11 +1,14 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:crypto_news/provider/crypto_market_data_provider.dart';
 import 'package:crypto_news/screen/crypto_explainer_screen.dart';
 import 'package:crypto_news/screen/notification_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -27,6 +30,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+
+    Provider.of<CryptoMarketDataProvider>(context, listen: false)
+        .cryptoMarketDataByPagination(1);
+
     _scrollViewController = ScrollController();
     _scrollViewController.addListener(() {
       if (_scrollViewController.position.userScrollDirection ==
@@ -74,6 +81,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final User? user = FirebaseAuth.instance.currentUser;
     return Scaffold(
       backgroundColor: const Color(0xFF010101),
       body: SafeArea(
@@ -103,8 +111,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   margin: const EdgeInsets.only(top: 5),
                   child: Row(
                     children: [
-                      Image.asset(
-                        "lib/assets/logo.png",
+                      CachedNetworkImage(
+                        imageUrl:
+                            "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/logo.png?alt=media&token=993eeaba-2bd5-4e5d-b44f-10664965b330",
                         fit: BoxFit.cover,
                         width: 50,
                         height: 50,
@@ -145,7 +154,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               ),
                               children: [
                                 TextSpan(
-                                  text: 'Jayesh Jain',
+                                  text: user!.displayName,
                                   style: GoogleFonts.poppins(
                                     color: const Color(0xFF52CAF5),
                                     fontSize: 20,
@@ -200,7 +209,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     borderRadius: BorderRadius.circular(25),
                                     color: const Color(0xFF1B1212),
                                     border: Border.all(
-                                      color: Colors.white10.withAlpha(80),
+                                      color: Colors.white10.withAlpha(40),
                                     ),
                                     boxShadow: [
                                       BoxShadow(
@@ -215,6 +224,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   height: 60,
                                   width: 160,
                                   child: Center(
+                                    // child: Row(
+                                    //   children: [
+                                    // CachedNetworkImage(
+                                    //   imageUrl:
+                                    //       "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/portfolio.png?alt=media&token=0e6f0637-7ce9-4b3a-83ce-8354c7710326",
+                                    //   fit: BoxFit.cover,
+                                    // ),
                                     child: AutoSizeText(
                                       "Portfolio",
                                       style: GoogleFonts.poppins(
@@ -223,6 +239,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                         color: Colors.white,
                                       ),
                                     ),
+                                    // ],
+                                    //),
                                   ),
                                 ),
                                 Container(
@@ -231,7 +249,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     borderRadius: BorderRadius.circular(25),
                                     color: const Color(0xFF1B1212),
                                     border: Border.all(
-                                        color: Colors.white10.withAlpha(80)),
+                                      color: Colors.white10.withAlpha(40),
+                                    ),
                                     boxShadow: [
                                       BoxShadow(
                                         color: Colors.white.withAlpha(100),
@@ -273,7 +292,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     borderRadius: BorderRadius.circular(25),
                                     color: const Color(0xFF1B1212),
                                     border: Border.all(
-                                      color: Colors.white10.withAlpha(80),
+                                      color: Colors.white10.withAlpha(40),
                                     ),
                                     boxShadow: [
                                       BoxShadow(
@@ -308,7 +327,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       borderRadius: BorderRadius.circular(25),
                                       color: const Color(0xFF1B1212),
                                       border: Border.all(
-                                        color: Colors.white10.withAlpha(80),
+                                        color: Colors.white10.withAlpha(0),
                                       ),
                                       boxShadow: [
                                         BoxShadow(
@@ -374,23 +393,40 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         ),
                       ],
                     ),
-                    Container(
-                      margin: const EdgeInsets.only(top: 15, left: 5, right: 5),
-                      height: 110,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: 10,
-                        itemBuilder: (ctx, index) {
-                          return Container(
-                            margin: const EdgeInsets.only(left: 20, right: 5),
-                            height: 110,
-                            width: 160,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(25),
-                              color: const Color(0xFF36454f),
-                            ),
-                          );
-                        },
+                    Consumer<CryptoMarketDataProvider>(
+                      builder: (ctx, model, _) => Container(
+                        margin:
+                            const EdgeInsets.only(top: 15, left: 5, right: 5),
+                        height: 110,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: 10,
+                          itemBuilder: (ctx, index) {
+                            return Container(
+                              padding: const EdgeInsets.all(10),
+                              margin: const EdgeInsets.only(left: 20, right: 5),
+                              height: 110,
+                              width: 160,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25),
+                                color: const Color(0xFF1B1212),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  AutoSizeText(
+                                    model.listModel[index].name,
+                                    style: GoogleFonts.poppins(
+                                      color: Colors.white,
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            );
+                          },
+                        ),
                       ),
                     ),
                     Container(
@@ -420,7 +456,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             width: 160,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(25),
-                              color: const Color(0xFF36454f),
+                              color: const Color(0xFF1B1212),
                             ),
                           );
                         },
@@ -503,9 +539,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     ),
                                     color: const Color(0xFF010101),
                                     border: Border.all(
-                                        color: _selectedIndex == 0
-                                            ? const Color(0xFF52CAF5)
-                                            : const Color(0xFF010101)),
+                                      color: _selectedIndex == 0
+                                          ? const Color(0xFF52CAF5)
+                                          : const Color(0xFF010101),
+                                    ),
                                   ),
                                   child: Center(
                                     child: AutoSizeText(

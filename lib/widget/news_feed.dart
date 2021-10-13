@@ -66,7 +66,7 @@ class NewsFeed extends StatelessWidget {
                                 bottom: 5,
                               ),
                               child: Card(
-                                color: const Color(0xFF121212),
+                                color: const Color(0xFF010101),
                                 elevation: 0,
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,

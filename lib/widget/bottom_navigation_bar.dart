@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:crypto_news/screen/home_screen.dart';
 import 'package:flutter/material.dart';
@@ -73,7 +74,8 @@ class _MyCustomBottomNavigationBarState extends State<AppBottomNavigationBar>
               width: 24,
               height: 24,
               child: ImageIcon(
-                const AssetImage('lib/assets/home.png'),
+                const CachedNetworkImageProvider(
+                    'https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/home.png?alt=media&token=6069b526-8886-4c2e-8dca-3bccd342c093'),
                 color:
                     _currentIndex == 0 ? const Color(0xFF52CAF5) : Colors.white,
               ),
@@ -87,7 +89,8 @@ class _MyCustomBottomNavigationBarState extends State<AppBottomNavigationBar>
               width: 24,
               height: 24,
               child: ImageIcon(
-                const AssetImage('lib/assets/market.png'),
+                const CachedNetworkImageProvider(
+                    'https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/market.png?alt=media&token=91aad10c-9e4e-4e2c-bc4d-0f0ab6ce661c'),
                 color:
                     _currentIndex == 1 ? const Color(0xFF52CAF5) : Colors.white,
               ),
@@ -100,7 +103,8 @@ class _MyCustomBottomNavigationBarState extends State<AppBottomNavigationBar>
               width: 24,
               height: 24,
               child: ImageIcon(
-                const AssetImage('lib/assets/star.png'),
+                const CachedNetworkImageProvider(
+                    'https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/star.png?alt=media&token=118b56b3-5fe2-47d7-9498-a6c6da9a1725'),
                 color:
                     _currentIndex == 2 ? const Color(0xFF52CAF5) : Colors.white,
               ),
@@ -114,7 +118,8 @@ class _MyCustomBottomNavigationBarState extends State<AppBottomNavigationBar>
               width: 24,
               height: 24,
               child: ImageIcon(
-                const AssetImage('lib/assets/news.png'),
+                const CachedNetworkImageProvider(
+                    'https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/news.png?alt=media&token=0e1a6a88-64bc-43ac-b0b4-f0ffc2758a17'),
                 color:
                     _currentIndex == 3 ? const Color(0xFF52CAF5) : Colors.white,
               ),

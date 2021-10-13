@@ -36,8 +36,6 @@ class _MarketScreenState extends State<MarketScreen> {
   @override
   void initState() {
     super.initState();
-    Provider.of<CryptoMarketDataProvider>(context, listen: false)
-        .cryptoMarketDataByPagination(1);
     _scrollController.addListener(pagination);
   }
 
@@ -46,10 +44,10 @@ class _MarketScreenState extends State<MarketScreen> {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
-      backgroundColor: const Color(0xFF121212),
+      backgroundColor: const Color(0xFF010101),
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: const Color(0xFF121212),
+        backgroundColor: const Color(0xFF010101),
         title: Container(
           margin: const EdgeInsets.only(left: 20, top: 5),
           child: AutoSizeText(
@@ -78,7 +76,7 @@ class _MarketScreenState extends State<MarketScreen> {
                         child: Card(
                           margin: const EdgeInsets.all(10),
                           elevation: 0,
-                          color: const Color(0xFF121212),
+                          color: const Color(0xFF010101),
                           child: Row(
                             children: <Widget>[
                               Text(
@@ -119,6 +117,9 @@ class _MarketScreenState extends State<MarketScreen> {
                                     ),
                                   ),
                                   Container(
+                                    padding: const EdgeInsets.only(
+                                      left: 5,
+                                    ),
                                     margin: const EdgeInsets.only(top: 5),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(5),
@@ -128,23 +129,40 @@ class _MarketScreenState extends State<MarketScreen> {
                                           ? const Color(0xFF01331b)
                                           : const Color(0xFF42070c),
                                     ),
-                                    width: 65,
+                                    width: 79,
                                     height: 20,
-                                    child: Text(
-                                      model.listModel[index]
-                                                  .priceChangePercentage24h >=
-                                              0
-                                          ? "+${model.listModel[index].priceChangePercentage24h.toStringAsFixed(2)}%"
-                                          : "${model.listModel[index].priceChangePercentage24h.toStringAsFixed(2)}%",
-                                      style: GoogleFonts.rubik(
-                                        color: model.listModel[index]
-                                                    .priceChangePercentage24h >
-                                                0
-                                            ? const Color(0xFF00a55b)
-                                            : const Color(0xFFd82e35),
-                                        fontSize: 17,
-                                      ),
-                                      textAlign: TextAlign.center,
+                                    child: Row(
+                                      children: [
+                                        CachedNetworkImage(
+                                          imageUrl: model.listModel[index]
+                                                      .priceChangePercentage24h >=
+                                                  0
+                                              ? "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/up_arrow.png?alt=media&token=03660f10-1eab-46ce-bcdd-a72e4380d012"
+                                              : "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/down_arrow.png?alt=media&token=dcfbaf91-b5d1-42ca-bee4-e785a7c58e8c",
+                                          fit: BoxFit.cover,
+                                          height: 10,
+                                          width: 10,
+                                        ),
+                                        const SizedBox(
+                                          width: 2,
+                                        ),
+                                        Text(
+                                          model.listModel[index]
+                                                      .priceChangePercentage24h >=
+                                                  0
+                                              ? "+${model.listModel[index].priceChangePercentage24h.toStringAsFixed(2)}%"
+                                              : "${model.listModel[index].priceChangePercentage24h.toStringAsFixed(2)}%",
+                                          style: GoogleFonts.rubik(
+                                            color: model.listModel[index]
+                                                        .priceChangePercentage24h >
+                                                    0
+                                                ? const Color(0xFF00a55b)
+                                                : const Color(0xFFd82e35),
+                                            fontSize: 17,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ],
                                     ),
                                   )
                                 ],

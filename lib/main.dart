@@ -1,8 +1,8 @@
-import 'package:crypto_news/provider/bottom_navigation_provider.dart';
 import 'package:crypto_news/provider/crypto_and_fiat_provider.dart';
 import 'package:crypto_news/provider/crypto_market_data_provider.dart';
 import 'package:crypto_news/provider/google_sign_in_provider.dart';
 import 'package:crypto_news/provider/news_provider.dart';
+import 'package:crypto_news/screen/sign_in_screen.dart';
 import 'package:crypto_news/screen/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +11,8 @@ import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 

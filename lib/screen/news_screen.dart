@@ -87,7 +87,7 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: const Color(0xFF121212),
+        backgroundColor: const Color(0xFF010101),
         title: Container(
           margin: const EdgeInsets.only(left: 20, top: 5),
           child: AutoSizeText(
@@ -101,7 +101,7 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
         ),
         automaticallyImplyLeading: false,
       ),
-      backgroundColor: const Color(0xFF121212),
+      backgroundColor: const Color(0xFF010101),
       body: SafeArea(
         child: SingleChildScrollView(
           child: SizedBox(
@@ -191,7 +191,7 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
                           },
                         ),
                       ),
-                      backgroundColor: const Color(0xFF121212),
+                      backgroundColor: const Color(0xFF010101),
                     ),
                     SliverPersistentHeader(
                       delegate: MyDelegate(

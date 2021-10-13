@@ -37,7 +37,7 @@ class _SeeAllNewsScreenState extends State<SeeAllNewsScreen> {
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      backgroundColor: const Color(0xFF121212),
+      backgroundColor: const Color(0xFF010101),
       appBar: AppBar(
         elevation: 0,
         leading: IconButton(
@@ -50,7 +50,7 @@ class _SeeAllNewsScreenState extends State<SeeAllNewsScreen> {
             Get.back();
           },
         ),
-        backgroundColor: const Color(0xFF121212),
+        backgroundColor: const Color(0xFF010101),
         leadingWidth: 25,
         title: AutoSizeText(
           'CryptoX',

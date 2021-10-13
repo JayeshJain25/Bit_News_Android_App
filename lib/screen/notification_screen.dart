@@ -13,7 +13,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: const Color(0xFF121212),
+        backgroundColor: const Color(0xFF010101),
         title: Container(
           margin: const EdgeInsets.only(left: 20, top: 5),
           child: AutoSizeText(
@@ -27,7 +27,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
         ),
         automaticallyImplyLeading: false,
       ),
-      backgroundColor: const Color(0xFF121212),
+      backgroundColor: const Color(0xFF010101),
       body: const SafeArea(child: SizedBox()),
     );
   }

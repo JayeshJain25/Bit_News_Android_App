@@ -36,7 +36,9 @@ class BitcoinNews extends StatelessWidget {
                           child: Text(
                             "See all",
                             style: GoogleFonts.poppins(
-                                color: Colors.white, fontSize: 15),
+                              color: Colors.white,
+                              fontSize: 15,
+                            ),
                           ),
                         ),
                       ),
@@ -64,7 +66,7 @@ class BitcoinNews extends StatelessWidget {
                               bottom: 5,
                             ),
                             child: Card(
-                              color: const Color(0xFF121212),
+                              color: const Color(0xFF010101),
                               elevation: 0,
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,8 +78,9 @@ class BitcoinNews extends StatelessWidget {
                                         model.bitcoinNewsList[index].photoUrl,
                                       ),
                                       errorWidget: (context, url, error) =>
-                                          Image.asset(
-                                        "lib/assets/logo.png",
+                                          CachedNetworkImage(
+                                        imageUrl:
+                                            "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/logo.png?alt=media&token=993eeaba-2bd5-4e5d-b44f-10664965b330",
                                         fit: BoxFit.cover,
                                       ),
                                       height: height * 0.09,

@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -12,8 +13,9 @@ class NoInternet extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset(
-            "lib/assets/no_internet.gif",
+          CachedNetworkImage(
+            imageUrl:
+                "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/no_internet.gif?alt=media&token=3fe80377-8174-4e84-862a-efdac382cfcb",
           ),
           AutoSizeText(
             "Whoops!!",

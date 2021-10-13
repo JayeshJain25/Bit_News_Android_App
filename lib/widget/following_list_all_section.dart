@@ -128,7 +128,7 @@ class _TodayNewsList extends StatelessWidget {
                       margin: const EdgeInsets.only(bottom: 15),
                       child: Card(
                         elevation: 0,
-                        color: const Color(0xFF121212),
+                        color: const Color(0xFF010101),
                         child: Column(
                           children: [
                             ClipRRect(
@@ -139,8 +139,9 @@ class _TodayNewsList extends StatelessWidget {
                                   newsList[i].photoUrl,
                                 ),
                                 errorWidget: (context, url, error) =>
-                                    Image.asset(
-                                  "lib/assets/logo.png",
+                                    CachedNetworkImage(
+                                  imageUrl:
+                                      "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/logo.png?alt=media&token=993eeaba-2bd5-4e5d-b44f-10664965b330",
                                   fit: BoxFit.cover,
                                 ),
                                 height: height * 0.2,
@@ -228,7 +229,7 @@ class _TodayNewsList extends StatelessWidget {
           Container(
         height: 40.0,
         color:
-            const Color(0xFF121212).withOpacity(1.0 - state.scrollPercentage),
+            const Color(0xFF010101).withOpacity(1.0 - state.scrollPercentage),
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         alignment: Alignment.centerLeft,
         child: Text(
@@ -363,13 +364,16 @@ class _RecentNewsList extends StatelessWidget {
           Container(
         height: 40.0,
         color:
-            const Color(0xFF121212).withOpacity(1.0 - state.scrollPercentage),
+            const Color(0xFF010101).withOpacity(1.0 - state.scrollPercentage),
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         alignment: Alignment.centerLeft,
         child: Text(
           'RECENT',
           style: GoogleFonts.poppins(
-              color: Colors.white, fontSize: 15, fontWeight: FontWeight.w500),
+            color: Colors.white,
+            fontSize: 15,
+            fontWeight: FontWeight.w500,
+          ),
         ),
       ),
     );
