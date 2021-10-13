@@ -22,8 +22,6 @@ class CryptoAndFiatProvider with ChangeNotifier {
 
   CryptoAndFiatProvider();
 
-  final _apiEndpoints = ApiEndpoints();
-
   CryptoAndFiatProvider.fromJson(List<dynamic> parsedJson) {
     List<CryptoAndFiatModel> list = [];
     list = parsedJson
