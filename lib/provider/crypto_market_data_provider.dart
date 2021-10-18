@@ -9,6 +9,7 @@ class CryptoMarketDataProvider with ChangeNotifier {
   CryptoMarketDataProvider();
 
   List<CryptoMarketDataModel> listModel = [];
+  List<CryptoMarketDataModel> trendingCoins = [];
 
   CryptoMarketDataProvider.fromJson(List<dynamic> parsedJson) {
     List<CryptoMarketDataModel> list = [];
@@ -18,21 +19,46 @@ class CryptoMarketDataProvider with ChangeNotifier {
     listModel = list;
   }
 
+  CryptoMarketDataProvider.fromMap(List<dynamic> parsedJson) {
+    List<CryptoMarketDataModel> list = [];
+    list = parsedJson
+        .map((e) => CryptoMarketDataModel.fromJson(e as Map<String, dynamic>))
+        .toList();
+    trendingCoins = list;
+  }
+
   Future<void> cryptoMarketDataByPagination(int page) async {
     final url =
         "${ApiEndpoints.baseUrl}cryptocurrency/crypto-market-data/?page=$page";
-    //final url = "http://192.168.31.132:8948/cryptocurrency/get-crypto-fiat-list?page=$page";
-    // var url = "http://192.168.43.93:8948/news/get-list";
+
     try {
       final response = await http.get(
         Uri.parse(url),
-        //headers: <String, String>{'authorization': _apiEndpoints.basicAuth}
       );
       final r = json.decode(response.body) as List<dynamic>;
       final CryptoMarketDataProvider model =
           CryptoMarketDataProvider.fromJson(r);
       for (final element in model.listModel) {
         listModel.add(element);
+      }
+      notifyListeners();
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  Future<void> getTrendingCoins() async {
+    final url = "${ApiEndpoints.baseUrl}cryptocurrency/trending-coins";
+
+    try {
+      final response = await http.get(
+        Uri.parse(url),
+      );
+      final r = json.decode(response.body) as List<dynamic>;
+      final CryptoMarketDataProvider model =
+          CryptoMarketDataProvider.fromMap(r);
+      for (final element in model.trendingCoins) {
+        trendingCoins.add(element);
       }
       notifyListeners();
     } catch (error) {

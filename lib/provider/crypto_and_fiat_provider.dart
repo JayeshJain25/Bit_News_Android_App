@@ -86,8 +86,6 @@ class CryptoAndFiatProvider with ChangeNotifier {
     updatedList.clear();
     final url =
         "${ApiEndpoints.baseUrl}cryptocurrency/get-crypto-fiat-list-by-search/?name=$name";
-    //final url = "http://192.168.31.132:8948/cryptocurrency/get-crypto-fiat-list?page=$page";
-    // var url = "http://192.168.43.93:8948/news/get-list";
     try {
       final response = await http.get(
         Uri.parse(url),
@@ -106,8 +104,6 @@ class CryptoAndFiatProvider with ChangeNotifier {
 
   Future<void> fiatAndCryptoList(int page) async {
     final url = "${ApiEndpoints.baseUrl}cryptocurrency/crypto-fiat/?page=$page";
-    //final url = "http://192.168.31.132:8948/cryptocurrency/get-crypto-fiat-list?page=$page";
-    // var url = "http://192.168.43.93:8948/news/get-list";
     try {
       final response = await http.get(
         Uri.parse(url),

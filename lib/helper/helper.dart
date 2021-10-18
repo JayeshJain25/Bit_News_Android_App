@@ -50,6 +50,15 @@ class Helper {
     }
   }
 
+  String removeDecimal(String price) {
+    final List<String> splittedPrice = price.split(".");
+    if (splittedPrice[1] == "0") {
+      return splittedPrice[0];
+    } else {
+      return "${splittedPrice[0]}.${splittedPrice[1]}";
+    }
+  }
+
   Map<String, Color> flagColor = {
     "Euro": const Color(0xFF0825cb),
     "Japanese Yen": const Color(0xFFfeced0),

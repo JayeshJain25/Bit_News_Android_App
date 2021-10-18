@@ -50,17 +50,21 @@ class _NewsSummaryScreenState extends State<NewsSummaryScreen> {
                   left: 0,
                   right: 0,
                   bottom: 0,
-                  child: CachedNetworkImage(
-                    imageUrl: _helper.extractImgUrl(
-                      widget.newsData.photoUrl,
-                    ),
-                    errorWidget: (context, url, error) => Image.asset(
-                      "lib/assets/logo.png",
+                  child: Hero(
+                    tag: widget.newsData.title,
+                    child: CachedNetworkImage(
+                      imageUrl: _helper.extractImgUrl(
+                        widget.newsData.photoUrl,
+                      ),
+                      errorWidget: (context, url, error) => CachedNetworkImage(
+                        imageUrl:
+                            "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/logo.png?alt=media&token=993eeaba-2bd5-4e5d-b44f-10664965b330",
+                        fit: BoxFit.cover,
+                      ),
+                      height: height * 0.37,
+                      width: width,
                       fit: BoxFit.cover,
                     ),
-                    height: height * 0.37,
-                    width: width,
-                    fit: BoxFit.cover,
                   ),
                 ),
                 Positioned(
@@ -74,7 +78,7 @@ class _NewsSummaryScreenState extends State<NewsSummaryScreen> {
                         end: Alignment.center,
                         colors: [
                           Colors.transparent,
-                          Colors.blueAccent.withOpacity(1).withOpacity(0.2)
+                          Colors.black.withOpacity(0.7)
                         ],
                       ),
                     ),
@@ -197,6 +201,8 @@ class _NewsSummaryScreenState extends State<NewsSummaryScreen> {
                       margin: const EdgeInsets.only(left: 15, top: 15),
                       child: AutoSizeText(
                         widget.newsData.title,
+                        maxLines: 3,
+                        minFontSize: 15,
                         style: GoogleFonts.rubik(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -208,16 +214,53 @@ class _NewsSummaryScreenState extends State<NewsSummaryScreen> {
                       height: 15,
                     ),
                     Container(
+                      height: height * 0.735,
                       padding: const EdgeInsets.all(10),
                       child: SingleChildScrollView(
-                        child: AutoSizeText(
-                          widget.newsData.summary,
-                          style: GoogleFonts.rubik(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 16,
-                            color: Colors.white,
-                          ),
-                          textAlign: TextAlign.justify,
+                        child: Column(
+                          children: widget.newsData.summary
+                              .split(".")
+                              .map(
+                                (e) => e != ""
+                                    ? Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            margin: widget.newsData.summary
+                                                        .split(".")[0] ==
+                                                    e
+                                                ? const EdgeInsets.only(top: 0)
+                                                : EdgeInsets.only(
+                                                    top: height * 0.02,),
+                                            child: AutoSizeText(
+                                              "• ",
+                                              style: GoogleFonts.rubik(
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: 16,
+                                                color: Colors.white,
+                                              ),
+                                              textAlign: TextAlign.justify,
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: AutoSizeText(
+                                              e,
+                                              style: GoogleFonts.rubik(
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: 16,
+                                                color: Colors.white,
+                                              ),
+                                              textAlign: TextAlign.justify,
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    : const SizedBox(
+                                        height: 0,
+                                      ),
+                              )
+                              .toList(),
                         ),
                       ),
                     ),
@@ -225,22 +268,31 @@ class _NewsSummaryScreenState extends State<NewsSummaryScreen> {
                       height: 15,
                     ),
                     Container(
+                      width: width,
+                      height: height * 0.06,
                       margin: const EdgeInsets.only(left: 15, bottom: 15),
                       child: ElevatedButton(
                         onPressed: () {
                           Get.to(() => NewsWebView(widget.newsData.url));
                         },
                         style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                            const Color(0xFF52CAF5),
+                          ),
                           shape:
                               MaterialStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(18.0),
+                              borderRadius: BorderRadius.circular(7.0),
                             ),
                           ),
                         ),
                         child: Text(
-                          "View Full Article ->",
-                          style: GoogleFonts.poppins(fontSize: 14),
+                          "Read Full Article",
+                          style: GoogleFonts.poppins(
+                            fontSize: 16,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
                     )

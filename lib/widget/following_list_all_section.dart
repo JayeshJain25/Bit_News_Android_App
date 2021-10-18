@@ -133,19 +133,22 @@ class _TodayNewsList extends StatelessWidget {
                           children: [
                             ClipRRect(
                               borderRadius: BorderRadius.circular(15.0),
-                              child: CachedNetworkImage(
-                                fit: BoxFit.cover,
-                                imageUrl: _helper.extractImgUrl(
-                                  newsList[i].photoUrl,
-                                ),
-                                errorWidget: (context, url, error) =>
-                                    CachedNetworkImage(
-                                  imageUrl:
-                                      "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/logo.png?alt=media&token=993eeaba-2bd5-4e5d-b44f-10664965b330",
+                              child: Hero(
+                                tag: newsList[i].title,
+                                child: CachedNetworkImage(
                                   fit: BoxFit.cover,
+                                  imageUrl: _helper.extractImgUrl(
+                                    newsList[i].photoUrl,
+                                  ),
+                                  errorWidget: (context, url, error) =>
+                                      CachedNetworkImage(
+                                    imageUrl:
+                                        "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/logo.png?alt=media&token=993eeaba-2bd5-4e5d-b44f-10664965b330",
+                                    fit: BoxFit.cover,
+                                  ),
+                                  height: height * 0.2,
+                                  width: width * 0.81,
                                 ),
-                                height: height * 0.2,
-                                width: width * 0.81,
                               ),
                             ),
                             ListTile(
