@@ -34,35 +34,25 @@ class TopNews extends StatelessWidget {
               },
               child: Stack(
                 children: <Widget>[
-                  Container(
+                  SizedBox(
                     width: width,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
                     child: Stack(
                       children: <Widget>[
-                        ColorFiltered(
-                          colorFilter: ColorFilter.mode(
-                            Colors.black.withOpacity(0.6),
-                            BlendMode.dstIn,
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(15.0),
-                            child: Hero(
-                              tag: model.newsCompleteList[index].title,
-                              child: CachedNetworkImage(
-                                fit: BoxFit.cover,
-                                imageUrl: _helper.extractImgUrl(
-                                  model.newsCompleteList[index].photoUrl,
-                                ),
-                                errorWidget: (context, url, error) =>
-                                    CachedNetworkImage(
-                                  imageUrl:
-                                      "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/logo.png?alt=media&token=993eeaba-2bd5-4e5d-b44f-10664965b330",
-                                  fit: BoxFit.cover,
-                                ),
-                                height: height * 0.5,
+                        ClipRRect(
+                          child: Hero(
+                            tag: model.newsCompleteList[index].title,
+                            child: CachedNetworkImage(
+                              fit: BoxFit.cover,
+                              imageUrl: _helper.extractImgUrl(
+                                model.newsCompleteList[index].photoUrl,
                               ),
+                              errorWidget: (context, url, error) =>
+                                  CachedNetworkImage(
+                                imageUrl:
+                                    "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/logo.png?alt=media&token=993eeaba-2bd5-4e5d-b44f-10664965b330",
+                                fit: BoxFit.cover,
+                              ),
+                              height: height * 0.5,
                             ),
                           ),
                         ),
@@ -70,41 +60,77 @@ class TopNews extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    top: height * 0.243,
+                    top: height * 0.1,
+                    child: Container(
+                      width: width,
+                      height: height * 0.4,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.center,
+                          colors: [
+                            Colors.transparent,
+                            Colors.black.withOpacity(0.8)
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    top: height * 0.223,
                     child: Container(
                       padding: const EdgeInsets.only(
-                        top: 10,
                         left: 15,
                         right: 15,
-                        bottom: 10,
                       ),
-                      width: width * 0.875,
-                      height: height * 0.16,
+                      width: width,
+                      height: height * 0.3,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
-                        color: Colors.black.withOpacity(0.8),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Expanded(
+                          Container(
+                            margin: const EdgeInsets.only(
+                              left: 0.5,
+                              right: 0.5,
+                            ),
+                            width: width,
+                            height: height * 0.1,
                             child: Container(
-                              margin: const EdgeInsets.only(
-                                left: 0.5,
-                                right: 0.5,
-                                bottom: 5,
-                              ),
-                              width: width * 0.75,
-                              height: height * 0.1,
+                              margin: const EdgeInsets.only(top: 44),
                               child: AutoSizeText(
                                 model.newsCompleteList[index].title,
-                                minFontSize: 14,
-                                maxLines: 3,
+                                minFontSize: 15,
+                                maxLines: 2,
                                 style: GoogleFonts.poppins(
                                   color: Colors.white,
                                   fontSize: 17,
                                   fontWeight: FontWeight.w600,
                                 ),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(
+                              left: 0.5,
+                              right: 0.5,
+                              bottom: 5,
+                              top: 20,
+                            ),
+                            width: width,
+                            height: height * 0.05,
+                            child: AutoSizeText(
+                              model.newsCompleteList[index].description,
+                              minFontSize: 14,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              softWrap: false,
+                              style: GoogleFonts.rubik(
+                                color: Colors.white70,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
                           ),
@@ -119,7 +145,7 @@ class TopNews extends StatelessWidget {
                                   minFontSize: 11,
                                   maxLines: 1,
                                   style: GoogleFonts.rubik(
-                                    color: const Color(0xFFd9d8d9),
+                                    color: Colors.white70,
                                     fontSize: 15,
                                     fontWeight: FontWeight.w600,
                                   ),
@@ -135,7 +161,7 @@ class TopNews extends StatelessWidget {
                                   minFontSize: 10,
                                   maxLines: 1,
                                   style: GoogleFonts.rubik(
-                                    color: const Color(0xFFd9d8d9),
+                                    color: Colors.white70,
                                     fontSize: 15,
                                     fontWeight: FontWeight.w600,
                                   ),

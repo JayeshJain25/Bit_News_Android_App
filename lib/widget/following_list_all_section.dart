@@ -181,7 +181,7 @@ class _TodayNewsList extends StatelessWidget {
                                       overflow: TextOverflow.ellipsis,
                                       softWrap: false,
                                       style: GoogleFonts.poppins(
-                                        color: Colors.white70,
+                                        color: const Color(0xFF757575),
                                         fontSize: 15,
                                       ),
                                     ),
@@ -197,7 +197,7 @@ class _TodayNewsList extends StatelessWidget {
                                           )} \u2022",
                                           maxLines: 1,
                                           style: GoogleFonts.poppins(
-                                            color: Colors.white70,
+                                            color: const Color(0xFF757575),
                                             fontSize: 15,
                                           ),
                                         ),
@@ -206,7 +206,7 @@ class _TodayNewsList extends StatelessWidget {
                                         newsList[i].source,
                                         maxLines: 1,
                                         style: GoogleFonts.poppins(
-                                          color: Colors.white70,
+                                          color: const Color(0xFF757575),
                                           fontSize: 15,
                                           fontWeight: FontWeight.w500,
                                         ),

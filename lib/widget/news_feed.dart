@@ -125,7 +125,8 @@ class NewsFeed extends StatelessWidget {
                                                       TextOverflow.ellipsis,
                                                   softWrap: false,
                                                   style: GoogleFonts.rubik(
-                                                    color: Colors.white70,
+                                                    color:
+                                                        const Color(0xFF757575),
                                                     fontSize: 15,
                                                   ),
                                                 ),
@@ -141,7 +142,9 @@ class NewsFeed extends StatelessWidget {
                                                     )}  \u2022",
                                                     maxLines: 1,
                                                     style: GoogleFonts.poppins(
-                                                      color: Colors.white70,
+                                                      color: const Color(
+                                                        0xFF757575,
+                                                      ),
                                                       fontSize: 12,
                                                       fontWeight:
                                                           FontWeight.w500,
@@ -163,7 +166,9 @@ class NewsFeed extends StatelessWidget {
                                                             .ellipsis,
                                                         style:
                                                             GoogleFonts.poppins(
-                                                          color: Colors.white70,
+                                                          color: const Color(
+                                                            0xFF757575,
+                                                          ),
                                                           fontSize: 13,
                                                           fontWeight:
                                                               FontWeight.w500,

@@ -96,126 +96,123 @@ class _MarketScreenState extends State<MarketScreen> {
                         child: Card(
                           margin: const EdgeInsets.all(10),
                           elevation: 0,
-                          color: const Color(0xFF010101),
-                          child: Row(
-                            children: <Widget>[
-                              Text(
-                                model.listModel[index].rank.toStringAsFixed(0),
-                                style: GoogleFonts.nunito(
-                                  color: Colors.white,
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w600,
-                                ),
+                          color: const Color(0xFF1d1d1d),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(17),
+                          ),
+                          child: ListTile(
+                            leading: Text(
+                              model.listModel[index].rank.toStringAsFixed(0),
+                              style: GoogleFonts.nunito(
+                                color: Colors.white,
+                                fontSize: 17,
+                                fontWeight: FontWeight.w600,
                               ),
-                              Container(
-                                height: height * 0.07,
-                                width: width * 0.1,
-                                margin: EdgeInsets.only(left: width * 0.07),
-                                child: CachedNetworkImage(
-                                  imageUrl: model.listModel[index].image,
+                            ),
+                            title: Row(
+                              children: [
+                                SizedBox(
+                                  height: height * 0.07,
+                                  width: width * 0.1,
+                                  child: CachedNetworkImage(
+                                    imageUrl: model.listModel[index].image,
+                                  ),
                                 ),
-                              ),
-                              Expanded(
-                                child: Container(
-                                  margin: EdgeInsets.only(left: width * 0.07),
-                                  child: Text(
-                                    model.listModel[index].name,
-                                    style: GoogleFonts.rubik(
-                                      color: Colors.white,
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.w400,
+                                Expanded(
+                                  child: Container(
+                                    margin: EdgeInsets.only(left: width * 0.07),
+                                    child: AutoSizeText(
+                                      model.listModel[index].name,
+                                      maxLines: 2,
+                                      minFontSize: 14,
+                                      style: GoogleFonts.rubik(
+                                        color: Colors.white,
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.w400,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              Expanded(
-                                child: Container(
-                                  margin: EdgeInsets.only(right: width * 0.02),
-                                  child: Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      children: [
-                                        Text(
-                                          "\u{20B9} ${_helper.removeDecimal(model.listModel[index].price.toString()).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}",
-                                          style: GoogleFonts.nunito(
-                                            color: Colors.white,
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.w700,
-                                          ),
+                              ],
+                            ),
+                            trailing: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(
+                                  "\u{20B9} ${_helper.removeDecimal(model.listModel[index].price.toString()).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}",
+                                  style: GoogleFonts.nunito(
+                                    color: Colors.white,
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.only(
+                                    left: 5,
+                                  ),
+                                  margin: EdgeInsets.only(
+                                    top: height * 0.005,
+                                    bottom: height * 0.004,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: model.listModel[index]
+                                                .priceChangePercentage24h >=
+                                            0
+                                        ? const Color(0xFF01331b)
+                                        : const Color(0xFF42070c),
+                                  ),
+                                  width: 90,
+                                  height: 20,
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        margin: const EdgeInsets.only(
+                                          top: 2,
                                         ),
-                                        Container(
-                                          padding: const EdgeInsets.only(
-                                            left: 5,
-                                          ),
-                                          margin: EdgeInsets.only(
-                                            top: height * 0.005,
-                                            bottom: height * 0.004,
-                                          ),
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(5),
-                                            color: model.listModel[index]
-                                                        .priceChangePercentage24h >=
-                                                    0
-                                                ? const Color(0xFF01331b)
-                                                : const Color(0xFF42070c),
-                                          ),
-                                          width: 90,
-                                          height: 20,
-                                          child: Row(
-                                            children: [
-                                              Container(
-                                                margin: const EdgeInsets.only(
-                                                    top: 2),
-                                                child: CachedNetworkImage(
-                                                  imageUrl: model
-                                                              .listModel[index]
-                                                              .priceChangePercentage24h >=
-                                                          0
-                                                      ? "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/up_arrow.png?alt=media&token=03660f10-1eab-46ce-bcdd-a72e4380d012"
-                                                      : "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/down_arrow.png?alt=media&token=dcfbaf91-b5d1-42ca-bee4-e785a7c58e8c",
-                                                  fit: BoxFit.cover,
-                                                  height: 10,
-                                                  width: 10,
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                width: 2,
-                                              ),
-                                              Text(
-                                                model.listModel[index]
-                                                            .priceChangePercentage24h >=
-                                                        0
-                                                    ? "+${model.listModel[index].priceChangePercentage24h.toStringAsFixed(2)}%"
-                                                    : "${model.listModel[index].priceChangePercentage24h.toStringAsFixed(2)}%",
-                                                style: GoogleFonts.nunito(
-                                                  color: model.listModel[index]
-                                                              .priceChangePercentage24h >
-                                                          0
-                                                      ? const Color(0xFF00a55b)
-                                                      : const Color(0xFFd82e35),
-                                                  fontSize: 17,
-                                                ),
-                                                textAlign: TextAlign.center,
-                                              ),
-                                            ],
-                                          ),
-                                        )
-                                      ],
-                                    ),
+                                        child: CachedNetworkImage(
+                                          imageUrl: model.listModel[index]
+                                                      .priceChangePercentage24h >=
+                                                  0
+                                              ? "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/up_arrow.png?alt=media&token=03660f10-1eab-46ce-bcdd-a72e4380d012"
+                                              : "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/down_arrow.png?alt=media&token=dcfbaf91-b5d1-42ca-bee4-e785a7c58e8c",
+                                          fit: BoxFit.cover,
+                                          height: 10,
+                                          width: 10,
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 2,
+                                      ),
+                                      Text(
+                                        model.listModel[index]
+                                                    .priceChangePercentage24h >=
+                                                0
+                                            ? "+${model.listModel[index].priceChangePercentage24h.toStringAsFixed(2)}%"
+                                            : "${model.listModel[index].priceChangePercentage24h.toStringAsFixed(2)}%",
+                                        style: GoogleFonts.nunito(
+                                          color: model.listModel[index]
+                                                      .priceChangePercentage24h >
+                                                  0
+                                              ? const Color(0xFF00a55b)
+                                              : const Color(0xFFd82e35),
+                                          fontSize: 17,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ],
                                   ),
-                                ),
-                              ),
-                            ],
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       );
                     },
                     separatorBuilder: (context, index) {
                       return Container(
-                        height: 1,
-                        color: Colors.white,
+                        height: 0,
+                        color: Colors.transparent,
                       );
                     },
                     itemCount: model.listModel.length,

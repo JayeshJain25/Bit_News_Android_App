@@ -36,7 +36,9 @@ class NFTNews extends StatelessWidget {
                           child: Text(
                             "See all",
                             style: GoogleFonts.poppins(
-                                color: Colors.white, fontSize: 15),
+                              color: Colors.white,
+                              fontSize: 15,
+                            ),
                           ),
                         ),
                       ),
@@ -122,7 +124,8 @@ class NFTNews extends StatelessWidget {
                                                       TextOverflow.ellipsis,
                                                   softWrap: false,
                                                   style: GoogleFonts.rubik(
-                                                    color: Colors.white70,
+                                                    color:
+                                                        const Color(0xFF757575),
                                                     fontSize: 15,
                                                   ),
                                                 ),
@@ -136,7 +139,8 @@ class NFTNews extends StatelessWidget {
                                                     )}  \u2022",
                                                     maxLines: 1,
                                                     style: GoogleFonts.poppins(
-                                                      color: Colors.white70,
+                                                      color: const Color(
+                                                          0xFF757575),
                                                       fontSize: 12,
                                                       fontWeight:
                                                           FontWeight.w500,
@@ -156,7 +160,8 @@ class NFTNews extends StatelessWidget {
                                                             .ellipsis,
                                                         style:
                                                             GoogleFonts.poppins(
-                                                          color: Colors.white70,
+                                                          color: const Color(
+                                                              0xFF757575),
                                                           fontSize: 13,
                                                           fontWeight:
                                                               FontWeight.w500,

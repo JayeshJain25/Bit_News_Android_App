@@ -85,27 +85,11 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: const Color(0xFF010101),
-        title: Container(
-          margin: const EdgeInsets.only(left: 20, top: 5),
-          child: AutoSizeText(
-            'Discover',
-            style: GoogleFonts.poppins(
-              color: Colors.white,
-              fontSize: 23,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ),
-        automaticallyImplyLeading: false,
-      ),
       backgroundColor: const Color(0xFF010101),
       body: SafeArea(
         child: SingleChildScrollView(
           child: SizedBox(
-            height: 81.h,
+            height: 90.h,
             child: DefaultTabController(
               length: 4,
               child: NestedScrollView(
@@ -117,6 +101,7 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
                       automaticallyImplyLeading: false,
                       collapsedHeight: 45.h,
                       expandedHeight: 45.h,
+
                       // title: SizedBox(
                       //   height: 20.h,
                       //   child: ListView.builder(
@@ -156,39 +141,49 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
                       //           )),
                       // ),
                       flexibleSpace: Container(
-                        padding:
-                            const EdgeInsets.only(top: 10, left: 10, right: 10),
                         margin: const EdgeInsets.only(
-                          left: 15,
-                          right: 15,
                           bottom: 15,
-                          top: 15,
                         ),
                         height: 45.h,
-                        child: CarouselSlider.builder(
-                          carouselController: _controller,
-                          options: CarouselOptions(
-                            onPageChanged: (index, reason) {
-                              setState(() {
-                                _current = index;
-                              });
-                            },
-                            height: 45.h,
-                            viewportFraction: 1,
-                            autoPlay: true,
-                            enlargeCenterPage: true,
-                            autoPlayInterval: const Duration(seconds: 10),
-                            autoPlayAnimationDuration:
-                                const Duration(milliseconds: 1500),
-                          ),
-                          itemCount: 5,
-                          itemBuilder: (
-                            BuildContext context,
-                            int index,
-                            int realIndex,
-                          ) {
-                            return TopNews(index);
-                          },
+                        child: Stack(
+                          children: [
+                            CarouselSlider.builder(
+                              carouselController: _controller,
+                              options: CarouselOptions(
+                                onPageChanged: (index, reason) {
+                                  setState(() {
+                                    _current = index;
+                                  });
+                                },
+                                height: 45.h,
+                                viewportFraction: 1,
+                                autoPlay: true,
+                                enlargeCenterPage: true,
+                                autoPlayInterval: const Duration(seconds: 10),
+                                autoPlayAnimationDuration:
+                                    const Duration(milliseconds: 1500),
+                              ),
+                              itemCount: 5,
+                              itemBuilder: (
+                                BuildContext context,
+                                int index,
+                                int realIndex,
+                              ) {
+                                return TopNews(index);
+                              },
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(left: 20, top: 5),
+                              child: AutoSizeText(
+                                'Discover',
+                                style: GoogleFonts.poppins(
+                                  color: Colors.white,
+                                  fontSize: 27,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       backgroundColor: const Color(0xFF010101),
