@@ -4,6 +4,7 @@ import 'package:crypto_news/helper/helper.dart';
 import 'package:crypto_news/provider/crypto_market_data_provider.dart';
 import 'package:crypto_news/provider/news_provider.dart';
 import 'package:crypto_news/screen/crypto_explainer_screen.dart';
+import 'package:crypto_news/screen/market_data_screen.dart';
 import 'package:crypto_news/screen/notification_screen.dart';
 import 'package:crypto_news/screen/see_all_news_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -22,7 +23,8 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
+class _HomeScreenState extends State<HomeScreen>
+    with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   int _selectedIndex = 0;
 
   final _helper = Helper();
@@ -333,7 +335,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                         width: 160,
                                         child: Center(
                                           child: AutoSizeText(
-                                            "Whale Alert",
+                                            "Watch List",
                                             style: GoogleFonts.poppins(
                                               fontSize: 17,
                                               fontWeight: FontWeight.w500,
@@ -397,157 +399,138 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     scrollDirection: Axis.horizontal,
                                     itemCount: 10,
                                     itemBuilder: (ctx, index) {
-                                      return Container(
-                                        padding: const EdgeInsets.all(8),
-                                        margin: const EdgeInsets.only(
-                                          left: 20,
-                                          right: 5,
-                                        ),
-                                        height: height * 0.15,
-                                        width: width * 0.42,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(25),
-                                          color: const Color(0xFF1d1d1d),
-                                        ),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              margin: const EdgeInsets.only(
-                                                bottom: 10,
-                                                top: 10,
-                                              ),
-                                              width: width,
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  CachedNetworkImage(
-                                                    imageUrl: model
-                                                        .listModel[index].image,
-                                                    fit: BoxFit.cover,
-                                                    height: 37,
-                                                    width: 37,
-                                                  ),
-                                                  Expanded(
-                                                    child: Container(
-                                                      margin: EdgeInsets.only(
-                                                        left: width * 0.06,
-                                                      ),
-                                                      decoration: BoxDecoration(
-                                                        border: Border.all(
-                                                          width: 0.7,
-                                                          color: Colors.white,
-                                                        ),
-                                                        boxShadow: [
-                                                          BoxShadow(
-                                                            blurRadius: 4.0,
-                                                            spreadRadius: 1.0,
-                                                            color: Colors.white
-                                                                .withAlpha(90),
-                                                          ),
-                                                        ],
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(
-                                                          5,
-                                                        ),
-                                                        color: model
-                                                                    .listModel[
-                                                                        index]
-                                                                    .priceChangePercentage24h >=
-                                                                0
-                                                            ? const Color(
-                                                                0xFF01331b,
-                                                              )
-                                                            : const Color(
-                                                                0xFF42070c,
-                                                              ),
-                                                      ),
-                                                      child: Row(
-                                                        children: [
-                                                          Container(
-                                                            margin:
-                                                                const EdgeInsets
-                                                                    .only(
-                                                              left: 3,
-                                                            ),
-                                                            child:
-                                                                CachedNetworkImage(
-                                                              imageUrl: model
-                                                                          .listModel[
-                                                                              index]
-                                                                          .priceChangePercentage24h >=
-                                                                      0
-                                                                  ? "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/up_arrow.png?alt=media&token=03660f10-1eab-46ce-bcdd-a72e4380d012"
-                                                                  : "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/down_arrow.png?alt=media&token=dcfbaf91-b5d1-42ca-bee4-e785a7c58e8c",
-                                                              fit: BoxFit.cover,
-                                                              height: 10,
-                                                              width: 10,
-                                                            ),
-                                                          ),
-                                                          SizedBox(
-                                                            width: width * 0.01,
-                                                          ),
-                                                          AutoSizeText(
-                                                            model.listModel[index]
-                                                                        .priceChangePercentage24h >=
-                                                                    0
-                                                                ? "+${model.listModel[index].priceChangePercentage24h.toStringAsFixed(2)}%"
-                                                                : "${model.listModel[index].priceChangePercentage24h.toStringAsFixed(2)}%",
-                                                            style: GoogleFonts
-                                                                .rubik(
-                                                              color: model
-                                                                          .listModel[
-                                                                              index]
-                                                                          .priceChangePercentage24h >
-                                                                      0
-                                                                  ? const Color(
-                                                                      0xFF00a55b,
-                                                                    )
-                                                                  : const Color(
-                                                                      0xFFd82e35,
-                                                                    ),
-                                                              fontSize: 17,
-                                                            ),
-                                                            textAlign: TextAlign
-                                                                .center,
-                                                          ),
-                                                        ],
+                                      return InkWell(
+                                        onTap: () {
+                                          Get.to(
+                                            () => MarketDataScreen(
+                                                model.listModel[index]),
+                                          );
+                                        },
+                                        child: Container(
+                                          padding: const EdgeInsets.all(8),
+                                          margin: const EdgeInsets.only(
+                                            left: 20,
+                                            right: 5,
+                                          ),
+                                          height: height * 0.15,
+                                          width: width * 0.42,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(25),
+                                            color: const Color(0xFF1d1d1d),
+                                          ),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                margin: const EdgeInsets.only(
+                                                  bottom: 10,
+                                                  top: 10,
+                                                ),
+                                                width: width,
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    CircleAvatar(
+                                                      radius: 15,
+                                                      backgroundColor:
+                                                          Colors.transparent,
+                                                      backgroundImage:
+                                                          CachedNetworkImageProvider(
+                                                        model.listModel[index]
+                                                            .image,
                                                       ),
                                                     ),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                            Container(
-                                              margin: EdgeInsets.only(
-                                                bottom: height * 0.01,
-                                              ),
-                                              child: AutoSizeText(
-                                                model.listModel[index].name,
-                                                style: GoogleFonts.rubik(
-                                                  color: Colors.white,
-                                                  fontSize: 17,
-                                                  fontWeight: FontWeight.w400,
+                                                    Expanded(
+                                                      child: Container(
+                                                        margin: EdgeInsets.only(
+                                                          left: width * 0.06,
+                                                        ),
+                                                        child: Row(
+                                                          children: [
+                                                            Container(
+                                                              margin:
+                                                                  const EdgeInsets
+                                                                      .only(
+                                                                left: 3,
+                                                              ),
+                                                              child:
+                                                                  CachedNetworkImage(
+                                                                imageUrl: model
+                                                                            .listModel[index]
+                                                                            .priceChangePercentage24h >=
+                                                                        0
+                                                                    ? "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/up_arrow.png?alt=media&token=03660f10-1eab-46ce-bcdd-a72e4380d012"
+                                                                    : "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/down_arrow.png?alt=media&token=dcfbaf91-b5d1-42ca-bee4-e785a7c58e8c",
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                                height: 10,
+                                                                width: 10,
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                              width:
+                                                                  width * 0.01,
+                                                            ),
+                                                            AutoSizeText(
+                                                              model.listModel[index]
+                                                                          .priceChangePercentage24h >=
+                                                                      0
+                                                                  ? "+${model.listModel[index].priceChangePercentage24h.toStringAsFixed(2)}%"
+                                                                  : "${model.listModel[index].priceChangePercentage24h.toStringAsFixed(2)}%",
+                                                              style: GoogleFonts
+                                                                  .rubik(
+                                                                color: model.listModel[index]
+                                                                            .priceChangePercentage24h >
+                                                                        0
+                                                                    ? const Color(
+                                                                        0xFF00a55b,
+                                                                      )
+                                                                    : const Color(
+                                                                        0xFFd82e35,
+                                                                      ),
+                                                                fontSize: 17,
+                                                              ),
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
                                                 ),
                                               ),
-                                            ),
-                                            Expanded(
-                                              child: AutoSizeText(
-                                                "\u{20B9} ${_helper.removeDecimal(model.listModel[index].price.toString()).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}",
-                                                maxLines: 1,
-                                                style: GoogleFonts.nunito(
-                                                  color: Colors.white,
-                                                  fontSize: 17,
-                                                  fontWeight: FontWeight.w600,
+                                              Container(
+                                                margin: EdgeInsets.only(
+                                                  bottom: height * 0.01,
+                                                ),
+                                                child: AutoSizeText(
+                                                  model.listModel[index].name,
+                                                  style: GoogleFonts.rubik(
+                                                    color: Colors.white,
+                                                    fontSize: 17,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                          ],
+                                              Expanded(
+                                                child: AutoSizeText(
+                                                  "\u{20B9} ${_helper.removeDecimal(model.listModel[index].price.toString()).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}",
+                                                  maxLines: 1,
+                                                  style: GoogleFonts.nunito(
+                                                    color: Colors.white,
+                                                    fontSize: 17,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       );
                                     },
@@ -585,160 +568,145 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     scrollDirection: Axis.horizontal,
                                     itemCount: 7,
                                     itemBuilder: (ctx, index) {
-                                      return Container(
-                                        padding: const EdgeInsets.all(8),
-                                        margin: const EdgeInsets.only(
-                                          left: 20,
-                                          right: 5,
-                                        ),
-                                        height: height * 0.15,
-                                        width: width * 0.42,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(25),
-                                          color: const Color(0xFF1d1d1d),
-                                        ),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              margin: const EdgeInsets.only(
-                                                bottom: 10,
-                                                top: 10,
-                                              ),
-                                              width: width,
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  CachedNetworkImage(
-                                                    imageUrl: model
-                                                        .trendingCoins[index]
-                                                        .image,
-                                                    fit: BoxFit.cover,
-                                                    height: 37,
-                                                    width: 37,
-                                                  ),
-                                                  Expanded(
-                                                    child: Container(
-                                                      margin: EdgeInsets.only(
-                                                        left: width * 0.06,
-                                                      ),
-                                                      decoration: BoxDecoration(
-                                                        border: Border.all(
-                                                          width: 0.7,
-                                                          color: Colors.white,
-                                                        ),
-                                                        boxShadow: [
-                                                          BoxShadow(
-                                                            blurRadius: 4.0,
-                                                            spreadRadius: 1.0,
-                                                            color: Colors.white
-                                                                .withAlpha(90),
-                                                          ),
-                                                        ],
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(
-                                                          5,
-                                                        ),
-                                                        color: model
-                                                                    .trendingCoins[
-                                                                        index]
-                                                                    .priceChangePercentage24h >=
-                                                                0
-                                                            ? const Color(
-                                                                0xFF01331b,
-                                                              )
-                                                            : const Color(
-                                                                0xFF42070c,
-                                                              ),
-                                                      ),
-                                                      child: Row(
-                                                        children: [
-                                                          Container(
-                                                            margin:
-                                                                const EdgeInsets
-                                                                    .only(
-                                                              left: 3,
-                                                            ),
-                                                            child:
-                                                                CachedNetworkImage(
-                                                              imageUrl: model
-                                                                          .trendingCoins[
-                                                                              index]
-                                                                          .priceChangePercentage24h >=
-                                                                      0
-                                                                  ? "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/up_arrow.png?alt=media&token=03660f10-1eab-46ce-bcdd-a72e4380d012"
-                                                                  : "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/down_arrow.png?alt=media&token=dcfbaf91-b5d1-42ca-bee4-e785a7c58e8c",
-                                                              fit: BoxFit.cover,
-                                                              height: 10,
-                                                              width: 10,
-                                                            ),
-                                                          ),
-                                                          SizedBox(
-                                                            width: width * 0.01,
-                                                          ),
-                                                          AutoSizeText(
-                                                            model.trendingCoins[index]
-                                                                        .priceChangePercentage24h >=
-                                                                    0
-                                                                ? "+${model.trendingCoins[index].priceChangePercentage24h.toStringAsFixed(2)}%"
-                                                                : "${model.trendingCoins[index].priceChangePercentage24h.toStringAsFixed(2)}%",
-                                                            maxLines: 1,
-                                                            minFontSize: 14,
-                                                            style: GoogleFonts
-                                                                .rubik(
-                                                              color: model
-                                                                          .trendingCoins[
-                                                                              index]
-                                                                          .priceChangePercentage24h >
-                                                                      0
-                                                                  ? const Color(
-                                                                      0xFF00a55b,
-                                                                    )
-                                                                  : const Color(
-                                                                      0xFFd82e35,
-                                                                    ),
-                                                              fontSize: 17,
-                                                            ),
-                                                            textAlign: TextAlign
-                                                                .center,
-                                                          ),
-                                                        ],
+                                      return InkWell(
+                                        onTap: () {
+                                          Get.to(
+                                            () => MarketDataScreen(
+                                              model.trendingCoins[index],
+                                            ),
+                                          );
+                                        },
+                                        child: Container(
+                                          padding: const EdgeInsets.all(8),
+                                          margin: const EdgeInsets.only(
+                                            left: 20,
+                                            right: 5,
+                                          ),
+                                          height: height * 0.15,
+                                          width: width * 0.42,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(25),
+                                            color: const Color(0xFF1d1d1d),
+                                          ),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                margin: const EdgeInsets.only(
+                                                  bottom: 10,
+                                                  top: 10,
+                                                ),
+                                                width: width,
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    CircleAvatar(
+                                                      radius: 15,
+                                                      backgroundColor:
+                                                          Colors.transparent,
+                                                      backgroundImage:
+                                                          CachedNetworkImageProvider(
+                                                        model
+                                                            .trendingCoins[
+                                                                index]
+                                                            .image,
                                                       ),
                                                     ),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                            Container(
-                                              margin: EdgeInsets.only(
-                                                bottom: height * 0.01,
-                                              ),
-                                              child: AutoSizeText(
-                                                model.trendingCoins[index].name,
-                                                style: GoogleFonts.rubik(
-                                                  color: Colors.white,
-                                                  fontSize: 17,
-                                                  fontWeight: FontWeight.w400,
+                                                    Expanded(
+                                                      child: Container(
+                                                        margin: EdgeInsets.only(
+                                                          left: width * 0.06,
+                                                        ),
+                                                        child: Row(
+                                                          children: [
+                                                            Container(
+                                                              margin:
+                                                                  const EdgeInsets
+                                                                      .only(
+                                                                left: 3,
+                                                              ),
+                                                              child:
+                                                                  CachedNetworkImage(
+                                                                imageUrl: model
+                                                                            .trendingCoins[index]
+                                                                            .priceChangePercentage24h >=
+                                                                        0
+                                                                    ? "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/up_arrow.png?alt=media&token=03660f10-1eab-46ce-bcdd-a72e4380d012"
+                                                                    : "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/down_arrow.png?alt=media&token=dcfbaf91-b5d1-42ca-bee4-e785a7c58e8c",
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                                height: 10,
+                                                                width: 10,
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                              width:
+                                                                  width * 0.01,
+                                                            ),
+                                                            AutoSizeText(
+                                                              model.trendingCoins[index]
+                                                                          .priceChangePercentage24h >=
+                                                                      0
+                                                                  ? "+${model.trendingCoins[index].priceChangePercentage24h.toStringAsFixed(2)}%"
+                                                                  : "${model.trendingCoins[index].priceChangePercentage24h.toStringAsFixed(2)}%",
+                                                              maxLines: 1,
+                                                              minFontSize: 14,
+                                                              style: GoogleFonts
+                                                                  .rubik(
+                                                                color: model.trendingCoins[index]
+                                                                            .priceChangePercentage24h >
+                                                                        0
+                                                                    ? const Color(
+                                                                        0xFF00a55b,
+                                                                      )
+                                                                    : const Color(
+                                                                        0xFFd82e35,
+                                                                      ),
+                                                                fontSize: 17,
+                                                              ),
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
                                                 ),
                                               ),
-                                            ),
-                                            Expanded(
-                                              child: AutoSizeText(
-                                                "\u{20B9} ${_helper.removeDecimal(model.trendingCoins[index].price.toString()).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}",
-                                                maxLines: 1,
-                                                style: GoogleFonts.nunito(
-                                                  color: Colors.white,
-                                                  fontSize: 17,
-                                                  fontWeight: FontWeight.w600,
+                                              Container(
+                                                margin: EdgeInsets.only(
+                                                  bottom: height * 0.01,
+                                                ),
+                                                child: AutoSizeText(
+                                                  model.trendingCoins[index]
+                                                      .name,
+                                                  maxLines: 2,
+                                                  style: GoogleFonts.rubik(
+                                                    color: Colors.white,
+                                                    fontSize: 17,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                          ],
+                                              Expanded(
+                                                child: AutoSizeText(
+                                                  "\u{20B9} ${_helper.removeDecimal(model.trendingCoins[index].price.toString()).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}",
+                                                  maxLines: 1,
+                                                  style: GoogleFonts.nunito(
+                                                    color: Colors.white,
+                                                    fontSize: 17,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       );
                                     },
@@ -1146,4 +1114,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

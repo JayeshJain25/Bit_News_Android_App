@@ -17,7 +17,8 @@ class NewsScreen extends StatefulWidget {
   _NewsScreenState createState() => _NewsScreenState();
 }
 
-class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
+class _NewsScreenState extends State<NewsScreen>
+    with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   late Animation<double> gap;
   late AnimationController _animationController;
   late Animation<Offset> _storiesAnimation;
@@ -260,6 +261,9 @@ class _NewsScreenState extends State<NewsScreen> with TickerProviderStateMixin {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class MyDelegate extends SliverPersistentHeaderDelegate {

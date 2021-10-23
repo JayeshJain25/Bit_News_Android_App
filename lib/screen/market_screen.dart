@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:crypto_news/helper/helper.dart';
+import 'package:crypto_news/model/coin_paprika_global_data_model.dart';
 import 'package:crypto_news/provider/crypto_market_data_provider.dart';
 import 'package:crypto_news/screen/market_data_screen.dart';
 import 'package:flutter/material.dart';
@@ -14,8 +15,11 @@ class MarketScreen extends StatefulWidget {
   _MarketScreenState createState() => _MarketScreenState();
 }
 
-class _MarketScreenState extends State<MarketScreen> {
+class _MarketScreenState extends State<MarketScreen>
+    with AutomaticKeepAliveClientMixin {
   final _scrollController = ScrollController();
+  late CoinPaprikaGlobalDataModel _globalDataModel;
+  bool _globalDataLoaded = true;
 
   int page = 0;
   bool isLoading = false;
@@ -41,187 +45,334 @@ class _MarketScreenState extends State<MarketScreen> {
   void initState() {
     super.initState();
     _scrollController.addListener(pagination);
+    Provider.of<CryptoMarketDataProvider>(context, listen: false)
+        .getCoinPaprikaGlobalData()
+        .then(
+      (value) {
+        setState(() {
+          _globalDataLoaded = false;
+          _globalDataModel = value;
+        });
+      },
+    );
   }
 
   @override
+  // ignore: must_call_super
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: const Color(0xFF010101),
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: const Color(0xFF010101),
-        title: Container(
-          margin: const EdgeInsets.only(top: 5),
-          child: Row(
-            children: [
-              CachedNetworkImage(
-                imageUrl:
-                    "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/logo.png?alt=media&token=993eeaba-2bd5-4e5d-b44f-10664965b330",
-                fit: BoxFit.cover,
-                width: 50,
-                height: 50,
-              ),
-              AutoSizeText(
-                'Market',
-                style: GoogleFonts.poppins(
-                  color: Colors.white,
-                  fontSize: 23,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
-          ),
-        ),
-        automaticallyImplyLeading: false,
-        actions: <Widget>[
-          IconButton(onPressed: () {}, icon: const Icon(Icons.search_sharp))
-        ],
-      ),
       body: SafeArea(
         child: Consumer<CryptoMarketDataProvider>(
           builder: (ctx, model, _) => SizedBox(
-            height: height * 0.835,
-            child: Column(
-              children: [
-                Expanded(
-                  child: ListView.separated(
-                    controller: _scrollController,
-                    itemBuilder: (ctx, index) {
-                      return InkWell(
-                        onTap: () {
-                          Get.to(() => MarketDataScreen());
-                        },
-                        child: Card(
-                          margin: const EdgeInsets.all(10),
-                          elevation: 0,
-                          color: const Color(0xFF1d1d1d),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(17),
+            height: height * 0.92,
+            child: CustomScrollView(
+              controller: _scrollController,
+              slivers: [
+                SliverAppBar(
+                  elevation: 0,
+                  backgroundColor: const Color(0xFF010101),
+                  title: Container(
+                    margin: const EdgeInsets.only(top: 5, left: 15),
+                    child: Column(
+                      children: [
+                        AutoSizeText(
+                          'Market',
+                          style: GoogleFonts.poppins(
+                            color: Colors.white,
+                            fontSize: 23,
+                            fontWeight: FontWeight.w500,
                           ),
-                          child: ListTile(
-                            leading: Text(
-                              model.listModel[index].rank.toStringAsFixed(0),
-                              style: GoogleFonts.nunito(
-                                color: Colors.white,
-                                fontSize: 17,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            title: Row(
-                              children: [
-                                SizedBox(
-                                  height: height * 0.07,
-                                  width: width * 0.1,
-                                  child: CachedNetworkImage(
-                                    imageUrl: model.listModel[index].image,
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Container(
-                                    margin: EdgeInsets.only(left: width * 0.07),
-                                    child: AutoSizeText(
-                                      model.listModel[index].name,
-                                      maxLines: 2,
-                                      minFontSize: 14,
-                                      style: GoogleFonts.rubik(
-                                        color: Colors.white,
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            trailing: Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Text(
-                                  "\u{20B9} ${_helper.removeDecimal(model.listModel[index].price.toString()).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}",
-                                  style: GoogleFonts.nunito(
-                                    color: Colors.white,
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                                Container(
-                                  padding: const EdgeInsets.only(
-                                    left: 5,
-                                  ),
-                                  margin: EdgeInsets.only(
-                                    top: height * 0.005,
-                                    bottom: height * 0.004,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                    color: model.listModel[index]
-                                                .priceChangePercentage24h >=
-                                            0
-                                        ? const Color(0xFF01331b)
-                                        : const Color(0xFF42070c),
-                                  ),
-                                  width: 90,
-                                  height: 20,
-                                  child: Row(
+                        ),
+                      ],
+                    ),
+                  ),
+                  automaticallyImplyLeading: false,
+                ),
+                SliverAppBar(
+                  expandedHeight: height * 0.175,
+                  collapsedHeight: height * 0.175,
+                  automaticallyImplyLeading: false,
+                  backgroundColor: const Color(0xFF010101),
+                  flexibleSpace: Column(
+                    children: <Widget>[
+                      Container(
+                        margin: EdgeInsets.only(
+                          left: width * 0.04,
+                          right: width * 0.04,
+                          top: height * 0.02,
+                        ),
+                        height: height * 0.06,
+                        child: _globalDataLoaded
+                            ? const CircularProgressIndicator()
+                            : Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      Container(
-                                        margin: const EdgeInsets.only(
-                                          top: 2,
-                                        ),
-                                        child: CachedNetworkImage(
-                                          imageUrl: model.listModel[index]
-                                                      .priceChangePercentage24h >=
-                                                  0
-                                              ? "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/up_arrow.png?alt=media&token=03660f10-1eab-46ce-bcdd-a72e4380d012"
-                                              : "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/down_arrow.png?alt=media&token=dcfbaf91-b5d1-42ca-bee4-e785a7c58e8c",
-                                          fit: BoxFit.cover,
-                                          height: 10,
-                                          width: 10,
+                                      AutoSizeText(
+                                        "Market Cap",
+                                        style: GoogleFonts.rubik(
+                                          color: Colors.white70,
+                                          fontSize: 15,
                                         ),
                                       ),
                                       const SizedBox(
-                                        width: 2,
+                                        height: 7,
                                       ),
-                                      Text(
-                                        model.listModel[index]
-                                                    .priceChangePercentage24h >=
-                                                0
-                                            ? "+${model.listModel[index].priceChangePercentage24h.toStringAsFixed(2)}%"
-                                            : "${model.listModel[index].priceChangePercentage24h.toStringAsFixed(2)}%",
-                                        style: GoogleFonts.nunito(
-                                          color: model.listModel[index]
-                                                      .priceChangePercentage24h >
-                                                  0
-                                              ? const Color(0xFF00a55b)
-                                              : const Color(0xFFd82e35),
-                                          fontSize: 17,
+                                      AutoSizeText(
+                                        NumberFormat.compact().format(
+                                          _globalDataModel.marketCapUSD,
                                         ),
-                                        textAlign: TextAlign.center,
+                                        style: GoogleFonts.nunito(
+                                          color: Colors.white,
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.w700,
+                                        ),
                                       ),
                                     ],
                                   ),
-                                )
-                              ],
-                            ),
-                          ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      AutoSizeText(
+                                        "24h Volume",
+                                        style: GoogleFonts.rubik(
+                                          color: Colors.white70,
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 7,
+                                      ),
+                                      AutoSizeText(
+                                        NumberFormat.compact().format(
+                                          _globalDataModel.volume24hUSD,
+                                        ),
+                                        style: GoogleFonts.nunito(
+                                          color: Colors.white,
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      AutoSizeText(
+                                        "BTC Dominance",
+                                        style: GoogleFonts.rubik(
+                                          color: Colors.white70,
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 7,
+                                      ),
+                                      AutoSizeText(
+                                        "${_globalDataModel.bitcoinDominancePercentage}%",
+                                        style: GoogleFonts.nunito(
+                                          color: Colors.white,
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(
+                          top: height * 0.02,
+                          bottom: height * 0.012,
+                          left: height * 0.035,
+                          right: height * 0.035,
                         ),
-                      );
-                    },
-                    separatorBuilder: (context, index) {
-                      return Container(
-                        height: 0,
-                        color: Colors.transparent,
-                      );
-                    },
-                    itemCount: model.listModel.length,
+                        height: height * 0.06,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          color: const Color(0xFF292f33),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                if (isLoading == true)
-                  const Center(
-                    child: CircularProgressIndicator(),
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (ctx, index) {
+                      return Column(
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              Get.to(
+                                () => MarketDataScreen(model.listModel[index]),
+                              );
+                            },
+                            child: Card(
+                              margin: const EdgeInsets.all(10),
+                              elevation: 0,
+                              color: const Color(0xFF010101),
+                              child: ListTile(
+                                minLeadingWidth: width * 0.05,
+                                leading: Text(
+                                  model.listModel[index].rank
+                                      .toStringAsFixed(0),
+                                  style: GoogleFonts.nunito(
+                                    color: Colors.white,
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                title: Row(
+                                  children: [
+                                    CircleAvatar(
+                                      backgroundColor: const Color(0xFF292f33),
+                                      radius: 20,
+                                      child: Hero(
+                                        tag: model.listModel[index].name,
+                                        child: CircleAvatar(
+                                          backgroundColor: Colors.transparent,
+                                          radius: 12,
+                                          backgroundImage:
+                                              CachedNetworkImageProvider(
+                                            model.listModel[index].image,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            margin: EdgeInsets.only(
+                                              left: width * 0.04,
+                                            ),
+                                            child: AutoSizeText(
+                                              model.listModel[index].name,
+                                              maxLines: 2,
+                                              minFontSize: 14,
+                                              style: GoogleFonts.rubik(
+                                                color: Colors.white,
+                                                fontSize: 17,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 2,
+                                          ),
+                                          Container(
+                                            margin: EdgeInsets.only(
+                                              left: width * 0.04,
+                                            ),
+                                            child: AutoSizeText(
+                                              model.listModel[index].symbol
+                                                  .toUpperCase(),
+                                              maxLines: 1,
+                                              style: GoogleFonts.rubik(
+                                                color: const Color(0xFF757575),
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                trailing: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    SizedBox(
+                                      width: width * 0.28,
+                                      child: AutoSizeText(
+                                        "\u{20B9} ${model.listModel[index].price.toString().startsWith("0.") ? model.listModel[index].price.toString() : _helper.removeDecimal(model.listModel[index].price.toString()).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}",
+                                        maxLines: 1,
+                                        style: GoogleFonts.nunito(
+                                          color: Colors.white,
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(
+                                        top: height * 0.005,
+                                        bottom: height * 0.004,
+                                      ),
+                                      width: width * 0.28,
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            margin: const EdgeInsets.only(
+                                              top: 2,
+                                            ),
+                                            child: CachedNetworkImage(
+                                              imageUrl: model.listModel[index]
+                                                          .priceChangePercentage24h >=
+                                                      0
+                                                  ? "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/up_arrow.png?alt=media&token=03660f10-1eab-46ce-bcdd-a72e4380d012"
+                                                  : "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/down_arrow.png?alt=media&token=dcfbaf91-b5d1-42ca-bee4-e785a7c58e8c",
+                                              fit: BoxFit.cover,
+                                              height: 10,
+                                              width: 10,
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            width: 2,
+                                          ),
+                                          AutoSizeText(
+                                            model.listModel[index]
+                                                        .priceChangePercentage24h >=
+                                                    0
+                                                ? "+${model.listModel[index].priceChangePercentage24h.toStringAsFixed(2)}%"
+                                                : "${model.listModel[index].priceChangePercentage24h.toStringAsFixed(2)}%",
+                                            maxLines: 1,
+                                            style: GoogleFonts.nunito(
+                                              color: model.listModel[index]
+                                                          .priceChangePercentage24h >
+                                                      0
+                                                  ? const Color(0xFF00a55b)
+                                                  : const Color(0xFFd82e35),
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          Divider(
+                            indent: 65,
+                            endIndent: 65,
+                            thickness: 1,
+                            height: 1,
+                            color: index == model.listModel.length
+                                ? Colors.transparent
+                                : const Color(0xFF0f0e18),
+                          )
+                        ],
+                      );
+                    },
+                    childCount: model.listModel.length,
                   ),
+                )
               ],
             ),
           ),
@@ -229,4 +380,7 @@ class _MarketScreenState extends State<MarketScreen> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

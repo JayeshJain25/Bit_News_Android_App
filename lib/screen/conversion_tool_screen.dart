@@ -370,7 +370,8 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                                       height: height * 0.1,
                                                       width: width * 0.5,
                                                       color: const Color(
-                                                          0xFF121212),
+                                                        0xFF121212,
+                                                      ),
                                                     ),
                                                   ),
                                                 ),

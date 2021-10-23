@@ -143,7 +143,8 @@ class BitcoinNews extends StatelessWidget {
                                                     maxLines: 1,
                                                     style: GoogleFonts.poppins(
                                                       color: const Color(
-                                                          0xFF757575),
+                                                        0xFF757575,
+                                                      ),
                                                       fontSize: 12,
                                                       fontWeight:
                                                           FontWeight.w500,
@@ -166,7 +167,8 @@ class BitcoinNews extends StatelessWidget {
                                                         style:
                                                             GoogleFonts.poppins(
                                                           color: const Color(
-                                                              0xFF757575),
+                                                            0xFF757575,
+                                                          ),
                                                           fontSize: 13,
                                                           fontWeight:
                                                               FontWeight.w500,

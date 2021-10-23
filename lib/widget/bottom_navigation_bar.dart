@@ -19,119 +19,222 @@ class _MyCustomBottomNavigationBarState extends State<AppBottomNavigationBar>
     with TickerProviderStateMixin {
   int _currentIndex = 0;
   bool isDeviceConnected = false;
-
+  late TabController _tabController;
   @override
   void initState() {
     super.initState();
+    _tabController = TabController(vsync: this, length: 4);
   }
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
-  }
-
-  List<Widget> _buildScreens() {
-    return [
-      const HomeScreen(),
-      MarketScreen(),
-      FavouriteScreen(),
-      NewsScreen(),
-    ];
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _tabController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: StreamBuilder(
-          stream: Connectivity().onConnectivityChanged,
-          builder: (context, AsyncSnapshot<ConnectivityResult> snapshot) {
-            if (snapshot.data == ConnectivityResult.mobile ||
-                snapshot.data == ConnectivityResult.wifi) {
-              //  isDeviceConnected =  await DataConnectionChecker().hasConnection;
-              return _buildScreens().elementAt(_currentIndex);
-            } else {
-              return const NoInternet();
-            }
-          },
-        ),
-      ),
-      bottomNavigationBar: GNav(
-        tabMargin:
-            const EdgeInsets.only(top: 10, bottom: 10, left: 25, right: 25),
+    return DefaultTabController(
+      length: 4,
+      child: Scaffold(
         backgroundColor: const Color(0xFF010101),
-        curve: Curves.easeOutExpo,
-        duration: const Duration(milliseconds: 600),
-        activeColor: const Color(0xFF52CAF5),
-        color: Colors.white38,
-        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-
-        tabs: [
-          GButton(
-            backgroundColor: const Color(0xFF010101),
-            leading: SizedBox(
-              width: 24,
-              height: 24,
-              child: ImageIcon(
-                const CachedNetworkImageProvider(
-                    'https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/home.png?alt=media&token=6069b526-8886-4c2e-8dca-3bccd342c093'),
-                color:
-                    _currentIndex == 0 ? const Color(0xFF52CAF5) : Colors.white,
-              ),
-            ),
-            icon: Icons.notifications_none,
-            iconColor: Colors.transparent,
+        body: TabBarView(
+          controller: _tabController,
+          children: [
+            const HomeScreen(),
+            MarketScreen(),
+            FavouriteScreen(),
+            NewsScreen(),
+          ],
+        ),
+        bottomNavigationBar: Container(
+          height: 55,
+          margin: const EdgeInsets.only(bottom: 12, left: 10, right: 10),
+          decoration: BoxDecoration(
+            color: const Color(0xFF292f33),
+            borderRadius: BorderRadius.circular(30),
           ),
-          GButton(
-            backgroundColor: const Color(0xFF010101),
-            leading: SizedBox(
-              width: 24,
-              height: 24,
-              child: ImageIcon(
-                const CachedNetworkImageProvider(
-                    'https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/market.png?alt=media&token=91aad10c-9e4e-4e2c-bc4d-0f0ab6ce661c'),
-                color:
-                    _currentIndex == 1 ? const Color(0xFF52CAF5) : Colors.white,
+          child: TabBar(
+            onTap: (index) {
+              setState(() {
+                _currentIndex = index;
+              });
+            },
+            controller: _tabController,
+            indicatorSize: TabBarIndicatorSize.label,
+            indicatorPadding: const EdgeInsets.all(5.0),
+            indicatorColor: const Color(0xFF52CAF5),
+            labelColor: const Color(0xFF52CAF5),
+            unselectedLabelColor: Colors.white,
+            tabs: [
+              Tab(
+                child: Stack(
+                  children: [
+                    const Positioned(
+                      top: 10,
+                      left: 20,
+                      child: SizedBox(
+                        width: 24,
+                        height: 24,
+                        child: ImageIcon(
+                          CachedNetworkImageProvider(
+                              'https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/home.png?alt=media&token=6069b526-8886-4c2e-8dca-3bccd342c093'),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      top: 5,
+                      child: Container(
+                        width: 30,
+                        height: 20,
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: _currentIndex == 0
+                                  ? const Color(0xFF52CAF5)
+                                  : Colors.transparent,
+                              blurRadius: 45.0, // soften the shadow
+                              spreadRadius: 4.0, //extend the shadow
+                              offset: const Offset(
+                                17.0, 30.0, // Move to bottom 10 Vertically
+                              ),
+                            )
+                          ],
+                          color: Colors.transparent,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
               ),
-            ),
-            icon: Icons.notifications_none,
-            iconColor: Colors.transparent,
-          ),
-          GButton(
-            leading: SizedBox(
-              width: 24,
-              height: 24,
-              child: ImageIcon(
-                const CachedNetworkImageProvider(
-                    'https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/star.png?alt=media&token=118b56b3-5fe2-47d7-9498-a6c6da9a1725'),
-                color:
-                    _currentIndex == 2 ? const Color(0xFF52CAF5) : Colors.white,
+              Tab(
+                child: Stack(
+                  children: [
+                    const Positioned(
+                      top: 10,
+                      left: 20,
+                      child: SizedBox(
+                        width: 24,
+                        height: 24,
+                        child: ImageIcon(
+                          CachedNetworkImageProvider(
+                              'https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/market.png?alt=media&token=91aad10c-9e4e-4e2c-bc4d-0f0ab6ce661c'),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      top: 5,
+                      child: Container(
+                        width: 30,
+                        height: 20,
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: _currentIndex == 1
+                                  ? const Color(0xFF52CAF5)
+                                  : Colors.transparent,
+                              blurRadius: 45.0, // soften the shadow
+                              spreadRadius: 4.0, //extend the shadow
+                              offset: const Offset(
+                                17.0, 30.0, // Move to bottom 10 Vertically
+                              ),
+                            )
+                          ],
+                          color: Colors.transparent,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
               ),
-            ),
-            icon: Icons.notifications_none,
-            iconColor: Colors.transparent,
-            backgroundColor: const Color(0xFF010101),
-          ),
-          GButton(
-            leading: SizedBox(
-              width: 24,
-              height: 24,
-              child: ImageIcon(
-                const CachedNetworkImageProvider(
-                    'https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/news.png?alt=media&token=0e1a6a88-64bc-43ac-b0b4-f0ffc2758a17'),
-                color:
-                    _currentIndex == 3 ? const Color(0xFF52CAF5) : Colors.white,
+              Tab(
+                child: Stack(
+                  children: [
+                    const Positioned(
+                      top: 10,
+                      left: 20,
+                      child: SizedBox(
+                        width: 24,
+                        height: 24,
+                        child: ImageIcon(
+                          CachedNetworkImageProvider(
+                              'https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/star.png?alt=media&token=118b56b3-5fe2-47d7-9498-a6c6da9a1725'),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      top: 5,
+                      child: Container(
+                        width: 30,
+                        height: 20,
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: _currentIndex == 2
+                                  ? const Color(0xFF52CAF5)
+                                  : Colors.transparent,
+                              blurRadius: 45.0, // soften the shadow
+                              spreadRadius: 4.0, //extend the shadow
+                              offset: const Offset(
+                                17.0, 30.0, // Move to bottom 10 Vertically
+                              ),
+                            )
+                          ],
+                          color: Colors.transparent,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
               ),
-            ),
-            icon: Icons.notifications_none,
-            iconColor: Colors.transparent,
-            backgroundColor: const Color(0xFF010101),
+              Tab(
+                child: Stack(
+                  children: [
+                    const Positioned(
+                      top: 10,
+                      left: 20,
+                      child: SizedBox(
+                        width: 24,
+                        height: 24,
+                        child: ImageIcon(
+                          CachedNetworkImageProvider(
+                              'https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/news.png?alt=media&token=0e1a6a88-64bc-43ac-b0b4-f0ffc2758a17'),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      top: 5,
+                      child: Container(
+                        width: 30,
+                        height: 20,
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: _currentIndex == 3
+                                  ? const Color(0xFF52CAF5)
+                                  : Colors.transparent,
+                              blurRadius: 45.0, // soften the shadow
+                              spreadRadius: 4.0, //extend the shadow
+                              offset: const Offset(
+                                17.0, 30.0, // Move to bottom 10 Vertically
+                              ),
+                            )
+                          ],
+                          color: Colors.transparent,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ],
           ),
-        ],
-        selectedIndex: _currentIndex,
-        //New
-        onTabChange: _onItemTapped,
+        ),
       ),
     );
   }
