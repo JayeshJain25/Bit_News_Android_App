@@ -520,7 +520,7 @@ class _HomeScreenState extends State<HomeScreen>
                                               ),
                                               Expanded(
                                                 child: AutoSizeText(
-                                                  "\u{20B9} ${_helper.removeDecimal(model.listModel[index].price.toString()).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}",
+                                                  "\u{20B9} ${model.listModel[index].price.toString().startsWith("0.") ? model.listModel[index].price.toString() : _helper.removeDecimal(model.listModel[index].price.toString()).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}",
                                                   maxLines: 1,
                                                   style: GoogleFonts.nunito(
                                                     color: Colors.white,
@@ -696,7 +696,7 @@ class _HomeScreenState extends State<HomeScreen>
                                               ),
                                               Expanded(
                                                 child: AutoSizeText(
-                                                  "\u{20B9} ${_helper.removeDecimal(model.trendingCoins[index].price.toString()).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}",
+                                                  "\u{20B9} ${model.trendingCoins[index].price.toString().startsWith("0.") ? model.trendingCoins[index].price.toString() : _helper.removeDecimal(model.trendingCoins[index].price.toString()).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}",
                                                   maxLines: 1,
                                                   style: GoogleFonts.nunito(
                                                     color: Colors.white,

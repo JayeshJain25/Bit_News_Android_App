@@ -54,7 +54,6 @@ class NewsProvider with ChangeNotifier {
     try {
       final response = await http.get(
         Uri.parse(url),
-        // headers: <String, String>{'authorization': _apiEndpoints.basicAuth}
       );
       final r = json.decode(response.body) as List<dynamic>;
       final NewsProvider model = NewsProvider.fromJson(r);

@@ -25,7 +25,9 @@ class _NewsSummaryScreenState extends State<NewsSummaryScreen> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
+
     return Scaffold(
+      backgroundColor: const Color(0xFF292f33),
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
@@ -39,7 +41,7 @@ class _NewsSummaryScreenState extends State<NewsSummaryScreen> {
             bottom: PreferredSize(
               preferredSize: const Size(0, 60),
               child: Container(
-                color: const Color(0xFF121212),
+                color: const Color(0xFF292f33),
               ),
             ),
             expandedHeight: height * 0.35,
@@ -84,90 +86,90 @@ class _NewsSummaryScreenState extends State<NewsSummaryScreen> {
                     ),
                   ),
                 ),
-                Positioned(
-                  top: height * 0.29,
-                  child: SizedBox(
-                    width: width,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: Colors.transparent,
-                          ),
-                          width: width * 0.32,
-                          height: height * 0.05,
-                          child: Center(
-                            heightFactor: 1,
-                            child: AutoSizeText(
-                              widget.newsData.source,
-                              maxLines: 2,
-                              style: GoogleFonts.rubik(
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: Colors.transparent,
-                          ),
-                          width: width * 0.2,
-                          height: height * 0.05,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              const Icon(
-                                Icons.watch_later_outlined,
-                                color: Colors.white,
-                                size: 17,
-                              ),
-                              AutoSizeText(
-                                " ${widget.newsData.readTime.split(
-                                  " ",
-                                )[0]} ${widget.newsData.readTime.split(" ")[1]}",
-                                style: GoogleFonts.rubik(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: Colors.transparent,
-                          ),
-                          width: width * 0.2,
-                          height: height * 0.05,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              const Icon(
-                                Icons.remove_red_eye,
-                                color: Colors.white,
-                                size: 17,
-                              ),
-                              Text(
-                                " 376",
-                                style: GoogleFonts.rubik(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              )
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
+                // Positioned(
+                //   top: height * 0.29,
+                //   child: SizedBox(
+                //     width: width,
+                //     child: Row(
+                //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                //       children: <Widget>[
+                //         Container(
+                //           decoration: BoxDecoration(
+                //             borderRadius: BorderRadius.circular(20),
+                //             color: Colors.transparent,
+                //           ),
+                //           width: width * 0.32,
+                //           height: height * 0.05,
+                //           child: Center(
+                //             heightFactor: 1,
+                //             child: AutoSizeText(
+                //               widget.newsData.source,
+                //               maxLines: 2,
+                //               style: GoogleFonts.rubik(
+                //                 color: Colors.white,
+                //                 fontSize: 14,
+                //                 fontWeight: FontWeight.w500,
+                //               ),
+                //               textAlign: TextAlign.center,
+                //             ),
+                //           ),
+                //         ),
+                //         Container(
+                //           decoration: BoxDecoration(
+                //             borderRadius: BorderRadius.circular(20),
+                //             color: Colors.transparent,
+                //           ),
+                //           width: width * 0.2,
+                //           height: height * 0.05,
+                //           child: Row(
+                //             mainAxisAlignment: MainAxisAlignment.center,
+                //             children: <Widget>[
+                //               const Icon(
+                //                 Icons.watch_later_outlined,
+                //                 color: Colors.white,
+                //                 size: 17,
+                //               ),
+                //               AutoSizeText(
+                //                 " ${widget.newsData.readTime.split(
+                //                   " ",
+                //                 )[0]} ${widget.newsData.readTime.split(" ")[1]}",
+                //                 style: GoogleFonts.rubik(
+                //                   color: Colors.white,
+                //                   fontWeight: FontWeight.w500,
+                //                 ),
+                //               )
+                //             ],
+                //           ),
+                //         ),
+                //         Container(
+                //           decoration: BoxDecoration(
+                //             borderRadius: BorderRadius.circular(20),
+                //             color: Colors.transparent,
+                //           ),
+                //           width: width * 0.2,
+                //           height: height * 0.05,
+                //           child: Row(
+                //             mainAxisAlignment: MainAxisAlignment.center,
+                //             children: <Widget>[
+                //               const Icon(
+                //                 Icons.remove_red_eye,
+                //                 color: Colors.white,
+                //                 size: 17,
+                //               ),
+                //               Text(
+                //                 " 376",
+                //                 style: GoogleFonts.rubik(
+                //                   color: Colors.white,
+                //                   fontWeight: FontWeight.w500,
+                //                 ),
+                //               )
+                //             ],
+                //           ),
+                //         )
+                //       ],
+                //     ),
+                //   ),
+                // ),
                 Positioned(
                   bottom: -1,
                   left: 0,
@@ -175,7 +177,7 @@ class _NewsSummaryScreenState extends State<NewsSummaryScreen> {
                   child: Container(
                     height: 35,
                     decoration: const BoxDecoration(
-                      color: Color(0xFF121212),
+                      color: Color(0xFF292f33),
                       borderRadius: BorderRadius.vertical(
                         top: Radius.circular(30),
                       ),
@@ -185,121 +187,168 @@ class _NewsSummaryScreenState extends State<NewsSummaryScreen> {
               ],
             ),
           ),
-          SliverList(
-            delegate: SliverChildListDelegate([
-              Container(
-                padding: const EdgeInsets.all(15),
-                height: height,
-                width: width,
-                decoration: const BoxDecoration(
-                  color: Color(0xFF121212),
+          SliverAppBar(
+            expandedHeight: height * 0.12,
+            collapsedHeight: height * 0.12,
+            automaticallyImplyLeading: false,
+            backgroundColor: const Color(0xFF292f33),
+            flexibleSpace: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Container(
+                  padding: const EdgeInsets.only(top: 5, left: 20, right: 20),
+                  child: AutoSizeText(
+                    widget.newsData.title,
+                    maxLines: 3,
+                    minFontSize: 15,
+                    style: GoogleFonts.rubik(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
                     Container(
-                      margin: const EdgeInsets.only(left: 15, top: 15),
-                      child: AutoSizeText(
-                        widget.newsData.title,
-                        maxLines: 3,
-                        minFontSize: 15,
-                        style: GoogleFonts.rubik(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.transparent,
                       ),
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    Container(
-                      height: height * 0.735,
-                      padding: const EdgeInsets.all(10),
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: widget.newsData.summary
-                              .split(".")
-                              .map(
-                                (e) => e != ""
-                                    ? Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            margin: widget.newsData.summary
-                                                        .split(".")[0] ==
-                                                    e
-                                                ? const EdgeInsets.only(top: 0)
-                                                : EdgeInsets.only(
-                                                    top: height * 0.02,),
-                                            child: AutoSizeText(
-                                              "• ",
-                                              style: GoogleFonts.rubik(
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: 16,
-                                                color: Colors.white,
-                                              ),
-                                              textAlign: TextAlign.justify,
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: AutoSizeText(
-                                              e,
-                                              style: GoogleFonts.rubik(
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: 16,
-                                                color: Colors.white,
-                                              ),
-                                              textAlign: TextAlign.justify,
-                                            ),
-                                          ),
-                                        ],
-                                      )
-                                    : const SizedBox(
-                                        height: 0,
-                                      ),
-                              )
-                              .toList(),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    Container(
-                      width: width,
-                      height: height * 0.06,
-                      margin: const EdgeInsets.only(left: 15, bottom: 15),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Get.to(() => NewsWebView(widget.newsData.url));
-                        },
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                            const Color(0xFF52CAF5),
-                          ),
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(7.0),
-                            ),
-                          ),
-                        ),
-                        child: Text(
-                          "Read Full Article",
-                          style: GoogleFonts.poppins(
-                            fontSize: 16,
-                            color: Colors.black,
+                      width: width * 0.32,
+                      height: height * 0.03,
+                      child: Center(
+                        heightFactor: 1,
+                        child: AutoSizeText(
+                          widget.newsData.source,
+                          maxLines: 2,
+                          style: GoogleFonts.rubik(
+                            color: Colors.white,
+                            fontSize: 14,
                             fontWeight: FontWeight.w500,
                           ),
+                          textAlign: TextAlign.center,
                         ),
+                      ),
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.transparent,
+                      ),
+                      width: width * 0.2,
+                      height: height * 0.03,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          const Icon(
+                            Icons.watch_later_outlined,
+                            color: Colors.white,
+                            size: 17,
+                          ),
+                          AutoSizeText(
+                            " ${widget.newsData.readTime.split(
+                              " ",
+                            )[0]} ${widget.newsData.readTime.split(" ")[1]}",
+                            style: GoogleFonts.rubik(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.transparent,
+                      ),
+                      width: width * 0.2,
+                      height: height * 0.03,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          const Icon(
+                            Icons.remove_red_eye,
+                            color: Colors.white,
+                            size: 17,
+                          ),
+                          Text(
+                            " 376",
+                            style: GoogleFonts.rubik(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          )
+                        ],
                       ),
                     )
                   ],
                 ),
-              ),
-            ]),
+                Container(
+                  margin: const EdgeInsets.only(bottom: 5),
+                  child: const Divider(
+                    indent: 15,
+                    endIndent: 15,
+                    thickness: 1,
+                    height: 1,
+                    color: Color(0xFF010101),
+                  ),
+                )
+              ],
+            ),
+          ),
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (ctx, index) {
+                return Container(
+                  padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
+                  margin: const EdgeInsets.only(bottom: 5),
+                  color: const Color(0xFF292f33),
+                  child: widget.newsData.summary.length == index
+                      ? Container(
+                          width: width,
+                          height: height * 0.06,
+                          margin: const EdgeInsets.only(left: 15, bottom: 15),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Get.to(() => NewsWebView(widget.newsData.url));
+                            },
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                const Color(0xFF52CAF5),
+                              ),
+                              shape: MaterialStateProperty.all<
+                                  RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(7.0),
+                                ),
+                              ),
+                            ),
+                            child: Text(
+                              "Read Full Article",
+                              style: GoogleFonts.poppins(
+                                fontSize: 16,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        )
+                      : AutoSizeText(
+                          "• ${widget.newsData.summary[index].toString()}",
+                          style: GoogleFonts.rubik(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 16,
+                            color: Colors.white,
+                          ),
+                          textAlign: TextAlign.justify,
+                        ),
+                );
+              },
+              childCount: widget.newsData.summary.length + 1,
+            ),
           ),
         ],
       ),

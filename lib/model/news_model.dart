@@ -6,7 +6,7 @@ class NewsModel {
   final String publishedDate;
   final String url;
   final String photoUrl;
-  final String summary;
+  final List<dynamic> summary;
   final List<dynamic> tags;
 
   const NewsModel({
@@ -23,18 +23,22 @@ class NewsModel {
 
   factory NewsModel.fromJson(Map<String, dynamic> json) {
     String newPhotoUrl = "";
+    String newDescription = "";
     if (json['photoUrl'] != null) {
       newPhotoUrl = json['photoUrl'] as String;
+    }
+    if (json['description'] != null) {
+      newDescription = json['description'] as String;
     }
     return NewsModel(
       title: json['title'] as String,
       source: json['source'] as String,
-      description: json['description'] as String,
+      description: newDescription,
       readTime: json['readTime'] as String,
       publishedDate: json['publishedDate'] as String,
       url: json['url'] as String,
       photoUrl: newPhotoUrl,
-      summary: json['summary'] as String,
+      summary: json['summary'] as List<dynamic>,
       tags: json['tags'] as List<dynamic>,
     );
   }
