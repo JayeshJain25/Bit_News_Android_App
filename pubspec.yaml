@@ -59,6 +59,7 @@ dependencies:
   google_sign_in: ^5.1.1
   shared_preferences: ^2.0.8
   firebase_core: ^1.7.0
+  custom_refresh_indicator: ^1.0.0
 
 dev_dependencies:
   flutter_test:

@@ -175,7 +175,7 @@ class _NewsSummaryScreenState extends State<NewsSummaryScreen> {
                   left: 0,
                   right: 0,
                   child: Container(
-                    height: 35,
+                    height: 40,
                     decoration: const BoxDecoration(
                       color: Color(0xFF292f33),
                       borderRadius: BorderRadius.vertical(

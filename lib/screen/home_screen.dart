@@ -7,6 +7,7 @@ import 'package:crypto_news/screen/crypto_explainer_screen.dart';
 import 'package:crypto_news/screen/market_data_screen.dart';
 import 'package:crypto_news/screen/notification_screen.dart';
 import 'package:crypto_news/screen/see_all_news_screen.dart';
+import 'package:crypto_news/widget/bottom_navigation_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -17,7 +18,8 @@ import 'package:provider/provider.dart';
 import 'news_summary_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  final TabController tabController;
+  const HomeScreen({Key? key, required this.tabController}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -367,7 +369,7 @@ class _HomeScreenState extends State<HomeScreen>
                             ),
                             InkWell(
                               onTap: () {
-                                setState(() {});
+                                widget.tabController.index = 1;
                               },
                               child: Container(
                                 margin: const EdgeInsets.only(right: 32),

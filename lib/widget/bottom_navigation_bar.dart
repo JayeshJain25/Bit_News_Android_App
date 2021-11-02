@@ -1,13 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:crypto_news/screen/home_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
 
 import '../screen/favourite_screen.dart';
 import '../screen/market_screen.dart';
 import '../screen/news_screen.dart';
-import 'no_internet.dart';
 
 class AppBottomNavigationBar extends StatefulWidget {
   @override
@@ -16,7 +14,7 @@ class AppBottomNavigationBar extends StatefulWidget {
 }
 
 class _MyCustomBottomNavigationBarState extends State<AppBottomNavigationBar>
-    with TickerProviderStateMixin {
+    with SingleTickerProviderStateMixin {
   int _currentIndex = 0;
   bool isDeviceConnected = false;
   late TabController _tabController;
@@ -28,7 +26,6 @@ class _MyCustomBottomNavigationBarState extends State<AppBottomNavigationBar>
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _tabController.dispose();
   }
@@ -42,7 +39,9 @@ class _MyCustomBottomNavigationBarState extends State<AppBottomNavigationBar>
         body: TabBarView(
           controller: _tabController,
           children: [
-            const HomeScreen(),
+            HomeScreen(
+              tabController: _tabController,
+            ),
             MarketScreen(),
             FavouriteScreen(),
             NewsScreen(),
