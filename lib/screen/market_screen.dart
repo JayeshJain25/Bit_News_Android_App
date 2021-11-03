@@ -82,20 +82,21 @@ class _MarketScreenState extends State<MarketScreen>
                 children: <Widget>[
                   if (!controller.isIdle)
                     Positioned(
-                      top: 35.0 * controller.value,
+                      top: 20.0 * controller.value,
                       child: SizedBox(
-                        height: 100,
+                        height: 80,
                         width: width,
                         child: CachedNetworkImage(
                           imageUrl:
-                              'https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/animation_500_kvhmucnx.gif?alt=media&token=8321a796-0c25-433b-ae46-b1db4467a32e',
-                          height: 50,
-                          width: 200,
+                              'https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/57735-crypto-coins.gif?alt=media&token=a696da3c-4285-4479-aade-1d65ee4ec2ad',
+                          height: 35,
+                          width: 40,
+                          fit: BoxFit.cover,
                         ),
                       ),
                     ),
                   Transform.translate(
-                    offset: Offset(0, 100.0 * controller.value),
+                    offset: Offset(0, 50.0 * controller.value),
                     child: child,
                   ),
                 ],

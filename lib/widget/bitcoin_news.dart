@@ -203,9 +203,16 @@ class BitcoinNews extends StatelessWidget {
                 },
               ),
             )
-          : const Center(
-              child: CircularProgressIndicator(),
+          : Center(
+              child: CachedNetworkImage(
+                imageUrl:
+                    'https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/57735-crypto-coins.gif?alt=media&token=a696da3c-4285-4479-aade-1d65ee4ec2ad',
+                height: 35,
+                width: 40,
+                fit: BoxFit.cover,
+              ),
             ),
     );
   }
 }
+//https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/animation_500_kvhmucnx.gif?alt=media&token=8321a796-0c25-433b-ae46-b1db4467a32e

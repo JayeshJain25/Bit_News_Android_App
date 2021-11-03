@@ -21,8 +21,12 @@ class TopNews extends StatelessWidget {
     final height = MediaQuery.of(context).size.height;
     return Consumer<NewsProvider>(
       builder: (ctx, model, _) => model.newsCompleteList.isEmpty
-          ? const Center(
-              child: CircularProgressIndicator(),
+          ? CachedNetworkImage(
+              imageUrl:
+                  'https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/animation_500_kvhmucnx.gif?alt=media&token=8321a796-0c25-433b-ae46-b1db4467a32e',
+              height: 100,
+              width: 100,
+              fit: BoxFit.contain,
             )
           : InkWell(
               onTap: () {

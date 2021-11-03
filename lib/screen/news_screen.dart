@@ -23,9 +23,8 @@ class _NewsScreenState extends State<NewsScreen>
   late AnimationController _animationController;
   late Animation<Offset> _storiesAnimation;
   late Animation<double> reverse;
-  late AnimationController controller;
   late Animation<double> base;
-
+  late AnimationController controller;
   List<String> imageUrlList = [
     "https://icons.iconarchive.com/icons/cjdowner/cryptocurrency-flat/1024/Bitcoin-BTC-icon.png",
     "https://assets.coingecko.com/coins/images/13120/large/Logo_final-21.png?1624892810",

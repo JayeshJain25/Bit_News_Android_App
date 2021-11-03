@@ -3,17 +3,19 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:crypto_news/helper/helper.dart';
 import 'package:crypto_news/provider/crypto_market_data_provider.dart';
 import 'package:crypto_news/provider/news_provider.dart';
-import 'package:crypto_news/screen/crypto_explainer_screen.dart';
+import 'package:crypto_news/screen/watch_list_screen.dart';
 import 'package:crypto_news/screen/market_data_screen.dart';
 import 'package:crypto_news/screen/notification_screen.dart';
 import 'package:crypto_news/screen/see_all_news_screen.dart';
 import 'package:crypto_news/widget/bottom_navigation_bar.dart';
+import 'package:dashed_circle/dashed_circle.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
 
 import 'news_summary_screen.dart';
 
@@ -30,6 +32,22 @@ class _HomeScreenState extends State<HomeScreen>
   int _selectedIndex = 0;
 
   final _helper = Helper();
+
+  late Animation<Offset> _storiesAnimation;
+  late Animation<double> reverse;
+  late Animation<double> base;
+  late Animation<double> gap;
+  late AnimationController controller;
+  late AnimationController _animationController;
+  List<String> imageUrlList = [
+    "https://icons.iconarchive.com/icons/cjdowner/cryptocurrency-flat/1024/Bitcoin-BTC-icon.png",
+    "https://assets.coingecko.com/coins/images/13120/large/Logo_final-21.png?1624892810",
+    "https://assets.coingecko.com/coins/images/756/large/nano-coin-logo.png?1547034501",
+    "https://assets.coingecko.com/coins/images/776/large/OMG_Network.jpg?1591167168",
+    "https://assets.coingecko.com/coins/images/63/large/digibyte.png?1547033717",
+    "https://assets.coingecko.com/coins/images/13725/large/xsushi.png?1612538526",
+    "https://assets.coingecko.com/coins/images/1060/large/icon-icx-logo.png?1547035003"
+  ];
 
   double getDescriptionLength(int lengthOfDesc) {
     if (lengthOfDesc > 100) {
@@ -50,11 +68,40 @@ class _HomeScreenState extends State<HomeScreen>
         .getTrendingCoins();
 
     Provider.of<NewsProvider>(context, listen: false).getNewsFeed(1);
+
+    controller =
+        AnimationController(vsync: this, duration: const Duration(seconds: 4));
+
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 2000),
+    );
+
+    final curve =
+        CurvedAnimation(parent: _animationController, curve: Curves.decelerate);
+
+    _storiesAnimation =
+        Tween<Offset>(begin: const Offset(-2, 0.0), end: Offset.zero)
+            .animate(curve);
+
+    base = CurvedAnimation(parent: controller, curve: Curves.easeOut);
+
+    reverse = Tween<double>(begin: 0.0, end: -1.0).animate(base);
+
+    gap = Tween<double>(begin: 3.0, end: 0.0).animate(base)
+      ..addListener(() {
+        setState(() {});
+      });
+
+    controller.forward();
+    _animationController.forward();
   }
 
   @override
   void dispose() {
     super.dispose();
+    _animationController.dispose();
+    controller.dispose();
   }
 
   @override
@@ -78,7 +125,7 @@ class _HomeScreenState extends State<HomeScreen>
                     backgroundColor: const Color(0xFF010101),
                     actions: <Widget>[
                       Container(
-                        margin: const EdgeInsets.only(right: 20, top: 5),
+                        margin: const EdgeInsets.only(right: 20, top: 20),
                         child: InkWell(
                           onTap: () {
                             Get.to(() => NotificationScreen());
@@ -91,7 +138,7 @@ class _HomeScreenState extends State<HomeScreen>
                       )
                     ],
                     title: Container(
-                      margin: const EdgeInsets.only(top: 5),
+                      margin: const EdgeInsets.only(top: 20),
                       child: Row(
                         children: [
                           CachedNetworkImage(
@@ -119,57 +166,73 @@ class _HomeScreenState extends State<HomeScreen>
                       [
                         Container(
                           margin: const EdgeInsets.only(
-                            top: 10,
                             left: 10,
                             right: 10,
                           ),
-                          height: 100,
-                          child: Column(
-                            children: <Widget>[
-                              RichText(
-                                text: TextSpan(
-                                  text: 'Hi, ',
-                                  style: GoogleFonts.poppins(
-                                    color: Colors.white,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                  children: [
-                                    TextSpan(
-                                      text: user!.displayName,
-                                      style: GoogleFonts.poppins(
-                                        color: const Color(0xFF52CAF5),
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w500,
+                          height: 75,
+                          child:
+                              //  Column(
+                              //   children: <Widget>[
+                              // RichText(
+                              //   text: TextSpan(
+                              //     text: 'Hi, ',
+                              //     style: GoogleFonts.poppins(
+                              //       color: Colors.white,
+                              //       fontSize: 20,
+                              //       fontWeight: FontWeight.w500,
+                              //     ),
+                              //     children: [
+                              //       TextSpan(
+                              //         text: user!.displayName,
+                              //         style: GoogleFonts.poppins(
+                              //           color: const Color(0xFF52CAF5),
+                              //           fontSize: 20,
+                              //           fontWeight: FontWeight.w500,
+                              //         ),
+                              //       )
+                              //     ],
+                              //   ),
+                              // ),
+                              SizedBox(
+                            height: 70,
+                            child: ListView.builder(
+                              itemCount: imageUrlList.length,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (ctx, index) => Container(
+                                margin: EdgeInsets.only(
+                                  left: 1.5.w,
+                                  right: 1.5.w,
+                                ),
+                                child: SlideTransition(
+                                  position: _storiesAnimation,
+                                  child: Center(
+                                    child: RotationTransition(
+                                      turns: base,
+                                      child: DashedCircle(
+                                        gapSize: gap.value,
+                                        dashes: 40,
+                                        color: const Color(0xFF4E8799),
+                                        child: RotationTransition(
+                                          turns: reverse,
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(3.0),
+                                            child: CircleAvatar(
+                                              radius: 23,
+                                              backgroundImage: NetworkImage(
+                                                imageUrlList[index],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
                                       ),
-                                    )
-                                  ],
+                                    ),
+                                  ),
                                 ),
                               ),
-                              RichText(
-                                textAlign: TextAlign.center,
-                                text: TextSpan(
-                                  text:
-                                      'Head Over To Our News Section For the Latest News Of The ',
-                                  style: GoogleFonts.poppins(
-                                    color: Colors.white,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                  children: <TextSpan>[
-                                    TextSpan(
-                                      text: 'Cryptocurrency Market',
-                                      style: GoogleFonts.poppins(
-                                        color: const Color(0xFF52CAF5),
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
+                          //   ],
+                          // ),
                         ),
                         Container(
                           margin: const EdgeInsets.only(top: 5),
@@ -190,17 +253,17 @@ class _HomeScreenState extends State<HomeScreen>
                                       padding: const EdgeInsets.all(8),
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(25),
-                                        color: const Color(0xFF1d1d1d),
-                                        border: Border.all(
-                                          color: Colors.white10.withAlpha(40),
-                                        ),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.white.withAlpha(100),
-                                            blurRadius: 7.0,
-                                            spreadRadius: 1.0,
-                                          ),
-                                        ],
+                                        color: const Color(0xFF292f33),
+                                        // border: Border.all(
+                                        //   color: Colors.white10.withAlpha(40),
+                                        // ),
+                                        // boxShadow: [
+                                        //   BoxShadow(
+                                        //     color: Colors.white.withAlpha(100),
+                                        //     blurRadius: 7.0,
+                                        //     spreadRadius: 1.0,
+                                        //   ),
+                                        // ],
                                       ),
                                       margin: const EdgeInsets.only(
                                         left: 5,
@@ -232,17 +295,17 @@ class _HomeScreenState extends State<HomeScreen>
                                       padding: const EdgeInsets.all(8),
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(25),
-                                        color: const Color(0xFF1d1d1d),
-                                        border: Border.all(
-                                          color: Colors.white10.withAlpha(40),
-                                        ),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.white.withAlpha(100),
-                                            blurRadius: 7.0,
-                                            spreadRadius: 1.0,
-                                          ),
-                                        ],
+                                        color: const Color(0xFF292f33),
+                                        // border: Border.all(
+                                        //   color: Colors.white10.withAlpha(40),
+                                        // ),
+                                        // boxShadow: [
+                                        //   BoxShadow(
+                                        //     color: Colors.white.withAlpha(100),
+                                        //     blurRadius: 7.0,
+                                        //     spreadRadius: 1.0,
+                                        //   ),
+                                        // ],
                                       ),
                                       margin: const EdgeInsets.only(
                                         left: 5,
@@ -278,17 +341,17 @@ class _HomeScreenState extends State<HomeScreen>
                                       padding: const EdgeInsets.all(8),
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(25),
-                                        color: const Color(0xFF1d1d1d),
-                                        border: Border.all(
-                                          color: Colors.white10.withAlpha(40),
-                                        ),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.white.withAlpha(100),
-                                            blurRadius: 7.0,
-                                            spreadRadius: 1.0,
-                                          ),
-                                        ],
+                                        color: const Color(0xFF292f33),
+                                        // border: Border.all(
+                                        //   color: Colors.white10.withAlpha(40),
+                                        // ),
+                                        // boxShadow: [
+                                        //   BoxShadow(
+                                        //     color: Colors.white.withAlpha(100),
+                                        //     blurRadius: 7.0,
+                                        //     spreadRadius: 1.0,
+                                        //   ),
+                                        // ],
                                       ),
                                       margin: const EdgeInsets.only(
                                         left: 5,
@@ -309,25 +372,25 @@ class _HomeScreenState extends State<HomeScreen>
                                     ),
                                     InkWell(
                                       onTap: () {
-                                        Get.to(() => CryptoExplainerScreen());
+                                        Get.to(() => WatchListScreen());
                                       },
                                       child: Container(
                                         padding: const EdgeInsets.all(8),
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(25),
-                                          color: const Color(0xFF1d1d1d),
-                                          border: Border.all(
-                                            color: Colors.white10.withAlpha(0),
-                                          ),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color:
-                                                  Colors.white.withAlpha(100),
-                                              blurRadius: 7.0,
-                                              spreadRadius: 1.0,
-                                            ),
-                                          ],
+                                          color: const Color(0xFF292f33),
+                                          // border: Border.all(
+                                          //   color: Colors.white10.withAlpha(0),
+                                          // ),
+                                          // boxShadow: [
+                                          //   BoxShadow(
+                                          //     color:
+                                          //         Colors.white.withAlpha(100),
+                                          //     blurRadius: 7.0,
+                                          //     spreadRadius: 1.0,
+                                          //   ),
+                                          // ],
                                         ),
                                         margin: const EdgeInsets.only(
                                           left: 5,
@@ -419,7 +482,7 @@ class _HomeScreenState extends State<HomeScreen>
                                           decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(25),
-                                            color: const Color(0xFF1d1d1d),
+                                            color: const Color(0xFF292f33),
                                           ),
                                           child: Column(
                                             crossAxisAlignment:
@@ -589,7 +652,7 @@ class _HomeScreenState extends State<HomeScreen>
                                           decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(25),
-                                            color: const Color(0xFF1d1d1d),
+                                            color: const Color(0xFF292f33),
                                           ),
                                           child: Column(
                                             crossAxisAlignment:
@@ -726,7 +789,7 @@ class _HomeScreenState extends State<HomeScreen>
                             borderRadius: BorderRadius.circular(25),
                             color: Colors.transparent,
                             border: Border.all(
-                              color: const Color(0xFF1d1d1d),
+                              color: const Color(0xFF292f33),
                               width: 3,
                             ),
                           ),

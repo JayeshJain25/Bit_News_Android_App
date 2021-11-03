@@ -11,6 +11,7 @@ class CryptoMarketDataProvider with ChangeNotifier {
 
   List<CryptoMarketDataModel> listModel = [];
   List<CryptoMarketDataModel> trendingCoins = [];
+  List<CryptoMarketDataModel> watchListCoins = [];
 
   CryptoMarketDataProvider.fromJson(List<dynamic> parsedJson) {
     List<CryptoMarketDataModel> list = [];
@@ -26,6 +27,14 @@ class CryptoMarketDataProvider with ChangeNotifier {
         .map((e) => CryptoMarketDataModel.fromJson(e as Map<String, dynamic>))
         .toList();
     trendingCoins = list;
+  }
+
+  CryptoMarketDataProvider.frommap1(List<dynamic> parsedJson) {
+    List<CryptoMarketDataModel> list = [];
+    list = parsedJson
+        .map((e) => CryptoMarketDataModel.fromJson(e as Map<String, dynamic>))
+        .toList();
+    watchListCoins = list;
   }
 
   Future<void> cryptoMarketDataByPagination(int page) async {
@@ -60,6 +69,25 @@ class CryptoMarketDataProvider with ChangeNotifier {
           CryptoMarketDataProvider.fromMap(r);
       for (final element in model.trendingCoins) {
         trendingCoins.add(element);
+      }
+      notifyListeners();
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  Future<void> getWatchListCoins() async {
+    final url = "${ApiEndpoints.baseUrl}cryptocurrency/watch-list-coins";
+
+    try {
+      final response = await http.get(
+        Uri.parse(url),
+      );
+      final r = json.decode(response.body) as List<dynamic>;
+      final CryptoMarketDataProvider model =
+          CryptoMarketDataProvider.frommap1(r);
+      for (final element in model.watchListCoins) {
+        watchListCoins.add(element);
       }
       notifyListeners();
     } catch (error) {
