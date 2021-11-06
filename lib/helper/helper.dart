@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 
 class Helper {
@@ -59,6 +57,10 @@ class Helper {
     } else {
       return "${splittedPrice[0]}.${splittedPrice[1]}";
     }
+  }
+
+  String extractWhitePaper(String data) {
+    return "";
   }
 
   Map<String, Color> flagColor = {
