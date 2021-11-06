@@ -73,22 +73,18 @@ class NewsFeed extends StatelessWidget {
                                 children: <Widget>[
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(15.0),
-                                    child: Hero(
-                                      tag: model.newsCompleteList[index].title,
-                                      child: CachedNetworkImage(
-                                        imageUrl: _helper.extractImgUrl(
-                                          model
-                                              .newsCompleteList[index].photoUrl,
-                                        ),
-                                        errorWidget: (context, url, error) =>
-                                            Image.asset(
-                                          "lib/assets/logo.png",
-                                          fit: BoxFit.cover,
-                                        ),
-                                        height: height * 0.09,
-                                        width: width * 0.21,
+                                    child: CachedNetworkImage(
+                                      imageUrl: _helper.extractImgUrl(
+                                        model.newsCompleteList[index].photoUrl,
+                                      ),
+                                      errorWidget: (context, url, error) =>
+                                          Image.asset(
+                                        "lib/assets/logo.png",
                                         fit: BoxFit.cover,
                                       ),
+                                      height: height * 0.09,
+                                      width: width * 0.21,
+                                      fit: BoxFit.cover,
                                     ),
                                   ),
                                   Expanded(

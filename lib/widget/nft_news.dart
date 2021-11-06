@@ -73,22 +73,19 @@ class NFTNews extends StatelessWidget {
                                 children: <Widget>[
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(15.0),
-                                    child: Hero(
-                                      tag: model.newsCompleteList[index].title,
-                                      child: CachedNetworkImage(
-                                        imageUrl: _helper.extractImgUrl(
-                                          model.nftNewsList[index].photoUrl,
-                                        ),
-                                        errorWidget: (context, url, error) =>
-                                            CachedNetworkImage(
-                                          imageUrl:
-                                              "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/logo.png?alt=media&token=993eeaba-2bd5-4e5d-b44f-10664965b330",
-                                          fit: BoxFit.cover,
-                                        ),
-                                        height: height * 0.09,
-                                        width: width * 0.21,
+                                    child: CachedNetworkImage(
+                                      imageUrl: _helper.extractImgUrl(
+                                        model.nftNewsList[index].photoUrl,
+                                      ),
+                                      errorWidget: (context, url, error) =>
+                                          CachedNetworkImage(
+                                        imageUrl:
+                                            "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/logo.png?alt=media&token=993eeaba-2bd5-4e5d-b44f-10664965b330",
                                         fit: BoxFit.cover,
                                       ),
+                                      height: height * 0.09,
+                                      width: width * 0.21,
+                                      fit: BoxFit.cover,
                                     ),
                                   ),
                                   Expanded(
@@ -140,7 +137,8 @@ class NFTNews extends StatelessWidget {
                                                     maxLines: 1,
                                                     style: GoogleFonts.poppins(
                                                       color: const Color(
-                                                          0xFF757575),
+                                                        0xFF757575,
+                                                      ),
                                                       fontSize: 12,
                                                       fontWeight:
                                                           FontWeight.w500,
@@ -161,7 +159,8 @@ class NFTNews extends StatelessWidget {
                                                         style:
                                                             GoogleFonts.poppins(
                                                           color: const Color(
-                                                              0xFF757575),
+                                                            0xFF757575,
+                                                          ),
                                                           fontSize: 13,
                                                           fontWeight:
                                                               FontWeight.w500,

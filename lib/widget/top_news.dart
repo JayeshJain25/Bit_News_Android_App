@@ -43,21 +43,18 @@ class TopNews extends StatelessWidget {
                     child: Stack(
                       children: <Widget>[
                         ClipRRect(
-                          child: Hero(
-                            tag: model.newsCompleteList[index].title,
-                            child: CachedNetworkImage(
-                              fit: BoxFit.cover,
-                              imageUrl: _helper.extractImgUrl(
-                                model.newsCompleteList[index].photoUrl,
-                              ),
-                              errorWidget: (context, url, error) =>
-                                  CachedNetworkImage(
-                                imageUrl:
-                                    "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/logo.png?alt=media&token=993eeaba-2bd5-4e5d-b44f-10664965b330",
-                                fit: BoxFit.cover,
-                              ),
-                              height: height * 0.5,
+                          child: CachedNetworkImage(
+                            fit: BoxFit.cover,
+                            imageUrl: _helper.extractImgUrl(
+                              model.newsCompleteList[index].photoUrl,
                             ),
+                            errorWidget: (context, url, error) =>
+                                CachedNetworkImage(
+                              imageUrl:
+                                  "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/logo.png?alt=media&token=993eeaba-2bd5-4e5d-b44f-10664965b330",
+                              fit: BoxFit.cover,
+                            ),
+                            height: height * 0.5,
                           ),
                         ),
                       ],

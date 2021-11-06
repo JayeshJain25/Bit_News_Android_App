@@ -60,6 +60,8 @@ dependencies:
   shared_preferences: ^2.0.8
   firebase_core: ^1.7.0
   custom_refresh_indicator: ^1.0.0
+  glassmorphism: ^3.0.0
+  readmore: ^2.1.0
 
 dev_dependencies:
   flutter_test:

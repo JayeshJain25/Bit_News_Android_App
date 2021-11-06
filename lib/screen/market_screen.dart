@@ -291,7 +291,8 @@ class _MarketScreenState extends State<MarketScreen>
                                       .requestFocus(FocusNode());
                                   Get.to(
                                     () => MarketDataScreen(
-                                        model.listModel[index]),
+                                      model.listModel[index],
+                                    ),
                                   );
                                 },
                                 child: Card(
@@ -315,16 +316,12 @@ class _MarketScreenState extends State<MarketScreen>
                                           backgroundColor:
                                               const Color(0xFF292f33),
                                           radius: 20,
-                                          child: Hero(
-                                            tag: model.listModel[index].name,
-                                            child: CircleAvatar(
-                                              backgroundColor:
-                                                  Colors.transparent,
-                                              radius: 12,
-                                              backgroundImage:
-                                                  CachedNetworkImageProvider(
-                                                model.listModel[index].image,
-                                              ),
+                                          child: CircleAvatar(
+                                            backgroundColor: Colors.transparent,
+                                            radius: 12,
+                                            backgroundImage:
+                                                CachedNetworkImageProvider(
+                                              model.listModel[index].image,
                                             ),
                                           ),
                                         ),

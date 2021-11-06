@@ -52,21 +52,18 @@ class _NewsSummaryScreenState extends State<NewsSummaryScreen> {
                   left: 0,
                   right: 0,
                   bottom: 0,
-                  child: Hero(
-                    tag: widget.newsData.title,
-                    child: CachedNetworkImage(
-                      imageUrl: _helper.extractImgUrl(
-                        widget.newsData.photoUrl,
-                      ),
-                      errorWidget: (context, url, error) => CachedNetworkImage(
-                        imageUrl:
-                            "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/logo.png?alt=media&token=993eeaba-2bd5-4e5d-b44f-10664965b330",
-                        fit: BoxFit.cover,
-                      ),
-                      height: height * 0.37,
-                      width: width,
+                  child: CachedNetworkImage(
+                    imageUrl: _helper.extractImgUrl(
+                      widget.newsData.photoUrl,
+                    ),
+                    errorWidget: (context, url, error) => CachedNetworkImage(
+                      imageUrl:
+                          "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/logo.png?alt=media&token=993eeaba-2bd5-4e5d-b44f-10664965b330",
                       fit: BoxFit.cover,
                     ),
+                    height: height * 0.37,
+                    width: width,
+                    fit: BoxFit.cover,
                   ),
                 ),
                 Positioned(

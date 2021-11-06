@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:crypto_news/helper/api_endpoints.dart';
 import 'package:crypto_news/model/coin_paprika_global_data_model.dart';
+import 'package:crypto_news/model/coin_paprika_market_static_data_model.dart';
 import 'package:crypto_news/model/crypto_market_data_model.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -106,6 +107,28 @@ class CryptoMarketDataProvider with ChangeNotifier {
       final r = json.decode(response.body) as List<dynamic>;
       final CoinPaprikaGlobalDataModel globalData =
           CoinPaprikaGlobalDataModel.fromJson(
+        r[0] as Map<String, dynamic>,
+      );
+      notifyListeners();
+      return globalData;
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  Future<CoinPaprikaMarketStaticDataModel> getCoinPaprikaMarketStaticData(
+    String symbol,
+  ) async {
+    final url =
+        "${ApiEndpoints.baseUrl}/cryptocurrency/coin-paprika-market-static-data?symbol=$symbol";
+
+    try {
+      final response = await http.get(
+        Uri.parse(url),
+      );
+      final r = json.decode(response.body) as List<dynamic>;
+      final CoinPaprikaMarketStaticDataModel globalData =
+          CoinPaprikaMarketStaticDataModel.fromJson(
         r[0] as Map<String, dynamic>,
       );
       notifyListeners();
