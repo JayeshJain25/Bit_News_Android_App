@@ -14,8 +14,9 @@ import 'package:intl/intl.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
-import 'news_summary_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import 'news_summary_screen.dart';
 
 class MarketDataScreen extends StatefulWidget {
   final CryptoMarketDataModel cryptoData;
@@ -490,6 +491,252 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                               left: width * 0.04,
                             ),
                             child: AutoSizeText(
+                              "Asset",
+                              style: GoogleFonts.poppins(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              launch(
+                                _helper.extractWebsite(
+                                  _staticDataModel.links,
+                                ),
+                              );
+                            },
+                            child: Container(
+                              width: _helper.extractWhitePaper(
+                                        _staticDataModel.whitepaper,
+                                      ) ==
+                                      "None"
+                                  ? 0
+                                  : width,
+                              margin: EdgeInsets.only(
+                                left: width * 0.04,
+                              ),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(
+                                      right: width * 0.04,
+                                    ),
+                                    child: CachedNetworkImage(
+                                      imageUrl:
+                                          "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/website.png?alt=media&token=f7de66d1-8492-4574-a7b7-08ec5cdca54e",
+                                      color: Colors.white,
+                                      height: height * 0.05,
+                                      width: width * 0.05,
+                                    ),
+                                  ),
+                                  AutoSizeText(
+                                    "Website",
+                                    style: GoogleFonts.rubik(
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              launch(
+                                _helper.extractWhitePaper(
+                                  _staticDataModel.whitepaper,
+                                ),
+                              );
+                            },
+                            child: Container(
+                              width: _helper.extractWhitePaper(
+                                        _staticDataModel.whitepaper,
+                                      ) ==
+                                      "None"
+                                  ? 0
+                                  : width,
+                              margin: EdgeInsets.only(
+                                left: width * 0.04,
+                              ),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(
+                                      right: width * 0.04,
+                                    ),
+                                    child: CachedNetworkImage(
+                                      imageUrl:
+                                          "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/whitepaper.png?alt=media&token=85789045-7c9b-42ab-9833-83d2f2383aa3",
+                                      color: Colors.white,
+                                      height: height * 0.05,
+                                      width: width * 0.05,
+                                    ),
+                                  ),
+                                  AutoSizeText(
+                                    "Whitepaper",
+                                    style: GoogleFonts.rubik(
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              launch(
+                                _helper.extractFacebook(
+                                  _staticDataModel.links,
+                                ),
+                              );
+                            },
+                            child: Container(
+                              width: _helper.extractWhitePaper(
+                                        _staticDataModel.whitepaper,
+                                      ) ==
+                                      "None"
+                                  ? 0
+                                  : width,
+                              margin: EdgeInsets.only(
+                                left: width * 0.04,
+                              ),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(
+                                      right: width * 0.04,
+                                    ),
+                                    child: CachedNetworkImage(
+                                      imageUrl:
+                                          "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/facebook.png?alt=media&token=886a4966-5a3d-41b9-8d77-10fe7b0b7635",
+                                      color: Colors.white,
+                                      height: height * 0.05,
+                                      width: width * 0.05,
+                                    ),
+                                  ),
+                                  AutoSizeText(
+                                    "Facebook",
+                                    style: GoogleFonts.rubik(
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              launch(
+                                _helper.extractReddit(
+                                  _staticDataModel.links,
+                                ),
+                              );
+                            },
+                            child: Container(
+                              width: _helper.extractWhitePaper(
+                                        _staticDataModel.whitepaper,
+                                      ) ==
+                                      "None"
+                                  ? 0
+                                  : width,
+                              margin: EdgeInsets.only(
+                                left: width * 0.04,
+                              ),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(
+                                      right: width * 0.04,
+                                    ),
+                                    child: CachedNetworkImage(
+                                      imageUrl:
+                                          "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/reddit.png?alt=media&token=631c1490-0383-4700-848f-dfa3cf78b0ff",
+                                      color: Colors.white,
+                                      height: height * 0.05,
+                                      width: width * 0.05,
+                                    ),
+                                  ),
+                                  AutoSizeText(
+                                    "Reddit",
+                                    style: GoogleFonts.rubik(
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              launch(
+                                _helper.extractSourceCode(
+                                  _staticDataModel.links,
+                                ),
+                              );
+                            },
+                            child: Container(
+                              width: _helper.extractWhitePaper(
+                                        _staticDataModel.whitepaper,
+                                      ) ==
+                                      "None"
+                                  ? 0
+                                  : width,
+                              margin: EdgeInsets.only(
+                                left: width * 0.04,
+                              ),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(
+                                      right: width * 0.04,
+                                    ),
+                                    child: CachedNetworkImage(
+                                      imageUrl:
+                                          "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/source_code.png?alt=media&token=9941c0eb-f514-4ddc-b784-98cdd3450c8b",
+                                      color: Colors.white,
+                                      height: height * 0.05,
+                                      width: width * 0.05,
+                                    ),
+                                  ),
+                                  AutoSizeText(
+                                    "Source Code",
+                                    style: GoogleFonts.rubik(
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(
+                              top: height * 0.02,
+                            ),
+                            child: Divider(
+                              indent: width * 0.037,
+                              endIndent: width * 0.037,
+                              thickness: 1,
+                              height: 1,
+                              color: const Color(0xFF292f33),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(
+                              top: height * 0.02,
+                              left: width * 0.04,
+                            ),
+                            child: AutoSizeText(
                               "Related News",
                               style: GoogleFonts.poppins(
                                 color: Colors.white,
@@ -577,70 +824,6 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                                               left: width * 0.04,
                                             ),
                                             child: AutoSizeText(
-                                              "Asset",
-                                              style: GoogleFonts.poppins(
-                                                color: Colors.white,
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ),
-                                          InkWell(
-                                            onTap: () {
-                                              launch(
-                                                "https://static.coinpaprika.com/storage/cdn/whitepapers/215.pdf",
-                                              );
-                                            },
-                                            child: Container(
-                                              width: width,
-                                              margin: EdgeInsets.only(
-                                                left: width * 0.04,
-                                              ),
-                                              child: Row(
-                                                children: [
-                                                  Container(
-                                                    margin: EdgeInsets.only(
-                                                      right: width * 0.04,
-                                                    ),
-                                                    child: CachedNetworkImage(
-                                                      imageUrl:
-                                                          "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/whitepaper.png?alt=media&token=85789045-7c9b-42ab-9833-83d2f2383aa3",
-                                                      color: Colors.white,
-                                                      height: height * 0.05,
-                                                      width: width * 0.05,
-                                                    ),
-                                                  ),
-                                                  AutoSizeText(
-                                                    "Whitepaper",
-                                                    style: GoogleFonts.rubik(
-                                                      color: Colors.white,
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            margin: EdgeInsets.only(
-                                              top: height * 0.02,
-                                            ),
-                                            child: Divider(
-                                              indent: width * 0.037,
-                                              endIndent: width * 0.037,
-                                              thickness: 1,
-                                              height: 1,
-                                              color: const Color(0xFF292f33),
-                                            ),
-                                          ),
-                                          Container(
-                                            margin: EdgeInsets.only(
-                                              top: height * 0.02,
-                                              left: width * 0.04,
-                                            ),
-                                            child: AutoSizeText(
                                               "People Also Watch",
                                               style: GoogleFonts.poppins(
                                                 color: Colors.white,
@@ -681,7 +864,8 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                                                     decoration: BoxDecoration(
                                                       borderRadius:
                                                           BorderRadius.circular(
-                                                              25),
+                                                        25,
+                                                      ),
                                                       color: const Color(
                                                         0xFF292f33,
                                                       ),

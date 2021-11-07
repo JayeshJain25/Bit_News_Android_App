@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'dart:convert';
 
 class Helper {
   String convertToAgo(String input) {
@@ -59,8 +60,37 @@ class Helper {
     }
   }
 
+  String extractFacebook(String data) {
+    final Map valueMap = json.decode(data.replaceAll('\'', "\"")) as Map;
+    print(valueMap['facebook'][0] as String);
+    return valueMap['facebook'][0] as String;
+  }
+
+  String extractReddit(String data) {
+    final Map valueMap = json.decode(data.replaceAll('\'', "\"")) as Map;
+    return valueMap['reddit'][0] as String;
+  }
+
+  String extractSourceCode(String data) {
+    final Map valueMap = json.decode(data.replaceAll('\'', "\"")) as Map;
+    return valueMap['source_code'][0] as String;
+  }
+
+  String extractWebsite(String data) {
+    final Map valueMap = json.decode(data.replaceAll('\'', "\"")) as Map;
+    return valueMap['website'][0] as String;
+  }
+
   String extractWhitePaper(String data) {
-    return "";
+    final String prevWhitePaperLink = data.split(",")[0].split(":")[1].trim();
+    if (prevWhitePaperLink == "None") {
+      return "None";
+    } else {
+      final String whitePaperLink =
+          data.split(",")[0].split("':")[1].split("'")[1];
+
+      return whitePaperLink;
+    }
   }
 
   Map<String, Color> flagColor = {

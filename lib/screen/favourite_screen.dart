@@ -1,8 +1,10 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:crypto_news/provider/crypto_market_data_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class FavouriteScreen extends StatefulWidget {
   @override
@@ -10,9 +12,10 @@ class FavouriteScreen extends StatefulWidget {
 }
 
 class _FavouriteScreenState extends State<FavouriteScreen> {
-  @override
   void initState() {
     super.initState();
+    Provider.of<CryptoMarketDataProvider>(context, listen: false)
+        .getWatchListCoins();
   }
 
   @override
@@ -38,172 +41,100 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
       ),
       backgroundColor: const Color(0xFF010101),
       body: SafeArea(
-        child: Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          child: Stack(
-            children: <Widget>[
-              Container(
-                width: 500,
-                height: 200,
-                padding: const EdgeInsets.only(
-                  left: 20,
-                  top: 65,
-                  right: 20,
-                  bottom: 20,
-                ),
-                margin: const EdgeInsets.only(top: 45, bottom: 100),
-                decoration: BoxDecoration(
-                  color: const Color(0xFF1d1d1d),
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: const [
-                    BoxShadow(
-                      offset: Offset(0, 10),
-                      blurRadius: 10,
+        child: Consumer<CryptoMarketDataProvider>(
+          builder: (ctx, model, child) {
+            return Container(
+              color: const Color(0xFF010101),
+              child: Column(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.only(left: 10, right: 10),
+                    margin: EdgeInsets.only(
+                      top: height * 0.02,
+                      bottom: height * 0.012,
+                      left: width * 0.05,
+                      right: width * 0.05,
                     ),
-                  ],
-                ),
-                child: Stack(
-                  children: <Widget>[
-                    SizedBox(
-                      width: width * 0.69,
+                    height: height * 0.06,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      color: const Color(0xFF292f33),
                     ),
-                    Container(
-                      foregroundDecoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(45),
-                        border: Border.all(
-                          width: 2,
+                    child: Row(
+                      children: <Widget>[
+                        const Icon(Icons.search, color: Colors.white),
+                        const VerticalDivider(
+                          color: Colors.white,
+                          indent: 10,
+                          endIndent: 10,
                         ),
-                      ),
-                      width: 60,
-                      height: 60,
-                      child: ClipRRect(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(45)),
-                        child: CachedNetworkImage(
-                          imageUrl:
-                              "https://assets.coingecko.com/coins/images/5/large/dogecoin.png?1547792256",
-                          fit: BoxFit.cover,
+                        Container(
+                          margin: const EdgeInsets.only(top: 5),
+                          width: width * 0.67,
+                          height: 35,
+                          child: TextFormField(
+                            style: GoogleFonts.rubik(color: Colors.white),
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: 'Search...',
+                              hintStyle: GoogleFonts.rubik(
+                                color: Colors.white.withOpacity(0.5),
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
-                    Positioned(
-                      left: 50,
-                      child: Container(
-                        foregroundDecoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(45),
-                          border: Border.all(
-                            width: 2,
-                          ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: GridView.builder(
+                        itemCount: model.watchListCoins.length,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          crossAxisSpacing: 30.0,
+                          mainAxisSpacing: 15.0,
                         ),
-                        width: 60,
-                        height: 60,
-                        child: ClipRRect(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(45)),
-                          child: CachedNetworkImage(
-                            imageUrl:
-                                "https://assets.coingecko.com/coins/images/825/large/binance-coin-logo.png?1547034615",
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      left: 200,
-                      child: Container(
-                        foregroundDecoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(45),
-                          border: Border.all(
-                            width: 2,
-                          ),
-                        ),
-                        width: 60,
-                        height: 60,
-                        child: ClipRRect(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(45)),
-                          child: CachedNetworkImage(
-                            imageUrl:
-                                "https://assets.coingecko.com/coins/images/975/large/cardano.png?1547034860",
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      left: 150,
-                      child: Container(
-                        foregroundDecoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(45),
-                          border: Border.all(
-                            width: 2,
-                          ),
-                        ),
-                        width: 60,
-                        height: 60,
-                        child: ClipRRect(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(45)),
-                          child: CachedNetworkImage(
-                            imageUrl:
-                                "https://assets.coingecko.com/coins/images/279/large/ethereum.png?1595348880",
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      left: 100,
-                      child: Container(
-                        foregroundDecoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(45),
-                          border: Border.all(
-                            width: 2,
-                          ),
-                        ),
-                        width: 60,
-                        height: 60,
-                        child: ClipRRect(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(45)),
-                          child: CachedNetworkImage(
-                            imageUrl:
-                                "https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579",
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Positioned(
-                left: 20,
-                right: 20,
-                top: 15,
-                child: CircleAvatar(
-                  radius: 32,
-                  backgroundColor: const Color(0xFF52CAF5),
-                  child: CircleAvatar(
-                    backgroundColor: Colors.transparent,
-                    radius: 30,
-                    child: ClipRRect(
-                      borderRadius: const BorderRadius.all(Radius.circular(45)),
-                      child: CachedNetworkImage(
-                        imageUrl:
-                            "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/logo.png?alt=media&token=993eeaba-2bd5-4e5d-b44f-10664965b330",
-                        fit: BoxFit.cover,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Column(
+                            children: [
+                              CircleAvatar(
+                                backgroundColor: const Color(0xFF292f33),
+                                radius: 30,
+                                child: CircleAvatar(
+                                  backgroundColor: Colors.transparent,
+                                  radius: 24,
+                                  backgroundImage: CachedNetworkImageProvider(
+                                    model.watchListCoins[index].image,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              AutoSizeText(
+                                model.watchListCoins[index].name,
+                                maxLines: 2,
+                                minFontSize: 14,
+                                style: GoogleFonts.rubik(
+                                  color: Colors.white,
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          );
+                        },
                       ),
                     ),
                   ),
-                ),
+                ],
               ),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );
