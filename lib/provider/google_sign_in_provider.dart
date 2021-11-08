@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:crypto_news/helper/api_endpoints.dart';
-import 'package:crypto_news/model/user_data_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -42,13 +41,7 @@ class GoogleSignInProvider extends ChangeNotifier {
       );
 
       if (response.statusCode == 201) {
-        print(
-          UserDataModel.fromJson(
-            jsonDecode(response.body) as Map<String, dynamic>,
-          ),
-        );
       } else if (response.statusCode == 200) {
-        print("User Already Exists!");
       } else {
         throw Exception('Failed to create User.');
       }

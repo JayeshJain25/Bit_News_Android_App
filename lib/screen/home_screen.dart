@@ -1,8 +1,10 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:crypto_news/helper/helper.dart';
+import 'package:crypto_news/provider/crypto_explainer_provider.dart';
 import 'package:crypto_news/provider/crypto_market_data_provider.dart';
 import 'package:crypto_news/provider/news_provider.dart';
+import 'package:crypto_news/screen/crypto_explainer_screen.dart';
 import 'package:crypto_news/screen/market_data_screen.dart';
 import 'package:crypto_news/screen/notification_screen.dart';
 import 'package:crypto_news/screen/see_all_news_screen.dart';
@@ -67,6 +69,9 @@ class _HomeScreenState extends State<HomeScreen>
         .getTrendingCoins();
 
     Provider.of<NewsProvider>(context, listen: false).getNewsFeed(1);
+
+    Provider.of<CryptoExplainerProvider>(context, listen: false)
+        .getcryptoExplainerByType("Bitcoin");
 
     controller =
         AnimationController(vsync: this, duration: const Duration(seconds: 4));
@@ -779,27 +784,15 @@ class _HomeScreenState extends State<HomeScreen>
                                 ),
                         ),
                         Container(
-                          margin: const EdgeInsets.only(
-                            top: 25,
-                            left: 25,
-                            right: 25,
-                          ),
-                          height: 60,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(25),
-                            color: Colors.transparent,
-                            border: Border.all(
-                              color: const Color(0xFF292f33),
-                              width: 3,
-                            ),
-                          ),
-                          child: Center(
+                          margin: const EdgeInsets.only(top: 15),
+                          child: Container(
+                            margin: const EdgeInsets.only(left: 32),
                             child: AutoSizeText(
                               "Crypto Explainer",
-                              style: GoogleFonts.poppins(
-                                fontSize: 17,
-                                fontWeight: FontWeight.w500,
+                              style: GoogleFonts.rubik(
                                 color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
                           ),
@@ -902,92 +895,152 @@ class _HomeScreenState extends State<HomeScreen>
                             ],
                           ),
                         ),
-                        Container(
-                          margin: const EdgeInsets.only(
-                            left: 23,
-                            top: 15,
-                            right: 23,
-                          ),
-                          width: 347,
-                          height: 270,
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                25,
-                              ),
-                            ),
-                            elevation: 0,
-                            color: const Color(0xFF121212),
-                            child: Column(
-                              children: [
-                                ClipRRect(
-                                  borderRadius: const BorderRadius.only(
-                                    topLeft: Radius.circular(25),
-                                    topRight: Radius.circular(25),
-                                  ),
-                                  child: CachedNetworkImage(
-                                    fit: BoxFit.cover,
-                                    imageUrl:
-                                        "https://coindesk-coindesk-prod.cdn.arcpublishing.com/resizer/nkZ1E8g3-bBKCgOD6w5Bj5UYrpI=/400x300/filters:format(jpg):quality(70)/cloudfront-us-east-1.images.arcpublishing.com/coindesk/LTBLXH2ZPBBHZNVZAMFZDHHYHU.jpg",
-                                    errorWidget: (context, url, error) =>
-                                        Image.asset(
-                                      "lib/assets/logo.png",
-                                      fit: BoxFit.cover,
-                                    ),
-                                    height: 150,
-                                    width: 500,
-                                  ),
-                                ),
-                                ListTile(
-                                  title: Container(
-                                    margin: const EdgeInsets.only(
-                                      bottom: 7,
-                                      top: 7,
-                                    ),
-                                    child: AutoSizeText(
-                                      "What Is Bitcoin?",
-                                      maxLines: 2,
-                                      style: GoogleFonts.rubik(
-                                        color: Colors.white,
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ),
-                                  subtitle: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        margin: const EdgeInsets.only(
-                                          bottom: 7,
+                        Consumer<CryptoExplainerProvider>(
+                          builder: (ctx, data, _) {
+                            return data.listModel.isEmpty
+                                ? const Center(
+                                    child: CircularProgressIndicator(),
+                                  )
+                                : InkWell(
+                                    onTap: () {
+                                      Get.to(
+                                        () => CryptoExplainerScreen(
+                                          _selectedIndex == 0
+                                              ? data.listModel[0]
+                                              : _selectedIndex == 1
+                                                  ? data.listModel[1]
+                                                  : data.listModel[2],
                                         ),
-                                        child: AutoSizeText(
-                                          "In 2008, a pseudonymous programmer named Satoshi Nakamoto published a 9-page document outlining a new decentralized, digital currency. They called it Bitcoin.",
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
-                                          softWrap: false,
-                                          style: GoogleFonts.poppins(
-                                            color: Colors.white70,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 15,
+                                      );
+                                    },
+                                    child: Container(
+                                      margin: const EdgeInsets.only(
+                                        left: 23,
+                                        top: 15,
+                                        right: 23,
+                                      ),
+                                      width: 347,
+                                      height: 270,
+                                      child: Card(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            25,
                                           ),
                                         ),
-                                      ),
-                                      AutoSizeText(
-                                        "By Andrey Sergeenkov",
-                                        maxLines: 1,
-                                        style: GoogleFonts.poppins(
-                                          color: Colors.white70,
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w500,
+                                        elevation: 0,
+                                        color: const Color(0xFF121212),
+                                        child: Column(
+                                          children: [
+                                            ClipRRect(
+                                              borderRadius:
+                                                  const BorderRadius.only(
+                                                topLeft: Radius.circular(25),
+                                                topRight: Radius.circular(25),
+                                              ),
+                                              child: CachedNetworkImage(
+                                                fit: BoxFit.cover,
+                                                imageUrl: _selectedIndex == 0
+                                                    ? data.listModel[0].imgUrl
+                                                    : _selectedIndex == 1
+                                                        ? data
+                                                            .listModel[1].imgUrl
+                                                        : data.listModel[2]
+                                                            .imgUrl,
+                                                errorWidget:
+                                                    (context, url, error) =>
+                                                        Image.asset(
+                                                  "lib/assets/logo.png",
+                                                  fit: BoxFit.cover,
+                                                ),
+                                                height: 150,
+                                                width: 500,
+                                              ),
+                                            ),
+                                            ListTile(
+                                              title: Container(
+                                                margin: const EdgeInsets.only(
+                                                  bottom: 7,
+                                                  top: 7,
+                                                ),
+                                                child: AutoSizeText(
+                                                  _selectedIndex == 0
+                                                      ? data.listModel[0].title
+                                                      : _selectedIndex == 1
+                                                          ? data.listModel[1]
+                                                              .title
+                                                          : data.listModel[2]
+                                                              .title,
+                                                  maxLines: 2,
+                                                  style: GoogleFonts.rubik(
+                                                    color: Colors.white,
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                              ),
+                                              subtitle: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Container(
+                                                    margin:
+                                                        const EdgeInsets.only(
+                                                      bottom: 7,
+                                                    ),
+                                                    child: AutoSizeText(
+                                                      _selectedIndex == 0
+                                                          ? data.listModel[0]
+                                                              .description
+                                                          : _selectedIndex == 1
+                                                              ? data
+                                                                  .listModel[1]
+                                                                  .description
+                                                              : data
+                                                                  .listModel[2]
+                                                                  .description,
+                                                      maxLines: 2,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      softWrap: false,
+                                                      style:
+                                                          GoogleFonts.poppins(
+                                                        color: Colors.white70,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        fontSize: 15,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  AutoSizeText(
+                                                    "By ${_selectedIndex == 0 ? data.listModel[0].author : _selectedIndex == 1 ? data.listModel[1].author : data.listModel[2].author}",
+                                                    maxLines: 1,
+                                                    style: GoogleFonts.poppins(
+                                                      color: Colors.white70,
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
+                                    ),
+                                  );
+                          },
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(
+                            top: height * 0.02,
+                          ),
+                          child: Divider(
+                            indent: width * 0.037,
+                            endIndent: width * 0.037,
+                            thickness: 1,
+                            height: 1,
+                            color: const Color(0xFF292f33),
                           ),
                         ),
                         Container(
@@ -1019,19 +1072,16 @@ class _HomeScreenState extends State<HomeScreen>
                       : ListView.builder(
                           itemCount: 9,
                           itemBuilder: (ctx, index) => index == 8
-                              ? Container(
-                                  margin: const EdgeInsets.all(5),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      Get.to(() => SeeAllNewsScreen());
-                                    },
-                                    child: Center(
-                                      child: Text(
-                                        "See all",
-                                        style: GoogleFonts.poppins(
-                                          color: Colors.white,
-                                          fontSize: 15,
-                                        ),
+                              ? GestureDetector(
+                                  onTap: () {
+                                    Get.to(() => SeeAllNewsScreen());
+                                  },
+                                  child: Center(
+                                    child: Text(
+                                      "See all",
+                                      style: GoogleFonts.poppins(
+                                        color: Colors.white,
+                                        fontSize: 15,
                                       ),
                                     ),
                                   ),

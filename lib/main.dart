@@ -1,8 +1,8 @@
 import 'package:crypto_news/provider/crypto_and_fiat_provider.dart';
+import 'package:crypto_news/provider/crypto_explainer_provider.dart';
 import 'package:crypto_news/provider/crypto_market_data_provider.dart';
 import 'package:crypto_news/provider/google_sign_in_provider.dart';
 import 'package:crypto_news/provider/news_provider.dart';
-import 'package:crypto_news/screen/sign_in_screen.dart';
 import 'package:crypto_news/screen/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -21,11 +21,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        //ChangeNotifierProvider(create: (ctx) => BottomNavigationProvider()),
         ChangeNotifierProvider(create: (ctx) => GoogleSignInProvider()),
         ChangeNotifierProvider(create: (ctx) => CryptoAndFiatProvider()),
         ChangeNotifierProvider(create: (ctx) => NewsProvider()),
         ChangeNotifierProvider(create: (ctx) => CryptoMarketDataProvider()),
+        ChangeNotifierProvider(create: (ctx) => CryptoExplainerProvider()),
       ],
       child: Sizer(
         builder: (ctx, orientation, deviceType) {
