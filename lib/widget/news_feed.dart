@@ -79,7 +79,7 @@ class NewsFeed extends StatelessWidget {
                                       ),
                                       errorWidget: (context, url, error) =>
                                           Image.asset(
-                                        "lib/assets/logo.png",
+                                        "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/logo.png?alt=media&token=993eeaba-2bd5-4e5d-b44f-10664965b330",
                                         fit: BoxFit.cover,
                                       ),
                                       height: height * 0.09,

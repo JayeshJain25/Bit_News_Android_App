@@ -89,46 +89,51 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: GridView.builder(
-                        itemCount: model.watchListCoins.length,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          crossAxisSpacing: 30.0,
-                          mainAxisSpacing: 15.0,
-                        ),
-                        itemBuilder: (BuildContext context, int index) {
-                          return Column(
-                            children: [
-                              CircleAvatar(
-                                backgroundColor: const Color(0xFF292f33),
-                                radius: 30,
-                                child: CircleAvatar(
-                                  backgroundColor: Colors.transparent,
-                                  radius: 24,
-                                  backgroundImage: CachedNetworkImageProvider(
-                                    model.watchListCoins[index].image,
-                                  ),
-                                ),
+                      child: model.watchListCoins.isEmpty
+                          ? const Center(
+                              child: CircularProgressIndicator(),
+                            )
+                          : GridView.builder(
+                              itemCount: model.watchListCoins.length,
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3,
+                                crossAxisSpacing: 30.0,
+                                mainAxisSpacing: 15.0,
                               ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              AutoSizeText(
-                                model.watchListCoins[index].name,
-                                maxLines: 2,
-                                minFontSize: 14,
-                                style: GoogleFonts.rubik(
-                                  color: Colors.white,
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
-                          );
-                        },
-                      ),
+                              itemBuilder: (BuildContext context, int index) {
+                                return Column(
+                                  children: [
+                                    CircleAvatar(
+                                      backgroundColor: const Color(0xFF292f33),
+                                      radius: 30,
+                                      child: CircleAvatar(
+                                        backgroundColor: Colors.transparent,
+                                        radius: 24,
+                                        backgroundImage:
+                                            CachedNetworkImageProvider(
+                                          model.watchListCoins[index].image,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    AutoSizeText(
+                                      model.watchListCoins[index].name,
+                                      maxLines: 2,
+                                      minFontSize: 14,
+                                      style: GoogleFonts.rubik(
+                                        color: Colors.white,
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ],
+                                );
+                              },
+                            ),
                     ),
                   ),
                 ],

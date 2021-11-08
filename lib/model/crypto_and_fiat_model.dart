@@ -23,19 +23,31 @@ class CryptoAndFiatModel {
     required this.gradientColor,
   });
 
-  factory CryptoAndFiatModel.fromJson(Map<String, dynamic> json) =>
-      CryptoAndFiatModel(
-        id: json["id"] as String,
-        symbol: json["symbol"] as String,
-        name: json["name"] as String,
-        price: json["price"] as double,
-        marketCap: json["market_cap"] as double,
-        totalVolume: json["total_volume"] as double,
-        rank: json["rank"] as double,
-        image: json["image"] as String,
-        type: json['type'] as String,
-        gradientColor: "",
-      );
+  factory CryptoAndFiatModel.fromJson(Map<String, dynamic> json) {
+    double marketCap = 0.0;
+    double totalVolume = 0.0;
+
+    if (json['market_cap'] != null) {
+      marketCap = json['market_cap'] as double;
+    }
+
+    if (json['total_volume'] != null) {
+      totalVolume = json['total_volume'] as double;
+    }
+
+    return CryptoAndFiatModel(
+      id: json["id"] as String,
+      symbol: json["symbol"] as String,
+      name: json["name"] as String,
+      price: json["price"] as double,
+      marketCap: marketCap,
+      totalVolume: totalVolume,
+      rank: json["rank"] as double,
+      image: json["image"] as String,
+      type: json['type'] as String,
+      gradientColor: "",
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         "id": id,

@@ -18,6 +18,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
+import 'conversion_tool_screen.dart';
 import 'news_summary_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -295,35 +296,41 @@ class _HomeScreenState extends State<HomeScreen>
                                         //),
                                       ),
                                     ),
-                                    Container(
-                                      padding: const EdgeInsets.all(8),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(25),
-                                        color: const Color(0xFF292f33),
-                                        // border: Border.all(
-                                        //   color: Colors.white10.withAlpha(40),
-                                        // ),
-                                        // boxShadow: [
-                                        //   BoxShadow(
-                                        //     color: Colors.white.withAlpha(100),
-                                        //     blurRadius: 7.0,
-                                        //     spreadRadius: 1.0,
-                                        //   ),
-                                        // ],
-                                      ),
-                                      margin: const EdgeInsets.only(
-                                        left: 5,
-                                        right: 5,
-                                      ),
-                                      height: 60,
-                                      width: 160,
-                                      child: Center(
-                                        child: AutoSizeText(
-                                          "Conversion",
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.white,
+                                    InkWell(
+                                      onTap: () {
+                                        Get.to(() => ConversionToolScreen());
+                                      },
+                                      child: Container(
+                                        padding: const EdgeInsets.all(8),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(25),
+                                          color: const Color(0xFF292f33),
+                                          // border: Border.all(
+                                          //   color: Colors.white10.withAlpha(40),
+                                          // ),
+                                          // boxShadow: [
+                                          //   BoxShadow(
+                                          //     color: Colors.white.withAlpha(100),
+                                          //     blurRadius: 7.0,
+                                          //     spreadRadius: 1.0,
+                                          //   ),
+                                          // ],
+                                        ),
+                                        margin: const EdgeInsets.only(
+                                          left: 5,
+                                          right: 5,
+                                        ),
+                                        height: 60,
+                                        width: 160,
+                                        child: Center(
+                                          child: AutoSizeText(
+                                            "Conversion",
+                                            style: GoogleFonts.poppins(
+                                              fontSize: 17,
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.white,
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -424,7 +431,9 @@ class _HomeScreenState extends State<HomeScreen>
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(
-                              margin: const EdgeInsets.only(left: 32),
+                              margin: const EdgeInsets.only(
+                                left: 32,
+                              ),
                               child: AutoSizeText(
                                 "Coins",
                                 style: GoogleFonts.rubik(
@@ -608,7 +617,7 @@ class _HomeScreenState extends State<HomeScreen>
                                 ),
                         ),
                         Container(
-                          margin: const EdgeInsets.only(top: 15),
+                          margin: const EdgeInsets.only(top: 20, bottom: 10),
                           child: Container(
                             margin: const EdgeInsets.only(left: 32),
                             child: AutoSizeText(
@@ -784,7 +793,7 @@ class _HomeScreenState extends State<HomeScreen>
                                 ),
                         ),
                         Container(
-                          margin: const EdgeInsets.only(top: 15),
+                          margin: const EdgeInsets.only(top: 20, bottom: 10),
                           child: Container(
                             margin: const EdgeInsets.only(left: 32),
                             child: AutoSizeText(

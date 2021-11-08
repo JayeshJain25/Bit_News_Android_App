@@ -499,226 +499,241 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                               ),
                             ),
                           ),
-                          InkWell(
-                            onTap: () {
-                              launch(
-                                _helper.extractWebsite(
-                                  _staticDataModel.links,
-                                ),
-                              );
-                            },
-                            child: Container(
-                              width: _helper.extractWhitePaper(
-                                        _staticDataModel.whitepaper,
-                                      ) ==
-                                      "None"
-                                  ? 0
-                                  : width,
-                              margin: EdgeInsets.only(
-                                left: width * 0.04,
-                              ),
-                              child: Row(
-                                children: [
-                                  Container(
+                          if (_globalDataLoaded)
+                            const CircularProgressIndicator()
+                          else
+                            Column(
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    launch(
+                                      _helper.extractWebsite(
+                                        _staticDataModel.links,
+                                      ),
+                                    );
+                                  },
+                                  child: Container(
+                                    width: _helper.extractWebsite(
+                                              _staticDataModel.links,
+                                            ) ==
+                                            "None"
+                                        ? 0
+                                        : width,
                                     margin: EdgeInsets.only(
-                                      right: width * 0.04,
+                                      left: width * 0.04,
                                     ),
-                                    child: CachedNetworkImage(
-                                      imageUrl:
-                                          "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/website.png?alt=media&token=f7de66d1-8492-4574-a7b7-08ec5cdca54e",
-                                      color: Colors.white,
-                                      height: height * 0.05,
-                                      width: width * 0.05,
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          margin: EdgeInsets.only(
+                                            right: width * 0.04,
+                                          ),
+                                          child: CachedNetworkImage(
+                                            imageUrl:
+                                                "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/website.png?alt=media&token=f7de66d1-8492-4574-a7b7-08ec5cdca54e",
+                                            color: Colors.white,
+                                            height: height * 0.05,
+                                            width: width * 0.05,
+                                          ),
+                                        ),
+                                        AutoSizeText(
+                                          "Website",
+                                          style: GoogleFonts.rubik(
+                                            color: Colors.white,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                  AutoSizeText(
-                                    "Website",
-                                    style: GoogleFonts.rubik(
-                                      color: Colors.white,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              launch(
-                                _helper.extractWhitePaper(
-                                  _staticDataModel.whitepaper,
                                 ),
-                              );
-                            },
-                            child: Container(
-                              width: _helper.extractWhitePaper(
+                                InkWell(
+                                  onTap: () {
+                                    launch(
+                                      _helper.extractWhitePaper(
                                         _staticDataModel.whitepaper,
-                                      ) ==
-                                      "None"
-                                  ? 0
-                                  : width,
-                              margin: EdgeInsets.only(
-                                left: width * 0.04,
-                              ),
-                              child: Row(
-                                children: [
-                                  Container(
-                                    margin: EdgeInsets.only(
-                                      right: width * 0.04,
-                                    ),
-                                    child: CachedNetworkImage(
-                                      imageUrl:
-                                          "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/whitepaper.png?alt=media&token=85789045-7c9b-42ab-9833-83d2f2383aa3",
-                                      color: Colors.white,
-                                      height: height * 0.05,
-                                      width: width * 0.05,
-                                    ),
-                                  ),
-                                  AutoSizeText(
-                                    "Whitepaper",
-                                    style: GoogleFonts.rubik(
-                                      color: Colors.white,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              launch(
-                                _helper.extractFacebook(
-                                  _staticDataModel.links,
+                                      ),
+                                    );
+                                  },
+                                  child: _helper.extractWhitePaper(
+                                            _staticDataModel.whitepaper,
+                                          ) ==
+                                          "None"
+                                      ? const SizedBox(
+                                          height: 0,
+                                        )
+                                      : Container(
+                                          width: width,
+                                          margin: EdgeInsets.only(
+                                            left: width * 0.04,
+                                          ),
+                                          child: Row(
+                                            children: [
+                                              Container(
+                                                margin: EdgeInsets.only(
+                                                  right: width * 0.04,
+                                                ),
+                                                child: CachedNetworkImage(
+                                                  imageUrl:
+                                                      "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/whitepaper.png?alt=media&token=85789045-7c9b-42ab-9833-83d2f2383aa3",
+                                                  color: Colors.white,
+                                                  height: height * 0.05,
+                                                  width: width * 0.05,
+                                                ),
+                                              ),
+                                              AutoSizeText(
+                                                "Whitepaper",
+                                                style: GoogleFonts.rubik(
+                                                  color: Colors.white,
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
                                 ),
-                              );
-                            },
-                            child: Container(
-                              width: _helper.extractWhitePaper(
-                                        _staticDataModel.whitepaper,
-                                      ) ==
-                                      "None"
-                                  ? 0
-                                  : width,
-                              margin: EdgeInsets.only(
-                                left: width * 0.04,
-                              ),
-                              child: Row(
-                                children: [
-                                  Container(
-                                    margin: EdgeInsets.only(
-                                      right: width * 0.04,
-                                    ),
-                                    child: CachedNetworkImage(
-                                      imageUrl:
-                                          "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/facebook.png?alt=media&token=886a4966-5a3d-41b9-8d77-10fe7b0b7635",
-                                      color: Colors.white,
-                                      height: height * 0.05,
-                                      width: width * 0.05,
-                                    ),
-                                  ),
-                                  AutoSizeText(
-                                    "Facebook",
-                                    style: GoogleFonts.rubik(
-                                      color: Colors.white,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              launch(
-                                _helper.extractReddit(
-                                  _staticDataModel.links,
+                                InkWell(
+                                  onTap: () {
+                                    launch(
+                                      _helper.extractFacebook(
+                                        _staticDataModel.links,
+                                      ),
+                                    );
+                                  },
+                                  child: _helper.extractFacebook(
+                                            _staticDataModel.links,
+                                          ) ==
+                                          "None"
+                                      ? const SizedBox(
+                                          height: 0,
+                                        )
+                                      : Container(
+                                          width: width,
+                                          margin: EdgeInsets.only(
+                                            left: width * 0.04,
+                                          ),
+                                          child: Row(
+                                            children: [
+                                              Container(
+                                                margin: EdgeInsets.only(
+                                                  right: width * 0.04,
+                                                ),
+                                                child: CachedNetworkImage(
+                                                  imageUrl:
+                                                      "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/facebook.png?alt=media&token=886a4966-5a3d-41b9-8d77-10fe7b0b7635",
+                                                  color: Colors.white,
+                                                  height: height * 0.05,
+                                                  width: width * 0.05,
+                                                ),
+                                              ),
+                                              AutoSizeText(
+                                                "Facebook",
+                                                style: GoogleFonts.rubik(
+                                                  color: Colors.white,
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
                                 ),
-                              );
-                            },
-                            child: Container(
-                              width: _helper.extractWhitePaper(
-                                        _staticDataModel.whitepaper,
-                                      ) ==
-                                      "None"
-                                  ? 0
-                                  : width,
-                              margin: EdgeInsets.only(
-                                left: width * 0.04,
-                              ),
-                              child: Row(
-                                children: [
-                                  Container(
-                                    margin: EdgeInsets.only(
-                                      right: width * 0.04,
-                                    ),
-                                    child: CachedNetworkImage(
-                                      imageUrl:
-                                          "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/reddit.png?alt=media&token=631c1490-0383-4700-848f-dfa3cf78b0ff",
-                                      color: Colors.white,
-                                      height: height * 0.05,
-                                      width: width * 0.05,
-                                    ),
-                                  ),
-                                  AutoSizeText(
-                                    "Reddit",
-                                    style: GoogleFonts.rubik(
-                                      color: Colors.white,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              launch(
-                                _helper.extractSourceCode(
-                                  _staticDataModel.links,
+                                InkWell(
+                                  onTap: () {
+                                    launch(
+                                      _helper.extractReddit(
+                                        _staticDataModel.links,
+                                      ),
+                                    );
+                                  },
+                                  child: _helper.extractReddit(
+                                            _staticDataModel.links,
+                                          ) ==
+                                          "None"
+                                      ? const SizedBox(
+                                          height: 0,
+                                        )
+                                      : Container(
+                                          width: width,
+                                          margin: EdgeInsets.only(
+                                            left: width * 0.04,
+                                          ),
+                                          child: Row(
+                                            children: [
+                                              Container(
+                                                margin: EdgeInsets.only(
+                                                  right: width * 0.04,
+                                                ),
+                                                child: CachedNetworkImage(
+                                                  imageUrl:
+                                                      "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/reddit.png?alt=media&token=631c1490-0383-4700-848f-dfa3cf78b0ff",
+                                                  color: Colors.white,
+                                                  height: height * 0.05,
+                                                  width: width * 0.05,
+                                                ),
+                                              ),
+                                              AutoSizeText(
+                                                "Reddit",
+                                                style: GoogleFonts.rubik(
+                                                  color: Colors.white,
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
                                 ),
-                              );
-                            },
-                            child: Container(
-                              width: _helper.extractWhitePaper(
-                                        _staticDataModel.whitepaper,
-                                      ) ==
-                                      "None"
-                                  ? 0
-                                  : width,
-                              margin: EdgeInsets.only(
-                                left: width * 0.04,
-                              ),
-                              child: Row(
-                                children: [
-                                  Container(
-                                    margin: EdgeInsets.only(
-                                      right: width * 0.04,
-                                    ),
-                                    child: CachedNetworkImage(
-                                      imageUrl:
-                                          "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/source_code.png?alt=media&token=9941c0eb-f514-4ddc-b784-98cdd3450c8b",
-                                      color: Colors.white,
-                                      height: height * 0.05,
-                                      width: width * 0.05,
-                                    ),
-                                  ),
-                                  AutoSizeText(
-                                    "Source Code",
-                                    style: GoogleFonts.rubik(
-                                      color: Colors.white,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                                InkWell(
+                                  onTap: () {
+                                    launch(
+                                      _helper.extractSourceCode(
+                                        _staticDataModel.links,
+                                      ),
+                                    );
+                                  },
+                                  child: _helper.extractSourceCode(
+                                            _staticDataModel.links,
+                                          ) ==
+                                          "None"
+                                      ? const SizedBox(
+                                          height: 0,
+                                        )
+                                      : Container(
+                                          width: width,
+                                          margin: EdgeInsets.only(
+                                            left: width * 0.04,
+                                          ),
+                                          child: Row(
+                                            children: [
+                                              Container(
+                                                margin: EdgeInsets.only(
+                                                  right: width * 0.04,
+                                                ),
+                                                child: CachedNetworkImage(
+                                                  imageUrl:
+                                                      "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/source_code.png?alt=media&token=9941c0eb-f514-4ddc-b784-98cdd3450c8b",
+                                                  color: Colors.white,
+                                                  height: height * 0.05,
+                                                  width: width * 0.05,
+                                                ),
+                                              ),
+                                              AutoSizeText(
+                                                "Source Code",
+                                                style: GoogleFonts.rubik(
+                                                  color: Colors.white,
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                ),
+                              ],
                             ),
-                          ),
                           Container(
                             margin: EdgeInsets.only(
                               top: height * 0.02,

@@ -17,7 +17,6 @@ class CryptoAndFiatProvider with ChangeNotifier {
   int index2 = 1;
 
   List<CryptoAndFiatModel> listModel = [];
-  List<CryptoAndFiatModel> updatedList = [];
   List<CryptoAndFiatModel> cardData = [];
 
   CryptoAndFiatProvider();
@@ -83,18 +82,17 @@ class CryptoAndFiatProvider with ChangeNotifier {
   }
 
   Future<void> getCryptoAndFiatBySearch(String name) async {
-    updatedList.clear();
+    listModel.clear();
     final url =
-        "${ApiEndpoints.baseUrl}cryptocurrency/get-crypto-fiat-list-by-search/?name=$name";
+        "${ApiEndpoints.baseUrl}cryptocurrency/cryptoFiat-by-search?name=$name";
     try {
       final response = await http.get(
         Uri.parse(url),
-        //headers: <String, String>{'authorization': _apiEndpoints.basicAuth}
       );
       final r = json.decode(response.body) as List<dynamic>;
       final CryptoAndFiatProvider model = CryptoAndFiatProvider.fromJson(r);
       for (final element in model.listModel) {
-        updatedList.add(element);
+        listModel.add(element);
       }
       notifyListeners();
     } catch (error) {
@@ -107,17 +105,18 @@ class CryptoAndFiatProvider with ChangeNotifier {
     try {
       final response = await http.get(
         Uri.parse(url),
-        //headers: <String, String>{'authorization': _apiEndpoints.basicAuth}
       );
       final r = json.decode(response.body) as List<dynamic>;
       final CryptoAndFiatProvider model = CryptoAndFiatProvider.fromJson(r);
+
       for (final element in model.listModel) {
         listModel.add(element);
       }
-      if (page == 0) {
+      if (page == 1) {
         cardData.add(listModel[0]);
         cardData.add(listModel[1]);
       }
+
       notifyListeners();
     } catch (error) {
       rethrow;

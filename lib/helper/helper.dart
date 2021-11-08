@@ -61,24 +61,39 @@ class Helper {
   }
 
   String extractFacebook(String data) {
-    final Map valueMap = json.decode(data.replaceAll('\'', "\"")) as Map;
-    print(valueMap['facebook'][0] as String);
-    return valueMap['facebook'][0] as String;
+    if (data.contains("facebook")) {
+      final Map valueMap = json.decode(data.replaceAll('\'', "\"")) as Map;
+      return valueMap['facebook'][0] as String;
+    } else {
+      return "None";
+    }
   }
 
   String extractReddit(String data) {
-    final Map valueMap = json.decode(data.replaceAll('\'', "\"")) as Map;
-    return valueMap['reddit'][0] as String;
+    if (data.contains("reddit")) {
+      final Map valueMap = json.decode(data.replaceAll('\'', "\"")) as Map;
+      return valueMap['reddit'][0] as String;
+    } else {
+      return "None";
+    }
   }
 
   String extractSourceCode(String data) {
-    final Map valueMap = json.decode(data.replaceAll('\'', "\"")) as Map;
-    return valueMap['source_code'][0] as String;
+    if (data.contains("source_code")) {
+      final Map valueMap = json.decode(data.replaceAll('\'', "\"")) as Map;
+      return valueMap['source_code'][0] as String;
+    } else {
+      return "None";
+    }
   }
 
   String extractWebsite(String data) {
-    final Map valueMap = json.decode(data.replaceAll('\'', "\"")) as Map;
-    return valueMap['website'][0] as String;
+    if (data.contains("website")) {
+      final Map valueMap = json.decode(data.replaceAll('\'', "\"")) as Map;
+      return valueMap['website'][0] as String;
+    } else {
+      return "None";
+    }
   }
 
   String extractWhitePaper(String data) {

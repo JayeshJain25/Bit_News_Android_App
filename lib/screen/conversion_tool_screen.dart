@@ -47,32 +47,41 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
   @override
   void initState() {
     super.initState();
+
     Provider.of<CryptoAndFiatProvider>(context, listen: false)
         .fiatAndCryptoList(1);
+
     exchangeCardBtnAnimation = AnimateIconController();
+
     cardController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 700),
     );
+
     cardAnimation =
         CurvedAnimation(parent: cardController, curve: Curves.easeIn);
+
     cardController.forward();
 
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1200),
     );
+
     _animation = Tween(begin: 0.5, end: 0.0).animate(_controller)
       ..addListener(() {
         setState(() {});
       });
+
     _controller.forward();
   }
 
   @override
   void dispose() {
     _controller.dispose();
+
     cardController.dispose();
+
     super.dispose();
   }
 
@@ -82,10 +91,10 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      backgroundColor: const Color(0xFF121212),
+      backgroundColor: const Color(0xFF010101),
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: const Color(0xFF121212),
+        backgroundColor: const Color(0xFF010101),
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
@@ -98,8 +107,8 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
           'Conversion Tool',
           style: GoogleFonts.poppins(
             color: Colors.white,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
+            fontSize: 23,
+            fontWeight: FontWeight.w600,
           ),
         ),
       ),
@@ -260,6 +269,12 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                                           index: 0,
                                                         ),
                                                       );
+                                                      model.listModel.clear();
+                                                      Provider.of<
+                                                          CryptoAndFiatProvider>(
+                                                        context,
+                                                        listen: false,
+                                                      ).fiatAndCryptoList(1);
                                                     },
                                                     child: SizedBox(
                                                       width: width * 0.2,
@@ -290,6 +305,12 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                                           index: 0,
                                                         ),
                                                       );
+                                                      model.listModel.clear();
+                                                      Provider.of<
+                                                          CryptoAndFiatProvider>(
+                                                        context,
+                                                        listen: false,
+                                                      ).fiatAndCryptoList(1);
                                                     },
                                                     child: SizedBox(
                                                       width: width * 0.2,
@@ -362,7 +383,7 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                                     clipShadows: [
                                                       ClipShadow(
                                                         color: const Color(
-                                                          0xFF121212,
+                                                          0xFF010101,
                                                         ),
                                                       )
                                                     ],
@@ -370,7 +391,7 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                                       height: height * 0.1,
                                                       width: width * 0.5,
                                                       color: const Color(
-                                                        0xFF121212,
+                                                        0xFF010101,
                                                       ),
                                                     ),
                                                   ),
@@ -426,8 +447,9 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                                       : Container(
                                                           margin:
                                                               const EdgeInsets
-                                                                      .only(
-                                                                  top: 70),
+                                                                  .only(
+                                                            top: 70,
+                                                          ),
                                                           child: Text(
                                                             model
                                                                 .cardData[model
@@ -485,6 +507,12 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                                         index: 0,
                                                       ),
                                                     );
+                                                    model.listModel.clear();
+                                                    Provider.of<
+                                                        CryptoAndFiatProvider>(
+                                                      context,
+                                                      listen: false,
+                                                    ).fiatAndCryptoList(1);
                                                   },
                                                   child: SizedBox(
                                                     width: width * 0.2,
@@ -514,6 +542,12 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                                         index: 0,
                                                       ),
                                                     );
+                                                    model.listModel.clear();
+                                                    Provider.of<
+                                                        CryptoAndFiatProvider>(
+                                                      context,
+                                                      listen: false,
+                                                    ).fiatAndCryptoList(1);
                                                   },
                                                   child: SizedBox(
                                                     width: width * 0.2,
@@ -584,15 +618,14 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                                   clipShadows: [
                                                     ClipShadow(
                                                       color: const Color(
-                                                        0xFF121212,
-                                                      ),
+                                                          0xFF010101),
                                                     )
                                                   ],
                                                   child: Container(
                                                     height: height * 0.1,
                                                     width: width * 0.5,
                                                     color:
-                                                        const Color(0xFF121212),
+                                                        const Color(0xFF010101),
                                                   ),
                                                 ),
                                               ),
@@ -728,6 +761,12 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                                       index: 1,
                                                     ),
                                                   );
+                                                  model.listModel.clear();
+                                                  Provider.of<
+                                                      CryptoAndFiatProvider>(
+                                                    context,
+                                                    listen: false,
+                                                  ).fiatAndCryptoList(1);
                                                 },
                                                 child: SizedBox(
                                                   width: width * 0.2,
@@ -755,6 +794,12 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                                       index: 1,
                                                     ),
                                                   );
+                                                  model.listModel.clear();
+                                                  Provider.of<
+                                                      CryptoAndFiatProvider>(
+                                                    context,
+                                                    listen: false,
+                                                  ).fiatAndCryptoList(1);
                                                 },
                                                 child: SizedBox(
                                                   width: width * 0.2,
@@ -820,14 +865,14 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                                 clipShadows: [
                                                   ClipShadow(
                                                     color:
-                                                        const Color(0xFF121212),
+                                                        const Color(0xFF010101),
                                                   )
                                                 ],
                                                 child: Container(
                                                   height: height * 0.1,
                                                   width: width * 0.5,
                                                   color:
-                                                      const Color(0xFF121212),
+                                                      const Color(0xFF010101),
                                                 ),
                                               ),
                                             ),
@@ -958,6 +1003,12 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                                     index: 1,
                                                   ),
                                                 );
+                                                model.listModel.clear();
+                                                Provider.of<
+                                                    CryptoAndFiatProvider>(
+                                                  context,
+                                                  listen: false,
+                                                ).fiatAndCryptoList(1);
                                               },
                                               child: SizedBox(
                                                 width: width * 0.2,
@@ -985,6 +1036,12 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                                     index: 1,
                                                   ),
                                                 );
+                                                model.listModel.clear();
+                                                Provider.of<
+                                                    CryptoAndFiatProvider>(
+                                                  context,
+                                                  listen: false,
+                                                ).fiatAndCryptoList(1);
                                               },
                                               child: SizedBox(
                                                 width: width * 0.2,
@@ -1049,13 +1106,13 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                               clipShadows: [
                                                 ClipShadow(
                                                   color:
-                                                      const Color(0xFF121212),
+                                                      const Color(0xFF010101),
                                                 )
                                               ],
                                               child: Container(
                                                 height: height * 0.1,
                                                 width: width * 0.5,
-                                                color: const Color(0xFF121212),
+                                                color: const Color(0xFF010101),
                                               ),
                                             ),
                                           ),

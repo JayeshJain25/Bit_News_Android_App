@@ -58,6 +58,26 @@ class CryptoMarketDataProvider with ChangeNotifier {
     }
   }
 
+  Future<void> getCryptoBySearch(String name) async {
+    listModel.clear();
+    final url =
+        "${ApiEndpoints.baseUrl}cryptocurrency/crypto-by-search?name=$name";
+    try {
+      final response = await http.get(
+        Uri.parse(url),
+      );
+      final r = json.decode(response.body) as List<dynamic>;
+      final CryptoMarketDataProvider model =
+          CryptoMarketDataProvider.fromJson(r);
+      for (final element in model.listModel) {
+        listModel.add(element);
+      }
+      notifyListeners();
+    } catch (error) {
+      rethrow;
+    }
+  }
+
   Future<void> getTrendingCoins() async {
     final url = "${ApiEndpoints.baseUrl}cryptocurrency/trending-coins";
 
