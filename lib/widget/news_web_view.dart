@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:like_button/like_button.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class NewsWebView extends StatefulWidget {
@@ -35,26 +34,6 @@ class _NewsWebViewState extends State<NewsWebView> {
             Get.back();
           },
         ),
-        actions: <Widget>[
-          LikeButton(
-            size: 25,
-            circleColor: const CircleColor(
-              start: Color(0xff00ddff),
-              end: Color(0xff0099cc),
-            ),
-            bubblesColor: const BubblesColor(
-              dotPrimaryColor: Color(0xff33b5e5),
-              dotSecondaryColor: Color(0xff0099cc),
-            ),
-            likeBuilder: (bool isLiked) {
-              return Icon(
-                Icons.bookmark,
-                color: isLiked ? const Color(0xFF4E8799) : Colors.grey,
-                size: 25,
-              );
-            },
-          ),
-        ],
         centerTitle: true,
       ),
       body: WebView(

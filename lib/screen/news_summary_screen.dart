@@ -32,7 +32,10 @@ class _NewsSummaryScreenState extends State<NewsSummaryScreen> {
         slivers: <Widget>[
           SliverAppBar(
             leading: IconButton(
-              icon: const Icon(Icons.arrow_back_ios),
+              icon: const Icon(
+                Icons.arrow_back_ios_rounded,
+                size: 22,
+              ),
               color: Colors.white,
               onPressed: () {
                 Get.back();

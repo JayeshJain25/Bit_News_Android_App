@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-
 import '../widget/following_list_all_section.dart';
 
 class SeeAllNewsScreen extends StatefulWidget {
@@ -42,7 +41,7 @@ class _SeeAllNewsScreenState extends State<SeeAllNewsScreen> {
         elevation: 0,
         leading: IconButton(
           icon: const Icon(
-            Icons.arrow_back_ios,
+            Icons.arrow_back_ios_rounded,
             size: 22,
           ),
           color: Colors.white,
@@ -65,120 +64,96 @@ class _SeeAllNewsScreenState extends State<SeeAllNewsScreen> {
         height: height,
         child: DefaultTabController(
           length: 4,
-          child: NestedScrollView(
+          child: CustomScrollView(
             physics: const NeverScrollableScrollPhysics(),
-            headerSliverBuilder:
-                (BuildContext context, bool innerBoxIsScrolled) {
-              return [
-                SliverPersistentHeader(
-                  delegate: MyDelegate(
-                    TabBar(
-                      labelColor: Colors.black,
-                      unselectedLabelColor: Colors.white,
-                      isScrollable: true,
-                      indicator: BoxDecoration(
-                        color: const Color(0xFF52CAF5),
-                        borderRadius: BorderRadius.circular(45),
-                      ),
-                      tabs: [
-                        Tab(
-                          child: AutoSizeText(
-                            'News Feed',
-                            maxLines: 1,
-                            style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                        Tab(
-                          child: AutoSizeText(
-                            'Bitcoin',
-                            maxLines: 1,
-                            style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                        Tab(
-                          child: AutoSizeText(
-                            'Ethereum',
-                            maxLines: 1,
-                            style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                        Tab(
-                          child: AutoSizeText(
-                            'NFT',
-                            maxLines: 1,
-                            style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                      ],
+            slivers: [
+              SliverAppBar(
+                backgroundColor: const Color(0xFF010101),
+                automaticallyImplyLeading: false,
+                floating: true,
+                flexibleSpace: Center(
+                  child: TabBar(
+                    labelColor: Colors.black,
+                    unselectedLabelColor: Colors.white,
+                    isScrollable: true,
+                    indicator: BoxDecoration(
+                      color: const Color(0xFF52CAF5),
+                      borderRadius: BorderRadius.circular(45),
                     ),
+                    tabs: [
+                      Tab(
+                        child: AutoSizeText(
+                          'News Feed',
+                          maxLines: 1,
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                      Tab(
+                        child: AutoSizeText(
+                          'Bitcoin',
+                          maxLines: 1,
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                      Tab(
+                        child: AutoSizeText(
+                          'Ethereum',
+                          maxLines: 1,
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                      Tab(
+                        child: AutoSizeText(
+                          'NFT',
+                          maxLines: 1,
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  floating: true,
-                )
-              ];
-            },
-            body: Container(
-              margin: EdgeInsets.all(width * 0.04),
-              child: TabBarView(
-                children: <Widget>[
-                  FollowingListAllSection(
-                    newsList: newsList,
-                    newsValue: "all",
-                  ),
-                  FollowingListAllSection(
-                    newsList: newsList2,
-                    newsValue: "bitcoin",
-                  ),
-                  FollowingListAllSection(
-                    newsList: newsList3,
-                    newsValue: "ethereum",
-                  ),
-                  FollowingListAllSection(
-                    newsList: newsList4,
-                    newsValue: "nft",
-                  ),
-                ],
+                ),
               ),
-            ),
+              SliverFillRemaining(
+                child: Container(
+                  margin: EdgeInsets.only(
+                    top: 20,
+                    left: width * 0.04,
+                    right: width * 0.04,
+                  ),
+                  child: TabBarView(
+                    children: <Widget>[
+                      FollowingListAllSection(
+                        newsList: newsList,
+                        newsValue: "all",
+                      ),
+                      FollowingListAllSection(
+                        newsList: newsList2,
+                        newsValue: "bitcoin",
+                      ),
+                      FollowingListAllSection(
+                        newsList: newsList3,
+                        newsValue: "ethereum",
+                      ),
+                      FollowingListAllSection(
+                        newsList: newsList4,
+                        newsValue: "nft",
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),
     );
-  }
-}
-
-class MyDelegate extends SliverPersistentHeaderDelegate {
-  final TabBar _tabBar;
-
-  MyDelegate(this._tabBar);
-
-  @override
-  Widget build(
-    BuildContext context,
-    double shrinkOffset,
-    bool overlapsContent,
-  ) {
-    return Container(
-      margin: const EdgeInsets.only(left: 15, right: 15),
-      child: _tabBar,
-    );
-  }
-
-  @override
-  double get maxExtent => _tabBar.preferredSize.height;
-
-  @override
-  double get minExtent => _tabBar.preferredSize.height;
-
-  @override
-  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
-    return false;
   }
 }

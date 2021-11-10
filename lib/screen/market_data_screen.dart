@@ -118,7 +118,10 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 IconButton(
-                                  icon: const Icon(Icons.arrow_back_ios),
+                                  icon: const Icon(
+                                    Icons.arrow_back_ios_rounded,
+                                    size: 22,
+                                  ),
                                   color: Colors.white,
                                   onPressed: () {
                                     Get.back();

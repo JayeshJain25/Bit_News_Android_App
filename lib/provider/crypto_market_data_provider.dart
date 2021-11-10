@@ -79,6 +79,7 @@ class CryptoMarketDataProvider with ChangeNotifier {
   }
 
   Future<void> getTrendingCoins() async {
+    trendingCoins.clear();
     final url = "${ApiEndpoints.baseUrl}cryptocurrency/trending-coins";
 
     try {

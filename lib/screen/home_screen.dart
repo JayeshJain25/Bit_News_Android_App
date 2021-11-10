@@ -9,6 +9,7 @@ import 'package:crypto_news/screen/market_data_screen.dart';
 import 'package:crypto_news/screen/notification_screen.dart';
 import 'package:crypto_news/screen/see_all_news_screen.dart';
 import 'package:crypto_news/screen/watch_list_screen.dart';
+import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:dashed_circle/dashed_circle.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -116,786 +117,218 @@ class _HomeScreenState extends State<HomeScreen>
     final User? user = FirebaseAuth.instance.currentUser;
     return Scaffold(
       backgroundColor: const Color(0xFF010101),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: SizedBox(
-            height: height * 0.92,
-            child: NestedScrollView(
-              physics: const NeverScrollableScrollPhysics(),
-              headerSliverBuilder:
-                  (BuildContext context, bool innerBoxIsScrolled) {
-                return [
-                  SliverAppBar(
-                    elevation: 0,
-                    backgroundColor: const Color(0xFF010101),
-                    actions: <Widget>[
-                      Container(
-                        margin: const EdgeInsets.only(right: 20, top: 20),
-                        child: InkWell(
-                          onTap: () {
-                            Get.to(() => NotificationScreen());
-                          },
-                          child: const Icon(
-                            Icons.notifications,
-                            color: Colors.white,
-                          ),
+      body: CustomRefreshIndicator(
+        onRefresh: () {
+          setState(() {
+            Provider.of<CryptoMarketDataProvider>(context, listen: false)
+                .listModel
+                .clear();
+
+            Provider.of<CryptoMarketDataProvider>(context, listen: false)
+                .cryptoMarketDataByPagination(1);
+
+            Provider.of<CryptoMarketDataProvider>(context, listen: false)
+                .getTrendingCoins();
+
+            Provider.of<NewsProvider>(context, listen: false)
+                .newsCompleteList
+                .clear();
+            Provider.of<NewsProvider>(context, listen: false).getNewsFeed(1);
+
+            Provider.of<CryptoExplainerProvider>(context, listen: false)
+                .getcryptoExplainerByType("Bitcoin");
+          });
+          return Future.delayed(const Duration(seconds: 2));
+        },
+        builder: (
+          BuildContext context,
+          Widget child,
+          IndicatorController controller,
+        ) {
+          return AnimatedBuilder(
+            animation: controller,
+            builder: (BuildContext context, _) {
+              return Stack(
+                alignment: Alignment.topCenter,
+                children: <Widget>[
+                  if (!controller.isIdle)
+                    Positioned(
+                      top: 20.0 * controller.value,
+                      child: SizedBox(
+                        height: 80,
+                        width: width,
+                        child: CachedNetworkImage(
+                          imageUrl:
+                              'https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/57735-crypto-coins.gif?alt=media&token=a696da3c-4285-4479-aade-1d65ee4ec2ad',
+                          height: 35,
+                          width: 40,
+                          fit: BoxFit.cover,
                         ),
-                      )
-                    ],
-                    title: Container(
-                      margin: const EdgeInsets.only(top: 20),
-                      child: Row(
-                        children: [
-                          CachedNetworkImage(
-                            imageUrl:
-                                "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/logo.png?alt=media&token=993eeaba-2bd5-4e5d-b44f-10664965b330",
-                            fit: BoxFit.cover,
-                            width: 50,
-                            height: 50,
-                          ),
-                          AutoSizeText(
-                            'CryptoX',
-                            style: GoogleFonts.poppins(
-                              color: Colors.white,
-                              fontSize: 23,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
                       ),
                     ),
-                    automaticallyImplyLeading: false,
+                  Transform.translate(
+                    offset: Offset(0, 70.0 * controller.value),
+                    child: child,
                   ),
-                  SliverList(
-                    delegate: SliverChildListDelegate(
-                      [
+                ],
+              );
+            },
+          );
+        },
+        child: SafeArea(
+          child: SizedBox(
+            height: height * 0.92,
+            child: CustomScrollView(
+              slivers: [
+                SliverAppBar(
+                  elevation: 0,
+                  backgroundColor: const Color(0xFF010101),
+                  actions: <Widget>[
+                    Container(
+                      margin: const EdgeInsets.only(right: 20, top: 20),
+                      child: InkWell(
+                        onTap: () {
+                          Get.to(() => NotificationScreen());
+                        },
+                        child: const Icon(
+                          Icons.notifications,
+                          color: Colors.white,
+                        ),
+                      ),
+                    )
+                  ],
+                  title: Container(
+                    margin: const EdgeInsets.only(top: 20),
+                    child: Row(
+                      children: [
+                        CachedNetworkImage(
+                          imageUrl:
+                              "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/logo.png?alt=media&token=993eeaba-2bd5-4e5d-b44f-10664965b330",
+                          fit: BoxFit.cover,
+                          width: 50,
+                          height: 50,
+                        ),
+                        AutoSizeText(
+                          'CryptoX',
+                          style: GoogleFonts.poppins(
+                            color: Colors.white,
+                            fontSize: 23,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  automaticallyImplyLeading: false,
+                ),
+                SliverToBoxAdapter(
+                  child: Container(
+                    margin: const EdgeInsets.only(
+                      left: 10,
+                      right: 10,
+                    ),
+                    height: 75,
+                    child: SizedBox(
+                      height: 70,
+                      child: ListView.builder(
+                        itemCount: imageUrlList.length,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (ctx, index) => Container(
+                          margin: EdgeInsets.only(
+                            left: 1.5.w,
+                            right: 1.5.w,
+                          ),
+                          child: SlideTransition(
+                            position: _storiesAnimation,
+                            child: Center(
+                              child: RotationTransition(
+                                turns: base,
+                                child: DashedCircle(
+                                  gapSize: gap.value,
+                                  dashes: 40,
+                                  color: const Color(0xFF4E8799),
+                                  child: RotationTransition(
+                                    turns: reverse,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(3.0),
+                                      child: CircleAvatar(
+                                        radius: 23,
+                                        backgroundImage: NetworkImage(
+                                          imageUrlList[index],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: Container(
+                    margin: const EdgeInsets.only(top: 5),
+                    height: 160,
+                    child: Column(
+                      children: <Widget>[
                         Container(
                           margin: const EdgeInsets.only(
+                            bottom: 15,
                             left: 10,
                             right: 10,
                           ),
-                          height: 75,
-                          child:
-                              //  Column(
-                              //   children: <Widget>[
-                              // RichText(
-                              //   text: TextSpan(
-                              //     text: 'Hi, ',
-                              //     style: GoogleFonts.poppins(
-                              //       color: Colors.white,
-                              //       fontSize: 20,
-                              //       fontWeight: FontWeight.w500,
-                              //     ),
-                              //     children: [
-                              //       TextSpan(
-                              //         text: user!.displayName,
-                              //         style: GoogleFonts.poppins(
-                              //           color: const Color(0xFF52CAF5),
-                              //           fontSize: 20,
-                              //           fontWeight: FontWeight.w500,
-                              //         ),
-                              //       )
-                              //     ],
-                              //   ),
-                              // ),
-                              SizedBox(
-                            height: 70,
-                            child: ListView.builder(
-                              itemCount: imageUrlList.length,
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: (ctx, index) => Container(
-                                margin: EdgeInsets.only(
-                                  left: 1.5.w,
-                                  right: 1.5.w,
-                                ),
-                                child: SlideTransition(
-                                  position: _storiesAnimation,
-                                  child: Center(
-                                    child: RotationTransition(
-                                      turns: base,
-                                      child: DashedCircle(
-                                        gapSize: gap.value,
-                                        dashes: 40,
-                                        color: const Color(0xFF4E8799),
-                                        child: RotationTransition(
-                                          turns: reverse,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(3.0),
-                                            child: CircleAvatar(
-                                              radius: 23,
-                                              backgroundImage: NetworkImage(
-                                                imageUrlList[index],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          //   ],
-                          // ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(top: 5),
-                          height: 160,
-                          child: Column(
-                            children: <Widget>[
-                              Container(
-                                margin: const EdgeInsets.only(
-                                  bottom: 15,
-                                  left: 10,
-                                  right: 10,
-                                ),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: <Widget>[
-                                    Container(
-                                      padding: const EdgeInsets.all(8),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(25),
-                                        color: const Color(0xFF292f33),
-                                        // border: Border.all(
-                                        //   color: Colors.white10.withAlpha(40),
-                                        // ),
-                                        // boxShadow: [
-                                        //   BoxShadow(
-                                        //     color: Colors.white.withAlpha(100),
-                                        //     blurRadius: 7.0,
-                                        //     spreadRadius: 1.0,
-                                        //   ),
-                                        // ],
-                                      ),
-                                      margin: const EdgeInsets.only(
-                                        left: 5,
-                                        right: 5,
-                                      ),
-                                      height: 60,
-                                      width: 160,
-                                      child: Center(
-                                        // child: Row(
-                                        //   children: [
-                                        // CachedNetworkImage(
-                                        //   imageUrl:
-                                        //       "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/portfolio.png?alt=media&token=0e6f0637-7ce9-4b3a-83ce-8354c7710326",
-                                        //   fit: BoxFit.cover,
-                                        // ),
-                                        child: AutoSizeText(
-                                          "Portfolio",
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                        // ],
-                                        //),
-                                      ),
-                                    ),
-                                    InkWell(
-                                      onTap: () {
-                                        Get.to(() => ConversionToolScreen());
-                                      },
-                                      child: Container(
-                                        padding: const EdgeInsets.all(8),
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(25),
-                                          color: const Color(0xFF292f33),
-                                          // border: Border.all(
-                                          //   color: Colors.white10.withAlpha(40),
-                                          // ),
-                                          // boxShadow: [
-                                          //   BoxShadow(
-                                          //     color: Colors.white.withAlpha(100),
-                                          //     blurRadius: 7.0,
-                                          //     spreadRadius: 1.0,
-                                          //   ),
-                                          // ],
-                                        ),
-                                        margin: const EdgeInsets.only(
-                                          left: 5,
-                                          right: 5,
-                                        ),
-                                        height: 60,
-                                        width: 160,
-                                        child: Center(
-                                          child: AutoSizeText(
-                                            "Conversion",
-                                            style: GoogleFonts.poppins(
-                                              fontSize: 17,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                margin: const EdgeInsets.only(
-                                  bottom: 15,
-                                  left: 10,
-                                  right: 10,
-                                ),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: <Widget>[
-                                    Container(
-                                      padding: const EdgeInsets.all(8),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(25),
-                                        color: const Color(0xFF292f33),
-                                        // border: Border.all(
-                                        //   color: Colors.white10.withAlpha(40),
-                                        // ),
-                                        // boxShadow: [
-                                        //   BoxShadow(
-                                        //     color: Colors.white.withAlpha(100),
-                                        //     blurRadius: 7.0,
-                                        //     spreadRadius: 1.0,
-                                        //   ),
-                                        // ],
-                                      ),
-                                      margin: const EdgeInsets.only(
-                                        left: 5,
-                                        right: 5,
-                                      ),
-                                      height: 60,
-                                      width: 160,
-                                      child: Center(
-                                        child: AutoSizeText(
-                                          "Price Alert",
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    InkWell(
-                                      onTap: () {
-                                        Get.to(() => WatchListScreen());
-                                      },
-                                      child: Container(
-                                        padding: const EdgeInsets.all(8),
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(25),
-                                          color: const Color(0xFF292f33),
-                                          // border: Border.all(
-                                          //   color: Colors.white10.withAlpha(0),
-                                          // ),
-                                          // boxShadow: [
-                                          //   BoxShadow(
-                                          //     color:
-                                          //         Colors.white.withAlpha(100),
-                                          //     blurRadius: 7.0,
-                                          //     spreadRadius: 1.0,
-                                          //   ),
-                                          // ],
-                                        ),
-                                        margin: const EdgeInsets.only(
-                                          left: 5,
-                                          right: 5,
-                                        ),
-                                        height: 60,
-                                        width: 160,
-                                        child: Center(
-                                          child: AutoSizeText(
-                                            "Watch List",
-                                            style: GoogleFonts.poppins(
-                                              fontSize: 17,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              margin: const EdgeInsets.only(
-                                left: 32,
-                              ),
-                              child: AutoSizeText(
-                                "Coins",
-                                style: GoogleFonts.rubik(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ),
-                            InkWell(
-                              onTap: () {
-                                widget.tabController.index = 1;
-                              },
-                              child: Container(
-                                margin: const EdgeInsets.only(right: 32),
-                                child: AutoSizeText(
-                                  "See All",
-                                  style: GoogleFonts.rubik(
-                                    color: const Color(0xFF52CAF5),
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Consumer<CryptoMarketDataProvider>(
-                          builder: (ctx, model, _) => model.listModel.isEmpty
-                              ? const Center(
-                                  child: CircularProgressIndicator(),
-                                )
-                              : Container(
-                                  margin: const EdgeInsets.only(
-                                    top: 15,
-                                    left: 5,
-                                    right: 5,
-                                  ),
-                                  height: height * 0.15,
-                                  child: ListView.builder(
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: 10,
-                                    itemBuilder: (ctx, index) {
-                                      return InkWell(
-                                        onTap: () {
-                                          Get.to(
-                                            () => MarketDataScreen(
-                                              model.listModel[index],
-                                            ),
-                                          );
-                                        },
-                                        child: Container(
-                                          padding: const EdgeInsets.all(8),
-                                          margin: const EdgeInsets.only(
-                                            left: 20,
-                                            right: 5,
-                                          ),
-                                          height: height * 0.15,
-                                          width: width * 0.42,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(25),
-                                            color: const Color(0xFF292f33),
-                                          ),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Container(
-                                                margin: const EdgeInsets.only(
-                                                  bottom: 10,
-                                                  top: 10,
-                                                ),
-                                                width: width,
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    CircleAvatar(
-                                                      radius: 15,
-                                                      backgroundColor:
-                                                          Colors.transparent,
-                                                      backgroundImage:
-                                                          CachedNetworkImageProvider(
-                                                        model.listModel[index]
-                                                            .image,
-                                                      ),
-                                                    ),
-                                                    Expanded(
-                                                      child: Container(
-                                                        margin: EdgeInsets.only(
-                                                          left: width * 0.06,
-                                                        ),
-                                                        child: Row(
-                                                          children: [
-                                                            Container(
-                                                              margin:
-                                                                  const EdgeInsets
-                                                                      .only(
-                                                                left: 3,
-                                                              ),
-                                                              child:
-                                                                  CachedNetworkImage(
-                                                                imageUrl: model
-                                                                            .listModel[index]
-                                                                            .priceChangePercentage24h >=
-                                                                        0
-                                                                    ? "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/up_arrow.png?alt=media&token=03660f10-1eab-46ce-bcdd-a72e4380d012"
-                                                                    : "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/down_arrow.png?alt=media&token=dcfbaf91-b5d1-42ca-bee4-e785a7c58e8c",
-                                                                fit: BoxFit
-                                                                    .cover,
-                                                                height: 10,
-                                                                width: 10,
-                                                              ),
-                                                            ),
-                                                            SizedBox(
-                                                              width:
-                                                                  width * 0.01,
-                                                            ),
-                                                            AutoSizeText(
-                                                              model.listModel[index]
-                                                                          .priceChangePercentage24h >=
-                                                                      0
-                                                                  ? "+${model.listModel[index].priceChangePercentage24h.toStringAsFixed(2)}%"
-                                                                  : "${model.listModel[index].priceChangePercentage24h.toStringAsFixed(2)}%",
-                                                              style: GoogleFonts
-                                                                  .rubik(
-                                                                color: model.listModel[index]
-                                                                            .priceChangePercentage24h >
-                                                                        0
-                                                                    ? const Color(
-                                                                        0xFF00a55b,
-                                                                      )
-                                                                    : const Color(
-                                                                        0xFFd82e35,
-                                                                      ),
-                                                                fontSize: 17,
-                                                              ),
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .center,
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                              Container(
-                                                margin: EdgeInsets.only(
-                                                  bottom: height * 0.01,
-                                                ),
-                                                child: AutoSizeText(
-                                                  model.listModel[index].name,
-                                                  style: GoogleFonts.rubik(
-                                                    color: Colors.white,
-                                                    fontSize: 17,
-                                                    fontWeight: FontWeight.w400,
-                                                  ),
-                                                ),
-                                              ),
-                                              Expanded(
-                                                child: AutoSizeText(
-                                                  "\u{20B9} ${model.listModel[index].price.toString().startsWith("0.") ? model.listModel[index].price.toString() : _helper.removeDecimal(model.listModel[index].price.toString()).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}",
-                                                  maxLines: 1,
-                                                  style: GoogleFonts.nunito(
-                                                    color: Colors.white,
-                                                    fontSize: 17,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(top: 20, bottom: 10),
-                          child: Container(
-                            margin: const EdgeInsets.only(left: 32),
-                            child: AutoSizeText(
-                              "Top Trending",
-                              style: GoogleFonts.rubik(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Consumer<CryptoMarketDataProvider>(
-                          builder: (ctx, model, _) => model
-                                  .trendingCoins.isEmpty
-                              ? const Center(
-                                  child: CircularProgressIndicator(),
-                                )
-                              : Container(
-                                  margin: const EdgeInsets.only(
-                                    top: 15,
-                                    left: 5,
-                                    right: 5,
-                                  ),
-                                  height: height * 0.15,
-                                  child: ListView.builder(
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: 7,
-                                    itemBuilder: (ctx, index) {
-                                      return InkWell(
-                                        onTap: () {
-                                          Get.to(
-                                            () => MarketDataScreen(
-                                              model.trendingCoins[index],
-                                            ),
-                                          );
-                                        },
-                                        child: Container(
-                                          padding: const EdgeInsets.all(8),
-                                          margin: const EdgeInsets.only(
-                                            left: 20,
-                                            right: 5,
-                                          ),
-                                          height: height * 0.15,
-                                          width: width * 0.42,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(25),
-                                            color: const Color(0xFF292f33),
-                                          ),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Container(
-                                                margin: const EdgeInsets.only(
-                                                  bottom: 10,
-                                                  top: 10,
-                                                ),
-                                                width: width,
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    CircleAvatar(
-                                                      radius: 15,
-                                                      backgroundColor:
-                                                          Colors.transparent,
-                                                      backgroundImage:
-                                                          CachedNetworkImageProvider(
-                                                        model
-                                                            .trendingCoins[
-                                                                index]
-                                                            .image,
-                                                      ),
-                                                    ),
-                                                    Expanded(
-                                                      child: Container(
-                                                        margin: EdgeInsets.only(
-                                                          left: width * 0.06,
-                                                        ),
-                                                        child: Row(
-                                                          children: [
-                                                            Container(
-                                                              margin:
-                                                                  const EdgeInsets
-                                                                      .only(
-                                                                left: 3,
-                                                              ),
-                                                              child:
-                                                                  CachedNetworkImage(
-                                                                imageUrl: model
-                                                                            .trendingCoins[index]
-                                                                            .priceChangePercentage24h >=
-                                                                        0
-                                                                    ? "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/up_arrow.png?alt=media&token=03660f10-1eab-46ce-bcdd-a72e4380d012"
-                                                                    : "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/down_arrow.png?alt=media&token=dcfbaf91-b5d1-42ca-bee4-e785a7c58e8c",
-                                                                fit: BoxFit
-                                                                    .cover,
-                                                                height: 10,
-                                                                width: 10,
-                                                              ),
-                                                            ),
-                                                            SizedBox(
-                                                              width:
-                                                                  width * 0.01,
-                                                            ),
-                                                            AutoSizeText(
-                                                              model.trendingCoins[index]
-                                                                          .priceChangePercentage24h >=
-                                                                      0
-                                                                  ? "+${model.trendingCoins[index].priceChangePercentage24h.toStringAsFixed(2)}%"
-                                                                  : "${model.trendingCoins[index].priceChangePercentage24h.toStringAsFixed(2)}%",
-                                                              maxLines: 1,
-                                                              minFontSize: 14,
-                                                              style: GoogleFonts
-                                                                  .rubik(
-                                                                color: model.trendingCoins[index]
-                                                                            .priceChangePercentage24h >
-                                                                        0
-                                                                    ? const Color(
-                                                                        0xFF00a55b,
-                                                                      )
-                                                                    : const Color(
-                                                                        0xFFd82e35,
-                                                                      ),
-                                                                fontSize: 17,
-                                                              ),
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .center,
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                              Container(
-                                                margin: EdgeInsets.only(
-                                                  bottom: height * 0.01,
-                                                ),
-                                                child: AutoSizeText(
-                                                  model.trendingCoins[index]
-                                                      .name,
-                                                  maxLines: 2,
-                                                  style: GoogleFonts.rubik(
-                                                    color: Colors.white,
-                                                    fontSize: 17,
-                                                    fontWeight: FontWeight.w400,
-                                                  ),
-                                                ),
-                                              ),
-                                              Expanded(
-                                                child: AutoSizeText(
-                                                  "\u{20B9} ${model.trendingCoins[index].price.toString().startsWith("0.") ? model.trendingCoins[index].price.toString() : _helper.removeDecimal(model.trendingCoins[index].price.toString()).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}",
-                                                  maxLines: 1,
-                                                  style: GoogleFonts.nunito(
-                                                    color: Colors.white,
-                                                    fontSize: 17,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(top: 20, bottom: 10),
-                          child: Container(
-                            margin: const EdgeInsets.only(left: 32),
-                            child: AutoSizeText(
-                              "Crypto Explainer",
-                              style: GoogleFonts.rubik(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(top: 15),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: <Widget>[
-                              InkWell(
-                                borderRadius: BorderRadius.circular(25),
-                                onTap: () {
-                                  setState(() {
-                                    _selectedIndex = 0;
-                                  });
-                                },
-                                child: Container(
-                                  width: 100,
-                                  height: 45,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(25),
-                                    color: _selectedIndex == 0
-                                        ? const Color(0xFF52CAF5)
-                                        : const Color(0xFF010101),
-                                  ),
-                                  child: Center(
-                                    child: AutoSizeText(
-                                      'Beginner',
-                                      maxLines: 1,
-                                      style: GoogleFonts.rubik(
-                                        fontWeight: FontWeight.w600,
-                                        color: _selectedIndex == 0
-                                            ? Colors.black
-                                            : Colors.white,
-                                      ),
+                              Container(
+                                padding: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(25),
+                                  color: const Color(0xFF292f33),
+                                ),
+                                margin: const EdgeInsets.only(
+                                  left: 5,
+                                  right: 5,
+                                ),
+                                height: 60,
+                                width: 160,
+                                child: Center(
+                                  child: AutoSizeText(
+                                    "Portfolio",
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.white,
                                     ),
                                   ),
                                 ),
                               ),
                               InkWell(
-                                borderRadius: BorderRadius.circular(25),
                                 onTap: () {
-                                  setState(() {
-                                    _selectedIndex = 1;
-                                  });
+                                  Get.to(() => ConversionToolScreen());
                                 },
                                 child: Container(
-                                  width: 100,
-                                  height: 45,
+                                  padding: const EdgeInsets.all(8),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(25),
-                                    color: _selectedIndex == 1
-                                        ? const Color(0xFF52CAF5)
-                                        : const Color(0xFF010101),
+                                    color: const Color(0xFF292f33),
                                   ),
+                                  margin: const EdgeInsets.only(
+                                    left: 5,
+                                    right: 5,
+                                  ),
+                                  height: 60,
+                                  width: 160,
                                   child: Center(
                                     child: AutoSizeText(
-                                      'Intermediate',
-                                      maxLines: 1,
-                                      style: GoogleFonts.rubik(
-                                        fontWeight: FontWeight.w600,
-                                        color: _selectedIndex == 1
-                                            ? Colors.black
-                                            : Colors.white,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              InkWell(
-                                borderRadius: BorderRadius.circular(25),
-                                onTap: () {
-                                  setState(() {
-                                    _selectedIndex = 2;
-                                  });
-                                },
-                                child: Container(
-                                  width: 100,
-                                  height: 45,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(25),
-                                    color: _selectedIndex == 2
-                                        ? const Color(0xFF52CAF5)
-                                        : const Color(0xFF010101),
-                                  ),
-                                  child: Center(
-                                    child: AutoSizeText(
-                                      'Expert',
-                                      maxLines: 1,
-                                      style: GoogleFonts.rubik(
-                                        fontWeight: FontWeight.w600,
-                                        color: _selectedIndex == 2
-                                            ? Colors.black
-                                            : Colors.white,
+                                      "Conversion",
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.white,
                                       ),
                                     ),
                                   ),
@@ -904,164 +337,557 @@ class _HomeScreenState extends State<HomeScreen>
                             ],
                           ),
                         ),
-                        Consumer<CryptoExplainerProvider>(
-                          builder: (ctx, data, _) {
-                            return data.listModel.isEmpty
-                                ? const Center(
-                                    child: CircularProgressIndicator(),
-                                  )
-                                : InkWell(
-                                    onTap: () {
-                                      Get.to(
-                                        () => CryptoExplainerScreen(
-                                          _selectedIndex == 0
-                                              ? data.listModel[0]
-                                              : _selectedIndex == 1
-                                                  ? data.listModel[1]
-                                                  : data.listModel[2],
-                                        ),
-                                      );
-                                    },
-                                    child: Container(
-                                      margin: const EdgeInsets.only(
-                                        left: 23,
-                                        top: 15,
-                                        right: 23,
-                                      ),
-                                      width: 347,
-                                      height: 270,
-                                      child: Card(
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(
-                                            25,
-                                          ),
-                                        ),
-                                        elevation: 0,
-                                        color: const Color(0xFF121212),
-                                        child: Column(
-                                          children: [
-                                            ClipRRect(
-                                              borderRadius:
-                                                  const BorderRadius.only(
-                                                topLeft: Radius.circular(25),
-                                                topRight: Radius.circular(25),
-                                              ),
-                                              child: CachedNetworkImage(
-                                                fit: BoxFit.cover,
-                                                imageUrl: _selectedIndex == 0
-                                                    ? data.listModel[0].imgUrl
-                                                    : _selectedIndex == 1
-                                                        ? data
-                                                            .listModel[1].imgUrl
-                                                        : data.listModel[2]
-                                                            .imgUrl,
-                                                errorWidget:
-                                                    (context, url, error) =>
-                                                        Image.asset(
-                                                  "lib/assets/logo.png",
-                                                  fit: BoxFit.cover,
-                                                ),
-                                                height: 150,
-                                                width: 500,
-                                              ),
-                                            ),
-                                            ListTile(
-                                              title: Container(
-                                                margin: const EdgeInsets.only(
-                                                  bottom: 7,
-                                                  top: 7,
-                                                ),
-                                                child: AutoSizeText(
-                                                  _selectedIndex == 0
-                                                      ? data.listModel[0].title
-                                                      : _selectedIndex == 1
-                                                          ? data.listModel[1]
-                                                              .title
-                                                          : data.listModel[2]
-                                                              .title,
-                                                  maxLines: 2,
-                                                  style: GoogleFonts.rubik(
-                                                    color: Colors.white,
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                                ),
-                                              ),
-                                              subtitle: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Container(
-                                                    margin:
-                                                        const EdgeInsets.only(
-                                                      bottom: 7,
-                                                    ),
-                                                    child: AutoSizeText(
-                                                      _selectedIndex == 0
-                                                          ? data.listModel[0]
-                                                              .description
-                                                          : _selectedIndex == 1
-                                                              ? data
-                                                                  .listModel[1]
-                                                                  .description
-                                                              : data
-                                                                  .listModel[2]
-                                                                  .description,
-                                                      maxLines: 2,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      softWrap: false,
-                                                      style:
-                                                          GoogleFonts.poppins(
-                                                        color: Colors.white70,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: 15,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  AutoSizeText(
-                                                    "By ${_selectedIndex == 0 ? data.listModel[0].author : _selectedIndex == 1 ? data.listModel[1].author : data.listModel[2].author}",
-                                                    maxLines: 1,
-                                                    style: GoogleFonts.poppins(
-                                                      color: Colors.white70,
-                                                      fontSize: 15,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+                        Container(
+                          margin: const EdgeInsets.only(
+                            bottom: 15,
+                            left: 10,
+                            right: 10,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: <Widget>[
+                              Container(
+                                padding: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(25),
+                                  color: const Color(0xFF292f33),
+                                ),
+                                margin: const EdgeInsets.only(
+                                  left: 5,
+                                  right: 5,
+                                ),
+                                height: 60,
+                                width: 160,
+                                child: Center(
+                                  child: AutoSizeText(
+                                    "Price Alert",
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  Get.to(() => WatchListScreen());
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(25),
+                                    color: const Color(0xFF292f33),
+                                  ),
+                                  margin: const EdgeInsets.only(
+                                    left: 5,
+                                    right: 5,
+                                  ),
+                                  height: 60,
+                                  width: 160,
+                                  child: Center(
+                                    child: AutoSizeText(
+                                      "Watch List",
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.white,
                                       ),
                                     ),
-                                  );
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(
+                          left: 32,
+                        ),
+                        child: AutoSizeText(
+                          "Coins",
+                          style: GoogleFonts.rubik(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          widget.tabController.index = 1;
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.only(right: 32),
+                          child: AutoSizeText(
+                            "See All",
+                            style: GoogleFonts.rubik(
+                              color: const Color(0xFF52CAF5),
+                              fontSize: 17,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: Consumer<CryptoMarketDataProvider>(
+                    builder: (ctx, model, _) => model.listModel.isEmpty
+                        ? const Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : Container(
+                            margin: const EdgeInsets.only(
+                              top: 15,
+                              left: 5,
+                              right: 5,
+                            ),
+                            height: height * 0.15,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: 10,
+                              itemBuilder: (ctx, index) {
+                                return InkWell(
+                                  onTap: () {
+                                    Get.to(
+                                      () => MarketDataScreen(
+                                        model.listModel[index],
+                                      ),
+                                    );
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.all(8),
+                                    margin: const EdgeInsets.only(
+                                      left: 20,
+                                      right: 5,
+                                    ),
+                                    height: height * 0.15,
+                                    width: width * 0.42,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(25),
+                                      color: const Color(0xFF292f33),
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          margin: const EdgeInsets.only(
+                                            bottom: 10,
+                                            top: 10,
+                                          ),
+                                          width: width,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              CircleAvatar(
+                                                radius: 15,
+                                                backgroundColor:
+                                                    Colors.transparent,
+                                                backgroundImage:
+                                                    CachedNetworkImageProvider(
+                                                  model.listModel[index].image,
+                                                ),
+                                              ),
+                                              Expanded(
+                                                child: Container(
+                                                  margin: EdgeInsets.only(
+                                                    left: width * 0.06,
+                                                  ),
+                                                  child: Row(
+                                                    children: [
+                                                      Container(
+                                                        margin: const EdgeInsets
+                                                            .only(
+                                                          left: 3,
+                                                        ),
+                                                        child:
+                                                            CachedNetworkImage(
+                                                          imageUrl: model
+                                                                      .listModel[
+                                                                          index]
+                                                                      .priceChangePercentage24h >=
+                                                                  0
+                                                              ? "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/up_arrow.png?alt=media&token=03660f10-1eab-46ce-bcdd-a72e4380d012"
+                                                              : "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/down_arrow.png?alt=media&token=dcfbaf91-b5d1-42ca-bee4-e785a7c58e8c",
+                                                          fit: BoxFit.cover,
+                                                          height: 10,
+                                                          width: 10,
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        width: width * 0.01,
+                                                      ),
+                                                      AutoSizeText(
+                                                        model.listModel[index]
+                                                                    .priceChangePercentage24h >=
+                                                                0
+                                                            ? "+${model.listModel[index].priceChangePercentage24h.toStringAsFixed(2)}%"
+                                                            : "${model.listModel[index].priceChangePercentage24h.toStringAsFixed(2)}%",
+                                                        style:
+                                                            GoogleFonts.rubik(
+                                                          color: model
+                                                                      .listModel[
+                                                                          index]
+                                                                      .priceChangePercentage24h >
+                                                                  0
+                                                              ? const Color(
+                                                                  0xFF00a55b,
+                                                                )
+                                                              : const Color(
+                                                                  0xFFd82e35,
+                                                                ),
+                                                          fontSize: 17,
+                                                        ),
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.only(
+                                            bottom: height * 0.01,
+                                          ),
+                                          child: AutoSizeText(
+                                            model.listModel[index].name,
+                                            style: GoogleFonts.rubik(
+                                              color: Colors.white,
+                                              fontSize: 17,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: AutoSizeText(
+                                            "\u{20B9} ${model.listModel[index].price.toString().startsWith("0.") ? model.listModel[index].price.toString() : _helper.removeDecimal(model.listModel[index].price.toString()).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}",
+                                            maxLines: 1,
+                                            style: GoogleFonts.nunito(
+                                              color: Colors.white,
+                                              fontSize: 17,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: Container(
+                    margin: const EdgeInsets.only(top: 20, bottom: 10),
+                    child: Container(
+                      margin: const EdgeInsets.only(left: 32),
+                      child: AutoSizeText(
+                        "Top Trending",
+                        style: GoogleFonts.rubik(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: Consumer<CryptoMarketDataProvider>(
+                    builder: (ctx, model, _) => model.trendingCoins.isEmpty
+                        ? const Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : Container(
+                            margin: const EdgeInsets.only(
+                              top: 15,
+                              left: 5,
+                              right: 5,
+                            ),
+                            height: height * 0.15,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: 7,
+                              itemBuilder: (ctx, index) {
+                                return InkWell(
+                                  onTap: () {
+                                    Get.to(
+                                      () => MarketDataScreen(
+                                        model.trendingCoins[index],
+                                      ),
+                                    );
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.all(8),
+                                    margin: const EdgeInsets.only(
+                                      left: 20,
+                                      right: 5,
+                                    ),
+                                    height: height * 0.15,
+                                    width: width * 0.42,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(25),
+                                      color: const Color(0xFF292f33),
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          margin: const EdgeInsets.only(
+                                            bottom: 10,
+                                            top: 10,
+                                          ),
+                                          width: width,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              CircleAvatar(
+                                                radius: 15,
+                                                backgroundColor:
+                                                    Colors.transparent,
+                                                backgroundImage:
+                                                    CachedNetworkImageProvider(
+                                                  model.trendingCoins[index]
+                                                      .image,
+                                                ),
+                                              ),
+                                              Expanded(
+                                                child: Container(
+                                                  margin: EdgeInsets.only(
+                                                    left: width * 0.06,
+                                                  ),
+                                                  child: Row(
+                                                    children: [
+                                                      Container(
+                                                        margin: const EdgeInsets
+                                                            .only(
+                                                          left: 3,
+                                                        ),
+                                                        child:
+                                                            CachedNetworkImage(
+                                                          imageUrl: model
+                                                                      .trendingCoins[
+                                                                          index]
+                                                                      .priceChangePercentage24h >=
+                                                                  0
+                                                              ? "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/up_arrow.png?alt=media&token=03660f10-1eab-46ce-bcdd-a72e4380d012"
+                                                              : "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/down_arrow.png?alt=media&token=dcfbaf91-b5d1-42ca-bee4-e785a7c58e8c",
+                                                          fit: BoxFit.cover,
+                                                          height: 10,
+                                                          width: 10,
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        width: width * 0.01,
+                                                      ),
+                                                      AutoSizeText(
+                                                        model.trendingCoins[index]
+                                                                    .priceChangePercentage24h >=
+                                                                0
+                                                            ? "+${model.trendingCoins[index].priceChangePercentage24h.toStringAsFixed(2)}%"
+                                                            : "${model.trendingCoins[index].priceChangePercentage24h.toStringAsFixed(2)}%",
+                                                        maxLines: 1,
+                                                        minFontSize: 14,
+                                                        style:
+                                                            GoogleFonts.rubik(
+                                                          color: model
+                                                                      .trendingCoins[
+                                                                          index]
+                                                                      .priceChangePercentage24h >
+                                                                  0
+                                                              ? const Color(
+                                                                  0xFF00a55b,
+                                                                )
+                                                              : const Color(
+                                                                  0xFFd82e35,
+                                                                ),
+                                                          fontSize: 17,
+                                                        ),
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.only(
+                                            bottom: height * 0.01,
+                                          ),
+                                          child: AutoSizeText(
+                                            model.trendingCoins[index].name,
+                                            maxLines: 2,
+                                            style: GoogleFonts.rubik(
+                                              color: Colors.white,
+                                              fontSize: 17,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: AutoSizeText(
+                                            "\u{20B9} ${model.trendingCoins[index].price.toString().startsWith("0.") ? model.trendingCoins[index].price.toString() : _helper.removeDecimal(model.trendingCoins[index].price.toString()).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}",
+                                            maxLines: 1,
+                                            style: GoogleFonts.nunito(
+                                              color: Colors.white,
+                                              fontSize: 17,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: Container(
+                    margin: EdgeInsets.only(
+                      top: height * 0.04,
+                    ),
+                    child: Divider(
+                      indent: width * 0.037,
+                      endIndent: width * 0.037,
+                      thickness: 1,
+                      height: 1,
+                      color: const Color(0xFF292f33),
+                    ),
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: Container(
+                    margin: const EdgeInsets.only(top: 20, bottom: 10),
+                    child: Container(
+                      margin: const EdgeInsets.only(left: 32),
+                      child: AutoSizeText(
+                        "Crypto Explainer",
+                        style: GoogleFonts.rubik(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: Container(
+                    margin: const EdgeInsets.only(top: 15),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        InkWell(
+                          borderRadius: BorderRadius.circular(25),
+                          onTap: () {
+                            setState(() {
+                              _selectedIndex = 0;
+                            });
                           },
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(
-                            top: height * 0.02,
-                          ),
-                          child: Divider(
-                            indent: width * 0.037,
-                            endIndent: width * 0.037,
-                            thickness: 1,
-                            height: 1,
-                            color: const Color(0xFF292f33),
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(top: 15),
                           child: Container(
-                            margin: const EdgeInsets.only(left: 32),
-                            child: AutoSizeText(
-                              "Top News",
-                              style: GoogleFonts.rubik(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
+                            width: 100,
+                            height: 45,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(25),
+                              color: _selectedIndex == 0
+                                  ? const Color(0xFF52CAF5)
+                                  : const Color(0xFF010101),
+                            ),
+                            child: Center(
+                              child: AutoSizeText(
+                                'Beginner',
+                                maxLines: 1,
+                                style: GoogleFonts.rubik(
+                                  fontWeight: FontWeight.w600,
+                                  color: _selectedIndex == 0
+                                      ? Colors.black
+                                      : Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        InkWell(
+                          borderRadius: BorderRadius.circular(25),
+                          onTap: () {
+                            setState(() {
+                              _selectedIndex = 1;
+                            });
+                          },
+                          child: Container(
+                            width: 100,
+                            height: 45,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(25),
+                              color: _selectedIndex == 1
+                                  ? const Color(0xFF52CAF5)
+                                  : const Color(0xFF010101),
+                            ),
+                            child: Center(
+                              child: AutoSizeText(
+                                'Intermediate',
+                                maxLines: 1,
+                                style: GoogleFonts.rubik(
+                                  fontWeight: FontWeight.w600,
+                                  color: _selectedIndex == 1
+                                      ? Colors.black
+                                      : Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        InkWell(
+                          borderRadius: BorderRadius.circular(25),
+                          onTap: () {
+                            setState(() {
+                              _selectedIndex = 2;
+                            });
+                          },
+                          child: Container(
+                            width: 100,
+                            height: 45,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(25),
+                              color: _selectedIndex == 2
+                                  ? const Color(0xFF52CAF5)
+                                  : const Color(0xFF010101),
+                            ),
+                            child: Center(
+                              child: AutoSizeText(
+                                'Expert',
+                                maxLines: 1,
+                                style: GoogleFonts.rubik(
+                                  fontWeight: FontWeight.w600,
+                                  color: _selectedIndex == 2
+                                      ? Colors.black
+                                      : Colors.white,
+                                ),
                               ),
                             ),
                           ),
@@ -1069,127 +895,265 @@ class _HomeScreenState extends State<HomeScreen>
                       ],
                     ),
                   ),
-                ];
-              },
-              body: Container(
-                margin: EdgeInsets.all(width * 0.04),
-                child: Consumer<NewsProvider>(
-                  builder: (ctx, model, _) => model.newsCompleteList.isEmpty
-                      ? const Center(
-                          child: CircularProgressIndicator(),
-                        )
-                      : ListView.builder(
-                          itemCount: 9,
-                          itemBuilder: (ctx, index) => index == 8
-                              ? GestureDetector(
-                                  onTap: () {
-                                    Get.to(() => SeeAllNewsScreen());
-                                  },
-                                  child: Center(
-                                    child: Text(
-                                      "See all",
-                                      style: GoogleFonts.poppins(
-                                        color: Colors.white,
-                                        fontSize: 15,
-                                      ),
+                ),
+                SliverToBoxAdapter(
+                  child: Consumer<CryptoExplainerProvider>(
+                    builder: (ctx, data, _) {
+                      return data.listModel.isEmpty
+                          ? const Center(
+                              child: CircularProgressIndicator(),
+                            )
+                          : InkWell(
+                              onTap: () {
+                                Get.to(
+                                  () => CryptoExplainerScreen(
+                                    _selectedIndex == 0
+                                        ? data.listModel[0]
+                                        : _selectedIndex == 1
+                                            ? data.listModel[1]
+                                            : data.listModel[2],
+                                  ),
+                                );
+                              },
+                              child: Container(
+                                margin: const EdgeInsets.only(
+                                  left: 23,
+                                  top: 15,
+                                  right: 23,
+                                ),
+                                width: 347,
+                                height: 270,
+                                child: Card(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(
+                                      25,
                                     ),
                                   ),
-                                )
-                              : InkWell(
-                                  onTap: () {
-                                    Get.to(
-                                      () => NewsSummaryScreen(
-                                        model.newsCompleteList[index],
+                                  elevation: 0,
+                                  color: const Color(0xFF121212),
+                                  child: Column(
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius: const BorderRadius.only(
+                                          topLeft: Radius.circular(25),
+                                          topRight: Radius.circular(25),
+                                        ),
+                                        child: CachedNetworkImage(
+                                          fit: BoxFit.cover,
+                                          imageUrl: _selectedIndex == 0
+                                              ? data.listModel[0].imgUrl
+                                              : _selectedIndex == 1
+                                                  ? data.listModel[1].imgUrl
+                                                  : data.listModel[2].imgUrl,
+                                          errorWidget: (context, url, error) =>
+                                              Image.asset(
+                                            "lib/assets/logo.png",
+                                            fit: BoxFit.cover,
+                                          ),
+                                          height: 150,
+                                          width: 500,
+                                        ),
                                       ),
-                                    );
-                                  },
-                                  child: Container(
-                                    margin: const EdgeInsets.only(bottom: 15),
-                                    child: Card(
-                                      elevation: 0,
-                                      color: const Color(0xFF010101),
-                                      child: Column(
-                                        children: [
-                                          ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(15.0),
-                                            child: CachedNetworkImage(
-                                              fit: BoxFit.cover,
-                                              imageUrl: _helper.extractImgUrl(
-                                                model.newsCompleteList[index]
-                                                    .photoUrl,
-                                              ),
-                                              errorWidget:
-                                                  (context, url, error) =>
-                                                      CachedNetworkImage(
-                                                imageUrl:
-                                                    "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/logo.png?alt=media&token=993eeaba-2bd5-4e5d-b44f-10664965b330",
-                                                fit: BoxFit.cover,
-                                              ),
-                                              height: height * 0.2,
-                                              width: width * 0.81,
+                                      ListTile(
+                                        title: Container(
+                                          margin: const EdgeInsets.only(
+                                            bottom: 7,
+                                            top: 7,
+                                          ),
+                                          child: AutoSizeText(
+                                            _selectedIndex == 0
+                                                ? data.listModel[0].title
+                                                : _selectedIndex == 1
+                                                    ? data.listModel[1].title
+                                                    : data.listModel[2].title,
+                                            maxLines: 2,
+                                            style: GoogleFonts.rubik(
+                                              color: Colors.white,
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w600,
                                             ),
                                           ),
-                                          ListTile(
-                                            title: Container(
+                                        ),
+                                        subtitle: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
                                               margin: const EdgeInsets.only(
                                                 bottom: 7,
-                                                top: 7,
                                               ),
                                               child: AutoSizeText(
-                                                model.newsCompleteList[index]
-                                                    .title,
+                                                _selectedIndex == 0
+                                                    ? data.listModel[0]
+                                                        .description
+                                                    : _selectedIndex == 1
+                                                        ? data.listModel[1]
+                                                            .description
+                                                        : data.listModel[2]
+                                                            .description,
                                                 maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
+                                                softWrap: false,
                                                 style: GoogleFonts.poppins(
-                                                  color: Colors.white,
+                                                  color: Colors.white70,
+                                                  fontWeight: FontWeight.w500,
                                                   fontSize: 15,
-                                                  fontWeight: FontWeight.w400,
                                                 ),
                                               ),
                                             ),
-                                            subtitle: Column(
-                                              children: [
-                                                Container(
-                                                  margin: EdgeInsets.only(
-                                                    bottom:
-                                                        getDescriptionLength(
-                                                      model
-                                                          .newsCompleteList[
-                                                              index]
-                                                          .description
-                                                          .length,
-                                                    ),
+                                            AutoSizeText(
+                                              "By ${_selectedIndex == 0 ? data.listModel[0].author : _selectedIndex == 1 ? data.listModel[1].author : data.listModel[2].author}",
+                                              maxLines: 1,
+                                              style: GoogleFonts.poppins(
+                                                color: Colors.white70,
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                    },
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: Container(
+                    margin: EdgeInsets.only(
+                      top: height * 0.02,
+                    ),
+                    child: Divider(
+                      indent: width * 0.037,
+                      endIndent: width * 0.037,
+                      thickness: 1,
+                      height: 1,
+                      color: const Color(0xFF292f33),
+                    ),
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: Container(
+                    margin: const EdgeInsets.only(top: 15),
+                    child: Container(
+                      margin: const EdgeInsets.only(left: 32),
+                      child: AutoSizeText(
+                        "Top News",
+                        style: GoogleFonts.rubik(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Consumer<NewsProvider>(
+                  builder: (ctx, model, _) => model.newsCompleteList.isEmpty
+                      ? const SliverFillRemaining(
+                          child: Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        )
+                      : SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                            (ctx, index) {
+                              return index == 8
+                                  ? GestureDetector(
+                                      onTap: () {
+                                        Get.to(() => SeeAllNewsScreen());
+                                      },
+                                      child: Center(
+                                        child: Text(
+                                          "See all",
+                                          style: GoogleFonts.poppins(
+                                            color: Colors.white,
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  : InkWell(
+                                      onTap: () {
+                                        Get.to(
+                                          () => NewsSummaryScreen(
+                                            model.newsCompleteList[index],
+                                          ),
+                                        );
+                                      },
+                                      child: Container(
+                                        margin: EdgeInsets.all(width * 0.04),
+                                        child: Card(
+                                          elevation: 0,
+                                          color: const Color(0xFF010101),
+                                          child: Column(
+                                            children: [
+                                              ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(15.0),
+                                                child: CachedNetworkImage(
+                                                  fit: BoxFit.cover,
+                                                  imageUrl:
+                                                      _helper.extractImgUrl(
+                                                    model
+                                                        .newsCompleteList[index]
+                                                        .photoUrl,
+                                                  ),
+                                                  errorWidget:
+                                                      (context, url, error) =>
+                                                          CachedNetworkImage(
+                                                    imageUrl:
+                                                        "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/logo.png?alt=media&token=993eeaba-2bd5-4e5d-b44f-10664965b330",
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                  height: height * 0.2,
+                                                  width: width * 0.81,
+                                                ),
+                                              ),
+                                              ListTile(
+                                                title: Container(
+                                                  margin: const EdgeInsets.only(
+                                                    bottom: 7,
+                                                    top: 7,
                                                   ),
                                                   child: AutoSizeText(
                                                     model
                                                         .newsCompleteList[index]
-                                                        .description,
+                                                        .title,
                                                     maxLines: 2,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    softWrap: false,
                                                     style: GoogleFonts.poppins(
-                                                      color: const Color(
-                                                        0xFF757575,
-                                                      ),
+                                                      color: Colors.white,
                                                       fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.w400,
                                                     ),
                                                   ),
                                                 ),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: <Widget>[
-                                                    Expanded(
-                                                      child: AutoSizeText(
-                                                        "${_helper.convertToAgo(
+                                                subtitle: Column(
+                                                  children: [
+                                                    Container(
+                                                      margin: EdgeInsets.only(
+                                                        bottom:
+                                                            getDescriptionLength(
                                                           model
                                                               .newsCompleteList[
                                                                   index]
-                                                              .publishedDate,
-                                                        )} \u2022",
-                                                        maxLines: 1,
+                                                              .description
+                                                              .length,
+                                                        ),
+                                                      ),
+                                                      child: AutoSizeText(
+                                                        model
+                                                            .newsCompleteList[
+                                                                index]
+                                                            .description,
+                                                        maxLines: 2,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        softWrap: false,
                                                         style:
                                                             GoogleFonts.poppins(
                                                           color: const Color(
@@ -1199,35 +1163,62 @@ class _HomeScreenState extends State<HomeScreen>
                                                         ),
                                                       ),
                                                     ),
-                                                    AutoSizeText(
-                                                      model
-                                                          .newsCompleteList[
-                                                              index]
-                                                          .source,
-                                                      maxLines: 1,
-                                                      style:
-                                                          GoogleFonts.poppins(
-                                                        color: const Color(
-                                                          0xFF757575,
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: <Widget>[
+                                                        Expanded(
+                                                          child: AutoSizeText(
+                                                            "${_helper.convertToAgo(
+                                                              model
+                                                                  .newsCompleteList[
+                                                                      index]
+                                                                  .publishedDate,
+                                                            )} \u2022",
+                                                            maxLines: 1,
+                                                            style: GoogleFonts
+                                                                .poppins(
+                                                              color:
+                                                                  const Color(
+                                                                0xFF757575,
+                                                              ),
+                                                              fontSize: 15,
+                                                            ),
+                                                          ),
                                                         ),
-                                                        fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                      ),
-                                                    ),
+                                                        AutoSizeText(
+                                                          model
+                                                              .newsCompleteList[
+                                                                  index]
+                                                              .source,
+                                                          maxLines: 1,
+                                                          style: GoogleFonts
+                                                              .poppins(
+                                                            color: const Color(
+                                                              0xFF757575,
+                                                            ),
+                                                            fontSize: 15,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    )
                                                   ],
-                                                )
-                                              ],
-                                            ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                        ],
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                ),
+                                    );
+                            },
+                            childCount: 9,
+                          ),
                         ),
-                ),
-              ),
+                )
+              ],
             ),
           ),
         ),

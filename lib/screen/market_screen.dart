@@ -61,6 +61,12 @@ class _MarketScreenState extends State<MarketScreen>
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    _scrollController.dispose();
+  }
+
+  @override
   // ignore: must_call_super
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -68,7 +74,26 @@ class _MarketScreenState extends State<MarketScreen>
     return Scaffold(
       backgroundColor: const Color(0xFF010101),
       body: CustomRefreshIndicator(
-        onRefresh: () => Future.delayed(const Duration(seconds: 3)),
+        onRefresh: () {
+          setState(() {
+            Provider.of<CryptoMarketDataProvider>(context, listen: false)
+                .getCoinPaprikaGlobalData()
+                .then(
+              (value) {
+                setState(() {
+                  _globalDataLoaded = false;
+                  _globalDataModel = value;
+                });
+              },
+            );
+            Provider.of<CryptoMarketDataProvider>(context, listen: false)
+                .listModel
+                .clear();
+            Provider.of<CryptoMarketDataProvider>(context, listen: false)
+                .cryptoMarketDataByPagination(1);
+          });
+          return Future.delayed(const Duration(seconds: 2));
+        },
         builder: (
           BuildContext context,
           Widget child,
@@ -96,7 +121,7 @@ class _MarketScreenState extends State<MarketScreen>
                       ),
                     ),
                   Transform.translate(
-                    offset: Offset(0, 50.0 * controller.value),
+                    offset: Offset(0, 70.0 * controller.value),
                     child: child,
                   ),
                 ],
@@ -263,6 +288,7 @@ class _MarketScreenState extends State<MarketScreen>
                                   width: width * 0.67,
                                   height: 35,
                                   child: TextFormField(
+                                    enabled: false,
                                     style:
                                         GoogleFonts.rubik(color: Colors.white),
                                     decoration: InputDecoration(
@@ -272,18 +298,6 @@ class _MarketScreenState extends State<MarketScreen>
                                         color: Colors.white.withOpacity(0.5),
                                       ),
                                     ),
-                                    onChanged: (text) {
-                                      Provider.of<CryptoMarketDataProvider>(
-                                        context,
-                                        listen: false,
-                                      ).getCryptoBySearch(text);
-                                    },
-                                    onFieldSubmitted: (text) {
-                                      Provider.of<CryptoMarketDataProvider>(
-                                        context,
-                                        listen: false,
-                                      ).getCryptoBySearch(text);
-                                    },
                                   ),
                                 ),
                               ],
@@ -380,7 +394,8 @@ class _MarketScreenState extends State<MarketScreen>
                                                     maxLines: 1,
                                                     style: GoogleFonts.rubik(
                                                       color: const Color(
-                                                          0xFF757575),
+                                                        0xFF757575,
+                                                      ),
                                                       fontSize: 12,
                                                       fontWeight:
                                                           FontWeight.w400,
@@ -451,9 +466,11 @@ class _MarketScreenState extends State<MarketScreen>
                                                                 .priceChangePercentage24h >
                                                             0
                                                         ? const Color(
-                                                            0xFF00a55b)
+                                                            0xFF00a55b,
+                                                          )
                                                         : const Color(
-                                                            0xFFd82e35),
+                                                            0xFFd82e35,
+                                                          ),
                                                     fontSize: 16,
                                                   ),
                                                 ),

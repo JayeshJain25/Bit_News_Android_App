@@ -97,7 +97,10 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
         backgroundColor: const Color(0xFF010101),
         centerTitle: true,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios),
+          icon: const Icon(
+            Icons.arrow_back_ios_rounded,
+            size: 22,
+          ),
           color: Colors.white,
           onPressed: () {
             Get.back();
