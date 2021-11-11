@@ -42,9 +42,15 @@ class _MyCustomBottomNavigationBarState extends State<AppBottomNavigationBar>
             HomeScreen(
               tabController: _tabController,
             ),
-            MarketScreen(),
-            FavouriteScreen(),
-            NewsScreen(),
+            MarketScreen(
+              tabController: _tabController,
+            ),
+            FavouriteScreen(
+              tabController: _tabController,
+            ),
+            NewsScreen(
+              tabController: _tabController,
+            ),
           ],
         ),
         bottomNavigationBar: Container(

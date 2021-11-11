@@ -22,7 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     Timer(
       const Duration(seconds: 3),
-      () => Get.to(
+      () => Get.off(
         () => user != null ? AppBottomNavigationBar() : SignInScreen(),
       ),
     );

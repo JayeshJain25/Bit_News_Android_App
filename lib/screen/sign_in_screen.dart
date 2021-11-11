@@ -14,7 +14,7 @@ class SignInScreen extends StatelessWidget {
             final provider =
                 Provider.of<GoogleSignInProvider>(context, listen: false);
             await provider.signInwithGoogle();
-            Get.to(() => AppBottomNavigationBar());
+            Get.off(() => AppBottomNavigationBar());
           },
           child: const Text("Google Sign In"),
         ),
