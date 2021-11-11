@@ -109,55 +109,54 @@ class _NewsScreenState extends State<NewsScreen>
         child: SafeArea(
           child: SizedBox(
             height: height * 0.92,
-            child: DefaultTabController(
-              length: 4,
-              child: CustomScrollView(
-                slivers: [
-                  SliverToBoxAdapter(
-                    child: Container(
-                      color: const Color(0xFF010101),
-                      margin: const EdgeInsets.only(
-                        bottom: 15,
-                      ),
-                      height: 45.h,
-                      child: Stack(
-                        children: [
-                          CarouselSlider.builder(
-                            carouselController: _controller,
-                            options: CarouselOptions(
-                              height: 45.h,
-                              viewportFraction: 1,
-                              autoPlay: true,
-                              enlargeCenterPage: true,
-                              autoPlayInterval: const Duration(seconds: 10),
-                              autoPlayAnimationDuration:
-                                  const Duration(milliseconds: 1500),
-                            ),
-                            itemCount: 5,
-                            itemBuilder: (
-                              BuildContext context,
-                              int index,
-                              int realIndex,
-                            ) {
-                              return TopNews(index);
-                            },
+            child: CustomScrollView(
+              slivers: [
+                SliverToBoxAdapter(
+                  child: Container(
+                    color: const Color(0xFF010101),
+                    margin: const EdgeInsets.only(
+                      bottom: 15,
+                    ),
+                    height: 45.h,
+                    child: Stack(
+                      children: [
+                        CarouselSlider.builder(
+                          carouselController: _controller,
+                          options: CarouselOptions(
+                            height: 45.h,
+                            viewportFraction: 1,
+                            autoPlay: true,
+                            enlargeCenterPage: true,
+                            autoPlayInterval: const Duration(seconds: 10),
+                            autoPlayAnimationDuration:
+                                const Duration(milliseconds: 1500),
                           ),
-                          Container(
-                            margin: const EdgeInsets.only(left: 20, top: 5),
-                            child: AutoSizeText(
-                              'Discover',
-                              style: GoogleFonts.poppins(
-                                color: Colors.white,
-                                fontSize: 27,
-                                fontWeight: FontWeight.w600,
-                              ),
+                          itemCount: 5,
+                          itemBuilder: (
+                            BuildContext context,
+                            int index,
+                            int realIndex,
+                          ) {
+                            return TopNews(index);
+                          },
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(left: 20, top: 5),
+                          child: AutoSizeText(
+                            'Discover',
+                            style: GoogleFonts.poppins(
+                              color: Colors.white,
+                              fontSize: 27,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
-                  SliverToBoxAdapter(
+                ),
+                SliverToBoxAdapter(
+                  child: Center(
                     child: Container(
                       margin:
                           const EdgeInsets.only(top: 5, left: 10, right: 10),
@@ -288,290 +287,295 @@ class _NewsScreenState extends State<NewsScreen>
                       ),
                     ),
                   ),
-                  Consumer<NewsProvider>(
-                    builder: (ctx, model, _) => (_selectedIndex == 0
-                            ? model.newsCompleteList.isEmpty
-                            : _selectedIndex == 1
-                                ? model.bitcoinNewsList.isEmpty
-                                : _selectedIndex == 2
-                                    ? model.ethereumNewsList.isEmpty
-                                    : model.nftNewsList.isEmpty)
-                        ? SliverFillRemaining(
-                            child: Center(
-                              child: CachedNetworkImage(
-                                imageUrl:
-                                    'https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/animation_500_kvhmucnx.gif?alt=media&token=8321a796-0c25-433b-ae46-b1db4467a32e',
-                                height: 100,
-                                width: 100,
-                                fit: BoxFit.contain,
-                              ),
+                ),
+                Consumer<NewsProvider>(
+                  builder: (ctx, model, _) => (_selectedIndex == 0
+                          ? model.newsCompleteList.isEmpty
+                          : _selectedIndex == 1
+                              ? model.bitcoinNewsList.isEmpty
+                              : _selectedIndex == 2
+                                  ? model.ethereumNewsList.isEmpty
+                                  : model.nftNewsList.isEmpty)
+                      ? SliverFillRemaining(
+                          child: Center(
+                            child: CachedNetworkImage(
+                              imageUrl:
+                                  'https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/animation_500_kvhmucnx.gif?alt=media&token=8321a796-0c25-433b-ae46-b1db4467a32e',
+                              height: 100,
+                              width: 100,
+                              fit: BoxFit.contain,
                             ),
-                          )
-                        : SliverList(
-                            delegate: SliverChildBuilderDelegate(
-                              (ctx, index) {
-                                return Container(
-                                  margin: EdgeInsets.all(0.4.w),
-                                  child: Column(
-                                    children: [
-                                      AnimationLimiter(
-                                        child: index == 10
-                                            ? Container(
-                                                margin: EdgeInsets.all(0.4.w),
-                                                child: GestureDetector(
-                                                  onTap: () {
-                                                    Get.to(
-                                                      () => SeeAllNewsScreen(),
-                                                    );
-                                                  },
-                                                  child: Center(
-                                                    child: Text(
-                                                      "See all",
-                                                      style:
-                                                          GoogleFonts.poppins(
-                                                        color: Colors.white,
-                                                        fontSize: 15,
-                                                      ),
+                          ),
+                        )
+                      : SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                            (ctx, index) {
+                              return Container(
+                                margin: EdgeInsets.all(0.4.w),
+                                child: Column(
+                                  children: [
+                                    AnimationLimiter(
+                                      child: index == 10
+                                          ? Container(
+                                              margin: EdgeInsets.all(0.4.w),
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  Get.to(
+                                                    () => SeeAllNewsScreen(),
+                                                  );
+                                                },
+                                                child: Center(
+                                                  child: Text(
+                                                    "See all",
+                                                    style: GoogleFonts.poppins(
+                                                      color: Colors.white,
+                                                      fontSize: 15,
                                                     ),
                                                   ),
                                                 ),
-                                              )
-                                            : AnimationConfiguration
-                                                .staggeredList(
-                                                position: index,
-                                                duration: const Duration(
-                                                  milliseconds: 375,
-                                                ),
-                                                child: SlideAnimation(
-                                                  horizontalOffset: 150,
-                                                  child: FadeInAnimation(
-                                                    child: InkWell(
-                                                      onTap: () {
-                                                        Get.to(
-                                                          () =>
-                                                              NewsSummaryScreen(
-                                                            _selectedIndex == 0
-                                                                ? model.newsCompleteList[
-                                                                    index]
-                                                                : _selectedIndex ==
-                                                                        1
-                                                                    ? model.bitcoinNewsList[
-                                                                        index]
-                                                                    : _selectedIndex ==
-                                                                            2
-                                                                        ? model.ethereumNewsList[
-                                                                            index]
-                                                                        : model.nftNewsList[
-                                                                            index],
-                                                          ),
-                                                        );
-                                                      },
-                                                      child: Container(
-                                                        margin: const EdgeInsets
-                                                            .only(
-                                                          left: 5,
-                                                          right: 5,
-                                                          top: 15,
-                                                          bottom: 10,
+                                              ),
+                                            )
+                                          : AnimationConfiguration
+                                              .staggeredList(
+                                              position: index,
+                                              duration: const Duration(
+                                                milliseconds: 375,
+                                              ),
+                                              child: SlideAnimation(
+                                                horizontalOffset: 150,
+                                                child: FadeInAnimation(
+                                                  child: InkWell(
+                                                    onTap: () {
+                                                      Get.to(
+                                                        () => NewsSummaryScreen(
+                                                          _selectedIndex == 0
+                                                              ? model.newsCompleteList[
+                                                                  index]
+                                                              : _selectedIndex ==
+                                                                      1
+                                                                  ? model.bitcoinNewsList[
+                                                                      index]
+                                                                  : _selectedIndex ==
+                                                                          2
+                                                                      ? model.ethereumNewsList[
+                                                                          index]
+                                                                      : model.nftNewsList[
+                                                                          index],
                                                         ),
-                                                        child: Card(
-                                                          color: const Color(
-                                                            0xFF010101,
-                                                          ),
-                                                          elevation: 0,
-                                                          child: Row(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: <Widget>[
-                                                              ClipRRect(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                  15.0,
+                                                      );
+                                                    },
+                                                    child: Container(
+                                                      margin:
+                                                          const EdgeInsets.only(
+                                                        left: 5,
+                                                        right: 5,
+                                                        top: 15,
+                                                        bottom: 10,
+                                                      ),
+                                                      child: Card(
+                                                        color: const Color(
+                                                          0xFF010101,
+                                                        ),
+                                                        elevation: 0,
+                                                        child: Row(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: <Widget>[
+                                                            ClipRRect(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                15.0,
+                                                              ),
+                                                              child:
+                                                                  CachedNetworkImage(
+                                                                imageUrl: _helper
+                                                                    .extractImgUrl(
+                                                                  _selectedIndex ==
+                                                                          0
+                                                                      ? model
+                                                                          .newsCompleteList[
+                                                                              index]
+                                                                          .photoUrl
+                                                                      : _selectedIndex ==
+                                                                              1
+                                                                          ? model
+                                                                              .bitcoinNewsList[index]
+                                                                              .photoUrl
+                                                                          : _selectedIndex == 2
+                                                                              ? model.ethereumNewsList[index].photoUrl
+                                                                              : model.nftNewsList[index].photoUrl,
                                                                 ),
-                                                                child:
+                                                                errorWidget: (
+                                                                  context,
+                                                                  url,
+                                                                  error,
+                                                                ) =>
                                                                     CachedNetworkImage(
-                                                                  imageUrl: _helper
-                                                                      .extractImgUrl(
-                                                                    _selectedIndex ==
-                                                                            0
-                                                                        ? model
-                                                                            .newsCompleteList[
-                                                                                index]
-                                                                            .photoUrl
-                                                                        : _selectedIndex ==
-                                                                                1
-                                                                            ? model.bitcoinNewsList[index].photoUrl
-                                                                            : _selectedIndex == 2
-                                                                                ? model.ethereumNewsList[index].photoUrl
-                                                                                : model.nftNewsList[index].photoUrl,
-                                                                  ),
-                                                                  errorWidget: (
-                                                                    context,
-                                                                    url,
-                                                                    error,
-                                                                  ) =>
-                                                                      CachedNetworkImage(
-                                                                    imageUrl:
-                                                                        "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/logo.png?alt=media&token=993eeaba-2bd5-4e5d-b44f-10664965b330",
-                                                                    fit: BoxFit
-                                                                        .cover,
-                                                                  ),
-                                                                  height:
-                                                                      height *
-                                                                          0.09,
-                                                                  width: width *
-                                                                      0.21,
+                                                                  imageUrl:
+                                                                      "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/logo.png?alt=media&token=993eeaba-2bd5-4e5d-b44f-10664965b330",
                                                                   fit: BoxFit
                                                                       .cover,
                                                                 ),
+                                                                height: height *
+                                                                    0.09,
+                                                                width: width *
+                                                                    0.21,
+                                                                fit: BoxFit
+                                                                    .cover,
                                                               ),
-                                                              Expanded(
-                                                                child:
+                                                            ),
+                                                            Expanded(
+                                                              child: Container(
+                                                                margin:
+                                                                    const EdgeInsets
+                                                                        .only(
+                                                                  left: 15,
+                                                                ),
+                                                                child: Column(
+                                                                  children: [
                                                                     Container(
-                                                                  margin:
-                                                                      const EdgeInsets
+                                                                      margin: const EdgeInsets
                                                                           .only(
-                                                                    left: 15,
-                                                                  ),
-                                                                  child: Column(
-                                                                    children: [
-                                                                      Container(
-                                                                        margin:
-                                                                            const EdgeInsets.only(
-                                                                          bottom:
-                                                                              7,
-                                                                        ),
-                                                                        child:
-                                                                            AutoSizeText(
-                                                                          _selectedIndex == 0
-                                                                              ? model.newsCompleteList[index].title
-                                                                              : _selectedIndex == 1
-                                                                                  ? model.bitcoinNewsList[index].title
-                                                                                  : _selectedIndex == 2
-                                                                                      ? model.ethereumNewsList[index].title
-                                                                                      : model.nftNewsList[index].title,
-                                                                          maxLines:
-                                                                              2,
-                                                                          style:
-                                                                              GoogleFonts.poppins(
-                                                                            color:
-                                                                                Colors.white,
-                                                                            fontSize:
-                                                                                13,
-                                                                            fontWeight:
-                                                                                FontWeight.w400,
-                                                                          ),
+                                                                        bottom:
+                                                                            7,
+                                                                      ),
+                                                                      child:
+                                                                          AutoSizeText(
+                                                                        _selectedIndex ==
+                                                                                0
+                                                                            ? model.newsCompleteList[index].title
+                                                                            : _selectedIndex == 1
+                                                                                ? model.bitcoinNewsList[index].title
+                                                                                : _selectedIndex == 2
+                                                                                    ? model.ethereumNewsList[index].title
+                                                                                    : model.nftNewsList[index].title,
+                                                                        maxLines:
+                                                                            2,
+                                                                        style: GoogleFonts
+                                                                            .poppins(
+                                                                          color:
+                                                                              Colors.white,
+                                                                          fontSize:
+                                                                              13,
+                                                                          fontWeight:
+                                                                              FontWeight.w400,
                                                                         ),
                                                                       ),
-                                                                      Column(
-                                                                        children: [
-                                                                          Container(
-                                                                            margin:
-                                                                                const EdgeInsets.only(
-                                                                              bottom: 7,
-                                                                            ),
-                                                                            child:
-                                                                                AutoSizeText(
-                                                                              _selectedIndex == 0
-                                                                                  ? model.newsCompleteList[index].description
-                                                                                  : _selectedIndex == 1
-                                                                                      ? model.bitcoinNewsList[index].description
-                                                                                      : _selectedIndex == 2
-                                                                                          ? model.ethereumNewsList[index].description
-                                                                                          : model.nftNewsList[index].description,
-                                                                              maxLines: 2,
-                                                                              overflow: TextOverflow.ellipsis,
-                                                                              softWrap: false,
-                                                                              style: GoogleFonts.rubik(
-                                                                                color: const Color(0xFF757575),
-                                                                                fontSize: 15,
-                                                                              ),
-                                                                            ),
+                                                                    ),
+                                                                    Column(
+                                                                      children: [
+                                                                        Container(
+                                                                          margin:
+                                                                              const EdgeInsets.only(
+                                                                            bottom:
+                                                                                7,
                                                                           ),
-                                                                          Row(
-                                                                            children: <Widget>[
+                                                                          child:
                                                                               AutoSizeText(
-                                                                                "${_helper.convertToAgo(
+                                                                            _selectedIndex == 0
+                                                                                ? model.newsCompleteList[index].description
+                                                                                : _selectedIndex == 1
+                                                                                    ? model.bitcoinNewsList[index].description
+                                                                                    : _selectedIndex == 2
+                                                                                        ? model.ethereumNewsList[index].description
+                                                                                        : model.nftNewsList[index].description,
+                                                                            maxLines:
+                                                                                2,
+                                                                            overflow:
+                                                                                TextOverflow.ellipsis,
+                                                                            softWrap:
+                                                                                false,
+                                                                            style:
+                                                                                GoogleFonts.rubik(
+                                                                              color: const Color(0xFF757575),
+                                                                              fontSize: 15,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        Row(
+                                                                          children: <
+                                                                              Widget>[
+                                                                            AutoSizeText(
+                                                                              "${_helper.convertToAgo(
+                                                                                _selectedIndex == 0
+                                                                                    ? model.newsCompleteList[index].publishedDate
+                                                                                    : _selectedIndex == 1
+                                                                                        ? model.bitcoinNewsList[index].publishedDate
+                                                                                        : _selectedIndex == 2
+                                                                                            ? model.ethereumNewsList[index].publishedDate
+                                                                                            : model.nftNewsList[index].publishedDate,
+                                                                              )}  \u2022",
+                                                                              maxLines: 1,
+                                                                              style: GoogleFonts.poppins(
+                                                                                color: const Color(
+                                                                                  0xFF757575,
+                                                                                ),
+                                                                                fontSize: 12,
+                                                                                fontWeight: FontWeight.w500,
+                                                                              ),
+                                                                            ),
+                                                                            Flexible(
+                                                                              child: Container(
+                                                                                margin: const EdgeInsets.only(
+                                                                                  left: 5,
+                                                                                ),
+                                                                                child: AutoSizeText(
                                                                                   _selectedIndex == 0
-                                                                                      ? model.newsCompleteList[index].publishedDate
+                                                                                      ? model.newsCompleteList[index].source
                                                                                       : _selectedIndex == 1
-                                                                                          ? model.bitcoinNewsList[index].publishedDate
+                                                                                          ? model.bitcoinNewsList[index].source
                                                                                           : _selectedIndex == 2
-                                                                                              ? model.ethereumNewsList[index].publishedDate
-                                                                                              : model.nftNewsList[index].publishedDate,
-                                                                                )}  \u2022",
-                                                                                maxLines: 1,
-                                                                                style: GoogleFonts.poppins(
-                                                                                  color: const Color(
-                                                                                    0xFF757575,
-                                                                                  ),
-                                                                                  fontSize: 12,
-                                                                                  fontWeight: FontWeight.w500,
-                                                                                ),
-                                                                              ),
-                                                                              Flexible(
-                                                                                child: Container(
-                                                                                  margin: const EdgeInsets.only(
-                                                                                    left: 5,
-                                                                                  ),
-                                                                                  child: AutoSizeText(
-                                                                                    _selectedIndex == 0
-                                                                                        ? model.newsCompleteList[index].source
-                                                                                        : _selectedIndex == 1
-                                                                                            ? model.bitcoinNewsList[index].source
-                                                                                            : _selectedIndex == 2
-                                                                                                ? model.ethereumNewsList[index].source
-                                                                                                : model.nftNewsList[index].source,
-                                                                                    maxLines: 1,
-                                                                                    overflow: TextOverflow.ellipsis,
-                                                                                    style: GoogleFonts.poppins(
-                                                                                      color: const Color(
-                                                                                        0xFF757575,
-                                                                                      ),
-                                                                                      fontSize: 13,
-                                                                                      fontWeight: FontWeight.w500,
+                                                                                              ? model.ethereumNewsList[index].source
+                                                                                              : model.nftNewsList[index].source,
+                                                                                  maxLines: 1,
+                                                                                  overflow: TextOverflow.ellipsis,
+                                                                                  style: GoogleFonts.poppins(
+                                                                                    color: const Color(
+                                                                                      0xFF757575,
                                                                                     ),
+                                                                                    fontSize: 13,
+                                                                                    fontWeight: FontWeight.w500,
                                                                                   ),
                                                                                 ),
                                                                               ),
-                                                                            ],
-                                                                          )
-                                                                        ],
-                                                                      ),
-                                                                    ],
-                                                                  ),
+                                                                            ),
+                                                                          ],
+                                                                        )
+                                                                      ],
+                                                                    ),
+                                                                  ],
                                                                 ),
                                                               ),
-                                                            ],
-                                                          ),
+                                                            ),
+                                                          ],
                                                         ),
                                                       ),
                                                     ),
                                                   ),
                                                 ),
                                               ),
-                                      ),
-                                      Divider(
-                                        indent: width * 0.28,
-                                        endIndent: width * 0.04,
-                                        thickness: 1,
-                                        height: 1,
-                                        color: index == 10
-                                            ? Colors.transparent
-                                            : const Color(0xFF404040),
-                                      )
-                                    ],
-                                  ),
-                                );
-                              },
-                              childCount: 11,
-                            ),
+                                            ),
+                                    ),
+                                    Divider(
+                                      indent: width * 0.28,
+                                      endIndent: width * 0.04,
+                                      thickness: 1,
+                                      height: 1,
+                                      color: index == 10
+                                          ? Colors.transparent
+                                          : const Color(0xFF404040),
+                                    )
+                                  ],
+                                ),
+                              );
+                            },
+                            childCount: 11,
                           ),
-                  ),
-                ],
-              ),
+                        ),
+                ),
+              ],
             ),
           ),
         ),

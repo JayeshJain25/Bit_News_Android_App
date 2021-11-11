@@ -1,3 +1,3 @@
 class ApiEndpoints {
-  static const baseUrl = "http://93f7-49-36-99-86.ngrok.io/";
+  static const baseUrl = "http://60ec-49-36-105-164.in.ngrok.io/";
 }
