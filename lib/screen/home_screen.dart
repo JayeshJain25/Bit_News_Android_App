@@ -200,9 +200,6 @@ class _HomeScreenState extends State<HomeScreen>
                   .newsCompleteList
                   .clear();
               Provider.of<NewsProvider>(context, listen: false).getNewsFeed(1);
-
-              Provider.of<CryptoExplainerProvider>(context, listen: false)
-                  .getcryptoExplainerByType("Bitcoin");
             });
             return Future.delayed(const Duration(seconds: 2));
           },
@@ -1167,7 +1164,8 @@ class _HomeScreenState extends State<HomeScreen>
                                                 ClipRRect(
                                                   borderRadius:
                                                       BorderRadius.circular(
-                                                          15.0),
+                                                    15.0,
+                                                  ),
                                                   child: CachedNetworkImage(
                                                     fit: BoxFit.cover,
                                                     imageUrl:

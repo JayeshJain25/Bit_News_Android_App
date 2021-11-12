@@ -141,7 +141,7 @@ class CryptoMarketDataProvider with ChangeNotifier {
     String symbol,
   ) async {
     final url =
-        "${ApiEndpoints.baseUrl}/cryptocurrency/coin-paprika-market-static-data?symbol=$symbol";
+        "${ApiEndpoints.baseUrl}cryptocurrency/coin-paprika-market-static-data?symbol=$symbol";
 
     try {
       final response = await http.get(
@@ -150,6 +150,27 @@ class CryptoMarketDataProvider with ChangeNotifier {
       final r = json.decode(response.body) as List<dynamic>;
       final CoinPaprikaMarketStaticDataModel globalData =
           CoinPaprikaMarketStaticDataModel.fromJson(
+        r[0] as Map<String, dynamic>,
+      );
+      notifyListeners();
+      return globalData;
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  Future<CryptoMarketDataModel> getCryptoMarketDataBySymbol(
+    String symbol,
+  ) async {
+    final url =
+        "${ApiEndpoints.baseUrl}cryptocurrency/crypto-by-symbol?symbol=$symbol";
+
+    try {
+      final response = await http.get(
+        Uri.parse(url),
+      );
+      final r = json.decode(response.body) as List<dynamic>;
+      final CryptoMarketDataModel globalData = CryptoMarketDataModel.fromJson(
         r[0] as Map<String, dynamic>,
       );
       notifyListeners();

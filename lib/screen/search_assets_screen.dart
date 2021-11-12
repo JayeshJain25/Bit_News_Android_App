@@ -111,8 +111,29 @@ class _SearchAssetsScreenState extends State<SearchAssetsScreen> {
               );
             },
             body: model.listModel.isEmpty
-                ? const Center(
-                    child: CircularProgressIndicator(),
+                ? Center(
+                    child: closePagination == true
+                        ? Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              CachedNetworkImage(
+                                imageUrl:
+                                    "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/not_found.gif?alt=media&token=aa8eaa99-07bb-4429-bd5e-8a892a313ea7",
+                                height: 200,
+                                width: 200,
+                                fit: BoxFit.contain,
+                              ),
+                              AutoSizeText(
+                                "We looked everywhere but we couldn't find anything that matches your search.",
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.poppins(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ],
+                          )
+                        : const CircularProgressIndicator(),
                   )
                 : Container(
                     margin: EdgeInsets.only(

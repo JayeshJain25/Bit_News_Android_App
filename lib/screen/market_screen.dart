@@ -157,24 +157,26 @@ class _MarketScreenState extends State<MarketScreen>
                         backgroundColor: const Color(0xFF010101),
                         title: Container(
                           margin: const EdgeInsets.only(top: 5, left: 15),
-                          child: Column(
-                            children: [
-                              AutoSizeText(
-                                'Market',
-                                style: GoogleFonts.poppins(
-                                  color: Colors.white,
-                                  fontSize: 23,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ],
+                          child: AutoSizeText(
+                            'Market',
+                            style: GoogleFonts.poppins(
+                              color: Colors.white,
+                              fontSize: 23,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ),
+                        actions: [
+                          IconButton(
+                            icon: const Icon(Icons.search, color: Colors.white),
+                            onPressed: () {},
+                          ),
+                        ],
                         automaticallyImplyLeading: false,
                       ),
                       SliverAppBar(
-                        expandedHeight: height * 0.175,
-                        collapsedHeight: height * 0.175,
+                        expandedHeight: height * 0.1,
+                        collapsedHeight: height * 0.1,
                         automaticallyImplyLeading: false,
                         backgroundColor: const Color(0xFF010101),
                         flexibleSpace: Column(
@@ -271,48 +273,48 @@ class _MarketScreenState extends State<MarketScreen>
                                       ],
                                     ),
                             ),
-                            Container(
-                              padding:
-                                  const EdgeInsets.only(left: 10, right: 10),
-                              margin: EdgeInsets.only(
-                                top: height * 0.02,
-                                bottom: height * 0.012,
-                                left: height * 0.035,
-                                right: height * 0.035,
-                              ),
-                              height: height * 0.06,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                color: const Color(0xFF292f33),
-                              ),
-                              child: Row(
-                                children: <Widget>[
-                                  const Icon(Icons.search, color: Colors.white),
-                                  const VerticalDivider(
-                                    color: Colors.white,
-                                    indent: 10,
-                                    endIndent: 10,
-                                  ),
-                                  Container(
-                                    margin: const EdgeInsets.only(top: 5),
-                                    width: width * 0.67,
-                                    height: 35,
-                                    child: TextFormField(
-                                      enabled: false,
-                                      style: GoogleFonts.rubik(
-                                          color: Colors.white),
-                                      decoration: InputDecoration(
-                                        border: InputBorder.none,
-                                        hintText: 'Search...',
-                                        hintStyle: GoogleFonts.rubik(
-                                          color: Colors.white.withOpacity(0.5),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                            // Container(
+                            //   padding:
+                            //       const EdgeInsets.only(left: 10, right: 10),
+                            //   margin: EdgeInsets.only(
+                            //     top: height * 0.02,
+                            //     bottom: height * 0.012,
+                            //     left: height * 0.035,
+                            //     right: height * 0.035,
+                            //   ),
+                            //   height: height * 0.06,
+                            //   decoration: BoxDecoration(
+                            //     borderRadius: BorderRadius.circular(30),
+                            //     color: const Color(0xFF292f33),
+                            //   ),
+                            //   child: Row(
+                            //     children: <Widget>[
+                            //       const Icon(Icons.search, color: Colors.white),
+                            //       const VerticalDivider(
+                            //         color: Colors.white,
+                            //         indent: 10,
+                            //         endIndent: 10,
+                            //       ),
+                            //       Container(
+                            //         margin: const EdgeInsets.only(top: 5),
+                            //         width: width * 0.67,
+                            //         height: 35,
+                            //         child: TextFormField(
+                            //           enabled: false,
+                            //           style: GoogleFonts.rubik(
+                            //               color: Colors.white),
+                            //           decoration: InputDecoration(
+                            //             border: InputBorder.none,
+                            //             hintText: 'Search...',
+                            //             hintStyle: GoogleFonts.rubik(
+                            //               color: Colors.white.withOpacity(0.5),
+                            //             ),
+                            //           ),
+                            //         ),
+                            //       ),
+                            //     ],
+                            //   ),
+                            // ),
                           ],
                         ),
                       ),
