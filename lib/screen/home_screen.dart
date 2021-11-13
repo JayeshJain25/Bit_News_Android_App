@@ -12,16 +12,19 @@ import 'package:crypto_news/screen/watch_list_screen.dart';
 import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:dashed_circle/dashed_circle.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:glassmorphism/glassmorphism.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 import 'conversion_tool_screen.dart';
 import 'news_summary_screen.dart';
+import 'dart:math';
 
 class HomeScreen extends StatefulWidget {
   final TabController tabController;
@@ -505,7 +508,8 @@ class _HomeScreenState extends State<HomeScreen>
                   ),
                   SliverToBoxAdapter(
                     child: Consumer<CryptoMarketDataProvider>(
-                      builder: (ctx, model, _) => model.listModel.isEmpty
+                        builder: (ctx, model, _) {
+                      return model.listModel.isEmpty
                           ? const Center(
                               child: CircularProgressIndicator(),
                             )
@@ -515,7 +519,7 @@ class _HomeScreenState extends State<HomeScreen>
                                 left: 5,
                                 right: 5,
                               ),
-                              height: height * 0.15,
+                              height: height * 0.27,
                               child: ListView.builder(
                                 scrollDirection: Axis.horizontal,
                                 itemCount: 10,
@@ -528,126 +532,247 @@ class _HomeScreenState extends State<HomeScreen>
                                         ),
                                       );
                                     },
-                                    child: Container(
-                                      padding: const EdgeInsets.all(8),
+                                    child: GlassmorphicContainer(
                                       margin: const EdgeInsets.only(
                                         left: 20,
                                         right: 5,
                                       ),
-                                      height: height * 0.15,
-                                      width: width * 0.42,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(25),
-                                        color: const Color(0xFF292f33),
+                                      height: height * 0.27,
+                                      width: width * 0.5,
+                                      borderRadius: 25,
+                                      blur: 55,
+                                      linearGradient: LinearGradient(
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight,
+                                        colors: [
+                                          const Color(0xFF292f33)
+                                              .withOpacity(0.4),
+                                          const Color(0xFFFFFFFF)
+                                              .withOpacity(0.3),
+                                        ],
+                                        stops: const [
+                                          0.1,
+                                          1,
+                                        ],
                                       ),
+                                      borderGradient: LinearGradient(
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight,
+                                        colors: [
+                                          const Color(0xFFffffff)
+                                              .withOpacity(0.5),
+                                          const Color(0xFFFFFFFF)
+                                              .withOpacity(0.5),
+                                        ],
+                                      ),
+                                      border: 0,
                                       child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
                                         children: [
-                                          Container(
-                                            margin: const EdgeInsets.only(
-                                              bottom: 10,
-                                              top: 10,
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              left: 8,
+                                              right: 8,
                                             ),
-                                            width: width,
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                CircleAvatar(
-                                                  radius: 15,
+                                            child: ListTile(
+                                              minLeadingWidth: 1,
+                                              contentPadding: EdgeInsets.zero,
+                                              leading: CircleAvatar(
+                                                radius: 15,
+                                                backgroundColor:
+                                                    Colors.transparent,
+                                                backgroundImage:
+                                                    CachedNetworkImageProvider(
+                                                  model.listModel[index].image,
+                                                ),
+                                              ),
+                                              title: AutoSizeText(
+                                                model.listModel[index].symbol
+                                                    .toUpperCase(),
+                                                style: GoogleFonts.rubik(
+                                                  color: Colors.white,
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              subtitle: AutoSizeText(
+                                                model.listModel[index].name,
+                                                style: GoogleFonts.rubik(
+                                                  color: Colors.white,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                              ),
+                                              trailing: CircleAvatar(
+                                                radius: 15,
+                                                backgroundColor: model
+                                                            .listModel[index]
+                                                            .priceChangePercentage24h >
+                                                        0
+                                                    ? const Color(
+                                                        0xFF00a55b,
+                                                      ).withOpacity(0.3)
+                                                    : const Color(
+                                                        0xFFd82e35,
+                                                      ).withOpacity(0.3),
+                                                child: CircleAvatar(
+                                                  radius: 5,
                                                   backgroundColor:
                                                       Colors.transparent,
                                                   backgroundImage:
                                                       CachedNetworkImageProvider(
-                                                    model
-                                                        .listModel[index].image,
+                                                    model.listModel[index]
+                                                                .priceChangePercentage24h >=
+                                                            0
+                                                        ? "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/up_arrow.png?alt=media&token=03660f10-1eab-46ce-bcdd-a72e4380d012"
+                                                        : "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/down_arrow.png?alt=media&token=dcfbaf91-b5d1-42ca-bee4-e785a7c58e8c",
                                                   ),
                                                 ),
-                                                Expanded(
-                                                  child: Container(
-                                                    margin: EdgeInsets.only(
-                                                      left: width * 0.06,
-                                                    ),
-                                                    child: Row(
-                                                      children: [
-                                                        Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                  .only(
-                                                            left: 3,
-                                                          ),
-                                                          child:
-                                                              CachedNetworkImage(
-                                                            imageUrl: model
-                                                                        .listModel[
-                                                                            index]
-                                                                        .priceChangePercentage24h >=
-                                                                    0
-                                                                ? "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/up_arrow.png?alt=media&token=03660f10-1eab-46ce-bcdd-a72e4380d012"
-                                                                : "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/down_arrow.png?alt=media&token=dcfbaf91-b5d1-42ca-bee4-e785a7c58e8c",
-                                                            fit: BoxFit.cover,
-                                                            height: 10,
-                                                            width: 10,
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          width: width * 0.01,
-                                                        ),
-                                                        AutoSizeText(
-                                                          model.listModel[index]
-                                                                      .priceChangePercentage24h >=
-                                                                  0
-                                                              ? "+${model.listModel[index].priceChangePercentage24h.toStringAsFixed(2)}%"
-                                                              : "${model.listModel[index].priceChangePercentage24h.toStringAsFixed(2)}%",
-                                                          style:
-                                                              GoogleFonts.rubik(
-                                                            color: model
-                                                                        .listModel[
-                                                                            index]
-                                                                        .priceChangePercentage24h >
-                                                                    0
-                                                                ? const Color(
-                                                                    0xFF00a55b,
-                                                                  )
-                                                                : const Color(
-                                                                    0xFFd82e35,
-                                                                  ),
-                                                            fontSize: 17,
-                                                          ),
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                )
-                                              ],
+                                              ),
                                             ),
                                           ),
                                           Container(
-                                            margin: EdgeInsets.only(
-                                              bottom: height * 0.01,
-                                            ),
-                                            child: AutoSizeText(
-                                              model.listModel[index].name,
-                                              style: GoogleFonts.rubik(
-                                                color: Colors.white,
-                                                fontSize: 17,
-                                                fontWeight: FontWeight.w400,
+                                            height: height * 0.1,
+                                            child: LineChart(
+                                              LineChartData(
+                                                gridData: FlGridData(
+                                                  show: true,
+                                                  drawVerticalLine: false,
+                                                  drawHorizontalLine: false,
+                                                  horizontalInterval: 4,
+                                                  getDrawingHorizontalLine:
+                                                      (value) {
+                                                    return FlLine(
+                                                      color: const Color(
+                                                        0xff37434d,
+                                                      ),
+                                                      strokeWidth: 1,
+                                                    );
+                                                  },
+                                                  getDrawingVerticalLine:
+                                                      (value) {
+                                                    return FlLine(
+                                                      color: const Color(
+                                                        0xff37434d,
+                                                      ),
+                                                      strokeWidth: 1,
+                                                    );
+                                                  },
+                                                ),
+                                                titlesData: FlTitlesData(
+                                                  show: false,
+                                                ),
+                                                borderData: FlBorderData(
+                                                  show: false,
+                                                ),
+                                                minX: 0,
+                                                maxX: model.graphDataList[0]
+                                                        .graphData.length
+                                                        .toDouble() -
+                                                    1,
+                                                minY: _helper
+                                                    .extractPriceFromGraph(
+                                                      model.graphDataList[0]
+                                                          .graphData,
+                                                    )
+                                                    .reduce(min)
+                                                    .toDouble(),
+                                                maxY: _helper
+                                                    .extractPriceFromGraph(
+                                                      model.graphDataList[0]
+                                                          .graphData,
+                                                    )
+                                                    .reduce(max)
+                                                    .toDouble(),
+                                                lineBarsData: [
+                                                  LineChartBarData(
+                                                    spots: listData(
+                                                      _helper
+                                                          .extractPriceFromGraph(
+                                                        model.graphDataList[0]
+                                                            .graphData,
+                                                      ),
+                                                    ),
+                                                    colors: [
+                                                      const Color(0xff02d39a)
+                                                    ],
+                                                    barWidth: 3,
+                                                    isStrokeCapRound: true,
+                                                    dotData: FlDotData(
+                                                      show: false,
+                                                    ),
+                                                    belowBarData: BarAreaData(
+                                                      show: true,
+                                                      gradientFrom:
+                                                          const Offset(0, .9),
+                                                      gradientTo:
+                                                          const Offset(0, 0.5),
+                                                      colors: [
+                                                        const Color(0xff02d39a)
+                                                            .withOpacity(.01),
+                                                        const Color(0xff02d39a)
+                                                            .withOpacity(.3)
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
+                                              swapAnimationDuration:
+                                                  Duration.zero,
                                             ),
                                           ),
-                                          Expanded(
-                                            child: AutoSizeText(
-                                              "\u{20B9} ${model.listModel[index].price.toString().startsWith("0.") ? model.listModel[index].price.toString() : _helper.removeDecimal(model.listModel[index].price.toString()).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}",
-                                              maxLines: 1,
-                                              style: GoogleFonts.nunito(
-                                                color: Colors.white,
-                                                fontSize: 17,
-                                                fontWeight: FontWeight.w600,
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              CachedNetworkImage(
+                                                imageUrl: model.listModel[index]
+                                                            .priceChangePercentage24h >=
+                                                        0
+                                                    ? "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/up_arrow.png?alt=media&token=03660f10-1eab-46ce-bcdd-a72e4380d012"
+                                                    : "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/down_arrow.png?alt=media&token=dcfbaf91-b5d1-42ca-bee4-e785a7c58e8c",
+                                                fit: BoxFit.cover,
+                                                height: 10,
+                                                width: 10,
                                               ),
+                                              SizedBox(
+                                                width: width * 0.01,
+                                              ),
+                                              AutoSizeText(
+                                                model.listModel[index]
+                                                            .priceChangePercentage24h >=
+                                                        0
+                                                    ? "+${model.listModel[index].priceChangePercentage24h.toStringAsFixed(2)}%"
+                                                    : "${model.listModel[index].priceChangePercentage24h.toStringAsFixed(2)}%",
+                                                style: GoogleFonts.nunito(
+                                                  color: model.listModel[index]
+                                                              .priceChangePercentage24h >
+                                                          0
+                                                      ? const Color(
+                                                          0xFF00a55b,
+                                                        )
+                                                      : const Color(
+                                                          0xFFd82e35,
+                                                        ),
+                                                  fontSize: 17,
+                                                ),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ],
+                                          ),
+                                          AutoSizeText(
+                                            "\u2022",
+                                            style: GoogleFonts.poppins(
+                                              fontSize: 17,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          AutoSizeText(
+                                            "\u{20B9} ${model.listModel[index].price.toString().startsWith("0.") ? model.listModel[index].price.toString() : _helper.removeDecimal(model.listModel[index].price.toString()).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}",
+                                            maxLines: 1,
+                                            style: GoogleFonts.nunito(
+                                              color: Colors.white,
+                                              fontSize: 17,
+                                              fontWeight: FontWeight.w600,
                                             ),
                                           ),
                                         ],
@@ -656,8 +781,8 @@ class _HomeScreenState extends State<HomeScreen>
                                   );
                                 },
                               ),
-                            ),
-                    ),
+                            );
+                    }),
                   ),
                   SliverToBoxAdapter(
                     child: Container(
@@ -687,7 +812,7 @@ class _HomeScreenState extends State<HomeScreen>
                                 left: 5,
                                 right: 5,
                               ),
-                              height: height * 0.15,
+                              height: height * 0.27,
                               child: ListView.builder(
                                 scrollDirection: Axis.horizontal,
                                 itemCount: 7,
@@ -700,129 +825,167 @@ class _HomeScreenState extends State<HomeScreen>
                                         ),
                                       );
                                     },
-                                    child: Container(
-                                      padding: const EdgeInsets.all(8),
+                                    child: GlassmorphicContainer(
                                       margin: const EdgeInsets.only(
                                         left: 20,
                                         right: 5,
                                       ),
-                                      height: height * 0.15,
-                                      width: width * 0.42,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(25),
-                                        color: const Color(0xFF292f33),
+                                      height: height * 0.27,
+                                      width: width * 0.5,
+                                      borderRadius: 25,
+                                      blur: 55,
+                                      linearGradient: LinearGradient(
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight,
+                                        colors: [
+                                          const Color(0xFF292f33)
+                                              .withOpacity(0.4),
+                                          const Color(0xFFFFFFFF)
+                                              .withOpacity(0.3),
+                                        ],
+                                        stops: const [
+                                          0.1,
+                                          1,
+                                        ],
                                       ),
+                                      borderGradient: LinearGradient(
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight,
+                                        colors: [
+                                          const Color(0xFFffffff)
+                                              .withOpacity(0.5),
+                                          const Color(0xFFFFFFFF)
+                                              .withOpacity(0.5),
+                                        ],
+                                      ),
+                                      border: 0,
                                       child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
                                         children: [
-                                          Container(
-                                            margin: const EdgeInsets.only(
-                                              bottom: 10,
-                                              top: 10,
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              left: 8,
+                                              right: 8,
                                             ),
-                                            width: width,
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                CircleAvatar(
-                                                  radius: 15,
+                                            child: ListTile(
+                                              minLeadingWidth: 1,
+                                              contentPadding: EdgeInsets.zero,
+                                              leading: CircleAvatar(
+                                                radius: 15,
+                                                backgroundColor:
+                                                    Colors.transparent,
+                                                backgroundImage:
+                                                    CachedNetworkImageProvider(
+                                                  model.trendingCoins[index]
+                                                      .image,
+                                                ),
+                                              ),
+                                              title: AutoSizeText(
+                                                model
+                                                    .trendingCoins[index].symbol
+                                                    .toUpperCase(),
+                                                style: GoogleFonts.rubik(
+                                                  color: Colors.white,
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              subtitle: AutoSizeText(
+                                                model.trendingCoins[index].name,
+                                                style: GoogleFonts.rubik(
+                                                  color: Colors.white,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                              ),
+                                              trailing: CircleAvatar(
+                                                radius: 15,
+                                                backgroundColor: model
+                                                            .trendingCoins[
+                                                                index]
+                                                            .priceChangePercentage24h >
+                                                        0
+                                                    ? const Color(
+                                                        0xFF00a55b,
+                                                      ).withOpacity(0.3)
+                                                    : const Color(
+                                                        0xFFd82e35,
+                                                      ).withOpacity(0.3),
+                                                child: CircleAvatar(
+                                                  radius: 5,
                                                   backgroundColor:
                                                       Colors.transparent,
                                                   backgroundImage:
                                                       CachedNetworkImageProvider(
                                                     model.trendingCoins[index]
-                                                        .image,
+                                                                .priceChangePercentage24h >=
+                                                            0
+                                                        ? "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/up_arrow.png?alt=media&token=03660f10-1eab-46ce-bcdd-a72e4380d012"
+                                                        : "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/down_arrow.png?alt=media&token=dcfbaf91-b5d1-42ca-bee4-e785a7c58e8c",
                                                   ),
                                                 ),
-                                                Expanded(
-                                                  child: Container(
-                                                    margin: EdgeInsets.only(
-                                                      left: width * 0.06,
-                                                    ),
-                                                    child: Row(
-                                                      children: [
-                                                        Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                  .only(
-                                                            left: 3,
-                                                          ),
-                                                          child:
-                                                              CachedNetworkImage(
-                                                            imageUrl: model
-                                                                        .trendingCoins[
-                                                                            index]
-                                                                        .priceChangePercentage24h >=
-                                                                    0
-                                                                ? "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/up_arrow.png?alt=media&token=03660f10-1eab-46ce-bcdd-a72e4380d012"
-                                                                : "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/down_arrow.png?alt=media&token=dcfbaf91-b5d1-42ca-bee4-e785a7c58e8c",
-                                                            fit: BoxFit.cover,
-                                                            height: 10,
-                                                            width: 10,
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          width: width * 0.01,
-                                                        ),
-                                                        AutoSizeText(
-                                                          model.trendingCoins[index]
-                                                                      .priceChangePercentage24h >=
-                                                                  0
-                                                              ? "+${model.trendingCoins[index].priceChangePercentage24h.toStringAsFixed(2)}%"
-                                                              : "${model.trendingCoins[index].priceChangePercentage24h.toStringAsFixed(2)}%",
-                                                          maxLines: 1,
-                                                          minFontSize: 14,
-                                                          style:
-                                                              GoogleFonts.rubik(
-                                                            color: model
-                                                                        .trendingCoins[
-                                                                            index]
-                                                                        .priceChangePercentage24h >
-                                                                    0
-                                                                ? const Color(
-                                                                    0xFF00a55b,
-                                                                  )
-                                                                : const Color(
-                                                                    0xFFd82e35,
-                                                                  ),
-                                                            fontSize: 17,
-                                                          ),
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                          Container(
-                                            margin: EdgeInsets.only(
-                                              bottom: height * 0.01,
-                                            ),
-                                            child: AutoSizeText(
-                                              model.trendingCoins[index].name,
-                                              maxLines: 2,
-                                              style: GoogleFonts.rubik(
-                                                color: Colors.white,
-                                                fontSize: 17,
-                                                fontWeight: FontWeight.w400,
                                               ),
                                             ),
                                           ),
-                                          Expanded(
-                                            child: AutoSizeText(
-                                              "\u{20B9} ${model.trendingCoins[index].price.toString().startsWith("0.") ? model.trendingCoins[index].price.toString() : _helper.removeDecimal(model.trendingCoins[index].price.toString()).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}",
-                                              maxLines: 1,
-                                              style: GoogleFonts.nunito(
-                                                color: Colors.white,
-                                                fontSize: 17,
-                                                fontWeight: FontWeight.w600,
+                                          SizedBox(
+                                            height: height * 0.1,
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              CachedNetworkImage(
+                                                imageUrl: model
+                                                            .trendingCoins[
+                                                                index]
+                                                            .priceChangePercentage24h >=
+                                                        0
+                                                    ? "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/up_arrow.png?alt=media&token=03660f10-1eab-46ce-bcdd-a72e4380d012"
+                                                    : "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/down_arrow.png?alt=media&token=dcfbaf91-b5d1-42ca-bee4-e785a7c58e8c",
+                                                fit: BoxFit.cover,
+                                                height: 10,
+                                                width: 10,
                                               ),
+                                              SizedBox(
+                                                width: width * 0.01,
+                                              ),
+                                              AutoSizeText(
+                                                model.trendingCoins[index]
+                                                            .priceChangePercentage24h >=
+                                                        0
+                                                    ? "+${model.trendingCoins[index].priceChangePercentage24h.toStringAsFixed(2)}%"
+                                                    : "${model.trendingCoins[index].priceChangePercentage24h.toStringAsFixed(2)}%",
+                                                style: GoogleFonts.nunito(
+                                                  color: model
+                                                              .trendingCoins[
+                                                                  index]
+                                                              .priceChangePercentage24h >
+                                                          0
+                                                      ? const Color(
+                                                          0xFF00a55b,
+                                                        )
+                                                      : const Color(
+                                                          0xFFd82e35,
+                                                        ),
+                                                  fontSize: 17,
+                                                ),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ],
+                                          ),
+                                          AutoSizeText(
+                                            "\u2022",
+                                            style: GoogleFonts.poppins(
+                                              fontSize: 17,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          AutoSizeText(
+                                            "\u{20B9} ${model.trendingCoins[index].price.toString().startsWith("0.") ? model.trendingCoins[index].price.toString() : _helper.removeDecimal(model.trendingCoins[index].price.toString()).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}",
+                                            maxLines: 1,
+                                            style: GoogleFonts.nunito(
+                                              color: Colors.white,
+                                              fontSize: 17,
+                                              fontWeight: FontWeight.w600,
                                             ),
                                           ),
                                         ],
@@ -1307,4 +1470,10 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   bool get wantKeepAlive => true;
+}
+
+List<FlSpot> listData(List<double> data) {
+  return data.asMap().entries.map((e) {
+    return FlSpot(e.key.toDouble(), e.value);
+  }).toList();
 }

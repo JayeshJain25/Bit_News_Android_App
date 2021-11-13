@@ -44,10 +44,8 @@ dependencies:
   story_view: ^0.13.1
   dashed_circle: ^0.0.2
   get: ^4.1.4
-  syncfusion_flutter_charts: ^19.2.51
   intl: ^0.17.0
-  fl_chart: ^0.36.3
-  lottie: ^1.1.0
+  fl_chart: ^0.40.2
   lint: ^1.6.0
   cached_network_image: ^3.1.0
   connectivity_plus: ^1.1.0

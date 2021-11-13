@@ -4,6 +4,7 @@ import 'package:crypto_news/helper/helper.dart';
 import 'package:crypto_news/model/coin_paprika_global_data_model.dart';
 import 'package:crypto_news/provider/crypto_market_data_provider.dart';
 import 'package:crypto_news/screen/market_data_screen.dart';
+import 'package:crypto_news/screen/market_screen_search_assets.dart';
 import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -169,7 +170,13 @@ class _MarketScreenState extends State<MarketScreen>
                         actions: [
                           IconButton(
                             icon: const Icon(Icons.search, color: Colors.white),
-                            onPressed: () {},
+                            onPressed: () {
+                              Provider.of<CryptoMarketDataProvider>(
+                                context,
+                                listen: false,
+                              ).searchList.clear();
+                              Get.to(() => MarketScreenSearchAssets());
+                            },
                           ),
                         ],
                         automaticallyImplyLeading: false,

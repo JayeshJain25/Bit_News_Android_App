@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:crypto_news/helper/api_endpoints.dart';
 import 'package:crypto_news/model/coin_paprika_global_data_model.dart';
 import 'package:crypto_news/model/coin_paprika_market_static_data_model.dart';
+import 'package:crypto_news/model/crypto_data_graph_model.dart';
 import 'package:crypto_news/model/crypto_market_data_model.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -13,6 +14,8 @@ class CryptoMarketDataProvider with ChangeNotifier {
   List<CryptoMarketDataModel> listModel = [];
   List<CryptoMarketDataModel> trendingCoins = [];
   List<CryptoMarketDataModel> watchListCoins = [];
+  List<CryptoMarketDataModel> searchList = [];
+  List<CryptoDataGraphModel> graphDataList = [];
 
   CryptoMarketDataProvider.fromJson(List<dynamic> parsedJson) {
     List<CryptoMarketDataModel> list = [];
@@ -20,6 +23,14 @@ class CryptoMarketDataProvider with ChangeNotifier {
         .map((e) => CryptoMarketDataModel.fromJson(e as Map<String, dynamic>))
         .toList();
     listModel = list;
+  }
+
+  CryptoMarketDataProvider.fromJsonSearchList(List<dynamic> parsedJson) {
+    List<CryptoMarketDataModel> list = [];
+    list = parsedJson
+        .map((e) => CryptoMarketDataModel.fromJson(e as Map<String, dynamic>))
+        .toList();
+    searchList = list;
   }
 
   CryptoMarketDataProvider.fromMap(List<dynamic> parsedJson) {
@@ -51,6 +62,7 @@ class CryptoMarketDataProvider with ChangeNotifier {
           CryptoMarketDataProvider.fromJson(r);
       for (final element in model.listModel) {
         listModel.add(element);
+        graphDataList.add(await getCryptoGraphData("btc"));
       }
       notifyListeners();
     } catch (error) {
@@ -59,7 +71,7 @@ class CryptoMarketDataProvider with ChangeNotifier {
   }
 
   Future<void> getCryptoBySearch(String name) async {
-    listModel.clear();
+    searchList.clear();
     final url =
         "${ApiEndpoints.baseUrl}cryptocurrency/crypto-by-search?name=$name";
     try {
@@ -68,9 +80,9 @@ class CryptoMarketDataProvider with ChangeNotifier {
       );
       final r = json.decode(response.body) as List<dynamic>;
       final CryptoMarketDataProvider model =
-          CryptoMarketDataProvider.fromJson(r);
-      for (final element in model.listModel) {
-        listModel.add(element);
+          CryptoMarketDataProvider.fromJsonSearchList(r);
+      for (final element in model.searchList) {
+        searchList.add(element);
       }
       notifyListeners();
     } catch (error) {
@@ -171,6 +183,27 @@ class CryptoMarketDataProvider with ChangeNotifier {
       );
       final r = json.decode(response.body) as List<dynamic>;
       final CryptoMarketDataModel globalData = CryptoMarketDataModel.fromJson(
+        r[0] as Map<String, dynamic>,
+      );
+      notifyListeners();
+      return globalData;
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  Future<CryptoDataGraphModel> getCryptoGraphData(
+    String symbol,
+  ) async {
+    final url =
+        "${ApiEndpoints.baseUrl}cryptocurrency/crypto-graph-data?symbol=$symbol";
+
+    try {
+      final response = await http.get(
+        Uri.parse(url),
+      );
+      final r = json.decode(response.body) as List<dynamic>;
+      final CryptoDataGraphModel globalData = CryptoDataGraphModel.fromJson(
         r[0] as Map<String, dynamic>,
       );
       notifyListeners();

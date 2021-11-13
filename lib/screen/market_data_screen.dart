@@ -174,6 +174,14 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                                 Get.back();
                               },
                             ),
+                            AutoSizeText(
+                              'Statistic',
+                              style: GoogleFonts.poppins(
+                                color: Colors.white,
+                                fontSize: 23,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
                             CachedNetworkImage(
                               imageUrl:
                                   "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/plus-square.png?alt=media&token=5287a89f-803c-451f-a3b6-51e80616b3f1",

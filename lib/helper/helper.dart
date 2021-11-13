@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:crypto_news/model/crypto_data_graph_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'dart:convert';
 
@@ -58,6 +61,14 @@ class Helper {
     } else {
       return "${splittedPrice[0]}.${splittedPrice[1]}";
     }
+  }
+
+  List<double> extractPriceFromGraph(List<GraphDataModel> data) {
+    final List<double> priceData = [];
+    for (final element in data) {
+      priceData.add(element.price);
+    }
+    return priceData;
   }
 
   String extractFacebook(String data) {
