@@ -49,8 +49,7 @@ class NewsProvider with ChangeNotifier {
   Future<void> getNewsFeed(
     int page,
   ) async {
-    final url =
-        "${ApiEndpoints.baseUrl}news/news/?page=$page&tag=all"; //?page=1&tag=btc,Bitcoin
+    final url = "${ApiEndpoints.baseUrl}news/news/?page=$page&tag=all";
     try {
       final response = await http.get(
         Uri.parse(url),
@@ -69,8 +68,7 @@ class NewsProvider with ChangeNotifier {
   Future<void> getBitcoinNews(
     int page,
   ) async {
-    final url =
-        "${ApiEndpoints.baseUrl}news/news/?page=$page&tag=btc,bitcoin"; //?page=1&tag=btc,Bitcoin
+    final url = "${ApiEndpoints.baseUrl}news/news/?page=$page&tag=btc,bitcoin";
     try {
       final response = await http.get(
         Uri.parse(url),
@@ -91,8 +89,7 @@ class NewsProvider with ChangeNotifier {
   Future<void> getEthereumNews(
     int page,
   ) async {
-    final url =
-        "${ApiEndpoints.baseUrl}news/news/?page=$page&tag=eth,ethereum"; //?page=1&tag=btc,Bitcoin
+    final url = "${ApiEndpoints.baseUrl}news/news/?page=$page&tag=eth,ethereum";
     try {
       final response = await http.get(
         Uri.parse(url),
@@ -113,12 +110,10 @@ class NewsProvider with ChangeNotifier {
   Future<void> getNFTNews(
     int page,
   ) async {
-    final url =
-        "${ApiEndpoints.baseUrl}news/news/?page=$page&tag=nft,nfts"; //?page=1&tag=btc,Bitcoin
+    final url = "${ApiEndpoints.baseUrl}news/news/?page=$page&tag=nft,nfts";
     try {
       final response = await http.get(
         Uri.parse(url),
-        // headers: <String, String>{'authorization': _apiEndpoints.basicAuth}
       );
       final r = json.decode(response.body) as List<dynamic>;
       final NewsProvider model = NewsProvider.fromNFTJson(r);

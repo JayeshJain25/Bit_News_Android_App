@@ -40,11 +40,11 @@ class GraphDataModel {
     required this.time,
   });
 
-  final double price;
+  final num price;
   final String time;
 
   factory GraphDataModel.fromMap(Map<String, dynamic> json) => GraphDataModel(
-        price: json["price"] as double,
+        price: json["price"] as num,
         time: json["time"] as String,
       );
 

@@ -4,6 +4,8 @@ import 'package:crypto_news/model/crypto_data_graph_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'dart:convert';
 
+import 'package:intl/intl.dart';
+
 class Helper {
   String convertToAgo(String input) {
     final DateTime time1 = DateTime.parse("$input Z");
@@ -63,10 +65,82 @@ class Helper {
     }
   }
 
-  List<double> extractPriceFromGraph(List<GraphDataModel> data) {
-    final List<double> priceData = [];
+  List<GraphDataModel> extractGraphBasedOnPeriod(
+    String period,
+    List<GraphDataModel> data,
+  ) {
+    final List<GraphDataModel> graphData = data;
+
+    if (period == "1m") {
+      final startDate = DateTime.now().subtract(const Duration(days: 30));
+      final formatter = DateFormat('yyyy-MM-dd');
+
+      final String formattedDate1 = formatter.format(startDate);
+
+      final List<String> timeData = extractTimeDataFromGraph(data);
+      final List<String> newTimeData = [];
+
+      for (final element in timeData) {
+        newTimeData.add(element.split(" ")[0]);
+      }
+      final startIndex =
+          newTimeData.indexWhere((element) => element == formattedDate1);
+      if (startIndex == -1) {
+        return graphData;
+      }
+      return graphData.sublist(startIndex);
+    } else if (period == "1y") {
+      final startDate = DateTime.now().subtract(const Duration(days: 365));
+      final formatter = DateFormat('yyyy-MM-dd');
+
+      final String formattedDate1 = formatter.format(startDate);
+
+      final List<String> timeData = extractTimeDataFromGraph(data);
+      final List<String> newTimeData = [];
+
+      for (final element in timeData) {
+        newTimeData.add(element.split(" ")[0]);
+      }
+      final startIndex =
+          newTimeData.indexWhere((element) => element == formattedDate1);
+      if (startIndex == -1) {
+        return graphData;
+      }
+      return graphData.sublist(startIndex);
+    } else if (period == "5y") {
+      final startDate = DateTime.now().subtract(const Duration(days: 1825));
+      final formatter = DateFormat('yyyy-MM-dd');
+
+      final String formattedDate1 = formatter.format(startDate);
+
+      final List<String> timeData = extractTimeDataFromGraph(data);
+      final List<String> newTimeData = [];
+
+      for (final element in timeData) {
+        newTimeData.add(element.split(" ")[0]);
+      }
+      final startIndex =
+          newTimeData.indexWhere((element) => element == formattedDate1);
+      if (startIndex == -1) {
+        return graphData;
+      }
+      return graphData.sublist(startIndex);
+    }
+    return graphData;
+  }
+
+  List<num> extractPriceFromGraph(List<GraphDataModel> data) {
+    final List<num> priceData = [];
     for (final element in data) {
       priceData.add(element.price);
+    }
+    return priceData;
+  }
+
+  List<String> extractTimeDataFromGraph(List<GraphDataModel> data) {
+    final List<String> priceData = [];
+    for (final element in data) {
+      priceData.add(element.time);
     }
     return priceData;
   }

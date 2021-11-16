@@ -62,7 +62,7 @@ class CryptoMarketDataProvider with ChangeNotifier {
           CryptoMarketDataProvider.fromJson(r);
       for (final element in model.listModel) {
         listModel.add(element);
-        graphDataList.add(await getCryptoGraphData("btc"));
+        graphDataList.add(await getCryptoGraphData(element.symbol));
       }
       notifyListeners();
     } catch (error) {

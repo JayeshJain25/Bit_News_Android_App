@@ -1,12 +1,16 @@
+import 'dart:math';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:crypto_news/helper/helper.dart';
 import 'package:crypto_news/model/coin_paprika_market_static_data_model.dart';
+import 'package:crypto_news/model/crypto_data_graph_model.dart';
 import 'package:crypto_news/model/crypto_market_data_model.dart';
 import 'package:crypto_news/provider/crypto_market_data_provider.dart';
 import 'package:crypto_news/provider/news_provider.dart';
 import 'package:crypto_news/screen/see_all_news_screen.dart';
 import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:glassmorphism/glassmorphism.dart';
@@ -21,8 +25,9 @@ import 'news_summary_screen.dart';
 
 class MarketDataScreen extends StatefulWidget {
   CryptoMarketDataModel cryptoData;
+  final CryptoDataGraphModel graphData;
 
-  MarketDataScreen(this.cryptoData);
+  MarketDataScreen(this.cryptoData, this.graphData);
 
   @override
   _MarketDataScreenState createState() => _MarketDataScreenState();
@@ -30,6 +35,7 @@ class MarketDataScreen extends StatefulWidget {
 
 class _MarketDataScreenState extends State<MarketDataScreen> {
   final _helper = Helper();
+  int _selectedIndex = 0;
 
   late CoinPaprikaMarketStaticDataModel _staticDataModel;
   bool _globalDataLoaded = true;
@@ -288,6 +294,106 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                     ),
                     SliverToBoxAdapter(
                       child: Container(
+                        margin: const EdgeInsets.only(top: 15),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            InkWell(
+                              borderRadius: BorderRadius.circular(25),
+                              onTap: () {
+                                setState(() {
+                                  _selectedIndex = 0;
+                                });
+                              },
+                              child: Container(
+                                width: 100,
+                                height: 45,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(25),
+                                  color: _selectedIndex == 0
+                                      ? const Color(0xFF52CAF5)
+                                      : Colors.transparent,
+                                ),
+                                child: Center(
+                                  child: AutoSizeText(
+                                    '1m',
+                                    maxLines: 1,
+                                    style: GoogleFonts.rubik(
+                                      fontWeight: FontWeight.w600,
+                                      color: _selectedIndex == 0
+                                          ? Colors.black
+                                          : Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            InkWell(
+                              borderRadius: BorderRadius.circular(25),
+                              onTap: () {
+                                setState(() {
+                                  _selectedIndex = 1;
+                                });
+                              },
+                              child: Container(
+                                width: 100,
+                                height: 45,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(25),
+                                  color: _selectedIndex == 1
+                                      ? const Color(0xFF52CAF5)
+                                      : Colors.transparent,
+                                ),
+                                child: Center(
+                                  child: AutoSizeText(
+                                    '1y',
+                                    maxLines: 1,
+                                    style: GoogleFonts.rubik(
+                                      fontWeight: FontWeight.w600,
+                                      color: _selectedIndex == 1
+                                          ? Colors.black
+                                          : Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            InkWell(
+                              borderRadius: BorderRadius.circular(25),
+                              onTap: () {
+                                setState(() {
+                                  _selectedIndex = 2;
+                                });
+                              },
+                              child: Container(
+                                width: 100,
+                                height: 45,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(25),
+                                  color: _selectedIndex == 2
+                                      ? const Color(0xFF52CAF5)
+                                      : Colors.transparent,
+                                ),
+                                child: Center(
+                                  child: AutoSizeText(
+                                    '5y',
+                                    maxLines: 1,
+                                    style: GoogleFonts.rubik(
+                                      fontWeight: FontWeight.w600,
+                                      color: _selectedIndex == 2
+                                          ? Colors.black
+                                          : Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SliverToBoxAdapter(
+                      child: Container(
                         margin: EdgeInsets.only(
                           top: height * 0.03,
                           left: width * 0.04,
@@ -295,6 +401,146 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                         ),
                         height: height * 0.3,
                         color: Colors.transparent,
+                        child: LineChart(
+                          LineChartData(
+                            gridData: FlGridData(
+                              show: true,
+                              drawVerticalLine: false,
+                              drawHorizontalLine: false,
+                              horizontalInterval: 4,
+                              getDrawingHorizontalLine: (value) {
+                                return FlLine(
+                                  color: const Color(
+                                    0xff37434d,
+                                  ),
+                                  strokeWidth: 1,
+                                );
+                              },
+                              getDrawingVerticalLine: (value) {
+                                return FlLine(
+                                  color: const Color(
+                                    0xff37434d,
+                                  ),
+                                  strokeWidth: 1,
+                                );
+                              },
+                            ),
+                            titlesData: FlTitlesData(
+                              show: false,
+                            ),
+                            borderData: FlBorderData(
+                              show: false,
+                            ),
+                            minX: 0,
+                            maxX: (_selectedIndex == 0
+                                    ? _helper
+                                        .extractGraphBasedOnPeriod(
+                                          "1m",
+                                          widget.graphData.graphData,
+                                        )
+                                        .length
+                                        .toDouble()
+                                    : _selectedIndex == 1
+                                        ? _helper
+                                            .extractGraphBasedOnPeriod(
+                                              "1y",
+                                              widget.graphData.graphData,
+                                            )
+                                            .length
+                                            .toDouble()
+                                        : _helper
+                                            .extractGraphBasedOnPeriod(
+                                              "5y",
+                                              widget.graphData.graphData,
+                                            )
+                                            .length
+                                            .toDouble()) -
+                                1,
+                            minY: _helper
+                                .extractPriceFromGraph(
+                                  _selectedIndex == 0
+                                      ? _helper.extractGraphBasedOnPeriod(
+                                          "1m",
+                                          widget.graphData.graphData,
+                                        )
+                                      : _selectedIndex == 1
+                                          ? _helper.extractGraphBasedOnPeriod(
+                                              "1y",
+                                              widget.graphData.graphData,
+                                            )
+                                          : _helper.extractGraphBasedOnPeriod(
+                                              "5y",
+                                              widget.graphData.graphData,
+                                            ),
+                                )
+                                .reduce(min)
+                                .toDouble(),
+                            maxY: _helper
+                                .extractPriceFromGraph(
+                                  _selectedIndex == 0
+                                      ? _helper.extractGraphBasedOnPeriod(
+                                          "1m",
+                                          widget.graphData.graphData,
+                                        )
+                                      : _selectedIndex == 1
+                                          ? _helper.extractGraphBasedOnPeriod(
+                                              "1y",
+                                              widget.graphData.graphData,
+                                            )
+                                          : _helper.extractGraphBasedOnPeriod(
+                                              "5y",
+                                              widget.graphData.graphData,
+                                            ),
+                                )
+                                .reduce(max)
+                                .toDouble(),
+                            lineBarsData: [
+                              LineChartBarData(
+                                spots: listData(
+                                  _helper.extractPriceFromGraph(
+                                    _selectedIndex == 0
+                                        ? _helper.extractGraphBasedOnPeriod(
+                                            "1m",
+                                            widget.graphData.graphData,
+                                          )
+                                        : _selectedIndex == 1
+                                            ? _helper.extractGraphBasedOnPeriod(
+                                                "1y",
+                                                widget.graphData.graphData,
+                                              )
+                                            : _helper.extractGraphBasedOnPeriod(
+                                                "5y",
+                                                widget.graphData.graphData,
+                                              ),
+                                  ),
+                                ),
+                                colors: [const Color(0xff02d39a)],
+                                barWidth: 3,
+                                isStrokeCapRound: true,
+                                dotData: FlDotData(
+                                  show: false,
+                                ),
+                                belowBarData: BarAreaData(
+                                  show: true,
+                                  gradientFrom: const Offset(0, .9),
+                                  gradientTo: const Offset(
+                                    0,
+                                    0.5,
+                                  ),
+                                  colors: [
+                                    const Color(
+                                      0xff02d39a,
+                                    ).withOpacity(.01),
+                                    const Color(
+                                      0xff02d39a,
+                                    ).withOpacity(.3)
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          swapAnimationDuration: Duration.zero,
+                        ),
                       ),
                     ),
                     SliverToBoxAdapter(
@@ -1095,10 +1341,15 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                           itemBuilder: (BuildContext context, int index) {
                             return InkWell(
                               onTap: () {
-                                Get.to(
-                                  () => MarketDataScreen(
-                                    model.trendingCoins[index],
+                                Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => MarketDataScreen(
+                                      model.trendingCoins[index],
+                                      widget.graphData,
+                                    ),
                                   ),
+                                  ModalRoute.withName("/homeScreen"),
                                 );
                               },
                               child: Container(
@@ -1240,4 +1491,10 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
       ),
     );
   }
+}
+
+List<FlSpot> listData(List<num> data) {
+  return data.asMap().entries.map((e) {
+    return FlSpot(e.key.toDouble(), e.value.toDouble());
+  }).toList();
 }

@@ -147,6 +147,7 @@ class _MarketScreenSearchAssetsState extends State<MarketScreenSearchAssets> {
                                 Get.to(
                                   () => MarketDataScreen(
                                     model.searchList[index],
+                                    model.graphDataList[0],
                                   ),
                                 );
                               },

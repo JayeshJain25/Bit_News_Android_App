@@ -352,6 +352,7 @@ class _MarketScreenState extends State<MarketScreen>
                                             Get.to(
                                               () => MarketDataScreen(
                                                 model.listModel[index],
+                                                model.graphDataList[index],
                                               ),
                                             );
                                           },
