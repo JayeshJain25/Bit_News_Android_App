@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:crypto_news/helper/api_endpoints.dart';
 import 'package:crypto_news/model/news_model.dart';
+import 'package:crypto_news/model/news_read_count_model.dart';
 import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
@@ -72,7 +73,6 @@ class NewsProvider with ChangeNotifier {
     try {
       final response = await http.get(
         Uri.parse(url),
-        // headers: <String, String>{'authorization': _apiEndpoints.basicAuth}
       );
       final r = json.decode(response.body) as List<dynamic>;
       final NewsProvider model = NewsProvider.fromBitcoinJson(r);
@@ -93,7 +93,6 @@ class NewsProvider with ChangeNotifier {
     try {
       final response = await http.get(
         Uri.parse(url),
-        // headers: <String, String>{'authorization': _apiEndpoints.basicAuth}
       );
       final r = json.decode(response.body) as List<dynamic>;
       final NewsProvider model = NewsProvider.fromEthereumJson(r);
@@ -120,6 +119,56 @@ class NewsProvider with ChangeNotifier {
       for (final element in model.nftNewsList) {
         nftNewsList.add(element);
       }
+
+      notifyListeners();
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  Future<NewsReadCountModel> getNewsReadCount(
+    String title,
+    String source,
+  ) async {
+    final NewsReadCountModel model;
+    final url =
+        "${ApiEndpoints.baseUrl}news/read-count-news?title=$title&source=$source";
+    try {
+      final response = await http.get(
+        Uri.parse(url),
+      );
+      final r = json.decode(response.body) as List<dynamic>;
+      if (r.isEmpty) {
+        model = const NewsReadCountModel(readCount: [], title: "", source: "");
+      } else {
+        model = NewsReadCountModel.fromJson(
+          r[0] as Map<String, dynamic>,
+        );
+      }
+
+      notifyListeners();
+      return model;
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  Future<void> updateNewsReadCount(
+    NewsReadCountModel countModel,
+  ) async {
+    final url = "${ApiEndpoints.baseUrl}news/update-read-count";
+    try {
+      await http.post(
+        Uri.parse(url),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, dynamic>{
+          'title': countModel.title,
+          'source': countModel.source,
+          'readCount': countModel.readCount,
+        }),
+      );
 
       notifyListeners();
     } catch (error) {

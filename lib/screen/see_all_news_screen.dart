@@ -366,23 +366,75 @@ class _SeeAllNewsScreenState extends State<SeeAllNewsScreen> {
                                                 child: FadeInAnimation(
                                                   child: InkWell(
                                                     onTap: () {
-                                                      Get.to(
-                                                        () => NewsSummaryScreen(
-                                                          _selectedIndex == 0
-                                                              ? model.newsCompleteList[
-                                                                  index]
-                                                              : _selectedIndex ==
-                                                                      1
-                                                                  ? model.bitcoinNewsList[
-                                                                      index]
-                                                                  : _selectedIndex ==
-                                                                          2
-                                                                      ? model.ethereumNewsList[
-                                                                          index]
-                                                                      : model.nftNewsList[
-                                                                          index],
-                                                        ),
-                                                      );
+                                                      Provider.of<NewsProvider>(
+                                                        context,
+                                                        listen: false,
+                                                      )
+                                                          .getNewsReadCount(
+                                                        _selectedIndex == 0
+                                                            ? model
+                                                                .newsCompleteList[
+                                                                    index]
+                                                                .title
+                                                            : _selectedIndex ==
+                                                                    1
+                                                                ? model
+                                                                    .bitcoinNewsList[
+                                                                        index]
+                                                                    .title
+                                                                : _selectedIndex ==
+                                                                        2
+                                                                    ? model
+                                                                        .ethereumNewsList[
+                                                                            index]
+                                                                        .title
+                                                                    : model
+                                                                        .nftNewsList[
+                                                                            index]
+                                                                        .title,
+                                                        _selectedIndex == 0
+                                                            ? model
+                                                                .newsCompleteList[
+                                                                    index]
+                                                                .source
+                                                            : _selectedIndex ==
+                                                                    1
+                                                                ? model
+                                                                    .bitcoinNewsList[
+                                                                        index]
+                                                                    .source
+                                                                : _selectedIndex ==
+                                                                        2
+                                                                    ? model
+                                                                        .ethereumNewsList[
+                                                                            index]
+                                                                        .source
+                                                                    : model
+                                                                        .nftNewsList[
+                                                                            index]
+                                                                        .source,
+                                                      )
+                                                          .then((value) {
+                                                        Get.to(
+                                                          () =>
+                                                              NewsSummaryScreen(
+                                                            _selectedIndex == 0
+                                                                ? model.newsCompleteList[
+                                                                    index]
+                                                                : _selectedIndex ==
+                                                                        1
+                                                                    ? model.bitcoinNewsList[
+                                                                        index]
+                                                                    : _selectedIndex ==
+                                                                            2
+                                                                        ? model.ethereumNewsList[
+                                                                            index]
+                                                                        : model.nftNewsList[
+                                                                            index],
+                                                            value,
+                                                          ),
+                                                        );
+                                                      });
                                                     },
                                                     child: Container(
                                                       margin: EdgeInsets.all(

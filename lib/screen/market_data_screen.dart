@@ -1140,11 +1140,24 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                                         )
                                       : InkWell(
                                           onTap: () {
-                                            Get.to(
-                                              () => NewsSummaryScreen(
-                                                model.newsCompleteList[index],
-                                              ),
-                                            );
+                                            Provider.of<NewsProvider>(
+                                              context,
+                                              listen: false,
+                                            )
+                                                .getNewsReadCount(
+                                              model.newsCompleteList[index]
+                                                  .title,
+                                              model.newsCompleteList[index]
+                                                  .source,
+                                            )
+                                                .then((value) {
+                                              Get.to(
+                                                () => NewsSummaryScreen(
+                                                  model.newsCompleteList[index],
+                                                  value,
+                                                ),
+                                              );
+                                            });
                                           },
                                           child: Container(
                                             margin:

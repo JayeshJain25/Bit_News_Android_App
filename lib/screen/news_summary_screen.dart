@@ -1,18 +1,25 @@
+import 'dart:async';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:crypto_news/helper/helper.dart';
 import 'package:crypto_news/model/news_model.dart';
+import 'package:crypto_news/model/news_read_count_model.dart';
+import 'package:crypto_news/provider/news_provider.dart';
 import 'package:crypto_news/widget/news_web_view.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class NewsSummaryScreen extends StatefulWidget {
   final NewsModel newsData;
+  final NewsReadCountModel newsReadCount;
 
-  const NewsSummaryScreen(this.newsData);
+  const NewsSummaryScreen(this.newsData, this.newsReadCount);
 
   @override
   _NewsSummaryScreenState createState() => _NewsSummaryScreenState();
@@ -20,12 +27,42 @@ class NewsSummaryScreen extends StatefulWidget {
 
 class _NewsSummaryScreenState extends State<NewsSummaryScreen> {
   final _helper = Helper();
+  Timer? timer;
+  final User? user = FirebaseAuth.instance.currentUser;
+
+  @override
+  void initState() {
+    super.initState();
+
+    final NewsReadCountModel readCountModel;
+    if (widget.newsReadCount.readCount.isEmpty ||
+        !widget.newsReadCount.readCount.contains(user!.uid)) {
+      final List<dynamic> uid = [...widget.newsReadCount.readCount, user!.uid];
+
+      readCountModel = NewsReadCountModel(
+        title: widget.newsData.title,
+        source: widget.newsData.source,
+        readCount: uid,
+      );
+      timer = Timer.periodic(
+        const Duration(seconds: 8),
+        (Timer t) => Provider.of<NewsProvider>(context, listen: false)
+            .updateNewsReadCount(readCountModel),
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-
+    // print(widget.newsData.url);
     return Scaffold(
       backgroundColor: const Color(0xFF292f33),
       body: CustomScrollView(
@@ -86,90 +123,6 @@ class _NewsSummaryScreenState extends State<NewsSummaryScreen> {
                     ),
                   ),
                 ),
-                // Positioned(
-                //   top: height * 0.29,
-                //   child: SizedBox(
-                //     width: width,
-                //     child: Row(
-                //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                //       children: <Widget>[
-                //         Container(
-                //           decoration: BoxDecoration(
-                //             borderRadius: BorderRadius.circular(20),
-                //             color: Colors.transparent,
-                //           ),
-                //           width: width * 0.32,
-                //           height: height * 0.05,
-                //           child: Center(
-                //             heightFactor: 1,
-                //             child: AutoSizeText(
-                //               widget.newsData.source,
-                //               maxLines: 2,
-                //               style: GoogleFonts.rubik(
-                //                 color: Colors.white,
-                //                 fontSize: 14,
-                //                 fontWeight: FontWeight.w500,
-                //               ),
-                //               textAlign: TextAlign.center,
-                //             ),
-                //           ),
-                //         ),
-                //         Container(
-                //           decoration: BoxDecoration(
-                //             borderRadius: BorderRadius.circular(20),
-                //             color: Colors.transparent,
-                //           ),
-                //           width: width * 0.2,
-                //           height: height * 0.05,
-                //           child: Row(
-                //             mainAxisAlignment: MainAxisAlignment.center,
-                //             children: <Widget>[
-                //               const Icon(
-                //                 Icons.watch_later_outlined,
-                //                 color: Colors.white,
-                //                 size: 17,
-                //               ),
-                //               AutoSizeText(
-                //                 " ${widget.newsData.readTime.split(
-                //                   " ",
-                //                 )[0]} ${widget.newsData.readTime.split(" ")[1]}",
-                //                 style: GoogleFonts.rubik(
-                //                   color: Colors.white,
-                //                   fontWeight: FontWeight.w500,
-                //                 ),
-                //               )
-                //             ],
-                //           ),
-                //         ),
-                //         Container(
-                //           decoration: BoxDecoration(
-                //             borderRadius: BorderRadius.circular(20),
-                //             color: Colors.transparent,
-                //           ),
-                //           width: width * 0.2,
-                //           height: height * 0.05,
-                //           child: Row(
-                //             mainAxisAlignment: MainAxisAlignment.center,
-                //             children: <Widget>[
-                //               const Icon(
-                //                 Icons.remove_red_eye,
-                //                 color: Colors.white,
-                //                 size: 17,
-                //               ),
-                //               Text(
-                //                 " 376",
-                //                 style: GoogleFonts.rubik(
-                //                   color: Colors.white,
-                //                   fontWeight: FontWeight.w500,
-                //                 ),
-                //               )
-                //             ],
-                //           ),
-                //         )
-                //       ],
-                //     ),
-                //   ),
-                // ),
                 Positioned(
                   bottom: -1,
                   left: 0,
@@ -275,7 +228,7 @@ class _NewsSummaryScreenState extends State<NewsSummaryScreen> {
                             size: 17,
                           ),
                           Text(
-                            " 376",
+                            " ${widget.newsReadCount.readCount.length}",
                             style: GoogleFonts.rubik(
                               color: Colors.white,
                               fontWeight: FontWeight.w500,
