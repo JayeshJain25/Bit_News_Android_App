@@ -28,15 +28,26 @@ class NewsSummaryScreen extends StatefulWidget {
 class _NewsSummaryScreenState extends State<NewsSummaryScreen> {
   final _helper = Helper();
   Timer? timer;
+  Timer? timer1;
   final User? user = FirebaseAuth.instance.currentUser;
+  List<dynamic> dataList = [];
+  bool plusOneCount = false;
 
   @override
   void initState() {
     super.initState();
+    dataList = [...widget.newsReadCount.readCount];
+
+    timer1 = Timer.periodic(const Duration(seconds: 5), (Timer t) {
+      if (plusOneCount) {
+        setState(() {
+          plusOneCount = false;
+        });
+      }
+    });
 
     final NewsReadCountModel readCountModel;
-    if (widget.newsReadCount.readCount.isEmpty ||
-        !widget.newsReadCount.readCount.contains(user!.uid)) {
+    if (dataList.isEmpty || !dataList.contains(user!.uid)) {
       final List<dynamic> uid = [...widget.newsReadCount.readCount, user!.uid];
 
       readCountModel = NewsReadCountModel(
@@ -44,17 +55,26 @@ class _NewsSummaryScreenState extends State<NewsSummaryScreen> {
         source: widget.newsData.source,
         readCount: uid,
       );
-      timer = Timer.periodic(
-        const Duration(seconds: 8),
-        (Timer t) => Provider.of<NewsProvider>(context, listen: false)
-            .updateNewsReadCount(readCountModel),
-      );
+
+      timer = Timer.periodic(const Duration(seconds: 8), (Timer t) {
+        if (dataList.isEmpty || !dataList.contains(user!.uid)) {
+          Provider.of<NewsProvider>(context, listen: false)
+              .updateNewsReadCount(readCountModel)
+              .then((_) {
+            setState(() {
+              plusOneCount = true;
+              dataList = [...widget.newsReadCount.readCount, user!.uid];
+            });
+          });
+        }
+      });
     }
   }
 
   @override
   void dispose() {
     timer?.cancel();
+    timer1?.cancel();
     super.dispose();
   }
 
@@ -228,12 +248,20 @@ class _NewsSummaryScreenState extends State<NewsSummaryScreen> {
                             size: 17,
                           ),
                           Text(
-                            " ${widget.newsReadCount.readCount.length}",
+                            " ${dataList.length}",
                             style: GoogleFonts.rubik(
                               color: Colors.white,
                               fontWeight: FontWeight.w500,
                             ),
-                          )
+                          ),
+                          if (plusOneCount)
+                            Text(
+                              "   + 1",
+                              style: GoogleFonts.rubik(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            )
                         ],
                       ),
                     )

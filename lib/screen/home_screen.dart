@@ -622,6 +622,8 @@ class _HomeScreenState extends State<HomeScreen>
                                                       model.listModel[index],
                                                       model
                                                           .graphDataList[index],
+                                                      model.dailyGraphDataList[
+                                                          index],
                                                     ),
                                                   );
                                                 },
@@ -829,20 +831,20 @@ class _HomeScreenState extends State<HomeScreen>
                                                                       ),
                                                                       minX: 0,
                                                                       maxX: model
-                                                                              .graphDataList[index]
+                                                                              .dailyGraphDataList[index]
                                                                               .graphData
                                                                               .length
                                                                               .toDouble() -
                                                                           1,
                                                                       minY: _helper
                                                                           .extractPriceFromGraph(
-                                                                            model.graphDataList[index].graphData,
+                                                                            model.dailyGraphDataList[index].graphData,
                                                                           )
                                                                           .reduce(min)
                                                                           .toDouble(),
                                                                       maxY: _helper
                                                                           .extractPriceFromGraph(
-                                                                            model.graphDataList[index].graphData,
+                                                                            model.dailyGraphDataList[index].graphData,
                                                                           )
                                                                           .reduce(max)
                                                                           .toDouble(),
@@ -851,7 +853,7 @@ class _HomeScreenState extends State<HomeScreen>
                                                                           spots:
                                                                               listData(
                                                                             _helper.extractPriceFromGraph(
-                                                                              model.graphDataList[index].graphData,
+                                                                              model.dailyGraphDataList[index].graphData,
                                                                             ),
                                                                           ),
                                                                           colors: [
@@ -1038,7 +1040,10 @@ class _HomeScreenState extends State<HomeScreen>
                                               Get.to(
                                                 () => MarketDataScreen(
                                                   model.trendingCoins[index],
-                                                  model.graphDataList[0],
+                                                  model.trendingGraphDataList[
+                                                      index],
+                                                  model.trendingDailyGraphDataList[
+                                                      index],
                                                 ),
                                               );
                                             },
@@ -1187,7 +1192,7 @@ class _HomeScreenState extends State<HomeScreen>
                                                                     getDrawingHorizontalLine:
                                                                         (value) {
                                                                       return FlLine(
-                                                                        color: model.listModel[index].priceChangePercentage24h >
+                                                                        color: model.trendingCoins[index].priceChangePercentage24h >
                                                                                 0
                                                                             ? const Color(
                                                                                 0xFF00a55b,
@@ -1206,7 +1211,7 @@ class _HomeScreenState extends State<HomeScreen>
                                                                     getDrawingVerticalLine:
                                                                         (value) {
                                                                       return FlLine(
-                                                                        color: model.listModel[index].priceChangePercentage24h >
+                                                                        color: model.trendingCoins[index].priceChangePercentage24h >
                                                                                 0
                                                                             ? const Color(
                                                                                 0xFF00a55b,
@@ -1233,7 +1238,7 @@ class _HomeScreenState extends State<HomeScreen>
                                                                   ),
                                                                   minX: 0,
                                                                   maxX: model
-                                                                          .graphDataList[
+                                                                          .trendingDailyGraphDataList[
                                                                               0]
                                                                           .graphData
                                                                           .length
@@ -1242,7 +1247,7 @@ class _HomeScreenState extends State<HomeScreen>
                                                                   minY: _helper
                                                                       .extractPriceFromGraph(
                                                                         model
-                                                                            .graphDataList[0]
+                                                                            .trendingDailyGraphDataList[index]
                                                                             .graphData,
                                                                       )
                                                                       .reduce(
@@ -1252,7 +1257,7 @@ class _HomeScreenState extends State<HomeScreen>
                                                                   maxY: _helper
                                                                       .extractPriceFromGraph(
                                                                         model
-                                                                            .graphDataList[0]
+                                                                            .trendingDailyGraphDataList[index]
                                                                             .graphData,
                                                                       )
                                                                       .reduce(
@@ -1266,12 +1271,12 @@ class _HomeScreenState extends State<HomeScreen>
                                                                         _helper
                                                                             .extractPriceFromGraph(
                                                                           model
-                                                                              .graphDataList[0]
+                                                                              .trendingDailyGraphDataList[index]
                                                                               .graphData,
                                                                         ),
                                                                       ),
                                                                       colors: [
-                                                                        if (model.listModel[index].priceChangePercentage24h >
+                                                                        if (model.trendingCoins[index].priceChangePercentage24h >
                                                                             0)
                                                                           const Color(
                                                                             0xFF00a55b,
@@ -1309,7 +1314,7 @@ class _HomeScreenState extends State<HomeScreen>
                                                                           0.5,
                                                                         ),
                                                                         colors: [
-                                                                          if (model.listModel[index].priceChangePercentage24h >
+                                                                          if (model.trendingCoins[index].priceChangePercentage24h >
                                                                               0)
                                                                             const Color(
                                                                               0xFF00a55b,

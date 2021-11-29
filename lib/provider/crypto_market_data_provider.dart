@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:crypto_news/helper/api_endpoints.dart';
 import 'package:crypto_news/model/coin_paprika_global_data_model.dart';
 import 'package:crypto_news/model/coin_paprika_market_static_data_model.dart';
+import 'package:crypto_news/model/crpyto_data_daily_graph_model.dart';
 import 'package:crypto_news/model/crypto_data_graph_model.dart';
 import 'package:crypto_news/model/crypto_market_data_model.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,9 @@ class CryptoMarketDataProvider with ChangeNotifier {
   List<CryptoMarketDataModel> watchListCoins = [];
   List<CryptoMarketDataModel> searchList = [];
   List<CryptoDataGraphModel> graphDataList = [];
+  List<CryptoDataDailyGraphModel> dailyGraphDataList = [];
+  List<CryptoDataGraphModel> trendingGraphDataList = [];
+  List<CryptoDataDailyGraphModel> trendingDailyGraphDataList = [];
 
   CryptoMarketDataProvider.fromJson(List<dynamic> parsedJson) {
     List<CryptoMarketDataModel> list = [];
@@ -63,6 +67,7 @@ class CryptoMarketDataProvider with ChangeNotifier {
       for (final element in model.listModel) {
         listModel.add(element);
         graphDataList.add(await getCryptoGraphData(element.symbol));
+        dailyGraphDataList.add(await getCryptoGraphDailyData(element.symbol));
       }
       notifyListeners();
     } catch (error) {
@@ -103,6 +108,9 @@ class CryptoMarketDataProvider with ChangeNotifier {
           CryptoMarketDataProvider.fromMap(r);
       for (final element in model.trendingCoins) {
         trendingCoins.add(element);
+        trendingGraphDataList.add(await getCryptoGraphData(element.symbol));
+        trendingDailyGraphDataList
+            .add(await getCryptoGraphDailyData(element.symbol));
       }
       notifyListeners();
     } catch (error) {
@@ -195,6 +203,7 @@ class CryptoMarketDataProvider with ChangeNotifier {
   Future<CryptoDataGraphModel> getCryptoGraphData(
     String symbol,
   ) async {
+    final CryptoDataGraphModel globalData;
     final url =
         "${ApiEndpoints.baseUrl}cryptocurrency/crypto-graph-data?symbol=$symbol";
 
@@ -203,9 +212,50 @@ class CryptoMarketDataProvider with ChangeNotifier {
         Uri.parse(url),
       );
       final r = json.decode(response.body) as List<dynamic>;
-      final CryptoDataGraphModel globalData = CryptoDataGraphModel.fromJson(
-        r[0] as Map<String, dynamic>,
+      if (r.isEmpty) {
+        globalData = CryptoDataGraphModel(
+          name: "unknown",
+          symbol: "unknown",
+          period: "max",
+          graphData: [],
+        );
+      } else {
+        globalData = CryptoDataGraphModel.fromJson(
+          r[0] as Map<String, dynamic>,
+        );
+      }
+
+      notifyListeners();
+      return globalData;
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  Future<CryptoDataDailyGraphModel> getCryptoGraphDailyData(
+    String symbol,
+  ) async {
+    final CryptoDataDailyGraphModel globalData;
+    final url =
+        "${ApiEndpoints.baseUrl}cryptocurrency/daily-graph-data?symbol=$symbol";
+
+    try {
+      final response = await http.get(
+        Uri.parse(url),
       );
+      final r = json.decode(response.body) as List<dynamic>;
+      if (r.isEmpty) {
+        globalData = CryptoDataDailyGraphModel(
+          name: "unknown",
+          symbol: "unknown",
+          graphData: [],
+        );
+      } else {
+        globalData = CryptoDataDailyGraphModel.fromJson(
+          r[0] as Map<String, dynamic>,
+        );
+      }
+
       notifyListeners();
       return globalData;
     } catch (error) {

@@ -4,6 +4,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:crypto_news/helper/helper.dart';
 import 'package:crypto_news/model/coin_paprika_market_static_data_model.dart';
+import 'package:crypto_news/model/crpyto_data_daily_graph_model.dart';
 import 'package:crypto_news/model/crypto_data_graph_model.dart';
 import 'package:crypto_news/model/crypto_market_data_model.dart';
 import 'package:crypto_news/provider/crypto_market_data_provider.dart';
@@ -26,8 +27,9 @@ import 'news_summary_screen.dart';
 class MarketDataScreen extends StatefulWidget {
   CryptoMarketDataModel cryptoData;
   final CryptoDataGraphModel graphData;
+  final CryptoDataDailyGraphModel dailyGraphData;
 
-  MarketDataScreen(this.cryptoData, this.graphData);
+  MarketDataScreen(this.cryptoData, this.graphData, this.dailyGraphData);
 
   @override
   _MarketDataScreenState createState() => _MarketDataScreenState();
@@ -279,7 +281,10 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                                   );
                                 },
                                 child: AutoSizeText(
-                                  "\u{20B9} ${widget.cryptoData.price.toString().startsWith("0.") ? widget.cryptoData.price.toString() : _helper.removeDecimal(widget.cryptoData.price.toString()).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}",
+                                  "\u{20B9} ${widget.cryptoData.price.toString().startsWith("0.") ? widget.cryptoData.price.toString() : _helper.removeDecimal(widget.cryptoData.price.toString()).replaceAllMapped(
+                                        RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+                                        (Match m) => '${m[1]},',
+                                      )}",
                                   style: GoogleFonts.nunito(
                                     color: Colors.white,
                                     fontSize: 25,
@@ -302,11 +307,41 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                               borderRadius: BorderRadius.circular(25),
                               onTap: () {
                                 setState(() {
+                                  _selectedIndex = 3;
+                                });
+                              },
+                              child: Container(
+                                width: width * 0.2,
+                                height: 45,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(25),
+                                  color: _selectedIndex == 3
+                                      ? const Color(0xFF52CAF5)
+                                      : Colors.transparent,
+                                ),
+                                child: Center(
+                                  child: AutoSizeText(
+                                    '24h',
+                                    maxLines: 1,
+                                    style: GoogleFonts.rubik(
+                                      fontWeight: FontWeight.w600,
+                                      color: _selectedIndex == 3
+                                          ? Colors.black
+                                          : Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            InkWell(
+                              borderRadius: BorderRadius.circular(25),
+                              onTap: () {
+                                setState(() {
                                   _selectedIndex = 0;
                                 });
                               },
                               child: Container(
-                                width: 100,
+                                width: width * 0.2,
                                 height: 45,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(25),
@@ -336,7 +371,7 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                                 });
                               },
                               child: Container(
-                                width: 100,
+                                width: width * 0.2,
                                 height: 45,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(25),
@@ -366,7 +401,7 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                                 });
                               },
                               child: Container(
-                                width: 100,
+                                width: width * 0.2,
                                 height: 45,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(25),
@@ -403,6 +438,116 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                         color: Colors.transparent,
                         child: LineChart(
                           LineChartData(
+                            lineTouchData: LineTouchData(
+                              touchTooltipData: LineTouchTooltipData(
+                                fitInsideHorizontally: true,
+                                fitInsideVertically: true,
+                                tooltipRoundedRadius: 24,
+                                getTooltipItems:
+                                    (List<LineBarSpot> touchedBarSpots) {
+                                  return touchedBarSpots.map((barSpot) {
+                                    return LineTooltipItem(
+                                      "${_helper.extractPriceFromGraph(
+                                        _selectedIndex == 0
+                                            ? _helper.extractGraphBasedOnPeriod(
+                                                "1m",
+                                                widget.graphData.graphData,
+                                              )
+                                            : _selectedIndex == 1
+                                                ? _helper
+                                                    .extractGraphBasedOnPeriod(
+                                                    "1y",
+                                                    widget.graphData.graphData,
+                                                  )
+                                                : _selectedIndex == 3
+                                                    ? widget.dailyGraphData
+                                                        .graphData
+                                                    : _helper
+                                                        .extractGraphBasedOnPeriod(
+                                                        "5y",
+                                                        widget.graphData
+                                                            .graphData,
+                                                      ),
+                                      )[barSpot.x.toInt()]}"
+                                              .startsWith("0.")
+                                          ? _helper
+                                              .extractPriceFromGraph(
+                                                _selectedIndex == 0
+                                                    ? _helper
+                                                        .extractGraphBasedOnPeriod(
+                                                        "1m",
+                                                        widget.graphData
+                                                            .graphData,
+                                                      )
+                                                    : _selectedIndex == 1
+                                                        ? _helper
+                                                            .extractGraphBasedOnPeriod(
+                                                            "1y",
+                                                            widget.graphData
+                                                                .graphData,
+                                                          )
+                                                        : _selectedIndex == 3
+                                                            ? widget
+                                                                .dailyGraphData
+                                                                .graphData
+                                                            : _helper
+                                                                .extractGraphBasedOnPeriod(
+                                                                "5y",
+                                                                widget.graphData
+                                                                    .graphData,
+                                                              ),
+                                              )[barSpot.x.toInt()]
+                                              .toStringAsFixed(2)
+                                          : _helper
+                                              .removeDecimal(
+                                                _helper
+                                                    .extractPriceFromGraph(
+                                                      _selectedIndex == 0
+                                                          ? _helper
+                                                              .extractGraphBasedOnPeriod(
+                                                              "1m",
+                                                              widget.graphData
+                                                                  .graphData,
+                                                            )
+                                                          : _selectedIndex == 1
+                                                              ? _helper
+                                                                  .extractGraphBasedOnPeriod(
+                                                                  "1y",
+                                                                  widget
+                                                                      .graphData
+                                                                      .graphData,
+                                                                )
+                                                              : _selectedIndex ==
+                                                                      3
+                                                                  ? widget
+                                                                      .dailyGraphData
+                                                                      .graphData
+                                                                  : _helper
+                                                                      .extractGraphBasedOnPeriod(
+                                                                      "5y",
+                                                                      widget
+                                                                          .graphData
+                                                                          .graphData,
+                                                                    ),
+                                                    )[barSpot.x.toInt()]
+                                                    .toStringAsFixed(2),
+                                              )
+                                              .replaceAllMapped(
+                                                RegExp(
+                                                  r'(\d{1,3})(?=(\d{3})+(?!\d))',
+                                                ),
+                                                (Match m) => '${m[1]},',
+                                              ),
+                                      GoogleFonts.nunito(
+                                        color: Colors.white,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    );
+                                  }).toList();
+                                },
+                              ),
+                            ),
                             gridData: FlGridData(
                               show: true,
                               drawVerticalLine: false,
@@ -448,13 +593,17 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                                             )
                                             .length
                                             .toDouble()
-                                        : _helper
-                                            .extractGraphBasedOnPeriod(
-                                              "5y",
-                                              widget.graphData.graphData,
-                                            )
-                                            .length
-                                            .toDouble()) -
+                                        : _selectedIndex == 3
+                                            ? widget
+                                                .dailyGraphData.graphData.length
+                                                .toDouble()
+                                            : _helper
+                                                .extractGraphBasedOnPeriod(
+                                                  "5y",
+                                                  widget.graphData.graphData,
+                                                )
+                                                .length
+                                                .toDouble()) -
                                 1,
                             minY: _helper
                                 .extractPriceFromGraph(
@@ -468,10 +617,13 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                                               "1y",
                                               widget.graphData.graphData,
                                             )
-                                          : _helper.extractGraphBasedOnPeriod(
-                                              "5y",
-                                              widget.graphData.graphData,
-                                            ),
+                                          : _selectedIndex == 3
+                                              ? widget.dailyGraphData.graphData
+                                              : _helper
+                                                  .extractGraphBasedOnPeriod(
+                                                  "5y",
+                                                  widget.graphData.graphData,
+                                                ),
                                 )
                                 .reduce(min)
                                 .toDouble(),
@@ -487,10 +639,13 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                                               "1y",
                                               widget.graphData.graphData,
                                             )
-                                          : _helper.extractGraphBasedOnPeriod(
-                                              "5y",
-                                              widget.graphData.graphData,
-                                            ),
+                                          : _selectedIndex == 3
+                                              ? widget.dailyGraphData.graphData
+                                              : _helper
+                                                  .extractGraphBasedOnPeriod(
+                                                  "5y",
+                                                  widget.graphData.graphData,
+                                                ),
                                 )
                                 .reduce(max)
                                 .toDouble(),
@@ -508,10 +663,14 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                                                 "1y",
                                                 widget.graphData.graphData,
                                               )
-                                            : _helper.extractGraphBasedOnPeriod(
-                                                "5y",
-                                                widget.graphData.graphData,
-                                              ),
+                                            : _selectedIndex == 3
+                                                ? widget
+                                                    .dailyGraphData.graphData
+                                                : _helper
+                                                    .extractGraphBasedOnPeriod(
+                                                    "5y",
+                                                    widget.graphData.graphData,
+                                                  ),
                                   ),
                                 ),
                                 colors: [const Color(0xff02d39a)],
@@ -1360,6 +1519,7 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                                     builder: (context) => MarketDataScreen(
                                       model.trendingCoins[index],
                                       widget.graphData,
+                                      widget.dailyGraphData,
                                     ),
                                   ),
                                   ModalRoute.withName("/homeScreen"),

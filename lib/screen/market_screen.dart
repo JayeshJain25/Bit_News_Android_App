@@ -349,10 +349,12 @@ class _MarketScreenState extends State<MarketScreen>
                                           onTap: () {
                                             FocusScope.of(context)
                                                 .requestFocus(FocusNode());
+
                                             Get.to(
                                               () => MarketDataScreen(
                                                 model.listModel[index],
                                                 model.graphDataList[index],
+                                                model.dailyGraphDataList[index],
                                               ),
                                             );
                                           },
