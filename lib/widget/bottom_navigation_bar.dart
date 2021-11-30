@@ -84,7 +84,8 @@ class _MyCustomBottomNavigationBarState extends State<AppBottomNavigationBar>
                         height: 24,
                         child: ImageIcon(
                           CachedNetworkImageProvider(
-                              'https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/home.png?alt=media&token=6069b526-8886-4c2e-8dca-3bccd342c093'),
+                            'https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/home.png?alt=media&token=6069b526-8886-4c2e-8dca-3bccd342c093',
+                          ),
                         ),
                       ),
                     ),

@@ -160,6 +160,7 @@ class CryptoMarketDataProvider with ChangeNotifier {
   Future<CoinPaprikaMarketStaticDataModel> getCoinPaprikaMarketStaticData(
     String symbol,
   ) async {
+    final CoinPaprikaMarketStaticDataModel globalData;
     final url =
         "${ApiEndpoints.baseUrl}cryptocurrency/coin-paprika-market-static-data?symbol=$symbol";
 
@@ -168,10 +169,23 @@ class CryptoMarketDataProvider with ChangeNotifier {
         Uri.parse(url),
       );
       final r = json.decode(response.body) as List<dynamic>;
-      final CoinPaprikaMarketStaticDataModel globalData =
-          CoinPaprikaMarketStaticDataModel.fromJson(
-        r[0] as Map<String, dynamic>,
-      );
+      if (r.isEmpty) {
+        globalData = CoinPaprikaMarketStaticDataModel(
+          description: "",
+          id: "",
+          links: "",
+          name: "",
+          rank: 0,
+          symbol: "",
+          type: "",
+          whitepaper: "",
+        );
+      } else {
+        globalData = CoinPaprikaMarketStaticDataModel.fromJson(
+          r[0] as Map<String, dynamic>,
+        );
+      }
+
       notifyListeners();
       return globalData;
     } catch (error) {

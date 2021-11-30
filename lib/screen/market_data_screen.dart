@@ -497,7 +497,7 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                                                                     .graphData,
                                                               ),
                                               )[barSpot.x.toInt()]
-                                              .toStringAsFixed(2)
+                                              .toString()
                                           : _helper
                                               .removeDecimal(
                                                 _helper

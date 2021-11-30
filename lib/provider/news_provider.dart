@@ -14,6 +14,7 @@ class NewsProvider with ChangeNotifier {
   List<NewsModel> bitcoinNewsList = [];
   List<NewsModel> ethereumNewsList = [];
   List<NewsModel> nftNewsList = [];
+  List<NewsModel> newsByReadCount = [];
 
   NewsProvider.fromJson(List<dynamic> parsedJson) {
     List<NewsModel> list = [];
@@ -45,6 +46,14 @@ class NewsProvider with ChangeNotifier {
         .map((e) => NewsModel.fromJson(e as Map<String, dynamic>))
         .toList();
     nftNewsList = list;
+  }
+
+  NewsProvider.fromReadCountJson(List<dynamic> parsedJson) {
+    List<NewsModel> list = [];
+    list = parsedJson
+        .map((e) => NewsModel.fromJson(e as Map<String, dynamic>))
+        .toList();
+    newsByReadCount = list;
   }
 
   Future<void> getNewsFeed(
@@ -126,6 +135,26 @@ class NewsProvider with ChangeNotifier {
     }
   }
 
+  Future<void> getNewsByReadCount() async {
+    final url = "${ApiEndpoints.baseUrl}news/top-news";
+
+    try {
+      final response = await http.get(
+        Uri.parse(url),
+      );
+      final r = json.decode(response.body) as List<dynamic>;
+      final NewsProvider model = NewsProvider.fromReadCountJson(r);
+      for (final element in model.newsByReadCount) {
+        newsByReadCount.add(element);
+      }
+
+      notifyListeners();
+    } catch (error) {
+      rethrow;
+      print(error);
+    }
+  }
+
   Future<NewsReadCountModel> getNewsReadCount(
     String title,
     String source,
@@ -139,7 +168,12 @@ class NewsProvider with ChangeNotifier {
       );
       final r = json.decode(response.body) as List<dynamic>;
       if (r.isEmpty) {
-        model = const NewsReadCountModel(readCount: [], title: "", source: "");
+        model = const NewsReadCountModel(
+          readCount: [],
+          title: "",
+          source: "",
+          totalReadCount: 0,
+        );
       } else {
         model = NewsReadCountModel.fromJson(
           r[0] as Map<String, dynamic>,

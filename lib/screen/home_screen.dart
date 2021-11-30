@@ -137,7 +137,7 @@ class _HomeScreenState extends State<HomeScreen>
     Provider.of<CryptoMarketDataProvider>(context, listen: false)
         .getTrendingCoins();
 
-    Provider.of<NewsProvider>(context, listen: false).getNewsFeed(1);
+    Provider.of<NewsProvider>(context, listen: false).getNewsByReadCount();
 
     Provider.of<CryptoExplainerProvider>(context, listen: false)
         .getcryptoExplainerByType("Bitcoin");
@@ -203,9 +203,10 @@ class _HomeScreenState extends State<HomeScreen>
                   .getTrendingCoins();
 
               Provider.of<NewsProvider>(context, listen: false)
-                  .newsCompleteList
+                  .newsByReadCount
                   .clear();
-              Provider.of<NewsProvider>(context, listen: false).getNewsFeed(1);
+              Provider.of<NewsProvider>(context, listen: false)
+                  .getNewsByReadCount();
             });
             return Future.delayed(const Duration(seconds: 2));
           },
@@ -1704,7 +1705,7 @@ class _HomeScreenState extends State<HomeScreen>
                     ),
                   ),
                   Consumer<NewsProvider>(
-                    builder: (ctx, model, _) => model.newsCompleteList.isEmpty
+                    builder: (ctx, model, _) => model.newsByReadCount.isEmpty
                         ? const SliverFillRemaining(
                             child: Center(
                               child: CircularProgressIndicator(),
@@ -1713,7 +1714,7 @@ class _HomeScreenState extends State<HomeScreen>
                         : SliverList(
                             delegate: SliverChildBuilderDelegate(
                               (ctx, index) {
-                                return index == 8
+                                return index == model.newsByReadCount.length
                                     ? GestureDetector(
                                         onTap: () {
                                           Get.to(() => SeeAllNewsScreen());
@@ -1735,14 +1736,13 @@ class _HomeScreenState extends State<HomeScreen>
                                             listen: false,
                                           )
                                               .getNewsReadCount(
-                                            model.newsCompleteList[index].title,
-                                            model
-                                                .newsCompleteList[index].source,
+                                            model.newsByReadCount[index].title,
+                                            model.newsByReadCount[index].source,
                                           )
                                               .then((value) {
                                             Get.to(
                                               () => NewsSummaryScreen(
-                                                model.newsCompleteList[index],
+                                                model.newsByReadCount[index],
                                                 value,
                                               ),
                                             );
@@ -1765,7 +1765,7 @@ class _HomeScreenState extends State<HomeScreen>
                                                     imageUrl:
                                                         _helper.extractImgUrl(
                                                       model
-                                                          .newsCompleteList[
+                                                          .newsByReadCount[
                                                               index]
                                                           .photoUrl,
                                                     ),
@@ -1789,7 +1789,7 @@ class _HomeScreenState extends State<HomeScreen>
                                                     ),
                                                     child: AutoSizeText(
                                                       model
-                                                          .newsCompleteList[
+                                                          .newsByReadCount[
                                                               index]
                                                           .title,
                                                       maxLines: 2,
@@ -1809,7 +1809,7 @@ class _HomeScreenState extends State<HomeScreen>
                                                           bottom:
                                                               getDescriptionLength(
                                                             model
-                                                                .newsCompleteList[
+                                                                .newsByReadCount[
                                                                     index]
                                                                 .description
                                                                 .length,
@@ -1817,7 +1817,7 @@ class _HomeScreenState extends State<HomeScreen>
                                                         ),
                                                         child: AutoSizeText(
                                                           model
-                                                              .newsCompleteList[
+                                                              .newsByReadCount[
                                                                   index]
                                                               .description,
                                                           maxLines: 2,
@@ -1842,7 +1842,7 @@ class _HomeScreenState extends State<HomeScreen>
                                                             child: AutoSizeText(
                                                               "${_helper.convertToAgo(
                                                                 model
-                                                                    .newsCompleteList[
+                                                                    .newsByReadCount[
                                                                         index]
                                                                     .publishedDate,
                                                               )} \u2022",
@@ -1859,7 +1859,7 @@ class _HomeScreenState extends State<HomeScreen>
                                                           ),
                                                           AutoSizeText(
                                                             model
-                                                                .newsCompleteList[
+                                                                .newsByReadCount[
                                                                     index]
                                                                 .source,
                                                             maxLines: 1,
@@ -1886,7 +1886,7 @@ class _HomeScreenState extends State<HomeScreen>
                                         ),
                                       );
                               },
-                              childCount: 9,
+                              childCount: model.newsByReadCount.length + 1,
                             ),
                           ),
                   )

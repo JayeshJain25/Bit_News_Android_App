@@ -54,6 +54,7 @@ class _NewsSummaryScreenState extends State<NewsSummaryScreen> {
         title: widget.newsData.title,
         source: widget.newsData.source,
         readCount: uid,
+        totalReadCount: uid.length,
       );
 
       timer = Timer.periodic(const Duration(seconds: 8), (Timer t) {
