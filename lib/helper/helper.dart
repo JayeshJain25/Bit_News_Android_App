@@ -183,14 +183,18 @@ class Helper {
   }
 
   String extractWhitePaper(String data) {
-    final String prevWhitePaperLink = data.split(",")[0].split(":")[1].trim();
-    if (prevWhitePaperLink == "None") {
+    if (data.isEmpty) {
       return "None";
     } else {
-      final String whitePaperLink =
-          data.split(",")[0].split("':")[1].split("'")[1];
+      final String prevWhitePaperLink = data.split(",")[0].split(":")[1].trim();
+      if (prevWhitePaperLink == "None") {
+        return "None";
+      } else {
+        final String whitePaperLink =
+            data.split(",")[0].split("':")[1].split("'")[1];
 
-      return whitePaperLink;
+        return whitePaperLink;
+      }
     }
   }
 

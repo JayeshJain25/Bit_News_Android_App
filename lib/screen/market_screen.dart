@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:crypto_news/helper/helper.dart';
 import 'package:crypto_news/model/coin_paprika_global_data_model.dart';
 import 'package:crypto_news/provider/crypto_market_data_provider.dart';
+import 'package:crypto_news/provider/google_sign_in_provider.dart';
 import 'package:crypto_news/screen/market_data_screen.dart';
 import 'package:crypto_news/screen/market_screen_search_assets.dart';
 import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
@@ -11,6 +12,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:like_button/like_button.dart';
 
 class MarketScreen extends StatefulWidget {
   @override
@@ -280,48 +282,6 @@ class _MarketScreenState extends State<MarketScreen>
                                       ],
                                     ),
                             ),
-                            // Container(
-                            //   padding:
-                            //       const EdgeInsets.only(left: 10, right: 10),
-                            //   margin: EdgeInsets.only(
-                            //     top: height * 0.02,
-                            //     bottom: height * 0.012,
-                            //     left: height * 0.035,
-                            //     right: height * 0.035,
-                            //   ),
-                            //   height: height * 0.06,
-                            //   decoration: BoxDecoration(
-                            //     borderRadius: BorderRadius.circular(30),
-                            //     color: const Color(0xFF292f33),
-                            //   ),
-                            //   child: Row(
-                            //     children: <Widget>[
-                            //       const Icon(Icons.search, color: Colors.white),
-                            //       const VerticalDivider(
-                            //         color: Colors.white,
-                            //         indent: 10,
-                            //         endIndent: 10,
-                            //       ),
-                            //       Container(
-                            //         margin: const EdgeInsets.only(top: 5),
-                            //         width: width * 0.67,
-                            //         height: 35,
-                            //         child: TextFormField(
-                            //           enabled: false,
-                            //           style: GoogleFonts.rubik(
-                            //               color: Colors.white),
-                            //           decoration: InputDecoration(
-                            //             border: InputBorder.none,
-                            //             hintText: 'Search...',
-                            //             hintStyle: GoogleFonts.rubik(
-                            //               color: Colors.white.withOpacity(0.5),
-                            //             ),
-                            //           ),
-                            //         ),
-                            //       ),
-                            //     ],
-                            //   ),
-                            // ),
                           ],
                         ),
                       ),
@@ -452,81 +412,129 @@ class _MarketScreenState extends State<MarketScreen>
                                                   ),
                                                 ],
                                               ),
-                                              trailing: Column(
+                                              trailing: Row(
+                                                mainAxisSize: MainAxisSize.min,
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.end,
-                                                mainAxisSize: MainAxisSize.min,
                                                 children: [
-                                                  SizedBox(
-                                                    width: width * 0.28,
-                                                    child: AutoSizeText(
-                                                      "\u{20B9} ${model.listModel[index].price.toString().startsWith("0.") ? model.listModel[index].price.toString() : _helper.removeDecimal(model.listModel[index].price.toString()).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}",
-                                                      maxLines: 1,
-                                                      style: GoogleFonts.nunito(
-                                                        color: Colors.white,
-                                                        fontSize: 17,
-                                                        fontWeight:
-                                                            FontWeight.w700,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                    margin: EdgeInsets.only(
-                                                      top: height * 0.005,
-                                                      bottom: height * 0.004,
-                                                    ),
-                                                    width: width * 0.28,
-                                                    child: Row(
-                                                      children: [
-                                                        Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                  .only(
-                                                            top: 2,
-                                                          ),
-                                                          child:
-                                                              CachedNetworkImage(
-                                                            imageUrl: model
-                                                                        .listModel[
-                                                                            index]
-                                                                        .priceChangePercentage24h >=
-                                                                    0
-                                                                ? "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/up_arrow.png?alt=media&token=03660f10-1eab-46ce-bcdd-a72e4380d012"
-                                                                : "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/down_arrow.png?alt=media&token=dcfbaf91-b5d1-42ca-bee4-e785a7c58e8c",
-                                                            fit: BoxFit.cover,
-                                                            height: 10,
-                                                            width: 10,
-                                                          ),
-                                                        ),
-                                                        const SizedBox(
-                                                          width: 2,
-                                                        ),
-                                                        AutoSizeText(
-                                                          model.listModel[index]
-                                                                      .priceChangePercentage24h >=
-                                                                  0
-                                                              ? "+${model.listModel[index].priceChangePercentage24h.toStringAsFixed(2)}%"
-                                                              : "${model.listModel[index].priceChangePercentage24h.toStringAsFixed(2)}%",
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment.end,
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      SizedBox(
+                                                        width: width * 0.28,
+                                                        child: AutoSizeText(
+                                                          "\u{20B9} ${model.listModel[index].price.toString().startsWith("0.") ? model.listModel[index].price.toString() : _helper.removeDecimal(model.listModel[index].price.toString()).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}",
                                                           maxLines: 1,
                                                           style: GoogleFonts
                                                               .nunito(
-                                                            color: model
-                                                                        .listModel[
-                                                                            index]
-                                                                        .priceChangePercentage24h >
-                                                                    0
-                                                                ? const Color(
-                                                                    0xFF00a55b,
-                                                                  )
-                                                                : const Color(
-                                                                    0xFFd82e35,
-                                                                  ),
-                                                            fontSize: 16,
+                                                            color: Colors.white,
+                                                            fontSize: 17,
+                                                            fontWeight:
+                                                                FontWeight.w700,
                                                           ),
                                                         ),
-                                                      ],
+                                                      ),
+                                                      Container(
+                                                        margin: EdgeInsets.only(
+                                                          top: height * 0.005,
+                                                          bottom:
+                                                              height * 0.004,
+                                                        ),
+                                                        width: width * 0.28,
+                                                        child: Row(
+                                                          children: [
+                                                            Container(
+                                                              margin:
+                                                                  const EdgeInsets
+                                                                      .only(
+                                                                top: 2,
+                                                              ),
+                                                              child:
+                                                                  CachedNetworkImage(
+                                                                imageUrl: model
+                                                                            .listModel[index]
+                                                                            .priceChangePercentage24h >=
+                                                                        0
+                                                                    ? "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/up_arrow.png?alt=media&token=03660f10-1eab-46ce-bcdd-a72e4380d012"
+                                                                    : "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/down_arrow.png?alt=media&token=dcfbaf91-b5d1-42ca-bee4-e785a7c58e8c",
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                                height: 10,
+                                                                width: 10,
+                                                              ),
+                                                            ),
+                                                            const SizedBox(
+                                                              width: 2,
+                                                            ),
+                                                            AutoSizeText(
+                                                              model.listModel[index]
+                                                                          .priceChangePercentage24h >=
+                                                                      0
+                                                                  ? "+${model.listModel[index].priceChangePercentage24h.toStringAsFixed(2)}%"
+                                                                  : "${model.listModel[index].priceChangePercentage24h.toStringAsFixed(2)}%",
+                                                              maxLines: 1,
+                                                              style: GoogleFonts
+                                                                  .nunito(
+                                                                color: model.listModel[index]
+                                                                            .priceChangePercentage24h >
+                                                                        0
+                                                                    ? const Color(
+                                                                        0xFF00a55b,
+                                                                      )
+                                                                    : const Color(
+                                                                        0xFFd82e35,
+                                                                      ),
+                                                                fontSize: 16,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                  LikeButton(
+                                                    size: 20,
+                                                    circleColor:
+                                                        const CircleColor(
+                                                      start: Color(0xff00ddff),
+                                                      end: Color(0xff0099cc),
                                                     ),
-                                                  )
+                                                    bubblesColor:
+                                                        const BubblesColor(
+                                                      dotPrimaryColor:
+                                                          Color(0xff33b5e5),
+                                                      dotSecondaryColor:
+                                                          Color(0xff0099cc),
+                                                    ),
+                                                    likeBuilder:
+                                                        (bool isLiked) {
+                                                      return Icon(
+                                                        Icons.favorite,
+                                                        color: Provider.of<
+                                                                    GoogleSignInProvider>(
+                                                          context,
+                                                          listen: false,
+                                                        )
+                                                                .userModel
+                                                                .favoriteCoins
+                                                                .contains(
+                                                                  model
+                                                                      .listModel[
+                                                                          index]
+                                                                      .name
+                                                                      .toLowerCase(),
+                                                                )
+                                                            ? const Color(
+                                                                0xFF52CAF5,
+                                                              )
+                                                            : Colors.grey,
+                                                        size: 20,
+                                                      );
+                                                    },
+                                                  ),
                                                 ],
                                               ),
                                             ),
@@ -534,7 +542,7 @@ class _MarketScreenState extends State<MarketScreen>
                                         ),
                                         Divider(
                                           indent: 65,
-                                          endIndent: 65,
+                                          endIndent: 30,
                                           thickness: 1,
                                           height: 1,
                                           color: index == model.listModel.length

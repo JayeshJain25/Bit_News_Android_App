@@ -1,12 +1,14 @@
 import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:crypto_news/provider/google_sign_in_provider.dart';
 import 'package:crypto_news/screen/sign_in_screen.dart';
 import 'package:crypto_news/widget/bottom_navigation_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -20,6 +22,8 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    Provider.of<GoogleSignInProvider>(context, listen: false)
+        .getUserData(user!.uid);
     Timer(
       const Duration(seconds: 3),
       () => Get.off(

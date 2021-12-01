@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:crypto_news/helper/api_endpoints.dart';
+import 'package:crypto_news/model/user_data_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -10,6 +11,7 @@ class GoogleSignInProvider extends ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   User? user;
+  late UserDataModel userModel;
 
   Future<String?> signInwithGoogle() async {
     try {
@@ -46,6 +48,35 @@ class GoogleSignInProvider extends ChangeNotifier {
         throw Exception('Failed to create User.');
       }
     } on FirebaseAuthException {
+      rethrow;
+    }
+  }
+
+  Future<void> getUserData(
+    String uid,
+  ) async {
+    final url = "${ApiEndpoints.baseUrl}user/get-user-data?userUid=$uid";
+    try {
+      final response = await http.get(
+        Uri.parse(url),
+      );
+      final r = json.decode(response.body) as List<dynamic>;
+      if (r.isEmpty) {
+        userModel = const UserDataModel(
+          name: "",
+          emailId: "",
+          favoriteCoins: [],
+          photoUrl: "",
+          userUid: "",
+        );
+      } else {
+        userModel = UserDataModel.fromJson(
+          r[0] as Map<String, dynamic>,
+        );
+      }
+
+      notifyListeners();
+    } catch (error) {
       rethrow;
     }
   }

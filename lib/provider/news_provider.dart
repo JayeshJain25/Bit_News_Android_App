@@ -151,7 +151,6 @@ class NewsProvider with ChangeNotifier {
       notifyListeners();
     } catch (error) {
       rethrow;
-      print(error);
     }
   }
 

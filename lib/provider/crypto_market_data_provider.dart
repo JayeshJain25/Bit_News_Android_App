@@ -16,10 +16,16 @@ class CryptoMarketDataProvider with ChangeNotifier {
   List<CryptoMarketDataModel> trendingCoins = [];
   List<CryptoMarketDataModel> watchListCoins = [];
   List<CryptoMarketDataModel> searchList = [];
+  List<CryptoMarketDataModel> favouriteCoinsList = [];
+
   List<CryptoDataGraphModel> graphDataList = [];
   List<CryptoDataDailyGraphModel> dailyGraphDataList = [];
+
   List<CryptoDataGraphModel> trendingGraphDataList = [];
   List<CryptoDataDailyGraphModel> trendingDailyGraphDataList = [];
+
+  List<CryptoDataGraphModel> favouriteGraphDataList = [];
+  List<CryptoDataDailyGraphModel> favouriteDailyGraphDataList = [];
 
   CryptoMarketDataProvider.fromJson(List<dynamic> parsedJson) {
     List<CryptoMarketDataModel> list = [];
@@ -51,6 +57,14 @@ class CryptoMarketDataProvider with ChangeNotifier {
         .map((e) => CryptoMarketDataModel.fromJson(e as Map<String, dynamic>))
         .toList();
     watchListCoins = list;
+  }
+
+  CryptoMarketDataProvider.fromFavouriteCoinMap(List<dynamic> parsedJson) {
+    List<CryptoMarketDataModel> list = [];
+    list = parsedJson
+        .map((e) => CryptoMarketDataModel.fromJson(e as Map<String, dynamic>))
+        .toList();
+    favouriteCoinsList = list;
   }
 
   Future<void> cryptoMarketDataByPagination(int page) async {
@@ -130,6 +144,31 @@ class CryptoMarketDataProvider with ChangeNotifier {
           CryptoMarketDataProvider.frommap1(r);
       for (final element in model.watchListCoins) {
         watchListCoins.add(element);
+      }
+      notifyListeners();
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  Future<void> getFavouriteCoinList(List<dynamic> coinName) async {
+    favouriteCoinsList.clear();
+    favouriteGraphDataList.clear();
+    favouriteDailyGraphDataList.clear();
+    final url =
+        "${ApiEndpoints.baseUrl}user/get-user-favourite-coin?coinName=${coinName.join(",")}";
+    try {
+      final response = await http.get(
+        Uri.parse(url),
+      );
+      final r = json.decode(response.body) as List<dynamic>;
+      final CryptoMarketDataProvider model =
+          CryptoMarketDataProvider.fromFavouriteCoinMap(r);
+      for (final element in model.favouriteCoinsList) {
+        favouriteCoinsList.add(element);
+        favouriteGraphDataList.add(await getCryptoGraphData(element.symbol));
+        favouriteDailyGraphDataList
+            .add(await getCryptoGraphDailyData(element.symbol));
       }
       notifyListeners();
     } catch (error) {

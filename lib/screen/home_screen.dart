@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:crypto_news/helper/helper.dart';
 import 'package:crypto_news/provider/crypto_explainer_provider.dart';
 import 'package:crypto_news/provider/crypto_market_data_provider.dart';
+import 'package:crypto_news/provider/google_sign_in_provider.dart';
 import 'package:crypto_news/provider/news_provider.dart';
 import 'package:crypto_news/screen/crypto_explainer_screen.dart';
 import 'package:crypto_news/screen/market_data_screen.dart';
@@ -502,6 +503,15 @@ class _HomeScreenState extends State<HomeScreen>
                                 ),
                                 InkWell(
                                   onTap: () {
+                                    Provider.of<CryptoMarketDataProvider>(
+                                      context,
+                                      listen: false,
+                                    ).getFavouriteCoinList(
+                                      Provider.of<GoogleSignInProvider>(
+                                        context,
+                                        listen: false,
+                                      ).userModel.favoriteCoins,
+                                    );
                                     Get.to(() => WatchListScreen());
                                   },
                                   child: GlassmorphicContainer(
