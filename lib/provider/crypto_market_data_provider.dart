@@ -6,6 +6,7 @@ import 'package:crypto_news/model/coin_paprika_market_static_data_model.dart';
 import 'package:crypto_news/model/crpyto_data_daily_graph_model.dart';
 import 'package:crypto_news/model/crypto_data_graph_model.dart';
 import 'package:crypto_news/model/crypto_market_data_model.dart';
+import 'package:crypto_news/model/user_data_model.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -26,6 +27,9 @@ class CryptoMarketDataProvider with ChangeNotifier {
 
   List<CryptoDataGraphModel> favouriteGraphDataList = [];
   List<CryptoDataDailyGraphModel> favouriteDailyGraphDataList = [];
+
+  List<CryptoDataGraphModel> searchGraphDataList = [];
+  List<CryptoDataDailyGraphModel> searchDailyGraphDataList = [];
 
   CryptoMarketDataProvider.fromJson(List<dynamic> parsedJson) {
     List<CryptoMarketDataModel> list = [];
@@ -102,6 +106,9 @@ class CryptoMarketDataProvider with ChangeNotifier {
           CryptoMarketDataProvider.fromJsonSearchList(r);
       for (final element in model.searchList) {
         searchList.add(element);
+        searchGraphDataList.add(await getCryptoGraphData(element.symbol));
+        searchDailyGraphDataList
+            .add(await getCryptoGraphDailyData(element.symbol));
       }
       notifyListeners();
     } catch (error) {
@@ -171,6 +178,35 @@ class CryptoMarketDataProvider with ChangeNotifier {
             .add(await getCryptoGraphDailyData(element.symbol));
       }
       notifyListeners();
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  Future<UserDataModel> updateFavouriteCoin(String coinName, String uid) async {
+    final UserDataModel userModel;
+    final url =
+        "${ApiEndpoints.baseUrl}user/update-user-favourite-coin?coinName=$coinName&userUid=$uid";
+    try {
+      final response = await http.post(
+        Uri.parse(url),
+      );
+      final r = json.decode(response.body) as List<dynamic>;
+      if (r.isEmpty) {
+        userModel = const UserDataModel(
+          name: "",
+          emailId: "",
+          favoriteCoins: [],
+          photoUrl: "",
+          userUid: "",
+        );
+      } else {
+        userModel = UserDataModel.fromJson(
+          r[0] as Map<String, dynamic>,
+        );
+      }
+      notifyListeners();
+      return userModel;
     } catch (error) {
       rethrow;
     }

@@ -7,6 +7,7 @@ import 'package:crypto_news/provider/google_sign_in_provider.dart';
 import 'package:crypto_news/screen/market_data_screen.dart';
 import 'package:crypto_news/screen/market_screen_search_assets.dart';
 import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -48,6 +49,11 @@ class _MarketScreenState extends State<MarketScreen>
     }
   }
 
+  Future<bool?> onLikeButtonTapped(
+      bool isLiked, String coinName, String uid) async {
+    return !isLiked;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -77,6 +83,7 @@ class _MarketScreenState extends State<MarketScreen>
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
+    final User? user = FirebaseAuth.instance.currentUser;
     return WillPopScope(
       onWillPop: () {
         widget.tabController.index = 0;
@@ -496,7 +503,7 @@ class _MarketScreenState extends State<MarketScreen>
                                                     ],
                                                   ),
                                                   LikeButton(
-                                                    size: 20,
+                                                    size: 17,
                                                     circleColor:
                                                         const CircleColor(
                                                       start: Color(0xff00ddff),
@@ -512,7 +519,8 @@ class _MarketScreenState extends State<MarketScreen>
                                                     likeBuilder:
                                                         (bool isLiked) {
                                                       return Icon(
-                                                        Icons.favorite,
+                                                        Icons
+                                                            .star_purple500_outlined,
                                                         color: Provider.of<
                                                                     GoogleSignInProvider>(
                                                           context,
@@ -531,9 +539,27 @@ class _MarketScreenState extends State<MarketScreen>
                                                                 0xFF52CAF5,
                                                               )
                                                             : Colors.grey,
-                                                        size: 20,
+                                                        size: 17,
                                                       );
                                                     },
+                                                    onTap: (isLiked) => Provider.of<
+                                                            CryptoMarketDataProvider>(
+                                                      context,
+                                                      listen: false,
+                                                    )
+                                                        .updateFavouriteCoin(
+                                                      model
+                                                          .listModel[index].name
+                                                          .toLowerCase(),
+                                                      user!.uid,
+                                                    )
+                                                        .then((value) {
+                                                      Provider.of<
+                                                          GoogleSignInProvider>(
+                                                        context,
+                                                        listen: false,
+                                                      ).userModel = value;
+                                                    }),
                                                   ),
                                                 ],
                                               ),

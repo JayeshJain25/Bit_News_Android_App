@@ -492,7 +492,7 @@ class _HomeScreenState extends State<HomeScreen>
                                   ),
                                   child: Center(
                                     child: AutoSizeText(
-                                      "Price Alert",
+                                      "NFT's",
                                       style: GoogleFonts.poppins(
                                         fontSize: 17,
                                         fontWeight: FontWeight.w500,
@@ -767,7 +767,12 @@ class _HomeScreenState extends State<HomeScreen>
                                                           ),
                                                         ),
                                                       ),
-                                                      SizedBox(
+                                                      Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                left: 10,
+                                                                right: 10),
                                                         height: height * 0.1,
                                                         child:
                                                             model.graphDataList
@@ -1175,7 +1180,12 @@ class _HomeScreenState extends State<HomeScreen>
                                                       ),
                                                     ),
                                                   ),
-                                                  SizedBox(
+                                                  Container(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                      left: 10,
+                                                      right: 10,
+                                                    ),
                                                     height: height * 0.1,
                                                     child:
                                                         model.graphDataList
