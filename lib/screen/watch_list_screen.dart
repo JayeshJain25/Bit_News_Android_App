@@ -2,7 +2,9 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:crypto_news/helper/helper.dart';
 import 'package:crypto_news/provider/crypto_market_data_provider.dart';
+import 'package:crypto_news/provider/google_sign_in_provider.dart';
 import 'package:crypto_news/screen/watch_list_add_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,12 +13,18 @@ import 'package:provider/provider.dart';
 
 import 'market_data_screen.dart';
 
-class WatchListScreen extends StatelessWidget {
+class WatchListScreen extends StatefulWidget {
+  @override
+  State<WatchListScreen> createState() => _WatchListScreenState();
+}
+
+class _WatchListScreenState extends State<WatchListScreen> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     final _helper = Helper();
+    final User? user = FirebaseAuth.instance.currentUser;
     return GestureDetector(
       onTap: () {
         final FocusScopeNode currentFocus = FocusScope.of(context);
@@ -69,8 +77,6 @@ class WatchListScreen extends StatelessWidget {
                 itemBuilder: (ctx, index) {
                   return InkWell(
                     onTap: () {
-                      FocusScope.of(context).requestFocus(FocusNode());
-
                       Get.to(
                         () => MarketDataScreen(
                           model.favouriteCoinsList[index],
@@ -224,7 +230,7 @@ class WatchListScreen extends StatelessWidget {
                               ],
                             ),
                             LikeButton(
-                              size: 20,
+                              size: 22,
                               circleColor: const CircleColor(
                                 start: Color(0xff00ddff),
                                 end: Color(0xff0099cc),
@@ -235,15 +241,41 @@ class WatchListScreen extends StatelessWidget {
                               ),
                               likeBuilder: (bool isLiked) {
                                 return Icon(
-                                  Icons.favorite,
-                                  color: isLiked
+                                  Icons.star_purple500_outlined,
+                                  color: Provider.of<GoogleSignInProvider>(
+                                    context,
+                                    listen: false,
+                                  ).userModel.favoriteCoins.contains(
+                                            model.favouriteCoinsList[index].name
+                                                .toLowerCase(),
+                                          )
                                       ? const Color(
                                           0xFF52CAF5,
                                         )
                                       : Colors.grey,
-                                  size: 20,
+                                  size: 22,
                                 );
                               },
+                              onTap: (isLiked) =>
+                                  Provider.of<CryptoMarketDataProvider>(
+                                context,
+                                listen: false,
+                              ).updateFavouriteCoin(
+                                [
+                                  model.favouriteCoinsList[index].name
+                                      .toLowerCase()
+                                ],
+                                user!.uid,
+                              ).then((value) {
+                                if (!isLiked) {
+                                  model.favouriteCoinsList.removeAt(index);
+                                }
+
+                                Provider.of<GoogleSignInProvider>(
+                                  context,
+                                  listen: false,
+                                ).userModel = value;
+                              }),
                             ),
                           ],
                         ),

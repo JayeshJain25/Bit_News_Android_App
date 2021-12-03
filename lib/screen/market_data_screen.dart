@@ -8,15 +8,18 @@ import 'package:crypto_news/model/crpyto_data_daily_graph_model.dart';
 import 'package:crypto_news/model/crypto_data_graph_model.dart';
 import 'package:crypto_news/model/crypto_market_data_model.dart';
 import 'package:crypto_news/provider/crypto_market_data_provider.dart';
+import 'package:crypto_news/provider/google_sign_in_provider.dart';
 import 'package:crypto_news/provider/news_provider.dart';
 import 'package:crypto_news/screen/see_all_news_screen.dart';
 import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:like_button/like_button.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
@@ -71,7 +74,7 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
   void initState() {
     super.initState();
     Provider.of<CryptoMarketDataProvider>(context, listen: false)
-        .getCoinPaprikaMarketStaticData(widget.cryptoData.symbol)
+        .getCoinPaprikaMarketStaticData(widget.cryptoData.name)
         .then((value) {
       setState(() {
         _globalDataLoaded = false;
@@ -84,6 +87,7 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
+    final User? user = FirebaseAuth.instance.currentUser;
     return Scaffold(
       body: CustomRefreshIndicator(
         onRefresh: () {
@@ -190,13 +194,47 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
-                            CachedNetworkImage(
-                              imageUrl:
-                                  "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/plus-square.png?alt=media&token=5287a89f-803c-451f-a3b6-51e80616b3f1",
-                              color: Colors.white,
-                              width: width * 0.05,
-                              height: height * 0.03,
-                            )
+                            LikeButton(
+                              size: 22,
+                              circleColor: const CircleColor(
+                                start: Color(0xff00ddff),
+                                end: Color(0xff0099cc),
+                              ),
+                              bubblesColor: const BubblesColor(
+                                dotPrimaryColor: Color(0xff33b5e5),
+                                dotSecondaryColor: Color(0xff0099cc),
+                              ),
+                              likeBuilder: (bool isLiked) {
+                                return Icon(
+                                  Icons.star_purple500_outlined,
+                                  color: Provider.of<GoogleSignInProvider>(
+                                    context,
+                                    listen: false,
+                                  ).userModel.favoriteCoins.contains(
+                                            widget.cryptoData.name
+                                                .toLowerCase(),
+                                          )
+                                      ? const Color(
+                                          0xFF52CAF5,
+                                        )
+                                      : Colors.grey,
+                                  size: 22,
+                                );
+                              },
+                              onTap: (isLiked) =>
+                                  Provider.of<CryptoMarketDataProvider>(
+                                context,
+                                listen: false,
+                              ).updateFavouriteCoin(
+                                [widget.cryptoData.name.toLowerCase()],
+                                user!.uid,
+                              ).then((value) {
+                                Provider.of<GoogleSignInProvider>(
+                                  context,
+                                  listen: false,
+                                ).userModel = value;
+                              }),
+                            ),
                           ],
                         ),
                       ),
@@ -321,7 +359,7 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                                 ),
                                 child: Center(
                                   child: AutoSizeText(
-                                    '24h',
+                                    '24H',
                                     maxLines: 1,
                                     style: GoogleFonts.rubik(
                                       fontWeight: FontWeight.w600,
@@ -351,7 +389,7 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                                 ),
                                 child: Center(
                                   child: AutoSizeText(
-                                    '1m',
+                                    '1M',
                                     maxLines: 1,
                                     style: GoogleFonts.rubik(
                                       fontWeight: FontWeight.w600,
@@ -381,7 +419,7 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                                 ),
                                 child: Center(
                                   child: AutoSizeText(
-                                    '1y',
+                                    '1Y',
                                     maxLines: 1,
                                     style: GoogleFonts.rubik(
                                       fontWeight: FontWeight.w600,
@@ -411,7 +449,7 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                                 ),
                                 child: Center(
                                   child: AutoSizeText(
-                                    '5y',
+                                    '5Y',
                                     maxLines: 1,
                                     style: GoogleFonts.rubik(
                                       fontWeight: FontWeight.w600,

@@ -12,8 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 import 'package:like_button/like_button.dart';
+import 'package:provider/provider.dart';
 
 class MarketScreen extends StatefulWidget {
   @override
@@ -47,11 +47,6 @@ class _MarketScreenState extends State<MarketScreen>
             );
       });
     }
-  }
-
-  Future<bool?> onLikeButtonTapped(
-      bool isLiked, String coinName, String uid) async {
-    return !isLiked;
   }
 
   @override
@@ -314,9 +309,6 @@ class _MarketScreenState extends State<MarketScreen>
                                       children: [
                                         InkWell(
                                           onTap: () {
-                                            FocusScope.of(context)
-                                                .requestFocus(FocusNode());
-
                                             Get.to(
                                               () => MarketDataScreen(
                                                 model.listModel[index],
@@ -543,17 +535,17 @@ class _MarketScreenState extends State<MarketScreen>
                                                       );
                                                     },
                                                     onTap: (isLiked) => Provider.of<
-                                                            CryptoMarketDataProvider>(
+                                                        CryptoMarketDataProvider>(
                                                       context,
                                                       listen: false,
-                                                    )
-                                                        .updateFavouriteCoin(
-                                                      model
-                                                          .listModel[index].name
-                                                          .toLowerCase(),
+                                                    ).updateFavouriteCoin(
+                                                      [
+                                                        model.listModel[index]
+                                                            .name
+                                                            .toLowerCase()
+                                                      ],
                                                       user!.uid,
-                                                    )
-                                                        .then((value) {
+                                                    ).then((value) {
                                                       Provider.of<
                                                           GoogleSignInProvider>(
                                                         context,

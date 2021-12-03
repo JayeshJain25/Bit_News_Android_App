@@ -95,6 +95,8 @@ class CryptoMarketDataProvider with ChangeNotifier {
 
   Future<void> getCryptoBySearch(String name) async {
     searchList.clear();
+    searchGraphDataList.clear();
+    searchDailyGraphDataList.clear();
     final url =
         "${ApiEndpoints.baseUrl}cryptocurrency/crypto-by-search?name=$name";
     try {
@@ -118,6 +120,8 @@ class CryptoMarketDataProvider with ChangeNotifier {
 
   Future<void> getTrendingCoins() async {
     trendingCoins.clear();
+    trendingDailyGraphDataList.clear();
+    trendingGraphDataList.clear();
     final url = "${ApiEndpoints.baseUrl}cryptocurrency/trending-coins";
 
     try {
@@ -169,6 +173,7 @@ class CryptoMarketDataProvider with ChangeNotifier {
         Uri.parse(url),
       );
       final r = json.decode(response.body) as List<dynamic>;
+
       final CryptoMarketDataProvider model =
           CryptoMarketDataProvider.fromFavouriteCoinMap(r);
       for (final element in model.favouriteCoinsList) {
@@ -183,10 +188,13 @@ class CryptoMarketDataProvider with ChangeNotifier {
     }
   }
 
-  Future<UserDataModel> updateFavouriteCoin(String coinName, String uid) async {
+  Future<UserDataModel> updateFavouriteCoin(
+    List<dynamic> coinName,
+    String uid,
+  ) async {
     final UserDataModel userModel;
     final url =
-        "${ApiEndpoints.baseUrl}user/update-user-favourite-coin?coinName=$coinName&userUid=$uid";
+        "${ApiEndpoints.baseUrl}user/update-user-favourite-coin?coinName=${coinName.join(",")}&userUid=$uid";
     try {
       final response = await http.post(
         Uri.parse(url),
@@ -233,11 +241,11 @@ class CryptoMarketDataProvider with ChangeNotifier {
   }
 
   Future<CoinPaprikaMarketStaticDataModel> getCoinPaprikaMarketStaticData(
-    String symbol,
+    String name,
   ) async {
     final CoinPaprikaMarketStaticDataModel globalData;
     final url =
-        "${ApiEndpoints.baseUrl}cryptocurrency/coin-paprika-market-static-data?symbol=$symbol";
+        "${ApiEndpoints.baseUrl}cryptocurrency/coin-paprika-market-static-data?name=$name";
 
     try {
       final response = await http.get(

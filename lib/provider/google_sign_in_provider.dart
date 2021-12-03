@@ -34,16 +34,30 @@ class GoogleSignInProvider extends ChangeNotifier {
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
-        body: jsonEncode(<String, String?>{
+        body: jsonEncode(<String, dynamic>{
           'name': user!.displayName,
           'emailId': user!.email,
           'photoUrl': user!.photoURL,
-          'userUid': user!.uid
+          'userUid': user!.uid,
+          "favoriteCoins": [],
         }),
       );
 
-      if (response.statusCode == 201) {
-      } else if (response.statusCode == 200) {
+      if (response.statusCode == 201 || response.statusCode == 200) {
+        final r = json.decode(response.body) as List<dynamic>;
+        if (r.isEmpty) {
+          userModel = const UserDataModel(
+            name: "",
+            emailId: "",
+            favoriteCoins: [],
+            photoUrl: "",
+            userUid: "",
+          );
+        } else {
+          userModel = UserDataModel.fromJson(
+            r[0] as Map<String, dynamic>,
+          );
+        }
       } else {
         throw Exception('Failed to create User.');
       }

@@ -22,8 +22,11 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Provider.of<GoogleSignInProvider>(context, listen: false)
-        .getUserData(user!.uid);
+    if (user != null) {
+      Provider.of<GoogleSignInProvider>(context, listen: false)
+          .getUserData(user!.uid);
+    }
+
     Timer(
       const Duration(seconds: 3),
       () => Get.off(

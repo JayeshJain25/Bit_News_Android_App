@@ -503,15 +503,21 @@ class _HomeScreenState extends State<HomeScreen>
                                 ),
                                 InkWell(
                                   onTap: () {
-                                    Provider.of<CryptoMarketDataProvider>(
+                                    if (Provider.of<GoogleSignInProvider>(
                                       context,
                                       listen: false,
-                                    ).getFavouriteCoinList(
-                                      Provider.of<GoogleSignInProvider>(
+                                    ).userModel.favoriteCoins.isNotEmpty) {
+                                      Provider.of<CryptoMarketDataProvider>(
                                         context,
                                         listen: false,
-                                      ).userModel.favoriteCoins,
-                                    );
+                                      ).getFavouriteCoinList(
+                                        Provider.of<GoogleSignInProvider>(
+                                          context,
+                                          listen: false,
+                                        ).userModel.favoriteCoins,
+                                      );
+                                    }
+
                                     Get.to(() => WatchListScreen());
                                   },
                                   child: GlassmorphicContainer(
