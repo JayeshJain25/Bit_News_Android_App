@@ -1,10 +1,7 @@
-import 'dart:math';
-
-import 'package:crypto_news/model/crypto_data_graph_model.dart';
-import 'package:crypto_news/model/graph_data_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'dart:convert';
 
+import 'package:crypto_news/model/graph_data_model.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 
 class Helper {

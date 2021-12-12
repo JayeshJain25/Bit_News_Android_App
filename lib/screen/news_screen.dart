@@ -2,7 +2,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:crypto_news/helper/helper.dart';
-import 'package:crypto_news/model/news_read_count_model.dart';
 import 'package:crypto_news/provider/news_provider.dart';
 import 'package:crypto_news/screen/see_all_news_screen.dart';
 import 'package:crypto_news/widget/top_news.dart';

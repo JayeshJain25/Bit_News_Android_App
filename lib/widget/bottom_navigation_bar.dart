@@ -126,7 +126,8 @@ class _MyCustomBottomNavigationBarState extends State<AppBottomNavigationBar>
                         height: 24,
                         child: ImageIcon(
                           CachedNetworkImageProvider(
-                              'https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/market.png?alt=media&token=91aad10c-9e4e-4e2c-bc4d-0f0ab6ce661c'),
+                            'https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/market.png?alt=media&token=91aad10c-9e4e-4e2c-bc4d-0f0ab6ce661c',
+                          ),
                         ),
                       ),
                     ),
@@ -167,7 +168,8 @@ class _MyCustomBottomNavigationBarState extends State<AppBottomNavigationBar>
                         height: 24,
                         child: ImageIcon(
                           CachedNetworkImageProvider(
-                              'https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/star.png?alt=media&token=118b56b3-5fe2-47d7-9498-a6c6da9a1725'),
+                            'https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/star.png?alt=media&token=118b56b3-5fe2-47d7-9498-a6c6da9a1725',
+                          ),
                         ),
                       ),
                     ),
@@ -208,7 +210,8 @@ class _MyCustomBottomNavigationBarState extends State<AppBottomNavigationBar>
                         height: 24,
                         child: ImageIcon(
                           CachedNetworkImageProvider(
-                              'https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/news.png?alt=media&token=0e1a6a88-64bc-43ac-b0b4-f0ffc2758a17'),
+                            'https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/news.png?alt=media&token=0e1a6a88-64bc-43ac-b0b4-f0ffc2758a17',
+                          ),
                         ),
                       ),
                     ),

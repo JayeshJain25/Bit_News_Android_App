@@ -15,6 +15,7 @@ class FavouriteScreen extends StatefulWidget {
 }
 
 class _FavouriteScreenState extends State<FavouriteScreen> {
+  @override
   void initState() {
     super.initState();
     Provider.of<CryptoMarketDataProvider>(context, listen: false)

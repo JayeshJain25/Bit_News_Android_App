@@ -20,11 +20,14 @@ class SettingScreen extends StatelessWidget {
             Get.back();
           },
         ),
-        title: AutoSizeText('Setting',
-            style: GoogleFonts.poppins(
-                color: Colors.white,
-                fontSize: 20,
-                fontWeight: FontWeight.bold)),
+        title: AutoSizeText(
+          'Setting',
+          style: GoogleFonts.poppins(
+            color: Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
     );
   }

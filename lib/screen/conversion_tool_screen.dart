@@ -5,6 +5,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:clippy_flutter/clippy_flutter.dart';
 import 'package:crypto_news/helper/helper.dart';
+import 'package:crypto_news/model/crypto_and_fiat_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -21,6 +22,7 @@ class ConversionToolScreen extends StatefulWidget {
 
 class _ConversionToolScreenState extends State<ConversionToolScreen>
     with TickerProviderStateMixin {
+  late CryptoAndFiatModel _cryptoAndFiatModel;
   late AnimateIconController exchangeCardBtnAnimation;
 
   late AnimationController cardController;
@@ -47,6 +49,12 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
   @override
   void initState() {
     super.initState();
+
+    Provider.of<CryptoAndFiatProvider>(context, listen: false)
+        .getFiatData("INR")
+        .then(
+          (value) => {_cryptoAndFiatModel = value},
+        );
 
     Provider.of<CryptoAndFiatProvider>(context, listen: false)
         .fiatAndCryptoList(1);
@@ -358,7 +366,7 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                                                     .cardData[model
                                                                         .index2]
                                                                     .type,
-                                                                73,
+                                                                75.67683846358557,
                                                               ) // TODO Need to add real time india fiat price
                                                               .toString();
                                                         });
@@ -594,7 +602,7 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                                                   .cardData[model
                                                                       .index2]
                                                                   .type,
-                                                              73,
+                                                              75.67683846358557,
                                                             ) // TODO Need to add real time india fiat price
                                                             .toString();
                                                       });
@@ -621,7 +629,8 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                                   clipShadows: [
                                                     ClipShadow(
                                                       color: const Color(
-                                                          0xFF010101),
+                                                        0xFF010101,
+                                                      ),
                                                     )
                                                   ],
                                                   child: Container(
@@ -844,7 +853,7 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                                               .cardData[
                                                                   model.index2]
                                                               .type,
-                                                          73,
+                                                          75.67683846358557,
                                                         ) // TODO Need to add real time india fiat price
                                                         .toString(),
                                                   style: GoogleFonts.rubik(
@@ -1085,7 +1094,7 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                                             .cardData[
                                                                 model.index2]
                                                             .type,
-                                                        73,
+                                                        75.67683846358557,
                                                       ) // TODO Need to add real time india fiat price
                                                       .toString(),
                                                 style: GoogleFonts.rubik(

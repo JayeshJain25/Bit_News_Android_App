@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -7,7 +8,6 @@ import 'package:crypto_news/provider/crypto_explainer_provider.dart';
 import 'package:crypto_news/provider/crypto_market_data_provider.dart';
 import 'package:crypto_news/provider/google_sign_in_provider.dart';
 import 'package:crypto_news/provider/news_provider.dart';
-import 'package:crypto_news/screen/crypto_explainer_screen.dart';
 import 'package:crypto_news/screen/market_data_screen.dart';
 import 'package:crypto_news/screen/notification_screen.dart';
 import 'package:crypto_news/screen/see_all_news_screen.dart';
@@ -26,6 +26,7 @@ import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 import 'conversion_tool_screen.dart';
+import 'crypto_explainer_home_screen.dart';
 import 'news_summary_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -40,8 +41,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen>
     with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
-  int _selectedIndex = 0;
-
   final _helper = Helper();
 
   late Animation<Offset> _storiesAnimation;
@@ -354,44 +353,74 @@ class _HomeScreenState extends State<HomeScreen>
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: <Widget>[
-                                GlassmorphicContainer(
-                                  height: 60,
-                                  width: 160,
-                                  borderRadius: 25,
-                                  blur: 55,
-                                  linearGradient: LinearGradient(
-                                    begin: Alignment.topLeft,
-                                    end: Alignment.bottomRight,
-                                    colors: [
-                                      const Color(0xFF52CAF5).withOpacity(0.2),
-                                      const Color(0xFFFFFFFF).withOpacity(0.3),
-                                    ],
-                                    stops: const [
-                                      0.1,
-                                      1,
-                                    ],
-                                  ),
-                                  borderGradient: LinearGradient(
-                                    begin: Alignment.topLeft,
-                                    end: Alignment.bottomRight,
-                                    colors: [
-                                      const Color(0xFFffffff).withOpacity(0.5),
-                                      const Color(0xFFFFFFFF).withOpacity(0.5),
-                                    ],
-                                  ),
-                                  border: 0,
-                                  padding: const EdgeInsets.all(8),
-                                  margin: const EdgeInsets.only(
-                                    left: 5,
-                                    right: 5,
-                                  ),
-                                  child: Center(
-                                    child: AutoSizeText(
-                                      "Portfolio",
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.white,
+                                InkWell(
+                                  onTap: () {
+                                    Get.to(
+                                      () => const CryptoExplainerHomeScreen(),
+                                    );
+                                  },
+                                  child: GlassmorphicContainer(
+                                    height: 60,
+                                    width: 160,
+                                    borderRadius: 25,
+                                    blur: 55,
+                                    linearGradient: LinearGradient(
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                      colors: [
+                                        const Color(0xFF52CAF5)
+                                            .withOpacity(0.2),
+                                        const Color(0xFFFFFFFF)
+                                            .withOpacity(0.3),
+                                      ],
+                                      stops: const [
+                                        0.1,
+                                        1,
+                                      ],
+                                    ),
+                                    borderGradient: LinearGradient(
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                      colors: [
+                                        const Color(0xFFffffff)
+                                            .withOpacity(0.5),
+                                        const Color(0xFFFFFFFF)
+                                            .withOpacity(0.5),
+                                      ],
+                                    ),
+                                    border: 0,
+                                    padding: const EdgeInsets.all(8),
+                                    margin: const EdgeInsets.only(
+                                      left: 5,
+                                      right: 5,
+                                    ),
+                                    child: Center(
+                                      child: RichText(
+                                        text: TextSpan(
+                                          children: [
+                                            TextSpan(
+                                              text: "Explainer",
+                                              style: GoogleFonts.poppins(
+                                                fontSize: 17,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                            WidgetSpan(
+                                              child: Transform.translate(
+                                                offset: const Offset(0.0, -2.0),
+                                                child: Text(
+                                                  ' +',
+                                                  style: GoogleFonts.poppins(
+                                                    fontSize: 17,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -776,9 +805,10 @@ class _HomeScreenState extends State<HomeScreen>
                                                       Container(
                                                         padding:
                                                             const EdgeInsets
-                                                                    .only(
-                                                                left: 10,
-                                                                right: 10),
+                                                                .only(
+                                                          left: 10,
+                                                          right: 10,
+                                                        ),
                                                         height: height * 0.1,
                                                         child:
                                                             model.graphDataList
@@ -1441,263 +1471,6 @@ class _HomeScreenState extends State<HomeScreen>
                                 const Duration(milliseconds: 1000),
                               ),
                             ),
-                    ),
-                  ),
-                  SliverToBoxAdapter(
-                    child: Container(
-                      margin: EdgeInsets.only(
-                        top: height * 0.04,
-                      ),
-                      child: Divider(
-                        indent: width * 0.037,
-                        endIndent: width * 0.037,
-                        thickness: 1,
-                        height: 1,
-                        color: const Color(0xFF292f33),
-                      ),
-                    ),
-                  ),
-                  SliverToBoxAdapter(
-                    child: Container(
-                      margin: const EdgeInsets.only(top: 20, bottom: 10),
-                      child: Container(
-                        margin: const EdgeInsets.only(left: 32),
-                        child: AutoSizeText(
-                          "Crypto Explainer",
-                          style: GoogleFonts.rubik(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SliverToBoxAdapter(
-                    child: Container(
-                      margin: const EdgeInsets.only(top: 15),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          InkWell(
-                            borderRadius: BorderRadius.circular(25),
-                            onTap: () {
-                              setState(() {
-                                _selectedIndex = 0;
-                              });
-                            },
-                            child: Container(
-                              width: 100,
-                              height: 45,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(25),
-                                color: _selectedIndex == 0
-                                    ? const Color(0xFF52CAF5)
-                                    : const Color(0xFF010101),
-                              ),
-                              child: Center(
-                                child: AutoSizeText(
-                                  'Beginner',
-                                  maxLines: 1,
-                                  style: GoogleFonts.rubik(
-                                    fontWeight: FontWeight.w600,
-                                    color: _selectedIndex == 0
-                                        ? Colors.black
-                                        : Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          InkWell(
-                            borderRadius: BorderRadius.circular(25),
-                            onTap: () {
-                              setState(() {
-                                _selectedIndex = 1;
-                              });
-                            },
-                            child: Container(
-                              width: 100,
-                              height: 45,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(25),
-                                color: _selectedIndex == 1
-                                    ? const Color(0xFF52CAF5)
-                                    : const Color(0xFF010101),
-                              ),
-                              child: Center(
-                                child: AutoSizeText(
-                                  'Intermediate',
-                                  maxLines: 1,
-                                  style: GoogleFonts.rubik(
-                                    fontWeight: FontWeight.w600,
-                                    color: _selectedIndex == 1
-                                        ? Colors.black
-                                        : Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          InkWell(
-                            borderRadius: BorderRadius.circular(25),
-                            onTap: () {
-                              setState(() {
-                                _selectedIndex = 2;
-                              });
-                            },
-                            child: Container(
-                              width: 100,
-                              height: 45,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(25),
-                                color: _selectedIndex == 2
-                                    ? const Color(0xFF52CAF5)
-                                    : const Color(0xFF010101),
-                              ),
-                              child: Center(
-                                child: AutoSizeText(
-                                  'Expert',
-                                  maxLines: 1,
-                                  style: GoogleFonts.rubik(
-                                    fontWeight: FontWeight.w600,
-                                    color: _selectedIndex == 2
-                                        ? Colors.black
-                                        : Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SliverToBoxAdapter(
-                    child: Consumer<CryptoExplainerProvider>(
-                      builder: (ctx, data, _) {
-                        return data.listModel.isEmpty
-                            ? const Center(
-                                child: CircularProgressIndicator(),
-                              )
-                            : InkWell(
-                                onTap: () {
-                                  Get.to(
-                                    () => CryptoExplainerScreen(
-                                      _selectedIndex == 0
-                                          ? data.listModel[0]
-                                          : _selectedIndex == 1
-                                              ? data.listModel[1]
-                                              : data.listModel[2],
-                                    ),
-                                  );
-                                },
-                                child: Container(
-                                  margin: const EdgeInsets.only(
-                                    left: 23,
-                                    top: 15,
-                                    right: 23,
-                                  ),
-                                  width: 347,
-                                  height: 270,
-                                  child: Card(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(
-                                        25,
-                                      ),
-                                    ),
-                                    elevation: 0,
-                                    color: const Color(0xFF121212),
-                                    child: Column(
-                                      children: [
-                                        ClipRRect(
-                                          borderRadius: const BorderRadius.only(
-                                            topLeft: Radius.circular(25),
-                                            topRight: Radius.circular(25),
-                                          ),
-                                          child: CachedNetworkImage(
-                                            fit: BoxFit.cover,
-                                            imageUrl: _selectedIndex == 0
-                                                ? data.listModel[0].imgUrl
-                                                : _selectedIndex == 1
-                                                    ? data.listModel[1].imgUrl
-                                                    : data.listModel[2].imgUrl,
-                                            errorWidget:
-                                                (context, url, error) =>
-                                                    Image.asset(
-                                              "lib/assets/logo.png",
-                                              fit: BoxFit.cover,
-                                            ),
-                                            height: 150,
-                                            width: 500,
-                                          ),
-                                        ),
-                                        ListTile(
-                                          title: Container(
-                                            margin: const EdgeInsets.only(
-                                              bottom: 7,
-                                              top: 7,
-                                            ),
-                                            child: AutoSizeText(
-                                              _selectedIndex == 0
-                                                  ? data.listModel[0].title
-                                                  : _selectedIndex == 1
-                                                      ? data.listModel[1].title
-                                                      : data.listModel[2].title,
-                                              maxLines: 2,
-                                              style: GoogleFonts.rubik(
-                                                color: Colors.white,
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                          ),
-                                          subtitle: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Container(
-                                                margin: const EdgeInsets.only(
-                                                  bottom: 7,
-                                                ),
-                                                child: AutoSizeText(
-                                                  _selectedIndex == 0
-                                                      ? data.listModel[0]
-                                                          .description
-                                                      : _selectedIndex == 1
-                                                          ? data.listModel[1]
-                                                              .description
-                                                          : data.listModel[2]
-                                                              .description,
-                                                  maxLines: 2,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  softWrap: false,
-                                                  style: GoogleFonts.poppins(
-                                                    color: Colors.white70,
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 15,
-                                                  ),
-                                                ),
-                                              ),
-                                              AutoSizeText(
-                                                "By ${_selectedIndex == 0 ? data.listModel[0].author : _selectedIndex == 1 ? data.listModel[1].author : data.listModel[2].author}",
-                                                maxLines: 1,
-                                                style: GoogleFonts.poppins(
-                                                  color: Colors.white70,
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              );
-                      },
                     ),
                   ),
                   SliverToBoxAdapter(

@@ -1,9 +1,7 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:crypto_news/model/crypto_explainer_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class CryptoExplainerScreen extends StatefulWidget {
   final CryptoExplainerModel cryptoExplainerData;
@@ -23,20 +21,7 @@ class _CryptoExplainerScreenState extends State<CryptoExplainerScreen> {
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                AutoSizeText(
-                  widget.cryptoExplainerData.title,
-                  maxLines: 2,
-                  style: GoogleFonts.rubik(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                Html(data: widget.cryptoExplainerData.content),
-              ],
-            ),
+            child: Html(data: widget.cryptoExplainerData.content),
           ),
         ),
       ),

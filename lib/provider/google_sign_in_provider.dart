@@ -28,7 +28,7 @@ class GoogleSignInProvider extends ChangeNotifier {
 
       user = userCredential.user;
 
-      final url = "${ApiEndpoints.baseUrl}user/user";
+      final url = "${ApiEndpoints.baseUrl}user/user?userUid=${user!.uid}";
       final response = await http.post(
         Uri.parse(url),
         headers: <String, String>{

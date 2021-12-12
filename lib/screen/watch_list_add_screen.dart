@@ -67,11 +67,11 @@ class _WatchListAddScreenState extends State<WatchListAddScreen> {
             debounceDelay: const Duration(milliseconds: 500),
             onQueryChanged: (query) {
               cryptoName = query;
-              model.getCryptoBySearch(query);
+              model.getCryptoBySearchForWatchList(query);
             },
             onSubmitted: (query) {
               cryptoName = query;
-              model.getCryptoBySearch(query);
+              model.getCryptoBySearchForWatchList(query);
               controller.close();
             },
             transition: CircularFloatingSearchBarTransition(),
@@ -80,232 +80,274 @@ class _WatchListAddScreenState extends State<WatchListAddScreen> {
                 height: 0,
               );
             },
-            body: Container(
-              height: height,
-              margin: EdgeInsets.only(
-                top: MediaQuery.of(context).size.height * 0.08,
-                left: 10,
-                right: 10,
-              ),
-              child: ListView.separated(
-                separatorBuilder: (context, index) {
-                  return Divider(
-                    indent: 25,
-                    endIndent: 25,
-                    thickness: 1,
-                    height: 1,
-                    color: index == model.watchListCoins.length
-                        ? Colors.transparent
-                        : const Color(0xFF0f0e18),
-                  );
-                },
-                itemCount: model.watchListCoins.length,
-                itemBuilder: (ctx, index) {
-                  return InkWell(
-                    onTap: () {
-                      setState(() {
-                        Provider.of<GoogleSignInProvider>(
-                          context,
-                          listen: false,
-                        ).userModel.favoriteCoins.contains(
-                                  model.watchListCoins[index].name
-                                      .toLowerCase(),
-                                )
-                            ? Provider.of<GoogleSignInProvider>(
-                                context,
-                                listen: false,
-                              ).userModel.favoriteCoins.remove(
-                                  model.watchListCoins[index].name
-                                      .toLowerCase(),
-                                )
-                            : Provider.of<GoogleSignInProvider>(
-                                context,
-                                listen: false,
-                              ).userModel.favoriteCoins.add(
-                                  model.watchListCoins[index].name
-                                      .toLowerCase(),
-                                );
-                      });
-                    },
-                    child: Card(
-                      margin: const EdgeInsets.all(10),
-                      elevation: 0,
-                      color: const Color(0xFF010101),
-                      child: ListTile(
-                        title: Row(
-                          children: [
-                            CircleAvatar(
-                              backgroundColor: const Color(0xFF292f33),
-                              radius: 20,
-                              child: CircleAvatar(
-                                backgroundColor: Colors.transparent,
-                                radius: 12,
-                                backgroundImage: CachedNetworkImageProvider(
-                                  model.watchListCoins[index].image,
+            body: model.watchListCoins.isEmpty
+                ? Center(
+                    child: cryptoName != ""
+                        ? Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              CachedNetworkImage(
+                                imageUrl:
+                                    "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/not_found.gif?alt=media&token=aa8eaa99-07bb-4429-bd5e-8a892a313ea7",
+                                height: 200,
+                                width: 200,
+                                fit: BoxFit.contain,
+                              ),
+                              AutoSizeText(
+                                "We looked everywhere but we couldn't find anything that matches your search.",
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.poppins(
+                                  color: Colors.white,
+                                  fontSize: 20,
                                 ),
                               ),
+                            ],
+                          )
+                        : AutoSizeText(
+                            "Recent Search",
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.poppins(
+                              color: Colors.white,
+                              fontSize: 20,
                             ),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                          ),
+                  )
+                : Container(
+                    height: height,
+                    margin: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.08,
+                      left: 10,
+                      right: 10,
+                    ),
+                    child: ListView.separated(
+                      separatorBuilder: (context, index) {
+                        return Divider(
+                          indent: 25,
+                          endIndent: 25,
+                          thickness: 1,
+                          height: 1,
+                          color: index == model.watchListCoins.length
+                              ? Colors.transparent
+                              : const Color(0xFF0f0e18),
+                        );
+                      },
+                      itemCount: model.watchListCoins.length,
+                      itemBuilder: (ctx, index) {
+                        return InkWell(
+                          onTap: () {
+                            setState(() {
+                              Provider.of<GoogleSignInProvider>(
+                                context,
+                                listen: false,
+                              ).userModel.favoriteCoins.contains(
+                                        model.watchListCoins[index].name
+                                            .toLowerCase(),
+                                      )
+                                  ? Provider.of<GoogleSignInProvider>(
+                                      context,
+                                      listen: false,
+                                    ).userModel.favoriteCoins.remove(
+                                        model.watchListCoins[index].name
+                                            .toLowerCase(),
+                                      )
+                                  : Provider.of<GoogleSignInProvider>(
+                                      context,
+                                      listen: false,
+                                    ).userModel.favoriteCoins.add(
+                                        model.watchListCoins[index].name
+                                            .toLowerCase(),
+                                      );
+                            });
+                          },
+                          child: Card(
+                            margin: const EdgeInsets.all(10),
+                            elevation: 0,
+                            color: const Color(0xFF010101),
+                            child: ListTile(
+                              title: Row(
                                 children: [
-                                  Container(
-                                    margin: EdgeInsets.only(
-                                      left: width * 0.04,
-                                    ),
-                                    child: AutoSizeText(
-                                      model.watchListCoins[index].name,
-                                      maxLines: 2,
-                                      minFontSize: 14,
-                                      style: GoogleFonts.rubik(
-                                        color: Colors.white,
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.w400,
+                                  CircleAvatar(
+                                    backgroundColor: const Color(0xFF292f33),
+                                    radius: 20,
+                                    child: CircleAvatar(
+                                      backgroundColor: Colors.transparent,
+                                      radius: 12,
+                                      backgroundImage:
+                                          CachedNetworkImageProvider(
+                                        model.watchListCoins[index].image,
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(
-                                    height: 2,
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(
-                                      left: width * 0.04,
-                                    ),
-                                    child: AutoSizeText(
-                                      model.watchListCoins[index].symbol
-                                          .toUpperCase(),
-                                      maxLines: 1,
-                                      style: GoogleFonts.rubik(
-                                        color: const Color(
-                                          0xFF757575,
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          margin: EdgeInsets.only(
+                                            left: width * 0.04,
+                                          ),
+                                          child: AutoSizeText(
+                                            model.watchListCoins[index].name,
+                                            maxLines: 2,
+                                            minFontSize: 14,
+                                            style: GoogleFonts.rubik(
+                                              color: Colors.white,
+                                              fontSize: 17,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
                                         ),
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w400,
-                                      ),
+                                        const SizedBox(
+                                          height: 2,
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.only(
+                                            left: width * 0.04,
+                                          ),
+                                          child: AutoSizeText(
+                                            model.watchListCoins[index].symbol
+                                                .toUpperCase(),
+                                            maxLines: 1,
+                                            style: GoogleFonts.rubik(
+                                              color: const Color(
+                                                0xFF757575,
+                                              ),
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ],
                               ),
-                            ),
-                          ],
-                        ),
-                        trailing: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            LikeButton(
-                              size: 22,
-                              circleColor: const CircleColor(
-                                start: Color(0xff00ddff),
-                                end: Color(0xff0099cc),
-                              ),
-                              bubblesColor: const BubblesColor(
-                                dotPrimaryColor: Color(0xff33b5e5),
-                                dotSecondaryColor: Color(0xff0099cc),
-                              ),
-                              likeBuilder: (bool isLiked) {
-                                return Icon(
-                                  Icons.star_purple500_outlined,
-                                  color: Provider.of<GoogleSignInProvider>(
-                                    context,
-                                    listen: false,
-                                  ).userModel.favoriteCoins.contains(
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  LikeButton(
+                                    size: 22,
+                                    circleColor: const CircleColor(
+                                      start: Color(0xff00ddff),
+                                      end: Color(0xff0099cc),
+                                    ),
+                                    bubblesColor: const BubblesColor(
+                                      dotPrimaryColor: Color(0xff33b5e5),
+                                      dotSecondaryColor: Color(0xff0099cc),
+                                    ),
+                                    likeBuilder: (bool isLiked) {
+                                      return Icon(
+                                        Icons.star_purple500_outlined,
+                                        color:
+                                            Provider.of<GoogleSignInProvider>(
+                                          context,
+                                          listen: false,
+                                        ).userModel.favoriteCoins.contains(
+                                                      model
+                                                          .watchListCoins[index]
+                                                          .name
+                                                          .toLowerCase(),
+                                                    )
+                                                ? const Color(
+                                                    0xFF52CAF5,
+                                                  )
+                                                : Colors.grey,
+                                        size: 22,
+                                      );
+                                    },
+                                    onTap: (isLiked) {
+                                      Provider.of<CryptoMarketDataProvider>(
+                                        context,
+                                        listen: false,
+                                      ).updateFavouriteCoin(
+                                        [
+                                          model.watchListCoins[index].name
+                                              .toLowerCase()
+                                        ],
+                                        user!.uid,
+                                      ).then((value) {
+                                        Provider.of<GoogleSignInProvider>(
+                                          context,
+                                          listen: false,
+                                        ).userModel = value;
+                                      });
+                                      if (Provider.of<GoogleSignInProvider>(
+                                        context,
+                                        listen: false,
+                                      ).userModel.favoriteCoins.contains(
                                             model.watchListCoins[index].name
                                                 .toLowerCase(),
-                                          )
-                                      ? const Color(
-                                          0xFF52CAF5,
+                                          )) {
+                                        model.favouriteCoinsList.removeWhere(
+                                          (element) =>
+                                              element.name.toLowerCase() ==
+                                              model.watchListCoins[index].name
+                                                  .toLowerCase(),
+                                        );
+
+                                        model.favouriteGraphDataList
+                                            .removeWhere(
+                                          (element) =>
+                                              element.name.toLowerCase() ==
+                                              model.watchListCoins[index].name
+                                                  .toLowerCase(),
+                                        );
+                                        model.favouriteDailyGraphDataList
+                                            .removeWhere(
+                                          (element) =>
+                                              element.name.toLowerCase() ==
+                                              model.watchListCoins[index].name
+                                                  .toLowerCase(),
+                                        );
+                                      } else {
+                                        model.favouriteCoinsList
+                                            .add(model.watchListCoins[index]);
+
+                                        Provider.of<CryptoMarketDataProvider>(
+                                          context,
+                                          listen: false,
                                         )
-                                      : Colors.grey,
-                                  size: 22,
-                                );
-                              },
-                              onTap: (isLiked) {
-                                Provider.of<CryptoMarketDataProvider>(
-                                  context,
-                                  listen: false,
-                                ).updateFavouriteCoin(
-                                  [
-                                    model.watchListCoins[index].name
-                                        .toLowerCase()
-                                  ],
-                                  user!.uid,
-                                ).then((value) {
-                                  Provider.of<GoogleSignInProvider>(
-                                    context,
-                                    listen: false,
-                                  ).userModel = value;
-                                });
-                                if (Provider.of<GoogleSignInProvider>(
-                                  context,
-                                  listen: false,
-                                ).userModel.favoriteCoins.contains(
-                                      model.watchListCoins[index].name
-                                          .toLowerCase(),
-                                    )) {
-                                  model.favouriteCoinsList.removeWhere(
-                                    (element) =>
-                                        element.name.toLowerCase() ==
-                                        model.watchListCoins[index].name
-                                            .toLowerCase(),
-                                  );
-
-                                  model.favouriteGraphDataList.removeWhere(
-                                    (element) =>
-                                        element.name.toLowerCase() ==
-                                        model.watchListCoins[index].name
-                                            .toLowerCase(),
-                                  );
-                                  model.favouriteDailyGraphDataList.removeWhere(
-                                    (element) =>
-                                        element.name.toLowerCase() ==
-                                        model.watchListCoins[index].name
-                                            .toLowerCase(),
-                                  );
-                                } else {
-                                  model.favouriteCoinsList
-                                      .add(model.watchListCoins[index]);
-
-                                  Provider.of<CryptoMarketDataProvider>(
-                                    context,
-                                    listen: false,
-                                  )
-                                      .getCryptoGraphData(
-                                        model.watchListCoins[index].symbol,
-                                      )
-                                      .then(
-                                        (value) => {
-                                          model.favouriteGraphDataList
-                                            ..add(value)
-                                        },
+                                            .getCryptoGraphData(
+                                              model
+                                                  .watchListCoins[index].symbol,
+                                            )
+                                            .then(
+                                              (value) => {
+                                                model.favouriteGraphDataList
+                                                  ..add(value)
+                                              },
+                                            );
+                                        Provider.of<CryptoMarketDataProvider>(
+                                          context,
+                                          listen: false,
+                                        )
+                                            .getCryptoGraphDailyData(
+                                              model
+                                                  .watchListCoins[index].symbol,
+                                            )
+                                            .then(
+                                              (value) => {
+                                                model
+                                                    .favouriteDailyGraphDataList
+                                                    .add(value)
+                                              },
+                                            );
+                                      }
+                                      return Future.delayed(
+                                        const Duration(microseconds: 1),
                                       );
-                                  Provider.of<CryptoMarketDataProvider>(
-                                    context,
-                                    listen: false,
-                                  )
-                                      .getCryptoGraphDailyData(
-                                        model.watchListCoins[index].symbol,
-                                      )
-                                      .then(
-                                        (value) => {
-                                          model.favouriteDailyGraphDataList
-                                              .add(value)
-                                        },
-                                      );
-                                }
-                                return Future.delayed(
-                                  const Duration(microseconds: 1),
-                                );
-                              },
+                                    },
+                                  ),
+                                ],
+                              ),
                             ),
-                          ],
-                        ),
-                      ),
+                          ),
+                        );
+                      },
                     ),
-                  );
-                },
-              ),
-            ),
+                  ),
           ),
         ),
       ),

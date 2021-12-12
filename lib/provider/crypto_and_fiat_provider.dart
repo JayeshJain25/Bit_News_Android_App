@@ -122,4 +122,22 @@ class CryptoAndFiatProvider with ChangeNotifier {
       rethrow;
     }
   }
+
+  Future<CryptoAndFiatModel> getFiatData(String symbol) async {
+    final url = "${ApiEndpoints.baseUrl}cryptocurrency/fiat?symbol=$symbol";
+    try {
+      final response = await http.get(
+        Uri.parse(url),
+      );
+      final r = json.decode(response.body) as List<dynamic>;
+      final CryptoAndFiatModel model = CryptoAndFiatModel.fromJson(
+        r[0] as Map<String, dynamic>,
+      );
+
+      notifyListeners();
+      return model;
+    } catch (error) {
+      rethrow;
+    }
+  }
 }

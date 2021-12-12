@@ -55,6 +55,10 @@ class _WatchListScreenState extends State<WatchListScreen> {
           actions: [
             InkWell(
               onTap: () {
+                Provider.of<CryptoMarketDataProvider>(
+                  context,
+                  listen: false,
+                ).watchListCoins.clear();
                 Get.to(() => WatchListAddScreen());
               },
               child: Container(

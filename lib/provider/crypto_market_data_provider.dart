@@ -47,6 +47,16 @@ class CryptoMarketDataProvider with ChangeNotifier {
     searchList = list;
   }
 
+  CryptoMarketDataProvider.fromJsonSearchWatchListList(
+    List<dynamic> parsedJson,
+  ) {
+    List<CryptoMarketDataModel> list = [];
+    list = parsedJson
+        .map((e) => CryptoMarketDataModel.fromJson(e as Map<String, dynamic>))
+        .toList();
+    watchListCoins = list;
+  }
+
   CryptoMarketDataProvider.fromMap(List<dynamic> parsedJson) {
     List<CryptoMarketDataModel> list = [];
     list = parsedJson
@@ -111,6 +121,27 @@ class CryptoMarketDataProvider with ChangeNotifier {
         searchGraphDataList.add(await getCryptoGraphData(element.symbol));
         searchDailyGraphDataList
             .add(await getCryptoGraphDailyData(element.symbol));
+      }
+      notifyListeners();
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  Future<void> getCryptoBySearchForWatchList(String name) async {
+    watchListCoins.clear();
+
+    final url =
+        "${ApiEndpoints.baseUrl}cryptocurrency/crypto-by-search?name=$name";
+    try {
+      final response = await http.get(
+        Uri.parse(url),
+      );
+      final r = json.decode(response.body) as List<dynamic>;
+      final CryptoMarketDataProvider model =
+          CryptoMarketDataProvider.fromJsonSearchList(r);
+      for (final element in model.searchList) {
+        watchListCoins.add(element);
       }
       notifyListeners();
     } catch (error) {
