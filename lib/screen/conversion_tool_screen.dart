@@ -346,29 +346,31 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                                           coin1Controller,
                                                       onChanged: (value) {
                                                         setState(() {
-                                                          coin2Controller.text = model
-                                                              .getConversionRate(
-                                                                model
-                                                                    .cardData[model
-                                                                        .index1]
-                                                                    .price,
-                                                                model
-                                                                    .cardData[model
-                                                                        .index2]
-                                                                    .price,
-                                                                coin1Controller
-                                                                    .text,
-                                                                model
-                                                                    .cardData[model
-                                                                        .index1]
-                                                                    .type,
-                                                                model
-                                                                    .cardData[model
-                                                                        .index2]
-                                                                    .type,
-                                                                75.67683846358557,
-                                                              ) // TODO Need to add real time india fiat price
-                                                              .toString();
+                                                          coin2Controller.text =
+                                                              model
+                                                                  .getConversionRate(
+                                                                    model
+                                                                        .cardData[
+                                                                            model.index1]
+                                                                        .price,
+                                                                    model
+                                                                        .cardData[
+                                                                            model.index2]
+                                                                        .price,
+                                                                    coin1Controller
+                                                                        .text,
+                                                                    model
+                                                                        .cardData[
+                                                                            model.index1]
+                                                                        .type,
+                                                                    model
+                                                                        .cardData[
+                                                                            model.index2]
+                                                                        .type,
+                                                                    _cryptoAndFiatModel
+                                                                        .price,
+                                                                  )
+                                                                  .toString();
                                                         });
                                                       },
                                                       style: GoogleFonts.rubik(
@@ -380,8 +382,8 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                                         border:
                                                             InputBorder.none,
                                                       ),
-                                                      keyboardType: TextInputType
-                                                          .number, // Only numbers can be entered
+                                                      keyboardType:
+                                                          TextInputType.number,
                                                     ),
                                                   ),
                                                 ),
@@ -582,29 +584,35 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                                     controller: coin1Controller,
                                                     onChanged: (value) {
                                                       setState(() {
-                                                        coin2Controller.text = model
-                                                            .getConversionRate(
-                                                              model
-                                                                  .cardData[model
-                                                                      .index1]
-                                                                  .price,
-                                                              model
-                                                                  .cardData[model
-                                                                      .index2]
-                                                                  .price,
-                                                              coin1Controller
-                                                                  .text,
-                                                              model
-                                                                  .cardData[model
-                                                                      .index1]
-                                                                  .type,
-                                                              model
-                                                                  .cardData[model
-                                                                      .index2]
-                                                                  .type,
-                                                              75.67683846358557,
-                                                            ) // TODO Need to add real time india fiat price
-                                                            .toString();
+                                                        coin2Controller.text =
+                                                            model
+                                                                .getConversionRate(
+                                                                  model
+                                                                      .cardData[
+                                                                          model
+                                                                              .index1]
+                                                                      .price,
+                                                                  model
+                                                                      .cardData[
+                                                                          model
+                                                                              .index2]
+                                                                      .price,
+                                                                  coin1Controller
+                                                                      .text,
+                                                                  model
+                                                                      .cardData[
+                                                                          model
+                                                                              .index1]
+                                                                      .type,
+                                                                  model
+                                                                      .cardData[
+                                                                          model
+                                                                              .index2]
+                                                                      .type,
+                                                                  _cryptoAndFiatModel
+                                                                      .price,
+                                                                )
+                                                                .toString();
                                                       });
                                                     },
                                                     style: GoogleFonts.rubik(
@@ -615,8 +623,8 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                                         const InputDecoration(
                                                       border: InputBorder.none,
                                                     ),
-                                                    keyboardType: TextInputType
-                                                        .number, // Only numbers can be entered
+                                                    keyboardType:
+                                                        TextInputType.number,
                                                   ),
                                                 ),
                                               ),
@@ -853,9 +861,10 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                                               .cardData[
                                                                   model.index2]
                                                               .type,
-                                                          75.67683846358557,
-                                                        ) // TODO Need to add real time india fiat price
-                                                        .toString(),
+                                                          _cryptoAndFiatModel
+                                                              .price,
+                                                        )
+                                                        .toStringAsFixed(20),
                                                   style: GoogleFonts.rubik(
                                                     color: Colors.white,
                                                     fontSize: 25,
@@ -864,8 +873,8 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                                       const InputDecoration(
                                                     border: InputBorder.none,
                                                   ),
-                                                  keyboardType: TextInputType
-                                                      .number, // Only numbers can be entered
+                                                  keyboardType:
+                                                      TextInputType.number,
                                                 ),
                                               ),
                                             ),
@@ -1094,9 +1103,10 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                                             .cardData[
                                                                 model.index2]
                                                             .type,
-                                                        75.67683846358557,
-                                                      ) // TODO Need to add real time india fiat price
-                                                      .toString(),
+                                                        _cryptoAndFiatModel
+                                                            .price,
+                                                      )
+                                                      .toStringAsFixed(20),
                                                 style: GoogleFonts.rubik(
                                                   color: Colors.white,
                                                   fontSize: 25,
@@ -1105,8 +1115,8 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                                     const InputDecoration(
                                                   border: InputBorder.none,
                                                 ),
-                                                keyboardType: TextInputType
-                                                    .number, // Only numbers can be entered
+                                                keyboardType:
+                                                    TextInputType.number,
                                               ),
                                             ),
                                           ),
