@@ -1,9 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:crypto_news/screen/home_screen.dart';
+import 'package:crypto_news/screen/setting_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../screen/favourite_screen.dart';
 import '../screen/market_screen.dart';
 import '../screen/news_screen.dart';
 
@@ -45,10 +45,10 @@ class _MyCustomBottomNavigationBarState extends State<AppBottomNavigationBar>
             MarketScreen(
               tabController: _tabController,
             ),
-            FavouriteScreen(
+            NewsScreen(
               tabController: _tabController,
             ),
-            NewsScreen(
+            SettingScreen(
               tabController: _tabController,
             ),
           ],
@@ -168,7 +168,7 @@ class _MyCustomBottomNavigationBarState extends State<AppBottomNavigationBar>
                         height: 24,
                         child: ImageIcon(
                           CachedNetworkImageProvider(
-                            'https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/star.png?alt=media&token=118b56b3-5fe2-47d7-9498-a6c6da9a1725',
+                            'https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/news.png?alt=media&token=0e1a6a88-64bc-43ac-b0b4-f0ffc2758a17',
                           ),
                         ),
                       ),
@@ -208,10 +208,9 @@ class _MyCustomBottomNavigationBarState extends State<AppBottomNavigationBar>
                       child: SizedBox(
                         width: 24,
                         height: 24,
-                        child: ImageIcon(
-                          CachedNetworkImageProvider(
-                            'https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/news.png?alt=media&token=0e1a6a88-64bc-43ac-b0b4-f0ffc2758a17',
-                          ),
+                        child: Icon(
+                          Icons.settings,
+                          size: 25,
                         ),
                       ),
                     ),

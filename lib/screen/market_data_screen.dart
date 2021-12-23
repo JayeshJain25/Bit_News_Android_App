@@ -335,136 +335,137 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                         ),
                       ),
                     ),
-                    SliverToBoxAdapter(
-                      child: Container(
-                        margin: const EdgeInsets.only(top: 15),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            InkWell(
-                              borderRadius: BorderRadius.circular(25),
-                              onTap: () {
-                                setState(() {
-                                  _selectedIndex = 3;
-                                });
-                              },
-                              child: Container(
-                                width: width * 0.2,
-                                height: 45,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(25),
-                                  color: _selectedIndex == 3
-                                      ? const Color(0xFF52CAF5)
-                                      : Colors.transparent,
-                                ),
-                                child: Center(
-                                  child: AutoSizeText(
-                                    '24H',
-                                    maxLines: 1,
-                                    style: GoogleFonts.rubik(
-                                      fontWeight: FontWeight.w600,
-                                      color: _selectedIndex == 3
-                                          ? Colors.black
-                                          : Colors.white,
+                    if (widget.graphData.graphData.isNotEmpty)
+                      SliverToBoxAdapter(
+                        child: Container(
+                          margin: const EdgeInsets.only(top: 15),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              InkWell(
+                                borderRadius: BorderRadius.circular(25),
+                                onTap: () {
+                                  setState(() {
+                                    _selectedIndex = 3;
+                                  });
+                                },
+                                child: Container(
+                                  width: width * 0.2,
+                                  height: 45,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(25),
+                                    color: _selectedIndex == 3
+                                        ? const Color(0xFF52CAF5)
+                                        : Colors.transparent,
+                                  ),
+                                  child: Center(
+                                    child: AutoSizeText(
+                                      '24H',
+                                      maxLines: 1,
+                                      style: GoogleFonts.rubik(
+                                        fontWeight: FontWeight.w600,
+                                        color: _selectedIndex == 3
+                                            ? Colors.black
+                                            : Colors.white,
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                            InkWell(
-                              borderRadius: BorderRadius.circular(25),
-                              onTap: () {
-                                setState(() {
-                                  _selectedIndex = 0;
-                                });
-                              },
-                              child: Container(
-                                width: width * 0.2,
-                                height: 45,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(25),
-                                  color: _selectedIndex == 0
-                                      ? const Color(0xFF52CAF5)
-                                      : Colors.transparent,
-                                ),
-                                child: Center(
-                                  child: AutoSizeText(
-                                    '1M',
-                                    maxLines: 1,
-                                    style: GoogleFonts.rubik(
-                                      fontWeight: FontWeight.w600,
-                                      color: _selectedIndex == 0
-                                          ? Colors.black
-                                          : Colors.white,
+                              InkWell(
+                                borderRadius: BorderRadius.circular(25),
+                                onTap: () {
+                                  setState(() {
+                                    _selectedIndex = 0;
+                                  });
+                                },
+                                child: Container(
+                                  width: width * 0.2,
+                                  height: 45,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(25),
+                                    color: _selectedIndex == 0
+                                        ? const Color(0xFF52CAF5)
+                                        : Colors.transparent,
+                                  ),
+                                  child: Center(
+                                    child: AutoSizeText(
+                                      '1M',
+                                      maxLines: 1,
+                                      style: GoogleFonts.rubik(
+                                        fontWeight: FontWeight.w600,
+                                        color: _selectedIndex == 0
+                                            ? Colors.black
+                                            : Colors.white,
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                            InkWell(
-                              borderRadius: BorderRadius.circular(25),
-                              onTap: () {
-                                setState(() {
-                                  _selectedIndex = 1;
-                                });
-                              },
-                              child: Container(
-                                width: width * 0.2,
-                                height: 45,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(25),
-                                  color: _selectedIndex == 1
-                                      ? const Color(0xFF52CAF5)
-                                      : Colors.transparent,
-                                ),
-                                child: Center(
-                                  child: AutoSizeText(
-                                    '1Y',
-                                    maxLines: 1,
-                                    style: GoogleFonts.rubik(
-                                      fontWeight: FontWeight.w600,
-                                      color: _selectedIndex == 1
-                                          ? Colors.black
-                                          : Colors.white,
+                              InkWell(
+                                borderRadius: BorderRadius.circular(25),
+                                onTap: () {
+                                  setState(() {
+                                    _selectedIndex = 1;
+                                  });
+                                },
+                                child: Container(
+                                  width: width * 0.2,
+                                  height: 45,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(25),
+                                    color: _selectedIndex == 1
+                                        ? const Color(0xFF52CAF5)
+                                        : Colors.transparent,
+                                  ),
+                                  child: Center(
+                                    child: AutoSizeText(
+                                      '1Y',
+                                      maxLines: 1,
+                                      style: GoogleFonts.rubik(
+                                        fontWeight: FontWeight.w600,
+                                        color: _selectedIndex == 1
+                                            ? Colors.black
+                                            : Colors.white,
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                            InkWell(
-                              borderRadius: BorderRadius.circular(25),
-                              onTap: () {
-                                setState(() {
-                                  _selectedIndex = 2;
-                                });
-                              },
-                              child: Container(
-                                width: width * 0.2,
-                                height: 45,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(25),
-                                  color: _selectedIndex == 2
-                                      ? const Color(0xFF52CAF5)
-                                      : Colors.transparent,
-                                ),
-                                child: Center(
-                                  child: AutoSizeText(
-                                    '5Y',
-                                    maxLines: 1,
-                                    style: GoogleFonts.rubik(
-                                      fontWeight: FontWeight.w600,
-                                      color: _selectedIndex == 2
-                                          ? Colors.black
-                                          : Colors.white,
+                              InkWell(
+                                borderRadius: BorderRadius.circular(25),
+                                onTap: () {
+                                  setState(() {
+                                    _selectedIndex = 2;
+                                  });
+                                },
+                                child: Container(
+                                  width: width * 0.2,
+                                  height: 45,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(25),
+                                    color: _selectedIndex == 2
+                                        ? const Color(0xFF52CAF5)
+                                        : Colors.transparent,
+                                  ),
+                                  child: Center(
+                                    child: AutoSizeText(
+                                      '5Y',
+                                      maxLines: 1,
+                                      style: GoogleFonts.rubik(
+                                        fontWeight: FontWeight.w600,
+                                        color: _selectedIndex == 2
+                                            ? Colors.black
+                                            : Colors.white,
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                    ),
                     SliverToBoxAdapter(
                       child: Container(
                         margin: EdgeInsets.only(
@@ -474,71 +475,56 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                         ),
                         height: height * 0.3,
                         color: Colors.transparent,
-                        child: LineChart(
-                          LineChartData(
-                            lineTouchData: LineTouchData(
-                              touchTooltipData: LineTouchTooltipData(
-                                fitInsideHorizontally: true,
-                                fitInsideVertically: true,
-                                tooltipRoundedRadius: 24,
-                                getTooltipItems:
-                                    (List<LineBarSpot> touchedBarSpots) {
-                                  return touchedBarSpots.map((barSpot) {
-                                    return LineTooltipItem(
-                                      "${_helper.extractPriceFromGraph(
-                                        _selectedIndex == 0
-                                            ? _helper.extractGraphBasedOnPeriod(
-                                                "1m",
-                                                widget.graphData.graphData,
-                                              )
-                                            : _selectedIndex == 1
+                        child: widget.graphData.graphData.isEmpty
+                            ? Center(
+                                child: AutoSizeText(
+                                  "No Graph Data Available",
+                                  style: GoogleFonts.poppins(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              )
+                            : LineChart(
+                                LineChartData(
+                                  lineTouchData: LineTouchData(
+                                    touchTooltipData: LineTouchTooltipData(
+                                      fitInsideHorizontally: true,
+                                      fitInsideVertically: true,
+                                      tooltipRoundedRadius: 24,
+                                      getTooltipItems:
+                                          (List<LineBarSpot> touchedBarSpots) {
+                                        return touchedBarSpots.map((barSpot) {
+                                          return LineTooltipItem(
+                                            "${_helper.extractPriceFromGraph(
+                                              _selectedIndex == 0
+                                                  ? _helper
+                                                      .extractGraphBasedOnPeriod(
+                                                      "1m",
+                                                      widget
+                                                          .graphData.graphData,
+                                                    )
+                                                  : _selectedIndex == 1
+                                                      ? _helper
+                                                          .extractGraphBasedOnPeriod(
+                                                          "1y",
+                                                          widget.graphData
+                                                              .graphData,
+                                                        )
+                                                      : _selectedIndex == 3
+                                                          ? widget
+                                                              .dailyGraphData
+                                                              .graphData
+                                                          : _helper
+                                                              .extractGraphBasedOnPeriod(
+                                                              "5y",
+                                                              widget.graphData
+                                                                  .graphData,
+                                                            ),
+                                            )[barSpot.x.toInt()]}"
+                                                    .startsWith("0.")
                                                 ? _helper
-                                                    .extractGraphBasedOnPeriod(
-                                                    "1y",
-                                                    widget.graphData.graphData,
-                                                  )
-                                                : _selectedIndex == 3
-                                                    ? widget.dailyGraphData
-                                                        .graphData
-                                                    : _helper
-                                                        .extractGraphBasedOnPeriod(
-                                                        "5y",
-                                                        widget.graphData
-                                                            .graphData,
-                                                      ),
-                                      )[barSpot.x.toInt()]}"
-                                              .startsWith("0.")
-                                          ? _helper
-                                              .extractPriceFromGraph(
-                                                _selectedIndex == 0
-                                                    ? _helper
-                                                        .extractGraphBasedOnPeriod(
-                                                        "1m",
-                                                        widget.graphData
-                                                            .graphData,
-                                                      )
-                                                    : _selectedIndex == 1
-                                                        ? _helper
-                                                            .extractGraphBasedOnPeriod(
-                                                            "1y",
-                                                            widget.graphData
-                                                                .graphData,
-                                                          )
-                                                        : _selectedIndex == 3
-                                                            ? widget
-                                                                .dailyGraphData
-                                                                .graphData
-                                                            : _helper
-                                                                .extractGraphBasedOnPeriod(
-                                                                "5y",
-                                                                widget.graphData
-                                                                    .graphData,
-                                                              ),
-                                              )[barSpot.x.toInt()]
-                                              .toString()
-                                          : _helper
-                                              .removeDecimal(
-                                                _helper
                                                     .extractPriceFromGraph(
                                                       _selectedIndex == 0
                                                           ? _helper
@@ -568,176 +554,220 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                                                                           .graphData,
                                                                     ),
                                                     )[barSpot.x.toInt()]
-                                                    .toStringAsFixed(2),
-                                              )
-                                              .replaceAllMapped(
-                                                RegExp(
-                                                  r'(\d{1,3})(?=(\d{3})+(?!\d))',
-                                                ),
-                                                (Match m) => '${m[1]},',
-                                              ),
-                                      GoogleFonts.nunito(
-                                        color: Colors.white,
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    );
-                                  }).toList();
-                                },
-                              ),
-                            ),
-                            gridData: FlGridData(
-                              show: true,
-                              drawVerticalLine: false,
-                              drawHorizontalLine: false,
-                              horizontalInterval: 4,
-                              getDrawingHorizontalLine: (value) {
-                                return FlLine(
-                                  color: const Color(
-                                    0xff37434d,
+                                                    .toString()
+                                                : _helper
+                                                    .removeDecimal(
+                                                      _helper
+                                                          .extractPriceFromGraph(
+                                                            _selectedIndex == 0
+                                                                ? _helper
+                                                                    .extractGraphBasedOnPeriod(
+                                                                    "1m",
+                                                                    widget
+                                                                        .graphData
+                                                                        .graphData,
+                                                                  )
+                                                                : _selectedIndex ==
+                                                                        1
+                                                                    ? _helper
+                                                                        .extractGraphBasedOnPeriod(
+                                                                        "1y",
+                                                                        widget
+                                                                            .graphData
+                                                                            .graphData,
+                                                                      )
+                                                                    : _selectedIndex ==
+                                                                            3
+                                                                        ? widget
+                                                                            .dailyGraphData
+                                                                            .graphData
+                                                                        : _helper
+                                                                            .extractGraphBasedOnPeriod(
+                                                                            "5y",
+                                                                            widget.graphData.graphData,
+                                                                          ),
+                                                          )[barSpot.x.toInt()]
+                                                          .toStringAsFixed(2),
+                                                    )
+                                                    .replaceAllMapped(
+                                                      RegExp(
+                                                        r'(\d{1,3})(?=(\d{3})+(?!\d))',
+                                                      ),
+                                                      (Match m) => '${m[1]},',
+                                                    ),
+                                            GoogleFonts.nunito(
+                                              color: Colors.white,
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          );
+                                        }).toList();
+                                      },
+                                    ),
                                   ),
-                                  strokeWidth: 1,
-                                );
-                              },
-                              getDrawingVerticalLine: (value) {
-                                return FlLine(
-                                  color: const Color(
-                                    0xff37434d,
+                                  gridData: FlGridData(
+                                    show: true,
+                                    drawVerticalLine: false,
+                                    drawHorizontalLine: false,
+                                    horizontalInterval: 4,
+                                    getDrawingHorizontalLine: (value) {
+                                      return FlLine(
+                                        color: const Color(
+                                          0xff37434d,
+                                        ),
+                                        strokeWidth: 1,
+                                      );
+                                    },
+                                    getDrawingVerticalLine: (value) {
+                                      return FlLine(
+                                        color: const Color(
+                                          0xff37434d,
+                                        ),
+                                        strokeWidth: 1,
+                                      );
+                                    },
                                   ),
-                                  strokeWidth: 1,
-                                );
-                              },
-                            ),
-                            titlesData: FlTitlesData(
-                              show: false,
-                            ),
-                            borderData: FlBorderData(
-                              show: false,
-                            ),
-                            minX: 0,
-                            maxX: (_selectedIndex == 0
-                                    ? _helper
-                                        .extractGraphBasedOnPeriod(
-                                          "1m",
-                                          widget.graphData.graphData,
-                                        )
-                                        .length
-                                        .toDouble()
-                                    : _selectedIndex == 1
-                                        ? _helper
-                                            .extractGraphBasedOnPeriod(
-                                              "1y",
-                                              widget.graphData.graphData,
-                                            )
-                                            .length
-                                            .toDouble()
-                                        : _selectedIndex == 3
-                                            ? widget
-                                                .dailyGraphData.graphData.length
-                                                .toDouble()
-                                            : _helper
-                                                .extractGraphBasedOnPeriod(
-                                                  "5y",
-                                                  widget.graphData.graphData,
-                                                )
-                                                .length
-                                                .toDouble()) -
-                                1,
-                            minY: _helper
-                                .extractPriceFromGraph(
-                                  _selectedIndex == 0
-                                      ? _helper.extractGraphBasedOnPeriod(
-                                          "1m",
-                                          widget.graphData.graphData,
-                                        )
-                                      : _selectedIndex == 1
-                                          ? _helper.extractGraphBasedOnPeriod(
-                                              "1y",
-                                              widget.graphData.graphData,
-                                            )
-                                          : _selectedIndex == 3
-                                              ? widget.dailyGraphData.graphData
-                                              : _helper
-                                                  .extractGraphBasedOnPeriod(
-                                                  "5y",
-                                                  widget.graphData.graphData,
-                                                ),
-                                )
-                                .reduce(min)
-                                .toDouble(),
-                            maxY: _helper
-                                .extractPriceFromGraph(
-                                  _selectedIndex == 0
-                                      ? _helper.extractGraphBasedOnPeriod(
-                                          "1m",
-                                          widget.graphData.graphData,
-                                        )
-                                      : _selectedIndex == 1
-                                          ? _helper.extractGraphBasedOnPeriod(
-                                              "1y",
-                                              widget.graphData.graphData,
-                                            )
-                                          : _selectedIndex == 3
-                                              ? widget.dailyGraphData.graphData
-                                              : _helper
-                                                  .extractGraphBasedOnPeriod(
-                                                  "5y",
-                                                  widget.graphData.graphData,
-                                                ),
-                                )
-                                .reduce(max)
-                                .toDouble(),
-                            lineBarsData: [
-                              LineChartBarData(
-                                spots: listData(
-                                  _helper.extractPriceFromGraph(
-                                    _selectedIndex == 0
-                                        ? _helper.extractGraphBasedOnPeriod(
-                                            "1m",
-                                            widget.graphData.graphData,
-                                          )
-                                        : _selectedIndex == 1
-                                            ? _helper.extractGraphBasedOnPeriod(
-                                                "1y",
+                                  titlesData: FlTitlesData(
+                                    show: false,
+                                  ),
+                                  borderData: FlBorderData(
+                                    show: false,
+                                  ),
+                                  minX: 0,
+                                  maxX: (_selectedIndex == 0
+                                          ? _helper
+                                              .extractGraphBasedOnPeriod(
+                                                "1m",
                                                 widget.graphData.graphData,
                                               )
-                                            : _selectedIndex == 3
-                                                ? widget
-                                                    .dailyGraphData.graphData
-                                                : _helper
-                                                    .extractGraphBasedOnPeriod(
-                                                    "5y",
+                                              .length
+                                              .toDouble()
+                                          : _selectedIndex == 1
+                                              ? _helper
+                                                  .extractGraphBasedOnPeriod(
+                                                    "1y",
                                                     widget.graphData.graphData,
-                                                  ),
-                                  ),
-                                ),
-                                colors: [const Color(0xff02d39a)],
-                                barWidth: 3,
-                                isStrokeCapRound: true,
-                                dotData: FlDotData(
-                                  show: false,
-                                ),
-                                belowBarData: BarAreaData(
-                                  show: true,
-                                  gradientFrom: const Offset(0, .9),
-                                  gradientTo: const Offset(
-                                    0,
-                                    0.5,
-                                  ),
-                                  colors: [
-                                    const Color(
-                                      0xff02d39a,
-                                    ).withOpacity(.01),
-                                    const Color(
-                                      0xff02d39a,
-                                    ).withOpacity(.3)
+                                                  )
+                                                  .length
+                                                  .toDouble()
+                                              : _selectedIndex == 3
+                                                  ? widget.dailyGraphData
+                                                      .graphData.length
+                                                      .toDouble()
+                                                  : _helper
+                                                      .extractGraphBasedOnPeriod(
+                                                        "5y",
+                                                        widget.graphData
+                                                            .graphData,
+                                                      )
+                                                      .length
+                                                      .toDouble()) -
+                                      1,
+                                  minY: _helper
+                                      .extractPriceFromGraph(
+                                        _selectedIndex == 0
+                                            ? _helper.extractGraphBasedOnPeriod(
+                                                "1m",
+                                                widget.graphData.graphData,
+                                              )
+                                            : _selectedIndex == 1
+                                                ? _helper
+                                                    .extractGraphBasedOnPeriod(
+                                                    "1y",
+                                                    widget.graphData.graphData,
+                                                  )
+                                                : _selectedIndex == 3
+                                                    ? widget.dailyGraphData
+                                                        .graphData
+                                                    : _helper
+                                                        .extractGraphBasedOnPeriod(
+                                                        "5y",
+                                                        widget.graphData
+                                                            .graphData,
+                                                      ),
+                                      )
+                                      .reduce(min)
+                                      .toDouble(),
+                                  maxY: _helper
+                                      .extractPriceFromGraph(
+                                        _selectedIndex == 0
+                                            ? _helper.extractGraphBasedOnPeriod(
+                                                "1m",
+                                                widget.graphData.graphData,
+                                              )
+                                            : _selectedIndex == 1
+                                                ? _helper
+                                                    .extractGraphBasedOnPeriod(
+                                                    "1y",
+                                                    widget.graphData.graphData,
+                                                  )
+                                                : _selectedIndex == 3
+                                                    ? widget.dailyGraphData
+                                                        .graphData
+                                                    : _helper
+                                                        .extractGraphBasedOnPeriod(
+                                                        "5y",
+                                                        widget.graphData
+                                                            .graphData,
+                                                      ),
+                                      )
+                                      .reduce(max)
+                                      .toDouble(),
+                                  lineBarsData: [
+                                    LineChartBarData(
+                                      spots: listData(
+                                        _helper.extractPriceFromGraph(
+                                          _selectedIndex == 0
+                                              ? _helper
+                                                  .extractGraphBasedOnPeriod(
+                                                  "1m",
+                                                  widget.graphData.graphData,
+                                                )
+                                              : _selectedIndex == 1
+                                                  ? _helper
+                                                      .extractGraphBasedOnPeriod(
+                                                      "1y",
+                                                      widget
+                                                          .graphData.graphData,
+                                                    )
+                                                  : _selectedIndex == 3
+                                                      ? widget.dailyGraphData
+                                                          .graphData
+                                                      : _helper
+                                                          .extractGraphBasedOnPeriod(
+                                                          "5y",
+                                                          widget.graphData
+                                                              .graphData,
+                                                        ),
+                                        ),
+                                      ),
+                                      colors: [const Color(0xff02d39a)],
+                                      barWidth: 3,
+                                      isStrokeCapRound: true,
+                                      dotData: FlDotData(
+                                        show: false,
+                                      ),
+                                      belowBarData: BarAreaData(
+                                        show: true,
+                                        gradientFrom: const Offset(0, .9),
+                                        gradientTo: const Offset(
+                                          0,
+                                          0.5,
+                                        ),
+                                        colors: [
+                                          const Color(
+                                            0xff02d39a,
+                                          ).withOpacity(.01),
+                                          const Color(
+                                            0xff02d39a,
+                                          ).withOpacity(.3)
+                                        ],
+                                      ),
+                                    ),
                                   ],
                                 ),
+                                swapAnimationDuration: Duration.zero,
                               ),
-                            ],
-                          ),
-                          swapAnimationDuration: Duration.zero,
-                        ),
                       ),
                     ),
                     SliverToBoxAdapter(

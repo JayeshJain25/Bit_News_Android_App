@@ -1,9 +1,12 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SettingScreen extends StatelessWidget {
+  final TabController tabController;
+  const SettingScreen({Key? key, required this.tabController})
+      : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,20 +15,15 @@ class SettingScreen extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.black,
-        centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios),
-          color: Colors.white,
-          onPressed: () {
-            Get.back();
-          },
-        ),
-        title: AutoSizeText(
-          'Setting',
-          style: GoogleFonts.poppins(
-            color: Colors.white,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
+        title: Container(
+          margin: const EdgeInsets.only(top: 5, left: 15),
+          child: AutoSizeText(
+            'Setting',
+            style: GoogleFonts.poppins(
+              color: Colors.white,
+              fontSize: 23,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ),
       ),

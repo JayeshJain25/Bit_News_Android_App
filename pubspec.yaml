@@ -60,6 +60,8 @@ dependencies:
   url_launcher: ^6.0.12
   clippy_flutter: ^2.0.0-nullsafety.1
   like_button: ^2.0.3
+  firebase_messaging: ^11.2.3
+  firebase_analytics: ^9.0.3
 
 dev_dependencies:
   flutter_test:
