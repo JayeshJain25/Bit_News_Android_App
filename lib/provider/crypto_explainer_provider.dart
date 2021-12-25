@@ -7,7 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class CryptoExplainerProvider with ChangeNotifier {
-  List<CryptoExplainerModel> listModel = [];
+  List<CryptoExplainerModel> explainerlist = [];
+  List<CryptoExplainerModel> beginnerlist = [];
+  List<CryptoExplainerModel> intermediatelist = [];
+  List<CryptoExplainerModel> advancelist = [];
 
   CryptoExplainerProvider();
 
@@ -16,11 +19,11 @@ class CryptoExplainerProvider with ChangeNotifier {
     list = parsedJson
         .map((e) => CryptoExplainerModel.fromJson(e as Map<String, dynamic>))
         .toList();
-    listModel = list;
+    explainerlist = list;
   }
 
   Future<void> getcryptoExplainerByType(String type) async {
-    listModel.clear();
+    explainerlist.clear();
     final url = "${ApiEndpoints.baseUrl}coin-explainer?type=$type";
     try {
       final response = await http.get(
@@ -28,8 +31,17 @@ class CryptoExplainerProvider with ChangeNotifier {
       );
       final r = json.decode(response.body) as List<dynamic>;
       final CryptoExplainerProvider model = CryptoExplainerProvider.fromJson(r);
-      for (final element in model.listModel) {
-        listModel.add(element);
+      for (final element in model.explainerlist) {
+        explainerlist.add(element);
+      }
+      for (final element in explainerlist) {
+        if (element.difficulty == "Beginner") {
+          beginnerlist.add(element);
+        } else if (element.difficulty == "Intermediate") {
+          intermediatelist.add(element);
+        } else {
+          advancelist.add(element);
+        }
       }
       notifyListeners();
     } catch (error) {

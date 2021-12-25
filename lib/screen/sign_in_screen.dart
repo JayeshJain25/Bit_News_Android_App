@@ -21,96 +21,112 @@ class _SignInScreenState extends State<SignInScreen> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color(0xFF010101),
-        body: Center(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 400,
-                width: width * 0.85,
-                child: CachedNetworkImage(
-                  fit: BoxFit.cover,
-                  imageUrl:
-                      "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/sign_up_screen.gif?alt=media&token=e05e2532-6207-4c73-812c-930b03bfb3b9",
+        body: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Color(0xFFc31432),
+                Color(0xFF240b36),
+              ],
+            ),
+          ),
+          child: Center(
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 570,
                 ),
-              ),
-              const SizedBox(
-                height: 250,
-              ),
-              ElevatedButton(
-                style: ButtonStyle(
-                  minimumSize:
-                      MaterialStateProperty.all<Size>(const Size(120, 55)),
-                  backgroundColor: MaterialStateProperty.all<Color>(
-                    signUpComplete
-                        ? const Color(0xFF00fa89)
-                        : const Color(0xFF16151a),
-                  ),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(18.0),
+                ElevatedButton(
+                  style: ButtonStyle(
+                    fixedSize:
+                        MaterialStateProperty.all<Size>(const Size(245, 55)),
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                      signUpComplete
+                          ? const Color(0xFF00fa89)
+                          : const Color(0xFF24a0ed),
+                    ),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18.0),
+                      ),
                     ),
                   ),
-                ),
-                onPressed: () async {
-                  final provider =
-                      Provider.of<GoogleSignInProvider>(context, listen: false);
-                  await provider.signInwithGoogle().then((value) {
-                    setState(() {
-                      signUpComplete = true;
+                  onPressed: () async {
+                    final provider = Provider.of<GoogleSignInProvider>(
+                      context,
+                      listen: false,
+                    );
+                    await provider.signInwithGoogle().then((value) {
+                      setState(() {
+                        signUpComplete = true;
+                      });
+                      Get.off(() => AppBottomNavigationBar());
                     });
-                    Get.off(() => AppBottomNavigationBar());
-                  });
-                },
-                child: signUpComplete
-                    ? Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              "Sign up Completed",
-                              style: GoogleFonts.poppins(
-                                color: const Color(0xFF006230),
-                                fontSize: 17,
-                                fontWeight: FontWeight.w500,
+                  },
+                  child: signUpComplete
+                      ? Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                "Sign up Completed",
+                                style: GoogleFonts.rubik(
+                                  color: const Color(0xFF006230),
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            const Icon(
-                              Icons.check,
-                              color: Color(0xFF006230),
-                            )
-                          ],
-                        ),
-                      )
-                    : Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Image.asset(
-                              "lib/assets/google.png",
-                              height: 20,
-                              width: 20,
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              "Sign up with Google",
-                              style: GoogleFonts.poppins(
-                                color: Colors.white,
-                                fontSize: 17,
-                                fontWeight: FontWeight.w500,
+                              const SizedBox(
+                                width: 10,
                               ),
-                            ),
-                          ],
+                              const Icon(
+                                Icons.check,
+                                color: Color(0xFF006230),
+                              )
+                            ],
+                          ),
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Image.asset(
+                                "lib/assets/google.png",
+                                height: 20,
+                                width: 20,
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                "Sign up with Google",
+                                style: GoogleFonts.rubik(
+                                  color: Colors.white,
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-              ),
-            ],
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  'Skip for now',
+                  style: GoogleFonts.rubik(
+                    color: Colors.white,
+                    fontSize: 17,
+                    fontWeight: FontWeight.w400,
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),

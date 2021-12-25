@@ -54,11 +54,13 @@ class _MyCustomBottomNavigationBarState extends State<AppBottomNavigationBar>
           ],
         ),
         bottomNavigationBar: Container(
-          height: 55,
-          margin: const EdgeInsets.only(bottom: 12, left: 10, right: 10),
-          decoration: BoxDecoration(
-            color: const Color(0xFF292f33),
-            borderRadius: BorderRadius.circular(30),
+          height: 60,
+          decoration: const BoxDecoration(
+            color: Color(0xFF0e0c0a),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30),
+              topRight: Radius.circular(30),
+            ),
           ),
           child: TabBar(
             onTap: (index) {
@@ -101,7 +103,7 @@ class _MyCustomBottomNavigationBarState extends State<AppBottomNavigationBar>
                                   ? const Color(0xFF52CAF5)
                                   : Colors.transparent,
                               blurRadius: 45.0, // soften the shadow
-                              spreadRadius: 4.0, //extend the shadow
+                              spreadRadius: 3.0, //extend the shadow
                               offset: const Offset(
                                 17.0, 30.0, // Move to bottom 10 Vertically
                               ),
@@ -143,7 +145,7 @@ class _MyCustomBottomNavigationBarState extends State<AppBottomNavigationBar>
                                   ? const Color(0xFF52CAF5)
                                   : Colors.transparent,
                               blurRadius: 45.0, // soften the shadow
-                              spreadRadius: 4.0, //extend the shadow
+                              spreadRadius: 3.0, //extend the shadow
                               offset: const Offset(
                                 17.0, 30.0, // Move to bottom 10 Vertically
                               ),
@@ -185,7 +187,7 @@ class _MyCustomBottomNavigationBarState extends State<AppBottomNavigationBar>
                                   ? const Color(0xFF52CAF5)
                                   : Colors.transparent,
                               blurRadius: 45.0, // soften the shadow
-                              spreadRadius: 4.0, //extend the shadow
+                              spreadRadius: 3.0, //extend the shadow
                               offset: const Offset(
                                 17.0, 30.0, // Move to bottom 10 Vertically
                               ),
@@ -226,7 +228,7 @@ class _MyCustomBottomNavigationBarState extends State<AppBottomNavigationBar>
                                   ? const Color(0xFF52CAF5)
                                   : Colors.transparent,
                               blurRadius: 45.0, // soften the shadow
-                              spreadRadius: 4.0, //extend the shadow
+                              spreadRadius: 3.0, //extend the shadow
                               offset: const Offset(
                                 17.0, 30.0, // Move to bottom 10 Vertically
                               ),

@@ -16,7 +16,7 @@ class _CryptoExplainerScreenState extends State<CryptoExplainerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF010101),
+      backgroundColor: const Color(0xFF343434),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(

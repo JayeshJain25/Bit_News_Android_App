@@ -150,18 +150,30 @@ class _CryptoExplainerHomeScreenState extends State<CryptoExplainerHomeScreen> {
           Expanded(
             child: Consumer<CryptoExplainerProvider>(
               builder: (ctx, data, _) {
-                return data.listModel.isEmpty
+                return (_selectedIndex == 0
+                        ? data.beginnerlist.isEmpty
+                        : _selectedIndex == 1
+                            ? data.intermediatelist.isEmpty
+                            : data.advancelist.isEmpty)
                     ? const Center(
                         child: CircularProgressIndicator(),
                       )
                     : ListView.builder(
-                        itemCount: data.listModel.length,
+                        itemCount: _selectedIndex == 0
+                            ? data.beginnerlist.length
+                            : _selectedIndex == 1
+                                ? data.intermediatelist.length
+                                : data.advancelist.length,
                         itemBuilder: (ctx, index) {
                           return InkWell(
                             onTap: () {
                               Get.to(
                                 () => CryptoExplainerScreen(
-                                  data.listModel[index],
+                                  _selectedIndex == 0
+                                      ? data.beginnerlist[index]
+                                      : _selectedIndex == 1
+                                          ? data.intermediatelist[index]
+                                          : data.advancelist[index],
                                 ),
                               );
                             },
@@ -172,7 +184,7 @@ class _CryptoExplainerHomeScreenState extends State<CryptoExplainerHomeScreen> {
                                 right: 23,
                               ),
                               width: 347,
-                              height: 270,
+                              height: 271,
                               child: Card(
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(
@@ -190,7 +202,13 @@ class _CryptoExplainerHomeScreenState extends State<CryptoExplainerHomeScreen> {
                                       ),
                                       child: CachedNetworkImage(
                                         fit: BoxFit.cover,
-                                        imageUrl: data.listModel[index].imgUrl,
+                                        imageUrl: _selectedIndex == 0
+                                            ? data.beginnerlist[index].imgUrl
+                                            : _selectedIndex == 1
+                                                ? data.intermediatelist[index]
+                                                    .imgUrl
+                                                : data
+                                                    .advancelist[index].imgUrl,
                                         errorWidget: (context, url, error) =>
                                             Image.asset(
                                           "lib/assets/logo.png",
@@ -207,7 +225,13 @@ class _CryptoExplainerHomeScreenState extends State<CryptoExplainerHomeScreen> {
                                           top: 7,
                                         ),
                                         child: AutoSizeText(
-                                          data.listModel[index].title,
+                                          _selectedIndex == 0
+                                              ? data.beginnerlist[index].title
+                                              : _selectedIndex == 1
+                                                  ? data.intermediatelist[index]
+                                                      .title
+                                                  : data
+                                                      .advancelist[index].title,
                                           maxLines: 2,
                                           style: GoogleFonts.rubik(
                                             color: Colors.white,
@@ -225,7 +249,16 @@ class _CryptoExplainerHomeScreenState extends State<CryptoExplainerHomeScreen> {
                                               bottom: 7,
                                             ),
                                             child: AutoSizeText(
-                                              data.listModel[index].description,
+                                              _selectedIndex == 0
+                                                  ? data.beginnerlist[index]
+                                                      .description
+                                                  : _selectedIndex == 1
+                                                      ? data
+                                                          .intermediatelist[
+                                                              index]
+                                                          .description
+                                                      : data.advancelist[index]
+                                                          .description,
                                               maxLines: 2,
                                               overflow: TextOverflow.ellipsis,
                                               softWrap: false,
@@ -237,7 +270,7 @@ class _CryptoExplainerHomeScreenState extends State<CryptoExplainerHomeScreen> {
                                             ),
                                           ),
                                           AutoSizeText(
-                                            "By ${data.listModel[index].author}",
+                                            "By ${_selectedIndex == 0 ? data.beginnerlist[index].author : _selectedIndex == 1 ? data.intermediatelist[index].author : data.advancelist[index].author}",
                                             maxLines: 1,
                                             style: GoogleFonts.poppins(
                                               color: Colors.white70,
