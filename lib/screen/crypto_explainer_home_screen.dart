@@ -64,26 +64,45 @@ class _CryptoExplainerHomeScreenState extends State<CryptoExplainerHomeScreen> {
                       _selectedIndex = 0;
                     });
                   },
-                  child: Container(
-                    width: 100,
-                    height: 45,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(25),
-                      color: _selectedIndex == 0
-                          ? const Color(0xFF52CAF5)
-                          : const Color(0xFF010101),
-                    ),
-                    child: Center(
-                      child: AutoSizeText(
-                        'Beginner',
-                        maxLines: 1,
-                        style: GoogleFonts.rubik(
-                          fontWeight: FontWeight.w600,
-                          color:
-                              _selectedIndex == 0 ? Colors.black : Colors.white,
+                  child: Column(
+                    children: [
+                      Center(
+                        child: AutoSizeText(
+                          'Beginner',
+                          maxLines: 1,
+                          style: GoogleFonts.rubik(
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
-                    ),
+                      Container(
+                        margin: const EdgeInsets.only(
+                          top: 5,
+                          bottom: 10,
+                        ),
+                        width: 35,
+                        height: 3,
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: _selectedIndex == 0
+                                  ? const Color(0xFF52CAF5)
+                                  : Colors.transparent,
+                              blurRadius: 45.0, // soften the shadow
+                              spreadRadius: 3.0, //extend the shadow
+                              offset: const Offset(
+                                17.0,
+                                30.0, // Move to bottom 10 Vertically
+                              ),
+                            )
+                          ],
+                          color: _selectedIndex == 0
+                              ? const Color(0xFF52CAF5)
+                              : Colors.transparent,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 InkWell(
@@ -93,26 +112,45 @@ class _CryptoExplainerHomeScreenState extends State<CryptoExplainerHomeScreen> {
                       _selectedIndex = 1;
                     });
                   },
-                  child: Container(
-                    width: 100,
-                    height: 45,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(25),
-                      color: _selectedIndex == 1
-                          ? const Color(0xFF52CAF5)
-                          : const Color(0xFF010101),
-                    ),
-                    child: Center(
-                      child: AutoSizeText(
-                        'Intermediate',
-                        maxLines: 1,
-                        style: GoogleFonts.rubik(
-                          fontWeight: FontWeight.w600,
-                          color:
-                              _selectedIndex == 1 ? Colors.black : Colors.white,
+                  child: Column(
+                    children: [
+                      Center(
+                        child: AutoSizeText(
+                          'Intermediate',
+                          maxLines: 1,
+                          style: GoogleFonts.rubik(
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
-                    ),
+                      Container(
+                        margin: const EdgeInsets.only(
+                          top: 5,
+                          bottom: 10,
+                        ),
+                        width: 35,
+                        height: 3,
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: _selectedIndex == 1
+                                  ? const Color(0xFF52CAF5)
+                                  : Colors.transparent,
+                              blurRadius: 45.0, // soften the shadow
+                              spreadRadius: 3.0, //extend the shadow
+                              offset: const Offset(
+                                17.0,
+                                30.0, // Move to bottom 10 Vertically
+                              ),
+                            )
+                          ],
+                          color: _selectedIndex == 1
+                              ? const Color(0xFF52CAF5)
+                              : Colors.transparent,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 InkWell(
@@ -122,26 +160,45 @@ class _CryptoExplainerHomeScreenState extends State<CryptoExplainerHomeScreen> {
                       _selectedIndex = 2;
                     });
                   },
-                  child: Container(
-                    width: 100,
-                    height: 45,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(25),
-                      color: _selectedIndex == 2
-                          ? const Color(0xFF52CAF5)
-                          : const Color(0xFF010101),
-                    ),
-                    child: Center(
-                      child: AutoSizeText(
-                        'Expert',
-                        maxLines: 1,
-                        style: GoogleFonts.rubik(
-                          fontWeight: FontWeight.w600,
-                          color:
-                              _selectedIndex == 2 ? Colors.black : Colors.white,
+                  child: Column(
+                    children: [
+                      Center(
+                        child: AutoSizeText(
+                          'Expert',
+                          maxLines: 1,
+                          style: GoogleFonts.rubik(
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
-                    ),
+                      Container(
+                        margin: const EdgeInsets.only(
+                          top: 5,
+                          bottom: 10,
+                        ),
+                        width: 35,
+                        height: 3,
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: _selectedIndex == 2
+                                  ? const Color(0xFF52CAF5)
+                                  : Colors.transparent,
+                              blurRadius: 45.0, // soften the shadow
+                              spreadRadius: 3.0, //extend the shadow
+                              offset: const Offset(
+                                17.0,
+                                30.0, // Move to bottom 10 Vertically
+                              ),
+                            )
+                          ],
+                          color: _selectedIndex == 2
+                              ? const Color(0xFF52CAF5)
+                              : Colors.transparent,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],

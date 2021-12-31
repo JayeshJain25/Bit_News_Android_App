@@ -173,69 +173,75 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                           left: width * 0.03,
                           right: width * 0.03,
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            IconButton(
-                              icon: const Icon(
-                                Icons.arrow_back_ios_rounded,
-                                size: 22,
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              AutoSizeText(
+                                'Statistics',
+                                style: GoogleFonts.poppins(
+                                  color: Colors.white,
+                                  fontSize: 23,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
-                              color: Colors.white,
-                              onPressed: () {
-                                Get.back();
-                              },
-                            ),
-                            AutoSizeText(
-                              'Statistic',
-                              style: GoogleFonts.poppins(
-                                color: Colors.white,
-                                fontSize: 23,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            LikeButton(
-                              size: 22,
-                              circleColor: const CircleColor(
-                                start: Color(0xff00ddff),
-                                end: Color(0xff0099cc),
-                              ),
-                              bubblesColor: const BubblesColor(
-                                dotPrimaryColor: Color(0xff33b5e5),
-                                dotSecondaryColor: Color(0xff0099cc),
-                              ),
-                              likeBuilder: (bool isLiked) {
-                                return Icon(
-                                  Icons.star_purple500_outlined,
-                                  color: Provider.of<GoogleSignInProvider>(
-                                    context,
-                                    listen: false,
-                                  ).userModel.favoriteCoins.contains(
-                                            widget.cryptoData.name
-                                                .toLowerCase(),
-                                          )
-                                      ? const Color(
-                                          0xFF52CAF5,
-                                        )
-                                      : Colors.grey,
-                                  size: 22,
-                                );
-                              },
-                              onTap: (isLiked) =>
-                                  Provider.of<CryptoMarketDataProvider>(
-                                context,
-                                listen: false,
-                              ).updateFavouriteCoin(
-                                [widget.cryptoData.name.toLowerCase()],
-                                user!.uid,
-                              ).then((value) {
-                                Provider.of<GoogleSignInProvider>(
-                                  context,
-                                  listen: false,
-                                ).userModel = value;
-                              }),
-                            ),
-                          ],
+                              if (user != null)
+                                Container(
+                                  width: 40,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    color: const Color(0xFF22313e)
+                                        .withOpacity(0.5),
+                                  ),
+                                  child: LikeButton(
+                                    size: 22,
+                                    circleColor: const CircleColor(
+                                      start: Color(0xff00ddff),
+                                      end: Color(0xff0099cc),
+                                    ),
+                                    bubblesColor: const BubblesColor(
+                                      dotPrimaryColor: Color(0xff33b5e5),
+                                      dotSecondaryColor: Color(0xff0099cc),
+                                    ),
+                                    likeBuilder: (bool isLiked) {
+                                      return Icon(
+                                        Icons.star_purple500_outlined,
+                                        color:
+                                            Provider.of<GoogleSignInProvider>(
+                                          context,
+                                          listen: false,
+                                        ).userModel.favoriteCoins.contains(
+                                                      widget.cryptoData.name
+                                                          .toLowerCase(),
+                                                    )
+                                                ? const Color(
+                                                    0xFF52CAF5,
+                                                  )
+                                                : Colors.white,
+                                        size: 22,
+                                      );
+                                    },
+                                    onTap: (isLiked) =>
+                                        Provider.of<CryptoMarketDataProvider>(
+                                      context,
+                                      listen: false,
+                                    ).updateFavouriteCoin(
+                                      [widget.cryptoData.name.toLowerCase()],
+                                      user.uid,
+                                    ).then((value) {
+                                      Provider.of<GoogleSignInProvider>(
+                                        context,
+                                        listen: false,
+                                      ).userModel = value;
+                                    }),
+                                  ),
+                                )
+                              else
+                                const SizedBox()
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -273,10 +279,11 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                           ],
                         ),
                         child: Column(
+                          mainAxisSize: MainAxisSize.min,
                           children: [
                             Container(
                               margin: EdgeInsets.only(
-                                top: height * 0.03,
+                                top: height * 0.02,
                                 right: width * 0.67,
                               ),
                               child: CircleAvatar(
@@ -310,7 +317,8 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                             ),
                             Container(
                               margin: EdgeInsets.only(
-                                top: height * 0.04,
+                                top: height * 0.025,
+                                bottom: height * 0.027,
                               ),
                               child: ShaderMask(
                                 shaderCallback: (Rect bounds) {
@@ -338,7 +346,7 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                     if (widget.graphData.graphData.isNotEmpty)
                       SliverToBoxAdapter(
                         child: Container(
-                          margin: const EdgeInsets.only(top: 15),
+                          margin: const EdgeInsets.only(top: 20),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
@@ -349,27 +357,30 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                                     _selectedIndex = 3;
                                   });
                                 },
-                                child: Container(
-                                  width: width * 0.2,
-                                  height: 45,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(25),
-                                    color: _selectedIndex == 3
-                                        ? const Color(0xFF52CAF5)
-                                        : Colors.transparent,
-                                  ),
-                                  child: Center(
-                                    child: AutoSizeText(
-                                      '24H',
-                                      maxLines: 1,
-                                      style: GoogleFonts.rubik(
-                                        fontWeight: FontWeight.w600,
-                                        color: _selectedIndex == 3
-                                            ? Colors.black
-                                            : Colors.white,
+                                child: Column(
+                                  children: [
+                                    Center(
+                                      child: AutoSizeText(
+                                        '24H',
+                                        maxLines: 1,
+                                        style: GoogleFonts.rubik(
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.white,
+                                        ),
                                       ),
                                     ),
-                                  ),
+                                    Container(
+                                      margin: const EdgeInsets.only(
+                                        top: 5,
+                                        bottom: 10,
+                                      ),
+                                      width: 35,
+                                      height: 3,
+                                      color: _selectedIndex == 3
+                                          ? const Color(0xFF52CAF5)
+                                          : Colors.transparent,
+                                    ),
+                                  ],
                                 ),
                               ),
                               InkWell(
@@ -379,27 +390,30 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                                     _selectedIndex = 0;
                                   });
                                 },
-                                child: Container(
-                                  width: width * 0.2,
-                                  height: 45,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(25),
-                                    color: _selectedIndex == 0
-                                        ? const Color(0xFF52CAF5)
-                                        : Colors.transparent,
-                                  ),
-                                  child: Center(
-                                    child: AutoSizeText(
-                                      '1M',
-                                      maxLines: 1,
-                                      style: GoogleFonts.rubik(
-                                        fontWeight: FontWeight.w600,
-                                        color: _selectedIndex == 0
-                                            ? Colors.black
-                                            : Colors.white,
+                                child: Column(
+                                  children: [
+                                    Center(
+                                      child: AutoSizeText(
+                                        '1M',
+                                        maxLines: 1,
+                                        style: GoogleFonts.rubik(
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.white,
+                                        ),
                                       ),
                                     ),
-                                  ),
+                                    Container(
+                                      margin: const EdgeInsets.only(
+                                        top: 5,
+                                        bottom: 10,
+                                      ),
+                                      width: 35,
+                                      height: 3,
+                                      color: _selectedIndex == 0
+                                          ? const Color(0xFF52CAF5)
+                                          : Colors.transparent,
+                                    ),
+                                  ],
                                 ),
                               ),
                               InkWell(
@@ -409,27 +423,30 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                                     _selectedIndex = 1;
                                   });
                                 },
-                                child: Container(
-                                  width: width * 0.2,
-                                  height: 45,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(25),
-                                    color: _selectedIndex == 1
-                                        ? const Color(0xFF52CAF5)
-                                        : Colors.transparent,
-                                  ),
-                                  child: Center(
-                                    child: AutoSizeText(
-                                      '1Y',
-                                      maxLines: 1,
-                                      style: GoogleFonts.rubik(
-                                        fontWeight: FontWeight.w600,
-                                        color: _selectedIndex == 1
-                                            ? Colors.black
-                                            : Colors.white,
+                                child: Column(
+                                  children: [
+                                    Center(
+                                      child: AutoSizeText(
+                                        '1Y',
+                                        maxLines: 1,
+                                        style: GoogleFonts.rubik(
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.white,
+                                        ),
                                       ),
                                     ),
-                                  ),
+                                    Container(
+                                      margin: const EdgeInsets.only(
+                                        top: 5,
+                                        bottom: 10,
+                                      ),
+                                      width: 35,
+                                      height: 3,
+                                      color: _selectedIndex == 1
+                                          ? const Color(0xFF52CAF5)
+                                          : Colors.transparent,
+                                    ),
+                                  ],
                                 ),
                               ),
                               InkWell(
@@ -439,27 +456,30 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                                     _selectedIndex = 2;
                                   });
                                 },
-                                child: Container(
-                                  width: width * 0.2,
-                                  height: 45,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(25),
-                                    color: _selectedIndex == 2
-                                        ? const Color(0xFF52CAF5)
-                                        : Colors.transparent,
-                                  ),
-                                  child: Center(
-                                    child: AutoSizeText(
-                                      '5Y',
-                                      maxLines: 1,
-                                      style: GoogleFonts.rubik(
-                                        fontWeight: FontWeight.w600,
-                                        color: _selectedIndex == 2
-                                            ? Colors.black
-                                            : Colors.white,
+                                child: Column(
+                                  children: [
+                                    Center(
+                                      child: AutoSizeText(
+                                        '5Y',
+                                        maxLines: 1,
+                                        style: GoogleFonts.rubik(
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.white,
+                                        ),
                                       ),
                                     ),
-                                  ),
+                                    Container(
+                                      margin: const EdgeInsets.only(
+                                        top: 5,
+                                        bottom: 10,
+                                      ),
+                                      width: 35,
+                                      height: 3,
+                                      color: _selectedIndex == 2
+                                          ? const Color(0xFF52CAF5)
+                                          : Colors.transparent,
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
@@ -795,9 +815,9 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                             ),
                             child: AutoSizeText(
                               "Market Data",
-                              style: GoogleFonts.poppins(
+                              style: GoogleFonts.raleway(
                                 color: Colors.white,
-                                fontSize: 20,
+                                fontSize: 22,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -985,9 +1005,9 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                         ),
                         child: AutoSizeText(
                           "${widget.cryptoData.name} Description",
-                          style: GoogleFonts.poppins(
+                          style: GoogleFonts.raleway(
                             color: Colors.white,
-                            fontSize: 20,
+                            fontSize: 22,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -1037,12 +1057,13 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                         margin: EdgeInsets.only(
                           top: height * 0.02,
                           left: width * 0.04,
+                          bottom: height * 0.02,
                         ),
                         child: AutoSizeText(
-                          "Asset",
-                          style: GoogleFonts.poppins(
+                          "Asset's",
+                          style: GoogleFonts.raleway(
                             color: Colors.white,
-                            fontSize: 20,
+                            fontSize: 22,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -1087,9 +1108,9 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                                         ),
                                         AutoSizeText(
                                           "Website",
-                                          style: GoogleFonts.rubik(
+                                          style: GoogleFonts.raleway(
                                             color: Colors.white,
-                                            fontSize: 14,
+                                            fontSize: 16,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -1133,9 +1154,9 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                                               ),
                                               AutoSizeText(
                                                 "Whitepaper",
-                                                style: GoogleFonts.rubik(
+                                                style: GoogleFonts.raleway(
                                                   color: Colors.white,
-                                                  fontSize: 14,
+                                                  fontSize: 16,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -1179,9 +1200,9 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                                               ),
                                               AutoSizeText(
                                                 "Facebook",
-                                                style: GoogleFonts.rubik(
+                                                style: GoogleFonts.raleway(
                                                   color: Colors.white,
-                                                  fontSize: 14,
+                                                  fontSize: 16,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -1225,9 +1246,9 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                                               ),
                                               AutoSizeText(
                                                 "Reddit",
-                                                style: GoogleFonts.rubik(
+                                                style: GoogleFonts.raleway(
                                                   color: Colors.white,
-                                                  fontSize: 14,
+                                                  fontSize: 16,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -1271,9 +1292,9 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                                               ),
                                               AutoSizeText(
                                                 "Source Code",
-                                                style: GoogleFonts.rubik(
+                                                style: GoogleFonts.raleway(
                                                   color: Colors.white,
-                                                  fontSize: 14,
+                                                  fontSize: 16,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -1306,9 +1327,9 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                         ),
                         child: AutoSizeText(
                           "Related News",
-                          style: GoogleFonts.poppins(
+                          style: GoogleFonts.raleway(
                             color: Colors.white,
-                            fontSize: 20,
+                            fontSize: 22,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -1559,9 +1580,9 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                         ),
                         child: AutoSizeText(
                           "People Also Watch",
-                          style: GoogleFonts.poppins(
+                          style: GoogleFonts.raleway(
                             color: Colors.white,
-                            fontSize: 20,
+                            fontSize: 22,
                             fontWeight: FontWeight.bold,
                           ),
                         ),

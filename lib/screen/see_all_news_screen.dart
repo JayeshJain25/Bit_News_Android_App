@@ -141,18 +141,9 @@ class _SeeAllNewsScreenState extends State<SeeAllNewsScreen> {
               controller: _scrollController,
               slivers: [
                 SliverAppBar(
+                  automaticallyImplyLeading: false,
                   elevation: 0,
-                  leading: IconButton(
-                    icon: const Icon(
-                      Icons.arrow_back_ios_rounded,
-                      size: 22,
-                    ),
-                    color: Colors.white,
-                    onPressed: () {
-                      Get.back();
-                    },
-                  ),
-                  backgroundColor: const Color(0xFF010101),
+                  backgroundColor: const Color(0xFF0c090a),
                   leadingWidth: 25,
                   title: AutoSizeText(
                     'CryptoX',
@@ -164,13 +155,16 @@ class _SeeAllNewsScreenState extends State<SeeAllNewsScreen> {
                   ),
                 ),
                 SliverAppBar(
-                  backgroundColor: const Color(0xFF010101),
+                  backgroundColor: const Color(0xFF0c090a),
                   automaticallyImplyLeading: false,
                   floating: true,
                   pinned: true,
                   flexibleSpace: Center(
                     child: Container(
-                      margin: const EdgeInsets.only(left: 10, right: 10),
+                      margin: const EdgeInsets.only(
+                        left: 10,
+                        right: 10,
+                      ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
@@ -181,29 +175,46 @@ class _SeeAllNewsScreenState extends State<SeeAllNewsScreen> {
                                 _selectedIndex = 0;
                               });
                             },
-                            child: AnimatedContainer(
-                              duration: const Duration(milliseconds: 1000),
-                              width: 90,
-                              height: 45,
-                              curve: Curves.fastLinearToSlowEaseIn,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(25),
-                                color: _selectedIndex == 0
-                                    ? const Color(0xFF52CAF5)
-                                    : const Color(0xFF010101),
-                              ),
-                              child: Center(
-                                child: AutoSizeText(
-                                  'News Feed',
-                                  maxLines: 1,
-                                  style: GoogleFonts.rubik(
-                                    fontWeight: FontWeight.w600,
-                                    color: _selectedIndex == 0
-                                        ? Colors.black
-                                        : Colors.white,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Center(
+                                  child: AutoSizeText(
+                                    'News Feed',
+                                    maxLines: 1,
+                                    style: GoogleFonts.rubik(
+                                      fontWeight: _selectedIndex == 0
+                                          ? FontWeight.w600
+                                          : FontWeight.w400,
+                                      color: Colors.white,
+                                    ),
                                   ),
                                 ),
-                              ),
+                                Container(
+                                  margin:
+                                      const EdgeInsets.only(top: 5, bottom: 10),
+                                  width: 35,
+                                  height: 3,
+                                  decoration: BoxDecoration(
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: _selectedIndex == 0
+                                            ? const Color(0xFF52CAF5)
+                                            : Colors.transparent,
+                                        blurRadius: 45.0, // soften the shadow
+                                        spreadRadius: 3.0, //extend the shadow
+                                        offset: const Offset(
+                                          17.0,
+                                          30.0, // Move to bottom 10 Vertically
+                                        ),
+                                      )
+                                    ],
+                                    color: _selectedIndex == 0
+                                        ? const Color(0xFF52CAF5)
+                                        : Colors.transparent,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                           InkWell(
@@ -213,29 +224,46 @@ class _SeeAllNewsScreenState extends State<SeeAllNewsScreen> {
                                 _selectedIndex = 1;
                               });
                             },
-                            child: AnimatedContainer(
-                              duration: const Duration(milliseconds: 1000),
-                              width: 90,
-                              height: 45,
-                              curve: Curves.fastLinearToSlowEaseIn,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(25),
-                                color: _selectedIndex == 1
-                                    ? const Color(0xFF52CAF5)
-                                    : const Color(0xFF010101),
-                              ),
-                              child: Center(
-                                child: AutoSizeText(
-                                  'Bitcoin',
-                                  maxLines: 1,
-                                  style: GoogleFonts.rubik(
-                                    fontWeight: FontWeight.w600,
-                                    color: _selectedIndex == 1
-                                        ? Colors.black
-                                        : Colors.white,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Center(
+                                  child: AutoSizeText(
+                                    'Bitcoin',
+                                    maxLines: 1,
+                                    style: GoogleFonts.rubik(
+                                      fontWeight: _selectedIndex == 1
+                                          ? FontWeight.w600
+                                          : FontWeight.w400,
+                                      color: Colors.white,
+                                    ),
                                   ),
                                 ),
-                              ),
+                                Container(
+                                  margin:
+                                      const EdgeInsets.only(top: 5, bottom: 10),
+                                  width: 35,
+                                  height: 3,
+                                  decoration: BoxDecoration(
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: _selectedIndex == 1
+                                            ? const Color(0xFF52CAF5)
+                                            : Colors.transparent,
+                                        blurRadius: 45.0, // soften the shadow
+                                        spreadRadius: 3.0, //extend the shadow
+                                        offset: const Offset(
+                                          17.0,
+                                          30.0, // Move to bottom 10 Vertically
+                                        ),
+                                      )
+                                    ],
+                                    color: _selectedIndex == 1
+                                        ? const Color(0xFF52CAF5)
+                                        : Colors.transparent,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                           InkWell(
@@ -245,29 +273,46 @@ class _SeeAllNewsScreenState extends State<SeeAllNewsScreen> {
                                 _selectedIndex = 2;
                               });
                             },
-                            child: AnimatedContainer(
-                              duration: const Duration(milliseconds: 1000),
-                              width: 90,
-                              height: 45,
-                              curve: Curves.fastLinearToSlowEaseIn,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(25),
-                                color: _selectedIndex == 2
-                                    ? const Color(0xFF52CAF5)
-                                    : const Color(0xFF010101),
-                              ),
-                              child: Center(
-                                child: AutoSizeText(
-                                  'Ethereum',
-                                  maxLines: 1,
-                                  style: GoogleFonts.rubik(
-                                    fontWeight: FontWeight.w600,
-                                    color: _selectedIndex == 2
-                                        ? Colors.black
-                                        : Colors.white,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Center(
+                                  child: AutoSizeText(
+                                    'Ethereum',
+                                    maxLines: 1,
+                                    style: GoogleFonts.rubik(
+                                      fontWeight: _selectedIndex == 2
+                                          ? FontWeight.w600
+                                          : FontWeight.w400,
+                                      color: Colors.white,
+                                    ),
                                   ),
                                 ),
-                              ),
+                                Container(
+                                  margin:
+                                      const EdgeInsets.only(top: 5, bottom: 10),
+                                  width: 35,
+                                  height: 3,
+                                  decoration: BoxDecoration(
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: _selectedIndex == 2
+                                            ? const Color(0xFF52CAF5)
+                                            : Colors.transparent,
+                                        blurRadius: 45.0, // soften the shadow
+                                        spreadRadius: 3.0, //extend the shadow
+                                        offset: const Offset(
+                                          17.0,
+                                          30.0, // Move to bottom 10 Vertically
+                                        ),
+                                      )
+                                    ],
+                                    color: _selectedIndex == 2
+                                        ? const Color(0xFF52CAF5)
+                                        : Colors.transparent,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                           InkWell(
@@ -277,29 +322,46 @@ class _SeeAllNewsScreenState extends State<SeeAllNewsScreen> {
                                 _selectedIndex = 3;
                               });
                             },
-                            child: AnimatedContainer(
-                              duration: const Duration(seconds: 1),
-                              curve: Curves.fastLinearToSlowEaseIn,
-                              width: 90,
-                              height: 45,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(25),
-                                color: _selectedIndex == 3
-                                    ? const Color(0xFF52CAF5)
-                                    : const Color(0xFF010101),
-                              ),
-                              child: Center(
-                                child: AutoSizeText(
-                                  'NFT',
-                                  maxLines: 1,
-                                  style: GoogleFonts.rubik(
-                                    fontWeight: FontWeight.w600,
-                                    color: _selectedIndex == 3
-                                        ? Colors.black
-                                        : Colors.white,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Center(
+                                  child: AutoSizeText(
+                                    'NFT',
+                                    maxLines: 1,
+                                    style: GoogleFonts.rubik(
+                                      fontWeight: _selectedIndex == 3
+                                          ? FontWeight.w600
+                                          : FontWeight.w400,
+                                      color: Colors.white,
+                                    ),
                                   ),
                                 ),
-                              ),
+                                Container(
+                                  margin:
+                                      const EdgeInsets.only(top: 5, bottom: 10),
+                                  width: 35,
+                                  height: 3,
+                                  decoration: BoxDecoration(
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: _selectedIndex == 3
+                                            ? const Color(0xFF52CAF5)
+                                            : Colors.transparent,
+                                        blurRadius: 45.0, // soften the shadow
+                                        spreadRadius: 3.0, //extend the shadow
+                                        offset: const Offset(
+                                          17.0,
+                                          30.0, // Move to bottom 10 Vertically
+                                        ),
+                                      )
+                                    ],
+                                    color: _selectedIndex == 3
+                                        ? const Color(0xFF52CAF5)
+                                        : Colors.transparent,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ],

@@ -47,28 +47,33 @@ class _NewsSummaryScreenState extends State<NewsSummaryScreen> {
     });
 
     final NewsReadCountModel readCountModel;
-    if (dataList.isEmpty || !dataList.contains(user!.uid)) {
-      final List<dynamic> uid = [...widget.newsReadCount.readCount, user!.uid];
+    if (user != null) {
+      if (dataList.isEmpty || !dataList.contains(user!.uid)) {
+        final List<dynamic> uid = [
+          ...widget.newsReadCount.readCount,
+          user!.uid
+        ];
 
-      readCountModel = NewsReadCountModel(
-        title: widget.newsData.title,
-        source: widget.newsData.source,
-        readCount: uid,
-        totalReadCount: uid.length,
-      );
+        readCountModel = NewsReadCountModel(
+          title: widget.newsData.title,
+          source: widget.newsData.source,
+          readCount: uid,
+          totalReadCount: uid.length,
+        );
 
-      timer = Timer.periodic(const Duration(seconds: 8), (Timer t) {
-        if (dataList.isEmpty || !dataList.contains(user!.uid)) {
-          Provider.of<NewsProvider>(context, listen: false)
-              .updateNewsReadCount(readCountModel)
-              .then((_) {
-            setState(() {
-              plusOneCount = true;
-              dataList = [...widget.newsReadCount.readCount, user!.uid];
+        timer = Timer.periodic(const Duration(seconds: 8), (Timer t) {
+          if (dataList.isEmpty || !dataList.contains(user!.uid)) {
+            Provider.of<NewsProvider>(context, listen: false)
+                .updateNewsReadCount(readCountModel)
+                .then((_) {
+              setState(() {
+                plusOneCount = true;
+                dataList = [...widget.newsReadCount.readCount, user!.uid];
+              });
             });
-          });
-        }
-      });
+          }
+        });
+      }
     }
   }
 
@@ -83,22 +88,12 @@ class _NewsSummaryScreenState extends State<NewsSummaryScreen> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    // print(widget.newsData.url);
     return Scaffold(
       backgroundColor: const Color(0xFF292f33),
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
-            leading: IconButton(
-              icon: const Icon(
-                Icons.arrow_back_ios_rounded,
-                size: 22,
-              ),
-              color: Colors.white,
-              onPressed: () {
-                Get.back();
-              },
-            ),
+            automaticallyImplyLeading: false,
             bottom: PreferredSize(
               preferredSize: const Size(0, 60),
               child: Container(
@@ -128,7 +123,7 @@ class _NewsSummaryScreenState extends State<NewsSummaryScreen> {
                   ),
                 ),
                 Positioned(
-                  top: height * 0.12,
+                  top: height * 0.13,
                   child: Container(
                     width: width,
                     height: height * 0.25,
@@ -153,7 +148,7 @@ class _NewsSummaryScreenState extends State<NewsSummaryScreen> {
                     decoration: const BoxDecoration(
                       color: Color(0xFF292f33),
                       borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(30),
+                        top: Radius.circular(40),
                       ),
                     ),
                   ),
@@ -173,12 +168,13 @@ class _NewsSummaryScreenState extends State<NewsSummaryScreen> {
                   padding: const EdgeInsets.only(top: 5, left: 20, right: 20),
                   child: AutoSizeText(
                     widget.newsData.title,
-                    maxLines: 3,
+                    maxLines: 2,
                     minFontSize: 15,
                     style: GoogleFonts.rubik(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
+                      height: 1.6,
                     ),
                   ),
                 ),
@@ -196,7 +192,8 @@ class _NewsSummaryScreenState extends State<NewsSummaryScreen> {
                         heightFactor: 1,
                         child: AutoSizeText(
                           widget.newsData.source,
-                          maxLines: 2,
+                          maxLines: 1,
+                          minFontSize: 12,
                           style: GoogleFonts.rubik(
                             color: Colors.white,
                             fontSize: 14,
@@ -269,7 +266,7 @@ class _NewsSummaryScreenState extends State<NewsSummaryScreen> {
                   ],
                 ),
                 Container(
-                  margin: const EdgeInsets.only(bottom: 5),
+                  margin: const EdgeInsets.only(bottom: 6),
                   child: const Divider(
                     indent: 15,
                     endIndent: 15,

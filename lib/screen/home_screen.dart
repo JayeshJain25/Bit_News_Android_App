@@ -26,10 +26,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import 'conversion_tool_screen.dart';
 import 'crypto_explainer_home_screen.dart';
 import 'news_summary_screen.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 
 class HomeScreen extends StatefulWidget {
   final TabController tabController;
@@ -266,7 +266,7 @@ class _HomeScreenState extends State<HomeScreen>
             slivers: <Widget>[
               SliverAppBar(
                 elevation: 0,
-                backgroundColor: const Color(0xFF0e0c0a),
+                backgroundColor: const Color(0xFF1B1B1B),
                 actions: <Widget>[
                   Container(
                     margin: const EdgeInsets.only(right: 20, top: 20),
@@ -294,9 +294,10 @@ class _HomeScreenState extends State<HomeScreen>
                       ),
                       AutoSizeText(
                         'CryptoX',
+                        maxFontSize: 23,
+                        minFontSize: 23,
                         style: GoogleFonts.poppins(
                           color: Colors.white,
-                          fontSize: 23,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -310,7 +311,7 @@ class _HomeScreenState extends State<HomeScreen>
                     color: const Color(0xFF010101),
                   ),
                 ),
-                expandedHeight: height * 0.35,
+                expandedHeight: height * 0.36,
                 flexibleSpace: Stack(
                   children: <Widget>[
                     Positioned(
@@ -322,9 +323,12 @@ class _HomeScreenState extends State<HomeScreen>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           AutoSizeText(
-                            "Hi, ${user!.displayName}",
+                            user != null
+                                ? "Hi, ${user.displayName}"
+                                : "Hi, Folk",
+                            maxFontSize: 20,
+                            minFontSize: 20,
                             style: GoogleFonts.poppins(
-                              fontSize: 20,
                               color: Colors.white,
                             ),
                           ),
@@ -335,8 +339,10 @@ class _HomeScreenState extends State<HomeScreen>
                             width: width * 0.6,
                             child: AutoSizeText(
                               "Join our Discord for NFT giveaway's",
+                              maxLines: 2,
+                              maxFontSize: 16,
+                              minFontSize: 16,
                               style: GoogleFonts.rubik(
-                                fontSize: 16,
                                 color: Colors.white,
                               ),
                             ),
@@ -376,29 +382,33 @@ class _HomeScreenState extends State<HomeScreen>
                                 const SizedBox(
                                   width: 10,
                                 ),
-                                Text(
+                                AutoSizeText(
                                   "Discord",
+                                  maxFontSize: 17,
+                                  minFontSize: 17,
                                   style: GoogleFonts.poppins(
                                     color: Colors.black,
-                                    fontSize: 17,
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
                               ],
                             ),
                           ),
+                          const SizedBox(
+                            height: 15,
+                          ),
                         ],
                       ),
                     ),
                     Positioned(
-                      left: 250,
-                      top: 120,
+                      left: width * 0.65,
+                      top: height * 0.13,
                       child: SizedBox(
-                        width: 150,
-                        height: 150,
+                        width: width * 0.4,
+                        height: height * 0.2,
                         child: CachedNetworkImage(
                           imageUrl:
-                              "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/animation.gif?alt=media&token=154b22f4-17da-45e8-9d70-f89c51a4c6d5",
+                              "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/animation.gif?alt=media&token=b0f909f5-4152-4bce-941f-b65b13c8ac5e",
                           fit: BoxFit.contain,
                         ),
                       ),
@@ -442,8 +452,8 @@ class _HomeScreenState extends State<HomeScreen>
                                 );
                               },
                               child: GlassmorphicContainer(
-                                height: 60,
-                                width: 160,
+                                height: height * 0.07,
+                                width: width * 0.4,
                                 borderRadius: 25,
                                 blur: 55,
                                 linearGradient: LinearGradient(
@@ -478,24 +488,26 @@ class _HomeScreenState extends State<HomeScreen>
                                       const SizedBox(
                                         width: 15,
                                       ),
-                                      const CircleAvatar(
-                                        radius: 17,
-                                        backgroundColor: Colors.transparent,
-                                        backgroundImage:
-                                            CachedNetworkImageProvider(
-                                          "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/explainer.png?alt=media&token=8f56b930-9549-4f6d-9cc3-2362e9943964",
-                                        ),
+                                      CachedNetworkImage(
+                                        imageUrl:
+                                            "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/explainer.png?alt=media&token=8f56b930-9549-4f6d-9cc3-2362e9943964",
+                                        color: Colors.white,
+                                        width: width * 0.06,
                                       ),
-                                      const SizedBox(
-                                        width: 15,
+                                      SizedBox(
+                                        width: width * 0.03,
                                       ),
                                       AutoSizeText(
                                         "Explainer",
+                                        maxFontSize: 17,
+                                        minFontSize: 17,
                                         style: GoogleFonts.poppins(
-                                          fontSize: 17,
                                           fontWeight: FontWeight.w500,
                                           color: Colors.white,
                                         ),
+                                      ),
+                                      SizedBox(
+                                        width: width * 0.01,
                                       ),
                                     ],
                                   ),
@@ -507,8 +519,8 @@ class _HomeScreenState extends State<HomeScreen>
                                 Get.to(() => ConversionToolScreen());
                               },
                               child: GlassmorphicContainer(
-                                height: 60,
-                                width: 160,
+                                height: height * 0.07,
+                                width: width * 0.4,
                                 borderRadius: 25,
                                 blur: 55,
                                 linearGradient: LinearGradient(
@@ -543,24 +555,26 @@ class _HomeScreenState extends State<HomeScreen>
                                       const SizedBox(
                                         width: 15,
                                       ),
-                                      const CircleAvatar(
-                                        radius: 17,
-                                        backgroundColor: Colors.transparent,
-                                        backgroundImage:
-                                            CachedNetworkImageProvider(
-                                          "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/conversion.png?alt=media&token=fbe2b5ad-292b-49d0-90ee-4abc46e30090",
-                                        ),
+                                      CachedNetworkImage(
+                                        imageUrl:
+                                            "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/conversion.png?alt=media&token=448c4d3f-a9b3-439f-ac45-e8912dd59eef",
+                                        color: Colors.white,
+                                        width: width * 0.06,
                                       ),
-                                      const SizedBox(
-                                        width: 15,
+                                      SizedBox(
+                                        width: width * 0.03,
                                       ),
                                       AutoSizeText(
                                         "Convert",
+                                        maxFontSize: 17,
+                                        minFontSize: 17,
                                         style: GoogleFonts.poppins(
-                                          fontSize: 17,
                                           fontWeight: FontWeight.w500,
                                           color: Colors.white,
                                         ),
+                                      ),
+                                      SizedBox(
+                                        width: width * 0.01,
                                       ),
                                     ],
                                   ),
@@ -579,88 +593,28 @@ class _HomeScreenState extends State<HomeScreen>
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: <Widget>[
-                            GlassmorphicContainer(
-                              height: 60,
-                              width: 160,
-                              borderRadius: 25,
-                              blur: 55,
-                              linearGradient: LinearGradient(
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                                colors: [
-                                  const Color(0xFF52CAF5).withOpacity(0.2),
-                                  const Color(0xFFFFFFFF).withOpacity(0.3),
-                                ],
-                                stops: const [
-                                  0.1,
-                                  1,
-                                ],
-                              ),
-                              borderGradient: LinearGradient(
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                                colors: [
-                                  const Color(0xFFffffff).withOpacity(0.5),
-                                  const Color(0xFFFFFFFF).withOpacity(0.5),
-                                ],
-                              ),
-                              border: 0,
-                              padding: const EdgeInsets.all(8),
-                              margin: const EdgeInsets.only(
-                                left: 5,
-                                right: 5,
-                              ),
-                              child: Center(
-                                child: Row(
-                                  children: [
-                                    const SizedBox(
-                                      width: 15,
-                                    ),
-                                    const CircleAvatar(
-                                      radius: 17,
-                                      backgroundColor: Colors.transparent,
-                                      backgroundImage:
-                                          CachedNetworkImageProvider(
-                                        "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/nft.png?alt=media&token=b479f6e4-5f14-470f-be77-5a31ed262556",
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 15,
-                                    ),
-                                    AutoSizeText(
-                                      "NFT's",
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
                             InkWell(
                               onTap: () {
-                                if (Provider.of<GoogleSignInProvider>(
-                                  context,
-                                  listen: false,
-                                ).userModel.favoriteCoins.isNotEmpty) {
-                                  Provider.of<CryptoMarketDataProvider>(
-                                    context,
-                                    listen: false,
-                                  ).getFavouriteCoinList(
-                                    Provider.of<GoogleSignInProvider>(
-                                      context,
-                                      listen: false,
-                                    ).userModel.favoriteCoins,
-                                  );
-                                }
-
-                                Get.to(() => WatchListScreen());
+                                showToast(
+                                  "Coming Soon",
+                                  context: context,
+                                  textStyle: const TextStyle(
+                                    fontSize: 16.0,
+                                    color: Colors.white,
+                                  ),
+                                  backgroundColor: const Color(0xFF343434),
+                                  borderRadius: BorderRadius.circular(
+                                    5.0,
+                                  ),
+                                  textPadding: const EdgeInsets.symmetric(
+                                    horizontal: 17.0,
+                                    vertical: 10.0,
+                                  ),
+                                );
                               },
                               child: GlassmorphicContainer(
-                                height: 60,
-                                width: 160,
+                                height: height * 0.07,
+                                width: width * 0.4,
                                 borderRadius: 25,
                                 blur: 55,
                                 linearGradient: LinearGradient(
@@ -695,24 +649,127 @@ class _HomeScreenState extends State<HomeScreen>
                                       const SizedBox(
                                         width: 15,
                                       ),
-                                      const CircleAvatar(
-                                        radius: 17,
-                                        backgroundColor: Colors.transparent,
-                                        backgroundImage:
-                                            CachedNetworkImageProvider(
-                                          "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/watchlist.png?alt=media&token=36ba997f-e1b2-49db-8f28-21f8879506fe",
-                                        ),
+                                      CachedNetworkImage(
+                                        imageUrl:
+                                            "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/nft.png?alt=media&token=b479f6e4-5f14-470f-be77-5a31ed262556",
+                                        color: Colors.white,
+                                        width: width * 0.06,
                                       ),
-                                      const SizedBox(
-                                        width: 15,
+                                      SizedBox(
+                                        width: width * 0.03,
                                       ),
                                       AutoSizeText(
-                                        "Watch List",
+                                        "NFT's",
+                                        maxFontSize: 17,
+                                        minFontSize: 17,
                                         style: GoogleFonts.poppins(
-                                          fontSize: 17,
                                           fontWeight: FontWeight.w500,
                                           color: Colors.white,
                                         ),
+                                      ),
+                                      SizedBox(
+                                        width: width * 0.01,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                if (user == null) {
+                                  showToast(
+                                    "Login to proceed",
+                                    context: context,
+                                    textStyle: const TextStyle(
+                                      fontSize: 16.0,
+                                      color: Colors.white,
+                                    ),
+                                    backgroundColor: const Color(0xFF343434),
+                                    borderRadius: BorderRadius.circular(
+                                      5.0,
+                                    ),
+                                    textPadding: const EdgeInsets.symmetric(
+                                      horizontal: 17.0,
+                                      vertical: 10.0,
+                                    ),
+                                  );
+                                } else {
+                                  if (Provider.of<GoogleSignInProvider>(
+                                    context,
+                                    listen: false,
+                                  ).userModel.favoriteCoins.isNotEmpty) {
+                                    Provider.of<CryptoMarketDataProvider>(
+                                      context,
+                                      listen: false,
+                                    ).getFavouriteCoinList(
+                                      Provider.of<GoogleSignInProvider>(
+                                        context,
+                                        listen: false,
+                                      ).userModel.favoriteCoins,
+                                    );
+                                  }
+
+                                  Get.to(() => WatchListScreen());
+                                }
+                              },
+                              child: GlassmorphicContainer(
+                                height: height * 0.07,
+                                width: width * 0.4,
+                                borderRadius: 25,
+                                blur: 55,
+                                linearGradient: LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                  colors: [
+                                    const Color(0xFF52CAF5).withOpacity(0.2),
+                                    const Color(0xFFFFFFFF).withOpacity(0.3),
+                                  ],
+                                  stops: const [
+                                    0.1,
+                                    1,
+                                  ],
+                                ),
+                                borderGradient: LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                  colors: [
+                                    const Color(0xFFffffff).withOpacity(0.5),
+                                    const Color(0xFFFFFFFF).withOpacity(0.5),
+                                  ],
+                                ),
+                                border: 0,
+                                padding: const EdgeInsets.all(8),
+                                margin: const EdgeInsets.only(
+                                  left: 5,
+                                  right: 5,
+                                ),
+                                child: Center(
+                                  child: Row(
+                                    children: [
+                                      const SizedBox(
+                                        width: 15,
+                                      ),
+                                      CachedNetworkImage(
+                                        imageUrl:
+                                            "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/watchlist.png?alt=media&token=e4fea05d-fe35-4ab8-9558-11c0c5e485f9",
+                                        color: Colors.white,
+                                        width: width * 0.06,
+                                      ),
+                                      SizedBox(
+                                        width: width * 0.03,
+                                      ),
+                                      AutoSizeText(
+                                        "Watch List",
+                                        maxFontSize: 17,
+                                        minFontSize: 17,
+                                        style: GoogleFonts.poppins(
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: width * 0.01,
                                       ),
                                     ],
                                   ),
@@ -736,9 +793,10 @@ class _HomeScreenState extends State<HomeScreen>
                       ),
                       child: AutoSizeText(
                         "Coins",
+                        maxFontSize: 20,
+                        minFontSize: 20,
                         style: GoogleFonts.rubik(
                           color: Colors.white,
-                          fontSize: 20,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -849,17 +907,19 @@ class _HomeScreenState extends State<HomeScreen>
                                                 title: AutoSizeText(
                                                   model.listModel[index].symbol
                                                       .toUpperCase(),
+                                                  maxFontSize: 16,
+                                                  minFontSize: 16,
                                                   style: GoogleFonts.rubik(
                                                     color: Colors.white,
-                                                    fontSize: 16,
                                                     fontWeight: FontWeight.bold,
                                                   ),
                                                 ),
                                                 subtitle: AutoSizeText(
                                                   model.listModel[index].name,
+                                                  maxFontSize: 15,
+                                                  minFontSize: 15,
                                                   style: GoogleFonts.rubik(
                                                     color: Colors.white,
-                                                    fontSize: 15,
                                                     fontWeight: FontWeight.w400,
                                                   ),
                                                 ),
@@ -900,7 +960,7 @@ class _HomeScreenState extends State<HomeScreen>
                                                 left: 10,
                                                 right: 10,
                                               ),
-                                              height: height * 0.1,
+                                              height: height * 0.08,
                                               child: model.graphDataList.isEmpty
                                                   ? const Center(
                                                       child:
@@ -1094,6 +1154,8 @@ class _HomeScreenState extends State<HomeScreen>
                                                           0
                                                       ? "+${model.listModel[index].priceChangePercentage24h.toStringAsFixed(2)}%"
                                                       : "${model.listModel[index].priceChangePercentage24h.toStringAsFixed(2)}%",
+                                                  maxFontSize: 17,
+                                                  minFontSize: 17,
                                                   style: GoogleFonts.nunito(
                                                     color: model
                                                                 .listModel[
@@ -1106,7 +1168,6 @@ class _HomeScreenState extends State<HomeScreen>
                                                         : const Color(
                                                             0xFFd82e35,
                                                           ),
-                                                    fontSize: 17,
                                                   ),
                                                   textAlign: TextAlign.center,
                                                 ),
@@ -1114,18 +1175,25 @@ class _HomeScreenState extends State<HomeScreen>
                                             ),
                                             AutoSizeText(
                                               "\u2022",
+                                              maxFontSize: 17,
+                                              minFontSize: 17,
                                               style: GoogleFonts.poppins(
-                                                fontSize: 17,
                                                 color: Colors.white,
                                               ),
                                             ),
-                                            AutoSizeText(
-                                              "\u{20B9} ${model.listModel[index].price.toString().startsWith("0.") ? model.listModel[index].price.toString() : _helper.removeDecimal(model.listModel[index].price.toString()).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}",
-                                              maxLines: 1,
-                                              style: GoogleFonts.nunito(
-                                                color: Colors.white,
-                                                fontSize: 17,
-                                                fontWeight: FontWeight.w600,
+                                            Container(
+                                              margin: EdgeInsets.only(
+                                                bottom: height * 0.02,
+                                              ),
+                                              child: AutoSizeText(
+                                                "\u{20B9} ${model.listModel[index].price.toString().startsWith("0.") ? model.listModel[index].price.toString() : _helper.removeDecimal(model.listModel[index].price.toString()).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}",
+                                                maxLines: 1,
+                                                maxFontSize: 17,
+                                                minFontSize: 17,
+                                                style: GoogleFonts.nunito(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
                                               ),
                                             ),
                                           ],
@@ -1146,9 +1214,10 @@ class _HomeScreenState extends State<HomeScreen>
                   margin: const EdgeInsets.only(top: 20, left: 32),
                   child: AutoSizeText(
                     "Top Trending",
+                    maxFontSize: 20,
+                    minFontSize: 20,
                     style: GoogleFonts.rubik(
                       color: Colors.white,
-                      fontSize: 20,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -1240,17 +1309,19 @@ class _HomeScreenState extends State<HomeScreen>
                                             title: AutoSizeText(
                                               model.trendingCoins[index].symbol
                                                   .toUpperCase(),
+                                              maxFontSize: 16,
+                                              minFontSize: 16,
                                               style: GoogleFonts.rubik(
                                                 color: Colors.white,
-                                                fontSize: 16,
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),
                                             subtitle: AutoSizeText(
                                               model.trendingCoins[index].name,
+                                              maxFontSize: 15,
+                                              minFontSize: 15,
                                               style: GoogleFonts.rubik(
                                                 color: Colors.white,
-                                                fontSize: 15,
                                                 fontWeight: FontWeight.w400,
                                               ),
                                             ),
@@ -1289,7 +1360,7 @@ class _HomeScreenState extends State<HomeScreen>
                                             left: 10,
                                             right: 10,
                                           ),
-                                          height: height * 0.1,
+                                          height: height * 0.08,
                                           child: model.graphDataList.isEmpty
                                               ? const Center(
                                                   child:
@@ -1482,6 +1553,8 @@ class _HomeScreenState extends State<HomeScreen>
                                                       0
                                                   ? "+${model.trendingCoins[index].priceChangePercentage24h.toStringAsFixed(2)}%"
                                                   : "${model.trendingCoins[index].priceChangePercentage24h.toStringAsFixed(2)}%",
+                                              maxFontSize: 17,
+                                              minFontSize: 17,
                                               style: GoogleFonts.nunito(
                                                 color: model
                                                             .trendingCoins[
@@ -1494,7 +1567,6 @@ class _HomeScreenState extends State<HomeScreen>
                                                     : const Color(
                                                         0xFFd82e35,
                                                       ),
-                                                fontSize: 17,
                                               ),
                                               textAlign: TextAlign.center,
                                             ),
@@ -1502,18 +1574,25 @@ class _HomeScreenState extends State<HomeScreen>
                                         ),
                                         AutoSizeText(
                                           "\u2022",
+                                          maxFontSize: 17,
+                                          minFontSize: 17,
                                           style: GoogleFonts.poppins(
-                                            fontSize: 17,
                                             color: Colors.white,
                                           ),
                                         ),
-                                        AutoSizeText(
-                                          "\u{20B9} ${model.trendingCoins[index].price.toString().startsWith("0.") ? model.trendingCoins[index].price.toString() : _helper.removeDecimal(model.trendingCoins[index].price.toString()).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}",
-                                          maxLines: 1,
-                                          style: GoogleFonts.nunito(
-                                            color: Colors.white,
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.w600,
+                                        Container(
+                                          margin: EdgeInsets.only(
+                                            bottom: height * 0.02,
+                                          ),
+                                          child: AutoSizeText(
+                                            "\u{20B9} ${model.trendingCoins[index].price.toString().startsWith("0.") ? model.trendingCoins[index].price.toString() : _helper.removeDecimal(model.trendingCoins[index].price.toString()).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}",
+                                            maxLines: 1,
+                                            maxFontSize: 17,
+                                            minFontSize: 17,
+                                            style: GoogleFonts.nunito(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w600,
+                                            ),
                                           ),
                                         ),
                                       ],
@@ -1550,9 +1629,10 @@ class _HomeScreenState extends State<HomeScreen>
                     margin: const EdgeInsets.only(left: 32),
                     child: AutoSizeText(
                       "Top News",
+                      maxFontSize: 20,
+                      minFontSize: 20,
                       style: GoogleFonts.rubik(
                         color: Colors.white,
-                        fontSize: 20,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -1575,11 +1655,12 @@ class _HomeScreenState extends State<HomeScreen>
                                       Get.to(() => SeeAllNewsScreen());
                                     },
                                     child: Center(
-                                      child: Text(
+                                      child: AutoSizeText(
                                         "See all",
+                                        maxFontSize: 15,
+                                        minFontSize: 15,
                                         style: GoogleFonts.poppins(
                                           color: Colors.white,
-                                          fontSize: 15,
                                         ),
                                       ),
                                     ),
@@ -1642,9 +1723,10 @@ class _HomeScreenState extends State<HomeScreen>
                                                   model.newsByReadCount[index]
                                                       .title,
                                                   maxLines: 2,
+                                                  maxFontSize: 15,
+                                                  minFontSize: 15,
                                                   style: GoogleFonts.poppins(
                                                     color: Colors.white,
-                                                    fontSize: 15,
                                                     fontWeight: FontWeight.w400,
                                                   ),
                                                 ),
@@ -1668,6 +1750,8 @@ class _HomeScreenState extends State<HomeScreen>
                                                               index]
                                                           .description,
                                                       maxLines: 2,
+                                                      maxFontSize: 15,
+                                                      minFontSize: 15,
                                                       overflow:
                                                           TextOverflow.ellipsis,
                                                       softWrap: false,
@@ -1676,7 +1760,6 @@ class _HomeScreenState extends State<HomeScreen>
                                                         color: const Color(
                                                           0xFF757575,
                                                         ),
-                                                        fontSize: 15,
                                                       ),
                                                     ),
                                                   ),
@@ -1694,12 +1777,13 @@ class _HomeScreenState extends State<HomeScreen>
                                                                 .publishedDate,
                                                           )} \u2022",
                                                           maxLines: 1,
+                                                          maxFontSize: 15,
+                                                          minFontSize: 15,
                                                           style: GoogleFonts
                                                               .poppins(
                                                             color: const Color(
                                                               0xFF757575,
                                                             ),
-                                                            fontSize: 15,
                                                           ),
                                                         ),
                                                       ),
@@ -1709,12 +1793,13 @@ class _HomeScreenState extends State<HomeScreen>
                                                                 index]
                                                             .source,
                                                         maxLines: 1,
+                                                        maxFontSize: 15,
+                                                        minFontSize: 15,
                                                         style:
                                                             GoogleFonts.poppins(
                                                           color: const Color(
                                                             0xFF757575,
                                                           ),
-                                                          fontSize: 15,
                                                           fontWeight:
                                                               FontWeight.w500,
                                                         ),

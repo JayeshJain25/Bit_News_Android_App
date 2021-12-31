@@ -116,6 +116,8 @@ class TopNews extends StatelessWidget {
                                 model.newsCompleteList[index].title,
                                 minFontSize: 15,
                                 maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                softWrap: false,
                                 style: GoogleFonts.poppins(
                                   color: Colors.white,
                                   fontSize: 17,

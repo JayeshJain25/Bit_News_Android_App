@@ -200,6 +200,7 @@ class NewsProvider with ChangeNotifier {
           'title': countModel.title,
           'source': countModel.source,
           'readCount': countModel.readCount,
+          'totalReadCount': countModel.readCount.length
         }),
       );
 

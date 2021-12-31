@@ -9,6 +9,7 @@ import 'package:crypto_news/screen/market_screen_search_assets.dart';
 import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -186,8 +187,8 @@ class _MarketScreenState extends State<MarketScreen>
                         automaticallyImplyLeading: false,
                       ),
                       SliverAppBar(
-                        expandedHeight: height * 0.1,
-                        collapsedHeight: height * 0.1,
+                        expandedHeight: height * 0.11,
+                        collapsedHeight: height * 0.11,
                         automaticallyImplyLeading: false,
                         backgroundColor: const Color(0xFF010101),
                         flexibleSpace: Column(
@@ -365,8 +366,9 @@ class _MarketScreenState extends State<MarketScreen>
                                                                 .listModel[
                                                                     index]
                                                                 .name,
-                                                            maxLines: 2,
+                                                            maxLines: 1,
                                                             minFontSize: 14,
+                                                            wrapWords: true,
                                                             style: GoogleFonts
                                                                 .rubik(
                                                               color:
@@ -494,65 +496,86 @@ class _MarketScreenState extends State<MarketScreen>
                                                       )
                                                     ],
                                                   ),
-                                                  LikeButton(
-                                                    size: 17,
-                                                    circleColor:
-                                                        const CircleColor(
-                                                      start: Color(0xff00ddff),
-                                                      end: Color(0xff0099cc),
-                                                    ),
-                                                    bubblesColor:
-                                                        const BubblesColor(
-                                                      dotPrimaryColor:
-                                                          Color(0xff33b5e5),
-                                                      dotSecondaryColor:
-                                                          Color(0xff0099cc),
-                                                    ),
-                                                    likeBuilder:
-                                                        (bool isLiked) {
-                                                      return Icon(
-                                                        Icons
-                                                            .star_purple500_outlined,
-                                                        color: Provider.of<
-                                                                    GoogleSignInProvider>(
-                                                          context,
-                                                          listen: false,
-                                                        )
-                                                                .userModel
-                                                                .favoriteCoins
-                                                                .contains(
-                                                                  model
-                                                                      .listModel[
-                                                                          index]
-                                                                      .name
-                                                                      .toLowerCase(),
+                                                  if (user != null)
+                                                    LikeButton(
+                                                      size: 17,
+                                                      circleColor:
+                                                          const CircleColor(
+                                                        start:
+                                                            Color(0xff00ddff),
+                                                        end: Color(0xff0099cc),
+                                                      ),
+                                                      bubblesColor:
+                                                          const BubblesColor(
+                                                        dotPrimaryColor:
+                                                            Color(0xff33b5e5),
+                                                        dotSecondaryColor:
+                                                            Color(0xff0099cc),
+                                                      ),
+                                                      likeBuilder:
+                                                          (bool isLiked) {
+                                                        return Icon(
+                                                          Provider.of<
+                                                                      GoogleSignInProvider>(
+                                                            context,
+                                                            listen: false,
+                                                          )
+                                                                  .userModel
+                                                                  .favoriteCoins
+                                                                  .contains(
+                                                                    model
+                                                                        .listModel[
+                                                                            index]
+                                                                        .name
+                                                                        .toLowerCase(),
+                                                                  )
+                                                              ? Icons
+                                                                  .star_purple500_outlined
+                                                              : Icons
+                                                                  .star_border,
+                                                          color: Provider.of<
+                                                                      GoogleSignInProvider>(
+                                                            context,
+                                                            listen: false,
+                                                          )
+                                                                  .userModel
+                                                                  .favoriteCoins
+                                                                  .contains(
+                                                                    model
+                                                                        .listModel[
+                                                                            index]
+                                                                        .name
+                                                                        .toLowerCase(),
+                                                                  )
+                                                              ? const Color(
+                                                                  0xFF52CAF5,
                                                                 )
-                                                            ? const Color(
-                                                                0xFF52CAF5,
-                                                              )
-                                                            : Colors.grey,
-                                                        size: 17,
-                                                      );
-                                                    },
-                                                    onTap: (isLiked) => Provider.of<
-                                                        CryptoMarketDataProvider>(
-                                                      context,
-                                                      listen: false,
-                                                    ).updateFavouriteCoin(
-                                                      [
-                                                        model.listModel[index]
-                                                            .name
-                                                            .toLowerCase()
-                                                      ],
-                                                      user!.uid,
-                                                    ).then((value) {
-                                                      Provider.of<
-                                                          GoogleSignInProvider>(
+                                                              : Colors.white,
+                                                          size: 17,
+                                                        );
+                                                      },
+                                                      onTap: (isLiked) =>
+                                                          Provider.of<
+                                                              CryptoMarketDataProvider>(
                                                         context,
                                                         listen: false,
-                                                      ).userModel = value;
-                                                    }),
-                                                  ),
+                                                      ).updateFavouriteCoin(
+                                                        [
+                                                          model.listModel[index]
+                                                              .name
+                                                              .toLowerCase()
+                                                        ],
+                                                        user.uid,
+                                                      ).then((value) {
+                                                        Provider.of<
+                                                            GoogleSignInProvider>(
+                                                          context,
+                                                          listen: false,
+                                                        ).userModel = value;
+                                                      }),
+                                                    )
+                                                  else
+                                                    const SizedBox()
                                                 ],
                                               ),
                                             ),
