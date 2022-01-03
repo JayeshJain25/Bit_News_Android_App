@@ -36,18 +36,11 @@ class _WatchListScreenState extends State<WatchListScreen> {
         backgroundColor: const Color(0xFF010101),
         appBar: AppBar(
           backgroundColor: const Color(0xFF010101),
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios),
-            color: Colors.white,
-            onPressed: () {
-              Get.back();
-            },
-          ),
           title: AutoSizeText(
             'Watch List',
             style: GoogleFonts.poppins(
               color: Colors.white,
-              fontSize: 23,
+              fontSize: 20,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -127,8 +120,7 @@ class _WatchListScreenState extends State<WatchListScreen> {
                                     ),
                                     child: AutoSizeText(
                                       model.favouriteCoinsList[index].name,
-                                      maxLines: 2,
-                                      minFontSize: 14,
+                                      overflow: TextOverflow.ellipsis,
                                       style: GoogleFonts.rubik(
                                         color: Colors.white,
                                         fontSize: 17,
@@ -256,7 +248,7 @@ class _WatchListScreenState extends State<WatchListScreen> {
                                       ? const Color(
                                           0xFF52CAF5,
                                         )
-                                      : Colors.grey,
+                                      : Colors.white,
                                   size: 22,
                                 );
                               },

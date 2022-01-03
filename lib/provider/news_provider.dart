@@ -15,6 +15,7 @@ class NewsProvider with ChangeNotifier {
   List<NewsModel> ethereumNewsList = [];
   List<NewsModel> nftNewsList = [];
   List<NewsModel> newsByReadCount = [];
+  List<NewsModel> topHeadlineNewsList = [];
 
   NewsProvider.fromJson(List<dynamic> parsedJson) {
     List<NewsModel> list = [];
@@ -54,6 +55,14 @@ class NewsProvider with ChangeNotifier {
         .map((e) => NewsModel.fromJson(e as Map<String, dynamic>))
         .toList();
     newsByReadCount = list;
+  }
+
+  NewsProvider.fromTopHeadlinesNewsJson(List<dynamic> parsedJson) {
+    List<NewsModel> list = [];
+    list = parsedJson
+        .map((e) => NewsModel.fromJson(e as Map<String, dynamic>))
+        .toList();
+    topHeadlineNewsList = list;
   }
 
   Future<void> getNewsFeed(
@@ -127,6 +136,24 @@ class NewsProvider with ChangeNotifier {
       final NewsProvider model = NewsProvider.fromNFTJson(r);
       for (final element in model.nftNewsList) {
         nftNewsList.add(element);
+      }
+
+      notifyListeners();
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  Future<void> getTopHeadlinesNews() async {
+    final url = "${ApiEndpoints.baseUrl}news/top-headline-news";
+    try {
+      final response = await http.get(
+        Uri.parse(url),
+      );
+      final r = json.decode(response.body) as List<dynamic>;
+      final NewsProvider model = NewsProvider.fromTopHeadlinesNewsJson(r);
+      for (final element in model.topHeadlineNewsList) {
+        topHeadlineNewsList.add(element);
       }
 
       notifyListeners();

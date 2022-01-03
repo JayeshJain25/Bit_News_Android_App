@@ -104,21 +104,12 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
         elevation: 0,
         backgroundColor: const Color(0xFF010101),
         centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios_rounded,
-            size: 22,
-          ),
-          color: Colors.white,
-          onPressed: () {
-            Get.back();
-          },
-        ),
+        automaticallyImplyLeading: false,
         title: AutoSizeText(
           'Conversion Tool',
           style: GoogleFonts.poppins(
             color: Colors.white,
-            fontSize: 23,
+            fontSize: 20,
             fontWeight: FontWeight.w600,
           ),
         ),

@@ -239,7 +239,16 @@ class _WatchListAddScreenState extends State<WatchListAddScreen> {
                                     ),
                                     likeBuilder: (bool isLiked) {
                                       return Icon(
-                                        Icons.star_purple500_outlined,
+                                        Provider.of<GoogleSignInProvider>(
+                                          context,
+                                          listen: false,
+                                        ).userModel.favoriteCoins.contains(
+                                                  model.watchListCoins[index]
+                                                      .name
+                                                      .toLowerCase(),
+                                                )
+                                            ? Icons.star_purple500_outlined
+                                            : Icons.star_border,
                                         color:
                                             Provider.of<GoogleSignInProvider>(
                                           context,
@@ -253,7 +262,7 @@ class _WatchListAddScreenState extends State<WatchListAddScreen> {
                                                 ? const Color(
                                                     0xFF52CAF5,
                                                   )
-                                                : Colors.grey,
+                                                : Colors.white,
                                         size: 22,
                                       );
                                     },

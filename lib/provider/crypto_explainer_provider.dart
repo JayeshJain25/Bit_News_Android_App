@@ -24,7 +24,7 @@ class CryptoExplainerProvider with ChangeNotifier {
 
   Future<void> getcryptoExplainerByType(String type) async {
     explainerlist.clear();
-    final url = "${ApiEndpoints.baseUrl}coin-explainer?type=$type";
+    final url = "${ApiEndpoints.baseUrl}coin-explainer";
     try {
       final response = await http.get(
         Uri.parse(url),

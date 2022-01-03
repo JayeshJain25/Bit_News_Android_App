@@ -2,6 +2,8 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:crypto_news/helper/helper.dart';
 import 'package:crypto_news/model/coin_paprika_global_data_model.dart';
+import 'package:crypto_news/model/crypto_and_fiat_model.dart';
+import 'package:crypto_news/provider/crypto_and_fiat_provider.dart';
 import 'package:crypto_news/provider/crypto_market_data_provider.dart';
 import 'package:crypto_news/provider/google_sign_in_provider.dart';
 import 'package:crypto_news/screen/market_data_screen.dart';
@@ -33,6 +35,8 @@ class _MarketScreenState extends State<MarketScreen>
   int page = 0;
   bool isLoading = false;
   final _helper = Helper();
+
+  late CryptoAndFiatModel _cryptoAndFiatModel;
 
   void pagination() {
     if (_scrollController.offset >=
@@ -66,6 +70,12 @@ class _MarketScreenState extends State<MarketScreen>
         },
       );
     }
+
+    Provider.of<CryptoAndFiatProvider>(context, listen: false)
+        .getFiatData("INR")
+        .then(
+          (value) => {_cryptoAndFiatModel = value},
+        );
   }
 
   @override
@@ -200,7 +210,8 @@ class _MarketScreenState extends State<MarketScreen>
                                 top: height * 0.02,
                               ),
                               height: height * 0.06,
-                              child: _globalDataLoaded
+                              child: _globalDataLoaded ||
+                                      _cryptoAndFiatModel.id == null
                                   ? const CircularProgressIndicator()
                                   : Row(
                                       mainAxisAlignment:
@@ -220,7 +231,8 @@ class _MarketScreenState extends State<MarketScreen>
                                             ),
                                             AutoSizeText(
                                               NumberFormat.compact().format(
-                                                _globalDataModel.marketCapUSD,
+                                                _globalDataModel.marketCapUSD *
+                                                    _cryptoAndFiatModel.price,
                                               ),
                                               style: GoogleFonts.nunito(
                                                 color: Colors.white,
@@ -247,7 +259,8 @@ class _MarketScreenState extends State<MarketScreen>
                                             ),
                                             AutoSizeText(
                                               NumberFormat.compact().format(
-                                                _globalDataModel.volume24hUSD,
+                                                _globalDataModel.volume24hUSD *
+                                                    _cryptoAndFiatModel.price,
                                               ),
                                               style: GoogleFonts.nunito(
                                                 color: Colors.white,

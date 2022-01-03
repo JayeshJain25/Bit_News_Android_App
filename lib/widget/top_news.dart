@@ -20,7 +20,7 @@ class TopNews extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return Consumer<NewsProvider>(
-      builder: (ctx, model, _) => model.newsCompleteList.isEmpty
+      builder: (ctx, model, _) => model.topHeadlineNewsList.isEmpty
           ? CachedNetworkImage(
               imageUrl:
                   'https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/animation_500_kvhmucnx.gif?alt=media&token=8321a796-0c25-433b-ae46-b1db4467a32e',
@@ -35,13 +35,13 @@ class TopNews extends StatelessWidget {
                   listen: false,
                 )
                     .getNewsReadCount(
-                  model.newsCompleteList[index].title,
-                  model.newsCompleteList[index].source,
+                  model.topHeadlineNewsList[index].title,
+                  model.topHeadlineNewsList[index].source,
                 )
                     .then((value) {
                   Get.to(
                     () => NewsSummaryScreen(
-                      model.newsCompleteList[index],
+                      model.topHeadlineNewsList[index],
                       value,
                     ),
                   );
@@ -57,7 +57,7 @@ class TopNews extends StatelessWidget {
                           child: CachedNetworkImage(
                             fit: BoxFit.cover,
                             imageUrl: _helper.extractImgUrl(
-                              model.newsCompleteList[index].photoUrl,
+                              model.topHeadlineNewsList[index].photoUrl,
                             ),
                             errorWidget: (context, url, error) =>
                                 CachedNetworkImage(
@@ -113,7 +113,7 @@ class TopNews extends StatelessWidget {
                             child: Container(
                               margin: const EdgeInsets.only(top: 44),
                               child: AutoSizeText(
-                                model.newsCompleteList[index].title,
+                                model.topHeadlineNewsList[index].title,
                                 minFontSize: 15,
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
@@ -136,7 +136,7 @@ class TopNews extends StatelessWidget {
                             width: width,
                             height: height * 0.05,
                             child: AutoSizeText(
-                              model.newsCompleteList[index].description,
+                              model.topHeadlineNewsList[index].description,
                               minFontSize: 14,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
@@ -155,7 +155,7 @@ class TopNews extends StatelessWidget {
                                 width: width * 0.4,
                                 height: height * 0.03,
                                 child: AutoSizeText(
-                                  model.newsCompleteList[index].source,
+                                  model.topHeadlineNewsList[index].source,
                                   minFontSize: 11,
                                   maxLines: 1,
                                   style: GoogleFonts.rubik(
@@ -170,7 +170,8 @@ class TopNews extends StatelessWidget {
                                 height: height * 0.03,
                                 child: AutoSizeText(
                                   _helper.convertToSmallerAgo(
-                                    model.newsCompleteList[index].publishedDate,
+                                    model.topHeadlineNewsList[index]
+                                        .publishedDate,
                                   ),
                                   minFontSize: 10,
                                   maxLines: 1,

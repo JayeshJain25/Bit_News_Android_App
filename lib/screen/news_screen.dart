@@ -30,21 +30,6 @@ class _NewsScreenState extends State<NewsScreen>
   final _helper = Helper();
 
   @override
-  void initState() {
-    Provider.of<NewsProvider>(context, listen: false).getNewsFeed(1);
-    Provider.of<NewsProvider>(context, listen: false).getBitcoinNews(1);
-    Provider.of<NewsProvider>(context, listen: false).getEthereumNews(1);
-    Provider.of<NewsProvider>(context, listen: false).getNFTNews(1);
-
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;

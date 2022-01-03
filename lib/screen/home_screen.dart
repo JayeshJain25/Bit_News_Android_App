@@ -14,22 +14,20 @@ import 'package:crypto_news/screen/notification_screen.dart';
 import 'package:crypto_news/screen/see_all_news_screen.dart';
 import 'package:crypto_news/screen/watch_list_screen.dart';
 import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
-import 'package:dashed_circle/dashed_circle.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:get/get.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:sizer/sizer.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'conversion_tool_screen.dart';
 import 'crypto_explainer_home_screen.dart';
 import 'news_summary_screen.dart';
-import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 
 class HomeScreen extends StatefulWidget {
   final TabController tabController;
@@ -82,18 +80,29 @@ class _HomeScreenState extends State<HomeScreen>
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          backgroundColor: const Color(0xFF1a1110),
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(32.0)),
           ),
           content: SizedBox(
-            height: height * 0.17,
+            height: height * 0.15,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Hey ${user!.displayName}, Check out your favorite crypto coin price before leaving",
+                  "Hey, ${user!.displayName}",
                   textAlign: TextAlign.left,
-                  style: GoogleFonts.poppins(),
+                  style: GoogleFonts.poppins(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                Text(
+                  "Are you sure ?",
+                  textAlign: TextAlign.left,
+                  style: GoogleFonts.poppins(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
                 const SizedBox(height: 20),
                 Row(
@@ -119,11 +128,14 @@ class _HomeScreenState extends State<HomeScreen>
                           Navigator.of(context).pop();
                         },
                         style: ElevatedButton.styleFrom(
-                          primary: Colors.white,
+                          primary: const Color(0xFF52CAF5),
                         ),
                         child: Text(
                           "Stay",
-                          style: GoogleFonts.poppins(color: Colors.black),
+                          style: GoogleFonts.poppins(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                     )
@@ -154,10 +166,20 @@ class _HomeScreenState extends State<HomeScreen>
     Provider.of<CryptoMarketDataProvider>(context, listen: false)
         .getTrendingCoins();
 
+    Provider.of<CryptoMarketDataProvider>(context, listen: false)
+        .getCryptoCoinsByCount();
+
     Provider.of<NewsProvider>(context, listen: false).getNewsByReadCount();
 
     Provider.of<CryptoExplainerProvider>(context, listen: false)
         .getcryptoExplainerByType("Bitcoin");
+
+    Provider.of<NewsProvider>(context, listen: false).getTopHeadlinesNews();
+
+    Provider.of<NewsProvider>(context, listen: false).getNewsFeed(1);
+    Provider.of<NewsProvider>(context, listen: false).getBitcoinNews(1);
+    Provider.of<NewsProvider>(context, listen: false).getEthereumNews(1);
+    Provider.of<NewsProvider>(context, listen: false).getNFTNews(1);
 
     controller =
         AnimationController(vsync: this, duration: const Duration(seconds: 4));
@@ -225,7 +247,7 @@ class _HomeScreenState extends State<HomeScreen>
               Provider.of<NewsProvider>(context, listen: false)
                   .getNewsByReadCount();
             });
-            return Future.delayed(const Duration(seconds: 2));
+            return Future.delayed(const Duration(seconds: 3));
           },
           builder: (
             BuildContext context,
@@ -240,16 +262,16 @@ class _HomeScreenState extends State<HomeScreen>
                   children: <Widget>[
                     if (!controller.isIdle)
                       Positioned(
-                        top: 20.0 * controller.value,
+                        top: 10.0 * controller.value,
                         child: SizedBox(
-                          height: 80,
+                          height: 75,
                           width: width,
                           child: CachedNetworkImage(
                             imageUrl:
-                                'https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/57735-crypto-coins.gif?alt=media&token=a696da3c-4285-4479-aade-1d65ee4ec2ad',
+                                'https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/refresh_animation.gif?alt=media&token=5ad2f404-13a0-4493-9764-1e6eecafee52',
                             height: 35,
                             width: 40,
-                            fit: BoxFit.cover,
+                            fit: BoxFit.contain,
                           ),
                         ),
                       ),
@@ -460,8 +482,8 @@ class _HomeScreenState extends State<HomeScreen>
                                   begin: Alignment.topLeft,
                                   end: Alignment.bottomRight,
                                   colors: [
-                                    const Color(0xFF52CAF5).withOpacity(0.2),
-                                    const Color(0xFFFFFFFF).withOpacity(0.3),
+                                    const Color(0xFF1b1b1b),
+                                    const Color(0xFF1b1b1b),
                                   ],
                                   stops: const [
                                     0.1,
@@ -527,8 +549,8 @@ class _HomeScreenState extends State<HomeScreen>
                                   begin: Alignment.topLeft,
                                   end: Alignment.bottomRight,
                                   colors: [
-                                    const Color(0xFF52CAF5).withOpacity(0.2),
-                                    const Color(0xFFFFFFFF).withOpacity(0.3),
+                                    const Color(0xFF1b1b1b),
+                                    const Color(0xFF1b1b1b),
                                   ],
                                   stops: const [
                                     0.1,
@@ -621,8 +643,8 @@ class _HomeScreenState extends State<HomeScreen>
                                   begin: Alignment.topLeft,
                                   end: Alignment.bottomRight,
                                   colors: [
-                                    const Color(0xFF52CAF5).withOpacity(0.2),
-                                    const Color(0xFFFFFFFF).withOpacity(0.3),
+                                    const Color(0xFF1b1b1b),
+                                    const Color(0xFF1b1b1b),
                                   ],
                                   stops: const [
                                     0.1,
@@ -722,8 +744,8 @@ class _HomeScreenState extends State<HomeScreen>
                                   begin: Alignment.topLeft,
                                   end: Alignment.bottomRight,
                                   colors: [
-                                    const Color(0xFF52CAF5).withOpacity(0.2),
-                                    const Color(0xFFFFFFFF).withOpacity(0.3),
+                                    const Color(0xFF1b1b1b),
+                                    const Color(0xFF1b1b1b),
                                   ],
                                   stops: const [
                                     0.1,
@@ -823,9 +845,15 @@ class _HomeScreenState extends State<HomeScreen>
               SliverToBoxAdapter(
                 child: Consumer<CryptoMarketDataProvider>(
                   builder: (ctx, model, _) {
-                    return model.listModel.isEmpty || model.listModel.length < 5
-                        ? const Center(
-                            child: CircularProgressIndicator(),
+                    return model.listModel.isEmpty || model.listModel.length < 6
+                        ? Center(
+                            child: CachedNetworkImage(
+                              imageUrl:
+                                  'https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/animation_500_kvhmucnx.gif?alt=media&token=8321a796-0c25-433b-ae46-b1db4467a32e',
+                              height: 100,
+                              width: 100,
+                              fit: BoxFit.contain,
+                            ),
                           )
                         : FutureBuilder(
                             builder: (context, s) {
@@ -863,10 +891,8 @@ class _HomeScreenState extends State<HomeScreen>
                                           begin: Alignment.topLeft,
                                           end: Alignment.bottomRight,
                                           colors: [
-                                            const Color(0xFF52CAF5)
-                                                .withOpacity(0.2),
-                                            const Color(0xFFFFFFFF)
-                                                .withOpacity(0.3),
+                                            const Color(0xFF1b1b1b),
+                                            const Color(0xFF1b1b1b),
                                           ],
                                           stops: const [
                                             0.1,
@@ -909,6 +935,7 @@ class _HomeScreenState extends State<HomeScreen>
                                                       .toUpperCase(),
                                                   maxFontSize: 16,
                                                   minFontSize: 16,
+                                                  maxLines: 1,
                                                   style: GoogleFonts.rubik(
                                                     color: Colors.white,
                                                     fontWeight: FontWeight.bold,
@@ -917,6 +944,7 @@ class _HomeScreenState extends State<HomeScreen>
                                                 subtitle: AutoSizeText(
                                                   model.listModel[index].name,
                                                   maxFontSize: 15,
+                                                  maxLines: 1,
                                                   minFontSize: 15,
                                                   style: GoogleFonts.rubik(
                                                     color: Colors.white,
@@ -1226,9 +1254,15 @@ class _HomeScreenState extends State<HomeScreen>
               SliverToBoxAdapter(
                 child: Consumer<CryptoMarketDataProvider>(
                   builder: (ctx, model, _) => model.trendingCoins.isEmpty ||
-                          model.trendingCoins.length < 5
-                      ? const Center(
-                          child: CircularProgressIndicator(),
+                          model.trendingCoins.length < 6
+                      ? Center(
+                          child: CachedNetworkImage(
+                            imageUrl:
+                                'https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/animation_500_kvhmucnx.gif?alt=media&token=8321a796-0c25-433b-ae46-b1db4467a32e',
+                            height: 100,
+                            width: 100,
+                            fit: BoxFit.contain,
+                          ),
                         )
                       : FutureBuilder(
                           builder: (c, s) => Container(
@@ -1265,10 +1299,8 @@ class _HomeScreenState extends State<HomeScreen>
                                       begin: Alignment.topLeft,
                                       end: Alignment.bottomRight,
                                       colors: [
-                                        const Color(0xFF52CAF5)
-                                            .withOpacity(0.2),
-                                        const Color(0xFFFFFFFF)
-                                            .withOpacity(0.3),
+                                        const Color(0xFF1b1b1b),
+                                        const Color(0xFF1b1b1b),
                                       ],
                                       stops: const [
                                         0.1,
@@ -1311,6 +1343,7 @@ class _HomeScreenState extends State<HomeScreen>
                                                   .toUpperCase(),
                                               maxFontSize: 16,
                                               minFontSize: 16,
+                                              maxLines: 1,
                                               style: GoogleFonts.rubik(
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.bold,
@@ -1320,6 +1353,7 @@ class _HomeScreenState extends State<HomeScreen>
                                               model.trendingCoins[index].name,
                                               maxFontSize: 15,
                                               minFontSize: 15,
+                                              maxLines: 1,
                                               style: GoogleFonts.rubik(
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.w400,

@@ -6,6 +6,7 @@ import 'package:crypto_news/model/coin_paprika_market_static_data_model.dart';
 import 'package:crypto_news/model/crpyto_data_daily_graph_model.dart';
 import 'package:crypto_news/model/crypto_data_graph_model.dart';
 import 'package:crypto_news/model/crypto_market_data_model.dart';
+import 'package:crypto_news/model/cryptocurrency_top_count_model.dart';
 import 'package:crypto_news/model/user_data_model.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -18,6 +19,7 @@ class CryptoMarketDataProvider with ChangeNotifier {
   List<CryptoMarketDataModel> watchListCoins = [];
   List<CryptoMarketDataModel> searchList = [];
   List<CryptoMarketDataModel> favouriteCoinsList = [];
+  List<CryptoMarketDataModel> topCryptocurrencyCoinsList = [];
 
   List<CryptoDataGraphModel> graphDataList = [];
   List<CryptoDataDailyGraphModel> dailyGraphDataList = [];
@@ -79,6 +81,15 @@ class CryptoMarketDataProvider with ChangeNotifier {
         .map((e) => CryptoMarketDataModel.fromJson(e as Map<String, dynamic>))
         .toList();
     favouriteCoinsList = list;
+  }
+
+  CryptoMarketDataProvider.fromtopCryptocurrencyCoinMap(
+      List<dynamic> parsedJson) {
+    List<CryptoMarketDataModel> list = [];
+    list = parsedJson
+        .map((e) => CryptoMarketDataModel.fromJson(e as Map<String, dynamic>))
+        .toList();
+    topCryptocurrencyCoinsList = list;
   }
 
   Future<void> cryptoMarketDataByPagination(int page) async {
@@ -386,6 +397,83 @@ class CryptoMarketDataProvider with ChangeNotifier {
 
       notifyListeners();
       return globalData;
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  Future<void> getCryptoCoinsByCount() async {
+    final url = "${ApiEndpoints.baseUrl}cryptocurrency/top-cryptocurrency";
+
+    try {
+      final response = await http.get(
+        Uri.parse(url),
+      );
+      final r = json.decode(response.body) as List<dynamic>;
+      final CryptoMarketDataProvider model =
+          CryptoMarketDataProvider.fromtopCryptocurrencyCoinMap(r);
+      for (final element in model.topCryptocurrencyCoinsList) {
+        topCryptocurrencyCoinsList.add(element);
+      }
+
+      notifyListeners();
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  Future<CryptocurrencyTopCountModel> getCryptocurrencyCountByNameSymbol(
+    String name,
+    String symbol,
+  ) async {
+    final CryptocurrencyTopCountModel model;
+    final url =
+        "${ApiEndpoints.baseUrl}cryptocurrency/read-cryptocurrency-count?name=$name&symbol=$symbol";
+    try {
+      final response = await http.get(
+        Uri.parse(url),
+      );
+      final r = json.decode(response.body) as List<dynamic>;
+      if (r.isEmpty) {
+        model = const CryptocurrencyTopCountModel(
+          seeCount: [],
+          name: "",
+          symbol: "",
+          totalSeeCount: 0,
+        );
+      } else {
+        model = CryptocurrencyTopCountModel.fromJson(
+          r[0] as Map<String, dynamic>,
+        );
+      }
+
+      notifyListeners();
+      return model;
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  Future<void> updateCryptocurrenctCount(
+    CryptocurrencyTopCountModel countModel,
+  ) async {
+    final url =
+        "${ApiEndpoints.baseUrl}cryptocurrency/update-cryptocurrency-count";
+    try {
+      await http.post(
+        Uri.parse(url),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, dynamic>{
+          'title': countModel.name,
+          'source': countModel.symbol,
+          'readCount': countModel.seeCount,
+          'totalReadCount': countModel.seeCount.length
+        }),
+      );
+
+      notifyListeners();
     } catch (error) {
       rethrow;
     }

@@ -40,7 +40,7 @@ class MarketDataScreen extends StatefulWidget {
 
 class _MarketDataScreenState extends State<MarketDataScreen> {
   final _helper = Helper();
-  int _selectedIndex = 0;
+  int _selectedIndex = 3;
 
   late CoinPaprikaMarketStaticDataModel _staticDataModel;
   bool _globalDataLoaded = true;

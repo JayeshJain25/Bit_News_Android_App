@@ -28,25 +28,12 @@ class _CryptoExplainerHomeScreenState extends State<CryptoExplainerHomeScreen> {
             'Crypto Explainer',
             style: GoogleFonts.poppins(
               color: Colors.white,
-              fontSize: 23,
+              fontSize: 20,
               fontWeight: FontWeight.w600,
             ),
           ),
         ),
         automaticallyImplyLeading: false,
-        leading: Container(
-          margin: const EdgeInsets.only(top: 10),
-          child: IconButton(
-            icon: const Icon(
-              Icons.arrow_back_ios_rounded,
-              size: 22,
-            ),
-            color: Colors.white,
-            onPressed: () {
-              Get.back();
-            },
-          ),
-        ),
         centerTitle: true,
       ),
       backgroundColor: const Color(0xFF010101),
@@ -241,7 +228,7 @@ class _CryptoExplainerHomeScreenState extends State<CryptoExplainerHomeScreen> {
                                 right: 23,
                               ),
                               width: 347,
-                              height: 271,
+                              height: 300,
                               child: Card(
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(
