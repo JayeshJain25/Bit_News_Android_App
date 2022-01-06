@@ -74,12 +74,25 @@ class _WatchListScreenState extends State<WatchListScreen> {
                 itemBuilder: (ctx, index) {
                   return InkWell(
                     onTap: () {
-                      Get.to(
-                        () => MarketDataScreen(
-                          model.favouriteCoinsList[index],
-                          model.favouriteGraphDataList[index],
-                          model.favouriteDailyGraphDataList[index],
-                        ),
+                      Provider.of<CryptoMarketDataProvider>(
+                        context,
+                        listen: false,
+                      )
+                          .getCryptocurrencyCountByNameSymbol(
+                        model.listModel[index].name,
+                        model.listModel[index].symbol,
+                      )
+                          .then(
+                        (value) {
+                          Get.to(
+                            () => MarketDataScreen(
+                              model.favouriteCoinsList[index],
+                              model.favouriteGraphDataList[index],
+                              model.favouriteDailyGraphDataList[index],
+                              value,
+                            ),
+                          );
+                        },
                       );
                     },
                     child: Card(

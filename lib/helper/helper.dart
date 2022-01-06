@@ -87,6 +87,8 @@ class Helper {
         return graphData;
       }
       return graphData.sublist(startIndex);
+
+      //  return graphData.reversed.toList().sublist(0, 31);
     } else if (period == "1y") {
       final startDate = DateTime.now().subtract(const Duration(days: 365));
       final formatter = DateFormat('yyyy-MM-dd');

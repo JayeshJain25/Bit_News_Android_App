@@ -11,7 +11,6 @@ import 'package:crypto_news/screen/market_screen_search_assets.dart';
 import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -42,15 +41,17 @@ class _MarketScreenState extends State<MarketScreen>
     if (_scrollController.offset >=
             _scrollController.position.maxScrollExtent &&
         !_scrollController.position.outOfRange) {
-      setState(() {
-        page++;
-        isLoading = true;
-        Provider.of<CryptoMarketDataProvider>(context, listen: false)
-            .cryptoMarketDataByPagination(page + 1)
-            .then(
-              (value) => {isLoading = false},
-            );
-      });
+      if (!isLoading) {
+        setState(() {
+          page++;
+          isLoading = true;
+          Provider.of<CryptoMarketDataProvider>(context, listen: false)
+              .cryptoMarketDataByPagination(page + 1)
+              .then(
+                (value) => {isLoading = false},
+              );
+        });
+      }
     }
   }
 
@@ -64,7 +65,6 @@ class _MarketScreenState extends State<MarketScreen>
           .then(
         (value) {
           setState(() {
-            _globalDataLoaded = false;
             _globalDataModel = value;
           });
         },
@@ -74,8 +74,13 @@ class _MarketScreenState extends State<MarketScreen>
     Provider.of<CryptoAndFiatProvider>(context, listen: false)
         .getFiatData("INR")
         .then(
-          (value) => {_cryptoAndFiatModel = value},
-        );
+      (value) {
+        setState(() {
+          _globalDataLoaded = false;
+        });
+        _cryptoAndFiatModel = value;
+      },
+    );
   }
 
   @override
@@ -132,16 +137,16 @@ class _MarketScreenState extends State<MarketScreen>
                   children: <Widget>[
                     if (!controller.isIdle)
                       Positioned(
-                        top: 20.0 * controller.value,
+                        top: 10.0 * controller.value,
                         child: SizedBox(
-                          height: 80,
+                          height: 75,
                           width: width,
                           child: CachedNetworkImage(
                             imageUrl:
-                                'https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/57735-crypto-coins.gif?alt=media&token=a696da3c-4285-4479-aade-1d65ee4ec2ad',
+                                'https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/refresh_animation.gif?alt=media&token=5ad2f404-13a0-4493-9764-1e6eecafee52',
                             height: 35,
                             width: 40,
-                            fit: BoxFit.cover,
+                            fit: BoxFit.contain,
                           ),
                         ),
                       ),
@@ -210,8 +215,7 @@ class _MarketScreenState extends State<MarketScreen>
                                 top: height * 0.02,
                               ),
                               height: height * 0.06,
-                              child: _globalDataLoaded ||
-                                      _cryptoAndFiatModel.id == null
+                              child: _globalDataLoaded
                                   ? const CircularProgressIndicator()
                                   : Row(
                                       mainAxisAlignment:
@@ -323,12 +327,27 @@ class _MarketScreenState extends State<MarketScreen>
                                       children: [
                                         InkWell(
                                           onTap: () {
-                                            Get.to(
-                                              () => MarketDataScreen(
-                                                model.listModel[index],
-                                                model.graphDataList[index],
-                                                model.dailyGraphDataList[index],
-                                              ),
+                                            Provider.of<
+                                                    CryptoMarketDataProvider>(
+                                              context,
+                                              listen: false,
+                                            )
+                                                .getCryptocurrencyCountByNameSymbol(
+                                              model.listModel[index].name,
+                                              model.listModel[index].symbol,
+                                            )
+                                                .then(
+                                              (value) {
+                                                Get.to(
+                                                  () => MarketDataScreen(
+                                                    model.listModel[index],
+                                                    model.graphDataList[index],
+                                                    model.dailyGraphDataList[
+                                                        index],
+                                                    value,
+                                                  ),
+                                                );
+                                              },
                                             );
                                           },
                                           child: Card(

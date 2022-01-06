@@ -214,10 +214,10 @@ class _CryptoExplainerHomeScreenState extends State<CryptoExplainerHomeScreen> {
                               Get.to(
                                 () => CryptoExplainerScreen(
                                   _selectedIndex == 0
-                                      ? data.beginnerlist[index]
+                                      ? data.beginnerlist[index].content
                                       : _selectedIndex == 1
-                                          ? data.intermediatelist[index]
-                                          : data.advancelist[index],
+                                          ? data.intermediatelist[index].content
+                                          : data.advancelist[index].content,
                                 ),
                               );
                             },

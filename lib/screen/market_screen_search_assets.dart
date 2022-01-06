@@ -144,12 +144,26 @@ class _MarketScreenSearchAssetsState extends State<MarketScreenSearchAssets> {
                               onTap: () {
                                 FocusScope.of(context)
                                     .requestFocus(FocusNode());
-                                Get.to(
-                                  () => MarketDataScreen(
-                                    model.searchList[index],
-                                    model.searchGraphDataList[index],
-                                    model.searchDailyGraphDataList[index],
-                                  ),
+
+                                Provider.of<CryptoMarketDataProvider>(
+                                  context,
+                                  listen: false,
+                                )
+                                    .getCryptocurrencyCountByNameSymbol(
+                                  model.listModel[index].name,
+                                  model.listModel[index].symbol,
+                                )
+                                    .then(
+                                  (value) {
+                                    Get.to(
+                                      () => MarketDataScreen(
+                                        model.searchList[index],
+                                        model.searchGraphDataList[index],
+                                        model.searchDailyGraphDataList[index],
+                                        value,
+                                      ),
+                                    );
+                                  },
                                 );
                               },
                               child: Card(

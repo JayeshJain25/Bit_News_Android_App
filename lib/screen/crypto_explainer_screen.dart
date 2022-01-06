@@ -1,12 +1,11 @@
-import 'package:crypto_news/model/crypto_explainer_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_html/flutter_html.dart';
+import 'package:webview_flutter_plus/webview_flutter_plus.dart';
 
 class CryptoExplainerScreen extends StatefulWidget {
-  final CryptoExplainerModel cryptoExplainerData;
+  final String htmlContent;
 
-  const CryptoExplainerScreen(this.cryptoExplainerData);
+  const CryptoExplainerScreen(this.htmlContent);
 
   @override
   State<CryptoExplainerScreen> createState() => _CryptoExplainerScreenState();
@@ -15,13 +14,16 @@ class CryptoExplainerScreen extends StatefulWidget {
 class _CryptoExplainerScreenState extends State<CryptoExplainerScreen> {
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
     return Scaffold(
-      backgroundColor: const Color(0xFF000000),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Html(data: widget.cryptoExplainerData.content),
+        child: SizedBox(
+          height: height,
+          child: WebViewPlus(
+            javascriptMode: JavascriptMode.unrestricted,
+            onWebViewCreated: (controller) {
+              controller.loadString(widget.htmlContent);
+            },
           ),
         ),
       ),

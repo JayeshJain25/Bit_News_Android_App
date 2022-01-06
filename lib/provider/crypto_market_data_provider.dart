@@ -84,7 +84,8 @@ class CryptoMarketDataProvider with ChangeNotifier {
   }
 
   CryptoMarketDataProvider.fromtopCryptocurrencyCoinMap(
-      List<dynamic> parsedJson) {
+    List<dynamic> parsedJson,
+  ) {
     List<CryptoMarketDataModel> list = [];
     list = parsedJson
         .map((e) => CryptoMarketDataModel.fromJson(e as Map<String, dynamic>))
@@ -403,6 +404,7 @@ class CryptoMarketDataProvider with ChangeNotifier {
   }
 
   Future<void> getCryptoCoinsByCount() async {
+    topCryptocurrencyCoinsList.clear();
     final url = "${ApiEndpoints.baseUrl}cryptocurrency/top-cryptocurrency";
 
     try {
@@ -466,10 +468,10 @@ class CryptoMarketDataProvider with ChangeNotifier {
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: jsonEncode(<String, dynamic>{
-          'title': countModel.name,
-          'source': countModel.symbol,
-          'readCount': countModel.seeCount,
-          'totalReadCount': countModel.seeCount.length
+          'name': countModel.name,
+          'symbol': countModel.symbol,
+          'seeCount': countModel.seeCount,
+          'totalSeeCount': countModel.seeCount.length
         }),
       );
 

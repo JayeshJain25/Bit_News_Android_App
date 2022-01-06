@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:auto_size_text/auto_size_text.dart';
@@ -7,6 +8,7 @@ import 'package:crypto_news/model/coin_paprika_market_static_data_model.dart';
 import 'package:crypto_news/model/crpyto_data_daily_graph_model.dart';
 import 'package:crypto_news/model/crypto_data_graph_model.dart';
 import 'package:crypto_news/model/crypto_market_data_model.dart';
+import 'package:crypto_news/model/cryptocurrency_top_count_model.dart';
 import 'package:crypto_news/provider/crypto_market_data_provider.dart';
 import 'package:crypto_news/provider/google_sign_in_provider.dart';
 import 'package:crypto_news/provider/news_provider.dart';
@@ -31,8 +33,14 @@ class MarketDataScreen extends StatefulWidget {
   CryptoMarketDataModel cryptoData;
   final CryptoDataGraphModel graphData;
   final CryptoDataDailyGraphModel dailyGraphData;
+  final CryptocurrencyTopCountModel cryptocurrencyTopModel;
 
-  MarketDataScreen(this.cryptoData, this.graphData, this.dailyGraphData);
+  MarketDataScreen(
+    this.cryptoData,
+    this.graphData,
+    this.dailyGraphData,
+    this.cryptocurrencyTopModel,
+  );
 
   @override
   _MarketDataScreenState createState() => _MarketDataScreenState();
@@ -41,6 +49,10 @@ class MarketDataScreen extends StatefulWidget {
 class _MarketDataScreenState extends State<MarketDataScreen> {
   final _helper = Helper();
   int _selectedIndex = 3;
+
+  Timer? timer;
+  final User? user = FirebaseAuth.instance.currentUser;
+  List<dynamic> dataList = [];
 
   late CoinPaprikaMarketStaticDataModel _staticDataModel;
   bool _globalDataLoaded = true;
@@ -81,6 +93,46 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
         _staticDataModel = value;
       });
     });
+
+    dataList = [...widget.cryptocurrencyTopModel.seeCount];
+
+    final CryptocurrencyTopCountModel cryptocurrencyTopCountModel;
+    if (user != null) {
+      if (dataList.isEmpty || !dataList.contains(user!.uid)) {
+        final List<dynamic> uid = [
+          ...widget.cryptocurrencyTopModel.seeCount,
+          user!.uid
+        ];
+
+        cryptocurrencyTopCountModel = CryptocurrencyTopCountModel(
+          name: widget.cryptoData.name,
+          symbol: widget.cryptoData.symbol,
+          seeCount: uid,
+          totalSeeCount: uid.length,
+        );
+
+        timer = Timer.periodic(const Duration(seconds: 8), (Timer t) {
+          if (dataList.isEmpty || !dataList.contains(user!.uid)) {
+            Provider.of<CryptoMarketDataProvider>(context, listen: false)
+                .updateCryptocurrenctCount(cryptocurrencyTopCountModel)
+                .then((_) {
+              setState(() {
+                dataList = [
+                  ...widget.cryptocurrencyTopModel.seeCount,
+                  user!.uid
+                ];
+              });
+            });
+          }
+        });
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    timer!.cancel();
   }
 
   @override
@@ -89,6 +141,7 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
     final height = MediaQuery.of(context).size.height;
     final User? user = FirebaseAuth.instance.currentUser;
     return Scaffold(
+      backgroundColor: const Color(0xFF010101),
       body: CustomRefreshIndicator(
         onRefresh: () {
           setState(() {
@@ -101,6 +154,8 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                 .newsCompleteList
                 .clear();
             Provider.of<NewsProvider>(context, listen: false).getNewsFeed(1);
+            Provider.of<CryptoMarketDataProvider>(context, listen: false)
+                .getCryptoCoinsByCount();
           });
           return Future.delayed(const Duration(seconds: 2));
         },
@@ -109,6 +164,7 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
           Widget child,
           IndicatorController controller,
         ) {
+          //35444E
           return AnimatedBuilder(
             animation: controller,
             builder: (BuildContext context, _) {
@@ -117,21 +173,21 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                 children: <Widget>[
                   if (!controller.isIdle)
                     Positioned(
-                      child: Container(
-                        color: const Color(0xFF35444E),
-                        height: 170,
+                      top: 10.0 * controller.value,
+                      child: SizedBox(
+                        height: 75,
                         width: width,
                         child: CachedNetworkImage(
                           imageUrl:
-                              'https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/57735-crypto-coins.gif?alt=media&token=a696da3c-4285-4479-aade-1d65ee4ec2ad',
-                          height: 32,
+                              'https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/refresh_animation.gif?alt=media&token=5ad2f404-13a0-4493-9764-1e6eecafee52',
+                          height: 35,
                           width: 40,
-                          fit: BoxFit.cover,
+                          fit: BoxFit.contain,
                         ),
                       ),
                     ),
                   Transform.translate(
-                    offset: Offset(0, 110.0 * controller.value),
+                    offset: Offset(0, 70.0 * controller.value),
                     child: child,
                   ),
                 ],
@@ -1588,162 +1644,185 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                         ),
                       ),
                     ),
-                    SliverToBoxAdapter(
-                      child: Container(
-                        margin: const EdgeInsets.only(
-                          top: 15,
-                          left: 15,
-                          bottom: 15,
-                        ),
-                        height: height * 0.15,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: 7,
-                          itemBuilder: (BuildContext context, int index) {
-                            return InkWell(
-                              onTap: () {
-                                Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => MarketDataScreen(
-                                      model.trendingCoins[index],
-                                      widget.graphData,
-                                      widget.dailyGraphData,
+                    Consumer<CryptoMarketDataProvider>(
+                        builder: (ctx, model, _) {
+                      return SliverToBoxAdapter(
+                        child: Container(
+                          margin: const EdgeInsets.only(
+                            top: 15,
+                            left: 15,
+                            bottom: 15,
+                          ),
+                          height: height * 0.15,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: model.topCryptocurrencyCoinsList.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return InkWell(
+                                onTap: () {
+                                  Provider.of<CryptoMarketDataProvider>(
+                                    context,
+                                    listen: false,
+                                  )
+                                      .getCryptocurrencyCountByNameSymbol(
+                                    model
+                                        .topCryptocurrencyCoinsList[index].name,
+                                    model.topCryptocurrencyCoinsList[index]
+                                        .symbol,
+                                  )
+                                      .then(
+                                    (value) {
+                                      Get.to(
+                                        () => MarketDataScreen(
+                                          model.topCryptocurrencyCoinsList[
+                                              index],
+                                          widget.graphData,
+                                          widget.dailyGraphData,
+                                          value,
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.all(
+                                    8,
+                                  ),
+                                  margin: const EdgeInsets.only(
+                                    right: 10,
+                                  ),
+                                  height: height * 0.15,
+                                  width: width * 0.42,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(
+                                      25,
+                                    ),
+                                    color: const Color(
+                                      0xFF292f33,
                                     ),
                                   ),
-                                  ModalRoute.withName("/homeScreen"),
-                                );
-                              },
-                              child: Container(
-                                padding: const EdgeInsets.all(
-                                  8,
-                                ),
-                                margin: const EdgeInsets.only(
-                                  right: 10,
-                                ),
-                                height: height * 0.15,
-                                width: width * 0.42,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(
-                                    25,
-                                  ),
-                                  color: const Color(
-                                    0xFF292f33,
-                                  ),
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      margin: const EdgeInsets.only(
-                                        bottom: 10,
-                                        top: 10,
-                                      ),
-                                      width: width,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          CircleAvatar(
-                                            radius: 15,
-                                            backgroundColor: Colors.transparent,
-                                            backgroundImage:
-                                                CachedNetworkImageProvider(
-                                              model.trendingCoins[index].image,
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: Container(
-                                              margin: EdgeInsets.only(
-                                                left: width * 0.06,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        margin: const EdgeInsets.only(
+                                          bottom: 10,
+                                          top: 10,
+                                        ),
+                                        width: width,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            CircleAvatar(
+                                              radius: 15,
+                                              backgroundColor:
+                                                  Colors.transparent,
+                                              backgroundImage:
+                                                  CachedNetworkImageProvider(
+                                                model
+                                                    .topCryptocurrencyCoinsList[
+                                                        index]
+                                                    .image,
                                               ),
-                                              child: Row(
-                                                children: [
-                                                  Container(
-                                                    margin:
-                                                        const EdgeInsets.only(
-                                                      left: 3,
+                                            ),
+                                            Expanded(
+                                              child: Container(
+                                                margin: EdgeInsets.only(
+                                                  left: width * 0.06,
+                                                ),
+                                                child: Row(
+                                                  children: [
+                                                    Container(
+                                                      margin:
+                                                          const EdgeInsets.only(
+                                                        left: 3,
+                                                      ),
+                                                      child: CachedNetworkImage(
+                                                        imageUrl: model
+                                                                    .topCryptocurrencyCoinsList[
+                                                                        index]
+                                                                    .priceChangePercentage24h >=
+                                                                0
+                                                            ? "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/up_arrow.png?alt=media&token=03660f10-1eab-46ce-bcdd-a72e4380d012"
+                                                            : "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/down_arrow.png?alt=media&token=dcfbaf91-b5d1-42ca-bee4-e785a7c58e8c",
+                                                        fit: BoxFit.cover,
+                                                        height: 10,
+                                                        width: 10,
+                                                      ),
                                                     ),
-                                                    child: CachedNetworkImage(
-                                                      imageUrl: model
-                                                                  .trendingCoins[
-                                                                      index]
+                                                    SizedBox(
+                                                      width: width * 0.01,
+                                                    ),
+                                                    AutoSizeText(
+                                                      model.topCryptocurrencyCoinsList[index]
                                                                   .priceChangePercentage24h >=
                                                               0
-                                                          ? "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/up_arrow.png?alt=media&token=03660f10-1eab-46ce-bcdd-a72e4380d012"
-                                                          : "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/down_arrow.png?alt=media&token=dcfbaf91-b5d1-42ca-bee4-e785a7c58e8c",
-                                                      fit: BoxFit.cover,
-                                                      height: 10,
-                                                      width: 10,
+                                                          ? "+${model.topCryptocurrencyCoinsList[index].priceChangePercentage24h.toStringAsFixed(2)}%"
+                                                          : "${model.topCryptocurrencyCoinsList[index].priceChangePercentage24h.toStringAsFixed(2)}%",
+                                                      maxLines: 1,
+                                                      minFontSize: 14,
+                                                      style: GoogleFonts.rubik(
+                                                        color: model
+                                                                    .topCryptocurrencyCoinsList[
+                                                                        index]
+                                                                    .priceChangePercentage24h >
+                                                                0
+                                                            ? const Color(
+                                                                0xFF00a55b,
+                                                              )
+                                                            : const Color(
+                                                                0xFFd82e35,
+                                                              ),
+                                                        fontSize: 17,
+                                                      ),
+                                                      textAlign:
+                                                          TextAlign.center,
                                                     ),
-                                                  ),
-                                                  SizedBox(
-                                                    width: width * 0.01,
-                                                  ),
-                                                  AutoSizeText(
-                                                    model.trendingCoins[index]
-                                                                .priceChangePercentage24h >=
-                                                            0
-                                                        ? "+${model.trendingCoins[index].priceChangePercentage24h.toStringAsFixed(2)}%"
-                                                        : "${model.trendingCoins[index].priceChangePercentage24h.toStringAsFixed(2)}%",
-                                                    maxLines: 1,
-                                                    minFontSize: 14,
-                                                    style: GoogleFonts.rubik(
-                                                      color: model
-                                                                  .trendingCoins[
-                                                                      index]
-                                                                  .priceChangePercentage24h >
-                                                              0
-                                                          ? const Color(
-                                                              0xFF00a55b,
-                                                            )
-                                                          : const Color(
-                                                              0xFFd82e35,
-                                                            ),
-                                                      fontSize: 17,
-                                                    ),
-                                                    textAlign: TextAlign.center,
-                                                  ),
-                                                ],
+                                                  ],
+                                                ),
                                               ),
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(
-                                        bottom: height * 0.01,
-                                      ),
-                                      child: AutoSizeText(
-                                        model.trendingCoins[index].name,
-                                        maxLines: 2,
-                                        style: GoogleFonts.rubik(
-                                          color: Colors.white,
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.w400,
+                                            )
+                                          ],
                                         ),
                                       ),
-                                    ),
-                                    Expanded(
-                                      child: AutoSizeText(
-                                        "\u{20B9} ${model.trendingCoins[index].price.toString().startsWith("0.") ? model.trendingCoins[index].price.toString() : _helper.removeDecimal(model.trendingCoins[index].price.toString()).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}",
-                                        maxLines: 1,
-                                        style: GoogleFonts.nunito(
-                                          color: Colors.white,
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.w600,
+                                      Container(
+                                        margin: EdgeInsets.only(
+                                          bottom: height * 0.01,
+                                        ),
+                                        child: AutoSizeText(
+                                          model
+                                              .topCryptocurrencyCoinsList[index]
+                                              .name,
+                                          maxLines: 2,
+                                          style: GoogleFonts.rubik(
+                                            color: Colors.white,
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w400,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                      Expanded(
+                                        child: AutoSizeText(
+                                          "\u{20B9} ${model.topCryptocurrencyCoinsList[index].price.toString().startsWith("0.") ? model.topCryptocurrencyCoinsList[index].price.toString() : _helper.removeDecimal(model.topCryptocurrencyCoinsList[index].price.toString()).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}",
+                                          maxLines: 1,
+                                          style: GoogleFonts.nunito(
+                                            color: Colors.white,
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            );
-                          },
+                              );
+                            },
+                          ),
                         ),
-                      ),
-                    ),
+                      );
+                    }),
                   ],
                 ),
               );

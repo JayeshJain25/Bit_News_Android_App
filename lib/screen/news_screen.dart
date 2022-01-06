@@ -78,16 +78,16 @@ class _NewsScreenState extends State<NewsScreen>
                   children: <Widget>[
                     if (!controller.isIdle)
                       Positioned(
-                        top: 20.0 * controller.value,
+                        top: 10.0 * controller.value,
                         child: SizedBox(
-                          height: 80,
+                          height: 75,
                           width: width,
                           child: CachedNetworkImage(
                             imageUrl:
-                                'https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/57735-crypto-coins.gif?alt=media&token=a696da3c-4285-4479-aade-1d65ee4ec2ad',
+                                'https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/refresh_animation.gif?alt=media&token=5ad2f404-13a0-4493-9764-1e6eecafee52',
                             height: 35,
                             width: 40,
-                            fit: BoxFit.cover,
+                            fit: BoxFit.contain,
                           ),
                         ),
                       ),

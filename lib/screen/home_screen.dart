@@ -473,33 +473,13 @@ class _HomeScreenState extends State<HomeScreen>
                                   () => const CryptoExplainerHomeScreen(),
                                 );
                               },
-                              child: GlassmorphicContainer(
+                              child: Container(
                                 height: height * 0.07,
                                 width: width * 0.4,
-                                borderRadius: 25,
-                                blur: 55,
-                                linearGradient: LinearGradient(
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                  colors: [
-                                    const Color(0xFF1b1b1b),
-                                    const Color(0xFF1b1b1b),
-                                  ],
-                                  stops: const [
-                                    0.1,
-                                    1,
-                                  ],
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(25),
+                                  color: const Color(0xFF1b1b1b),
                                 ),
-                                borderGradient: LinearGradient(
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                  colors: [
-                                    const Color(0xFFffffff).withOpacity(0.5),
-                                    const Color(0xFFFFFFFF).withOpacity(0.5),
-                                  ],
-                                ),
-                                border: 0,
-                                padding: const EdgeInsets.all(8),
                                 margin: const EdgeInsets.only(
                                   left: 5,
                                   right: 5,
@@ -540,33 +520,13 @@ class _HomeScreenState extends State<HomeScreen>
                               onTap: () {
                                 Get.to(() => ConversionToolScreen());
                               },
-                              child: GlassmorphicContainer(
+                              child: Container(
                                 height: height * 0.07,
                                 width: width * 0.4,
-                                borderRadius: 25,
-                                blur: 55,
-                                linearGradient: LinearGradient(
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                  colors: [
-                                    const Color(0xFF1b1b1b),
-                                    const Color(0xFF1b1b1b),
-                                  ],
-                                  stops: const [
-                                    0.1,
-                                    1,
-                                  ],
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(25),
+                                  color: const Color(0xFF1b1b1b),
                                 ),
-                                borderGradient: LinearGradient(
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                  colors: [
-                                    const Color(0xFFffffff).withOpacity(0.5),
-                                    const Color(0xFFFFFFFF).withOpacity(0.5),
-                                  ],
-                                ),
-                                border: 0,
-                                padding: const EdgeInsets.all(8),
                                 margin: const EdgeInsets.only(
                                   left: 5,
                                   right: 5,
@@ -634,33 +594,13 @@ class _HomeScreenState extends State<HomeScreen>
                                   ),
                                 );
                               },
-                              child: GlassmorphicContainer(
+                              child: Container(
                                 height: height * 0.07,
                                 width: width * 0.4,
-                                borderRadius: 25,
-                                blur: 55,
-                                linearGradient: LinearGradient(
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                  colors: [
-                                    const Color(0xFF1b1b1b),
-                                    const Color(0xFF1b1b1b),
-                                  ],
-                                  stops: const [
-                                    0.1,
-                                    1,
-                                  ],
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(25),
+                                  color: const Color(0xFF1b1b1b),
                                 ),
-                                borderGradient: LinearGradient(
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                  colors: [
-                                    const Color(0xFFffffff).withOpacity(0.5),
-                                    const Color(0xFFFFFFFF).withOpacity(0.5),
-                                  ],
-                                ),
-                                border: 0,
-                                padding: const EdgeInsets.all(8),
                                 margin: const EdgeInsets.only(
                                   left: 5,
                                   right: 5,
@@ -735,33 +675,13 @@ class _HomeScreenState extends State<HomeScreen>
                                   Get.to(() => WatchListScreen());
                                 }
                               },
-                              child: GlassmorphicContainer(
+                              child: Container(
                                 height: height * 0.07,
                                 width: width * 0.4,
-                                borderRadius: 25,
-                                blur: 55,
-                                linearGradient: LinearGradient(
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                  colors: [
-                                    const Color(0xFF1b1b1b),
-                                    const Color(0xFF1b1b1b),
-                                  ],
-                                  stops: const [
-                                    0.1,
-                                    1,
-                                  ],
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(25),
+                                  color: const Color(0xFF1b1b1b),
                                 ),
-                                borderGradient: LinearGradient(
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                  colors: [
-                                    const Color(0xFFffffff).withOpacity(0.5),
-                                    const Color(0xFFFFFFFF).withOpacity(0.5),
-                                  ],
-                                ),
-                                border: 0,
-                                padding: const EdgeInsets.all(8),
                                 margin: const EdgeInsets.only(
                                   left: 5,
                                   right: 5,
@@ -870,46 +790,39 @@ class _HomeScreenState extends State<HomeScreen>
                                   itemBuilder: (ctx, index) {
                                     return InkWell(
                                       onTap: () {
-                                        Get.to(
-                                          () => MarketDataScreen(
-                                            model.listModel[index],
-                                            model.graphDataList[index],
-                                            model.dailyGraphDataList[index],
-                                          ),
+                                        Provider.of<CryptoMarketDataProvider>(
+                                          context,
+                                          listen: false,
+                                        )
+                                            .getCryptocurrencyCountByNameSymbol(
+                                          model.listModel[index].name,
+                                          model.listModel[index].symbol,
+                                        )
+                                            .then(
+                                          (value) {
+                                            Get.to(
+                                              () => MarketDataScreen(
+                                                model.listModel[index],
+                                                model.graphDataList[index],
+                                                model.dailyGraphDataList[index],
+                                                value,
+                                              ),
+                                            );
+                                          },
                                         );
                                       },
-                                      child: GlassmorphicContainer(
+                                      child: Container(
                                         margin: const EdgeInsets.only(
                                           left: 20,
                                           right: 5,
                                         ),
                                         height: height * 0.27,
                                         width: width * 0.5,
-                                        borderRadius: 25,
-                                        blur: 55,
-                                        linearGradient: LinearGradient(
-                                          begin: Alignment.topLeft,
-                                          end: Alignment.bottomRight,
-                                          colors: [
-                                            const Color(0xFF1b1b1b),
-                                            const Color(0xFF1b1b1b),
-                                          ],
-                                          stops: const [
-                                            0.1,
-                                            1,
-                                          ],
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(25),
+                                          color: const Color(0xFF1b1b1b),
                                         ),
-                                        borderGradient: LinearGradient(
-                                          begin: Alignment.topLeft,
-                                          end: Alignment.bottomRight,
-                                          colors: [
-                                            const Color(0xFFffffff)
-                                                .withOpacity(0.5),
-                                            const Color(0xFFFFFFFF)
-                                                .withOpacity(0.5),
-                                          ],
-                                        ),
-                                        border: 0,
                                         child: Column(
                                           children: [
                                             Padding(
@@ -1278,12 +1191,26 @@ class _HomeScreenState extends State<HomeScreen>
                               itemBuilder: (ctx, index) {
                                 return InkWell(
                                   onTap: () {
-                                    Get.to(
-                                      () => MarketDataScreen(
-                                        model.trendingCoins[index],
-                                        model.trendingGraphDataList[index],
-                                        model.trendingDailyGraphDataList[index],
-                                      ),
+                                    Provider.of<CryptoMarketDataProvider>(
+                                      context,
+                                      listen: false,
+                                    )
+                                        .getCryptocurrencyCountByNameSymbol(
+                                      model.listModel[index].name,
+                                      model.listModel[index].symbol,
+                                    )
+                                        .then(
+                                      (value) {
+                                        Get.to(
+                                          () => MarketDataScreen(
+                                            model.trendingCoins[index],
+                                            model.trendingGraphDataList[index],
+                                            model.trendingDailyGraphDataList[
+                                                index],
+                                            value,
+                                          ),
+                                        );
+                                      },
                                     );
                                   },
                                   child: GlassmorphicContainer(
@@ -1295,14 +1222,14 @@ class _HomeScreenState extends State<HomeScreen>
                                     width: width * 0.5,
                                     borderRadius: 25,
                                     blur: 55,
-                                    linearGradient: LinearGradient(
+                                    linearGradient: const LinearGradient(
                                       begin: Alignment.topLeft,
                                       end: Alignment.bottomRight,
                                       colors: [
-                                        const Color(0xFF1b1b1b),
-                                        const Color(0xFF1b1b1b),
+                                        Color(0xFF1b1b1b),
+                                        Color(0xFF1b1b1b),
                                       ],
-                                      stops: const [
+                                      stops: [
                                         0.1,
                                         1,
                                       ],
