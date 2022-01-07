@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:crypto_news/helper/api_endpoints.dart';
+import 'package:crypto_news/model/contact_us_model.dart';
 import 'package:crypto_news/model/news_model.dart';
 import 'package:crypto_news/model/news_read_count_model.dart';
 import 'package:flutter/material.dart';
@@ -172,7 +173,9 @@ class NewsProvider with ChangeNotifier {
       final r = json.decode(response.body) as List<dynamic>;
       final NewsProvider model = NewsProvider.fromReadCountJson(r);
       for (final element in model.newsByReadCount) {
-        newsByReadCount.add(element);
+        if (newsByReadCount.length <= 5) {
+          newsByReadCount.add(element);
+        }
       }
 
       notifyListeners();

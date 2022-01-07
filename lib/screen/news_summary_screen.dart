@@ -292,7 +292,9 @@ class _NewsSummaryScreenState extends State<NewsSummaryScreen> {
                           margin: const EdgeInsets.only(left: 15, bottom: 15),
                           child: ElevatedButton(
                             onPressed: () {
-                              Get.to(() => NewsWebView(widget.newsData.url));
+                              Get.to(
+                                () => NewsWebView(widget.newsData.url, true),
+                              );
                             },
                             style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.all<Color>(

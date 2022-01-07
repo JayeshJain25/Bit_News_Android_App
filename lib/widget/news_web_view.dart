@@ -6,38 +6,30 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 class NewsWebView extends StatefulWidget {
   final String newsUrl;
+  final bool showAppBar;
 
-  const NewsWebView(this.newsUrl);
+  const NewsWebView(this.newsUrl, this.showAppBar);
 
   @override
-  _NewsWebViewState createState() => _NewsWebViewState(newsUrl);
+  _NewsWebViewState createState() => _NewsWebViewState();
 }
 
 class _NewsWebViewState extends State<NewsWebView> {
-  final String newsUrl;
-
-  _NewsWebViewState(this.newsUrl);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        title: Text(
-          "News",
-          style: GoogleFonts.rubik(color: Colors.white),
-        ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios),
-          color: Colors.white,
-          onPressed: () {
-            Get.back();
-          },
-        ),
-        centerTitle: true,
-      ),
+      appBar: widget.showAppBar
+          ? AppBar(
+              backgroundColor: Colors.black,
+              title: Text(
+                "News",
+                style: GoogleFonts.rubik(color: Colors.white),
+              ),
+              centerTitle: true,
+            )
+          : null,
       body: WebView(
-        initialUrl: newsUrl,
+        initialUrl: widget.newsUrl,
         javascriptMode: JavascriptMode.unrestricted,
       ),
     );

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:webview_flutter_plus/webview_flutter_plus.dart';
+import 'package:flutter_html/flutter_html.dart';
 
 class CryptoExplainerScreen extends StatefulWidget {
   final String htmlContent;
@@ -19,11 +19,8 @@ class _CryptoExplainerScreenState extends State<CryptoExplainerScreen> {
       body: SafeArea(
         child: SizedBox(
           height: height,
-          child: WebViewPlus(
-            javascriptMode: JavascriptMode.unrestricted,
-            onWebViewCreated: (controller) {
-              controller.loadString(widget.htmlContent);
-            },
+          child: Html(
+            data: widget.htmlContent,
           ),
         ),
       ),

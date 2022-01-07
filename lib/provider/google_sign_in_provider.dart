@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:crypto_news/helper/api_endpoints.dart';
+import 'package:crypto_news/model/contact_us_model.dart';
 import 'package:crypto_news/model/user_data_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
@@ -98,5 +99,30 @@ class GoogleSignInProvider extends ChangeNotifier {
   Future<void> signOutFromGoogle() async {
     await _googleSignIn.signOut();
     await _auth.signOut();
+  }
+
+  Future<void> addContactUsData(
+    ContactUsModel contactUs,
+  ) async {
+    final url = "${ApiEndpoints.baseUrl}user/contact-us";
+    try {
+      await http.post(
+        Uri.parse(url),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, dynamic>{
+          'projectName': contactUs.projectName,
+          'emailId': contactUs.emailId,
+          'projectWebsite': contactUs.projectWebsite,
+          'projectDescription': contactUs.projectDescription,
+          'budget': contactUs.budget
+        }),
+      );
+
+      notifyListeners();
+    } catch (error) {
+      rethrow;
+    }
   }
 }
