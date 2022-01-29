@@ -42,6 +42,7 @@ class CryptoExplainerProvider with ChangeNotifier {
         } else {
           advancelist.add(element);
         }
+        intermediatelist = intermediatelist.reversed.toList();
       }
       notifyListeners();
     } catch (error) {

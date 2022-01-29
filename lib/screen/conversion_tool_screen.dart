@@ -11,6 +11,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
 
 import '../provider/crypto_and_fiat_provider.dart';
 import '../screen/search_assets_screen.dart';
@@ -126,8 +127,8 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: <Widget>[
-                          const SizedBox(
-                            height: 50,
+                          SizedBox(
+                            height: 8.h,
                           ),
                           Transform(
                             transform: Matrix4.identity()
@@ -225,12 +226,16 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                                 ),
                                                 Positioned(
                                                   left: 25,
-                                                  child: (model
+                                                  child: Row(
+                                                    children: [
+                                                      if (model
                                                           .cardData[
                                                               model.index1]
                                                           .image
-                                                          .startsWith("https"))
-                                                      ? Image(
+                                                          .startsWith(
+                                                        "https",
+                                                      ))
+                                                        Image(
                                                           height: height * 0.07,
                                                           width: width * 0.07,
                                                           fit: BoxFit.contain,
@@ -242,7 +247,8 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                                                 .image,
                                                           ),
                                                         )
-                                                      : Container(
+                                                      else
+                                                        Container(
                                                           margin:
                                                               const EdgeInsets
                                                                   .only(
@@ -259,75 +265,75 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                                             ),
                                                           ),
                                                         ),
-                                                ),
-                                                Positioned(
-                                                  top: 19,
-                                                  left: 60,
-                                                  child: InkWell(
-                                                    onTap: () {
-                                                      Get.to(
-                                                        () =>
-                                                            const SearchAssetsScreen(
-                                                          index: 0,
+                                                      SizedBox(
+                                                        width: 3.w,
+                                                      ),
+                                                      InkWell(
+                                                        onTap: () {
+                                                          Get.to(
+                                                            () =>
+                                                                const SearchAssetsScreen(
+                                                              index: 0,
+                                                            ),
+                                                          );
+                                                          model.listModel
+                                                              .clear();
+                                                          Provider.of<
+                                                              CryptoAndFiatProvider>(
+                                                            context,
+                                                            listen: false,
+                                                          ).fiatAndCryptoList(
+                                                            1,
+                                                          );
+                                                        },
+                                                        child: SizedBox(
+                                                          width: 12.w,
+                                                          height: height * 0.03,
+                                                          child: AutoSizeText(
+                                                            model
+                                                                .cardData[model
+                                                                    .index1]
+                                                                .symbol
+                                                                .toUpperCase(),
+                                                            style: GoogleFonts
+                                                                .rubik(
+                                                              fontSize: 18,
+                                                              color:
+                                                                  Colors.white,
+                                                            ),
+                                                          ),
                                                         ),
-                                                      );
-                                                      model.listModel.clear();
-                                                      Provider.of<
-                                                          CryptoAndFiatProvider>(
-                                                        context,
-                                                        listen: false,
-                                                      ).fiatAndCryptoList(1);
-                                                    },
-                                                    child: SizedBox(
-                                                      width: width * 0.2,
-                                                      height: height * 0.03,
-                                                      child: AutoSizeText(
-                                                        model
-                                                            .cardData[
-                                                                model.index1]
-                                                            .symbol
-                                                            .toUpperCase(),
-                                                        style:
-                                                            GoogleFonts.rubik(
-                                                          fontSize: 18,
+                                                      ),
+                                                      InkWell(
+                                                        onTap: () {
+                                                          Get.to(
+                                                            () =>
+                                                                const SearchAssetsScreen(
+                                                              index: 0,
+                                                            ),
+                                                          );
+                                                          model.listModel
+                                                              .clear();
+                                                          Provider.of<
+                                                              CryptoAndFiatProvider>(
+                                                            context,
+                                                            listen: false,
+                                                          ).fiatAndCryptoList(
+                                                            1,
+                                                          );
+                                                        },
+                                                        child: const Icon(
+                                                          Icons
+                                                              .arrow_drop_down_rounded,
                                                           color: Colors.white,
+                                                          size: 32,
                                                         ),
                                                       ),
-                                                    ),
+                                                    ],
                                                   ),
                                                 ),
                                                 Positioned(
-                                                  top: 4,
-                                                  left: 70,
-                                                  child: InkWell(
-                                                    onTap: () {
-                                                      Get.to(
-                                                        () =>
-                                                            const SearchAssetsScreen(
-                                                          index: 0,
-                                                        ),
-                                                      );
-                                                      model.listModel.clear();
-                                                      Provider.of<
-                                                          CryptoAndFiatProvider>(
-                                                        context,
-                                                        listen: false,
-                                                      ).fiatAndCryptoList(1);
-                                                    },
-                                                    child: SizedBox(
-                                                      width: width * 0.2,
-                                                      height: height * 0.06,
-                                                      child: const Icon(
-                                                        Icons
-                                                            .arrow_drop_down_rounded,
-                                                        color: Colors.white,
-                                                        size: 32,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Positioned(
-                                                  top: 100,
+                                                  top: 13.h,
                                                   left: 26,
                                                   child: SizedBox(
                                                     width: width * 0.5,
@@ -379,8 +385,8 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                                   ),
                                                 ),
                                                 Positioned(
-                                                  right: 20,
-                                                  top: 150,
+                                                  right: 5.w,
+                                                  top: 16.h,
                                                   child: Arc(
                                                     edge: Edge.TOP,
                                                     height: height * 0.1,
@@ -469,11 +475,15 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                               ),
                                               Positioned(
                                                 left: 25,
-                                                child: (model
+                                                child: Row(
+                                                  children: [
+                                                    if (model
                                                         .cardData[model.index1]
                                                         .image
-                                                        .startsWith("https"))
-                                                    ? Image(
+                                                        .startsWith(
+                                                      "https",
+                                                    ))
+                                                      Image(
                                                         height: height * 0.07,
                                                         width: width * 0.07,
                                                         fit: BoxFit.contain,
@@ -485,9 +495,12 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                                               .image,
                                                         ),
                                                       )
-                                                    : Container(
+                                                    else
+                                                      Container(
                                                         margin: const EdgeInsets
-                                                            .only(top: 15),
+                                                            .only(
+                                                          top: 15,
+                                                        ),
                                                         child: Text(
                                                           model
                                                               .cardData[
@@ -499,74 +512,72 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                                           ),
                                                         ),
                                                       ),
-                                              ),
-                                              Positioned(
-                                                top: 19,
-                                                left: 60,
-                                                child: InkWell(
-                                                  onTap: () {
-                                                    Get.to(
-                                                      () =>
-                                                          const SearchAssetsScreen(
-                                                        index: 0,
+                                                    SizedBox(
+                                                      width: 3.w,
+                                                    ),
+                                                    InkWell(
+                                                      onTap: () {
+                                                        Get.to(
+                                                          () =>
+                                                              const SearchAssetsScreen(
+                                                            index: 0,
+                                                          ),
+                                                        );
+                                                        model.listModel.clear();
+                                                        Provider.of<
+                                                            CryptoAndFiatProvider>(
+                                                          context,
+                                                          listen: false,
+                                                        ).fiatAndCryptoList(
+                                                          1,
+                                                        );
+                                                      },
+                                                      child: SizedBox(
+                                                        width: 12.w,
+                                                        height: height * 0.03,
+                                                        child: AutoSizeText(
+                                                          model
+                                                              .cardData[
+                                                                  model.index1]
+                                                              .symbol
+                                                              .toUpperCase(),
+                                                          style:
+                                                              GoogleFonts.rubik(
+                                                            fontSize: 18,
+                                                            color: Colors.white,
+                                                          ),
+                                                        ),
                                                       ),
-                                                    );
-                                                    model.listModel.clear();
-                                                    Provider.of<
-                                                        CryptoAndFiatProvider>(
-                                                      context,
-                                                      listen: false,
-                                                    ).fiatAndCryptoList(1);
-                                                  },
-                                                  child: SizedBox(
-                                                    width: width * 0.2,
-                                                    height: height * 0.03,
-                                                    child: AutoSizeText(
-                                                      model
-                                                          .cardData[
-                                                              model.index1]
-                                                          .symbol
-                                                          .toUpperCase(),
-                                                      style: GoogleFonts.rubik(
-                                                        fontSize: 18,
+                                                    ),
+                                                    InkWell(
+                                                      onTap: () {
+                                                        Get.to(
+                                                          () =>
+                                                              const SearchAssetsScreen(
+                                                            index: 0,
+                                                          ),
+                                                        );
+                                                        model.listModel.clear();
+                                                        Provider.of<
+                                                            CryptoAndFiatProvider>(
+                                                          context,
+                                                          listen: false,
+                                                        ).fiatAndCryptoList(
+                                                          1,
+                                                        );
+                                                      },
+                                                      child: const Icon(
+                                                        Icons
+                                                            .arrow_drop_down_rounded,
                                                         color: Colors.white,
+                                                        size: 32,
                                                       ),
                                                     ),
-                                                  ),
+                                                  ],
                                                 ),
                                               ),
                                               Positioned(
-                                                top: 4,
-                                                left: 70,
-                                                child: InkWell(
-                                                  onTap: () {
-                                                    Get.to(
-                                                      () =>
-                                                          const SearchAssetsScreen(
-                                                        index: 0,
-                                                      ),
-                                                    );
-                                                    model.listModel.clear();
-                                                    Provider.of<
-                                                        CryptoAndFiatProvider>(
-                                                      context,
-                                                      listen: false,
-                                                    ).fiatAndCryptoList(1);
-                                                  },
-                                                  child: SizedBox(
-                                                    width: width * 0.2,
-                                                    height: height * 0.06,
-                                                    child: const Icon(
-                                                      Icons
-                                                          .arrow_drop_down_rounded,
-                                                      color: Colors.white,
-                                                      size: 32,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              Positioned(
-                                                top: 100,
+                                                top: 13.h,
                                                 left: 26,
                                                 child: SizedBox(
                                                   width: width * 0.5,
@@ -620,8 +631,8 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                                 ),
                                               ),
                                               Positioned(
-                                                right: 20,
-                                                top: 150,
+                                                right: 5.w,
+                                                top: 16.h,
                                                 child: Arc(
                                                   edge: Edge.TOP,
                                                   height: height * 0.1,
@@ -729,11 +740,13 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                             Positioned(
                                               bottom: 12,
                                               left: 25,
-                                              child: (model
+                                              child: Row(
+                                                children: [
+                                                  if (model
                                                       .cardData[model.index2]
                                                       .image
                                                       .startsWith("https"))
-                                                  ? Image(
+                                                    Image(
                                                       height: height * 0.07,
                                                       width: width * 0.07,
                                                       fit: BoxFit.contain,
@@ -745,7 +758,8 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                                             .image,
                                                       ),
                                                     )
-                                                  : Container(
+                                                  else
+                                                    Container(
                                                       margin:
                                                           const EdgeInsets.only(
                                                         top: 15,
@@ -760,72 +774,68 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                                         ),
                                                       ),
                                                     ),
-                                            ),
-                                            Positioned(
-                                              bottom: 25,
-                                              left: 60,
-                                              child: InkWell(
-                                                onTap: () {
-                                                  Get.to(
-                                                    () =>
-                                                        const SearchAssetsScreen(
-                                                      index: 1,
+                                                  SizedBox(
+                                                    width: 3.w,
+                                                  ),
+                                                  InkWell(
+                                                    onTap: () {
+                                                      Get.to(
+                                                        () =>
+                                                            const SearchAssetsScreen(
+                                                          index: 1,
+                                                        ),
+                                                      );
+                                                      model.listModel.clear();
+                                                      Provider.of<
+                                                          CryptoAndFiatProvider>(
+                                                        context,
+                                                        listen: false,
+                                                      ).fiatAndCryptoList(1);
+                                                    },
+                                                    child: SizedBox(
+                                                      width: 12.w,
+                                                      height: height * 0.03,
+                                                      child: AutoSizeText(
+                                                        model
+                                                            .cardData[
+                                                                model.index2]
+                                                            .symbol
+                                                            .toUpperCase(),
+                                                        style:
+                                                            GoogleFonts.rubik(
+                                                          fontSize: 18,
+                                                          color: Colors.white,
+                                                        ),
+                                                      ),
                                                     ),
-                                                  );
-                                                  model.listModel.clear();
-                                                  Provider.of<
-                                                      CryptoAndFiatProvider>(
-                                                    context,
-                                                    listen: false,
-                                                  ).fiatAndCryptoList(1);
-                                                },
-                                                child: SizedBox(
-                                                  width: width * 0.2,
-                                                  height: height * 0.03,
-                                                  child: AutoSizeText(
-                                                    model.cardData[model.index2]
-                                                        .symbol
-                                                        .toUpperCase(),
-                                                    style: GoogleFonts.rubik(
-                                                      fontSize: 18,
+                                                  ),
+                                                  InkWell(
+                                                    onTap: () {
+                                                      Get.to(
+                                                        () =>
+                                                            const SearchAssetsScreen(
+                                                          index: 1,
+                                                        ),
+                                                      );
+                                                      model.listModel.clear();
+                                                      Provider.of<
+                                                          CryptoAndFiatProvider>(
+                                                        context,
+                                                        listen: false,
+                                                      ).fiatAndCryptoList(1);
+                                                    },
+                                                    child: const Icon(
+                                                      Icons
+                                                          .arrow_drop_down_rounded,
                                                       color: Colors.white,
+                                                      size: 32,
                                                     ),
                                                   ),
-                                                ),
+                                                ],
                                               ),
                                             ),
                                             Positioned(
-                                              bottom: 15,
-                                              left: 70,
-                                              child: InkWell(
-                                                onTap: () {
-                                                  Get.to(
-                                                    () =>
-                                                        const SearchAssetsScreen(
-                                                      index: 1,
-                                                    ),
-                                                  );
-                                                  model.listModel.clear();
-                                                  Provider.of<
-                                                      CryptoAndFiatProvider>(
-                                                    context,
-                                                    listen: false,
-                                                  ).fiatAndCryptoList(1);
-                                                },
-                                                child: SizedBox(
-                                                  width: width * 0.2,
-                                                  height: height * 0.06,
-                                                  child: const Icon(
-                                                    Icons
-                                                        .arrow_drop_down_rounded,
-                                                    color: Colors.white,
-                                                    size: 32,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            Positioned(
-                                              bottom: 70,
+                                              bottom: 7.5.h,
                                               left: 26,
                                               child: SizedBox(
                                                 width: width * 0.5,
@@ -870,8 +880,8 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                               ),
                                             ),
                                             Positioned(
-                                              right: 20,
-                                              bottom: 150,
+                                              right: 5.w,
+                                              bottom: 16.h,
                                               child: Arc(
                                                 height: height * 0.1,
                                                 clipShadows: [
@@ -1067,7 +1077,7 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                             ),
                                           ),
                                           Positioned(
-                                            bottom: 70,
+                                            bottom: 7.5.h,
                                             left: 26,
                                             child: SizedBox(
                                               width: width * 0.5,
@@ -1112,8 +1122,8 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                                             ),
                                           ),
                                           Positioned(
-                                            right: 20,
-                                            bottom: 150,
+                                            right: 5.w,
+                                            bottom: 16.h,
                                             child: Arc(
                                               height: height * 0.1,
                                               clipShadows: [
@@ -1139,8 +1149,8 @@ class _ConversionToolScreenState extends State<ConversionToolScreen>
                         ],
                       ),
                       Positioned(
-                        right: 75,
-                        top: 238,
+                        right: 19.w,
+                        top: 31.h,
                         child: Container(
                           height: height * 0.09,
                           width: width * 0.3,

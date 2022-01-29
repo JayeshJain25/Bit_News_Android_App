@@ -334,72 +334,76 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                             const Color(0xFFFFFFFF).withOpacity(0.5),
                           ],
                         ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(
-                                top: height * 0.02,
-                                right: width * 0.67,
-                              ),
-                              child: CircleAvatar(
-                                radius: 22.0,
-                                backgroundImage: CachedNetworkImageProvider(
-                                  widget.cryptoData.image,
+                        child: FittedBox(
+                          child: Column(
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(
+                                  top: height * 0.02,
+                                  right: width * 0.67,
                                 ),
-                                backgroundColor: Colors.transparent,
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(
-                                top: height * 0.01,
-                              ),
-                              child: AutoSizeText(
-                                widget.cryptoData.symbol.toUpperCase(),
-                                style: GoogleFonts.poppins(
-                                  color: Colors.white,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500,
+                                child: CircleAvatar(
+                                  radius: 22.0,
+                                  backgroundImage: CachedNetworkImageProvider(
+                                    widget.cryptoData.image,
+                                  ),
+                                  backgroundColor: Colors.transparent,
                                 ),
                               ),
-                            ),
-                            AutoSizeText(
-                              widget.cryptoData.name,
-                              style: GoogleFonts.poppins(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(
-                                top: height * 0.025,
-                                bottom: height * 0.027,
-                              ),
-                              child: ShaderMask(
-                                shaderCallback: (Rect bounds) {
-                                  return gradient.createShader(
-                                    Offset.zero & bounds.size,
-                                  );
-                                },
+                              Container(
+                                margin: EdgeInsets.only(
+                                  top: height * 0.01,
+                                ),
                                 child: AutoSizeText(
-                                  "\u{20B9} ${widget.cryptoData.price.toString().startsWith("0.") ? widget.cryptoData.price.toString() : _helper.removeDecimal(widget.cryptoData.price.toString()).replaceAllMapped(
-                                        RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-                                        (Match m) => '${m[1]},',
-                                      )}",
-                                  style: GoogleFonts.nunito(
+                                  widget.cryptoData.symbol.toUpperCase(),
+                                  style: GoogleFonts.poppins(
                                     color: Colors.white,
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.w700,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w500,
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
+                              AutoSizeText(
+                                widget.cryptoData.name,
+                                style: GoogleFonts.poppins(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(
+                                  top: height * 0.025,
+                                ),
+                                height: height * 0.045,
+                                child: ShaderMask(
+                                  shaderCallback: (Rect bounds) {
+                                    return gradient.createShader(
+                                      Offset.zero & bounds.size,
+                                    );
+                                  },
+                                  child: AutoSizeText(
+                                    "\u{20B9} ${widget.cryptoData.price.toString().startsWith("0.") ? widget.cryptoData.price.toString() : _helper.removeDecimal(widget.cryptoData.price.toString()).replaceAllMapped(
+                                          RegExp(
+                                            r'(\d{1,3})(?=(\d{3})+(?!\d))',
+                                          ),
+                                          (Match m) => '${m[1]},',
+                                        )}",
+                                    style: GoogleFonts.nunito(
+                                      color: Colors.white,
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                    if (widget.graphData.graphData.isNotEmpty)
+                    if (widget.graphData.graphData.isNotEmpty ||
+                        widget.dailyGraphData.graphData.isNotEmpty)
                       SliverToBoxAdapter(
                         child: Container(
                           margin: const EdgeInsets.only(top: 20),
@@ -551,7 +555,9 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                         ),
                         height: height * 0.3,
                         color: Colors.transparent,
-                        child: widget.graphData.graphData.isEmpty
+                        child: (widget.graphData.graphData.isEmpty ||
+                                (widget.dailyGraphData.graphData.isEmpty &&
+                                    _selectedIndex == 3))
                             ? Center(
                                 child: AutoSizeText(
                                   "No Graph Data Available",
@@ -569,8 +575,9 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                                       fitInsideHorizontally: true,
                                       fitInsideVertically: true,
                                       tooltipRoundedRadius: 24,
-                                      getTooltipItems:
-                                          (List<LineBarSpot> touchedBarSpots) {
+                                      getTooltipItems: (
+                                        List<LineBarSpot> touchedBarSpots,
+                                      ) {
                                         return touchedBarSpots.map((barSpot) {
                                           return LineTooltipItem(
                                             "${_helper.extractPriceFromGraph(
@@ -915,9 +922,11 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                                   ),
                                 ),
                                 subtitle: AutoSizeText(
-                                  "\u{20B9} ${NumberFormat.compact().format(
-                                    widget.cryptoData.marketCap,
-                                  )}",
+                                  widget.cryptoData.marketCap == 0
+                                      ? "NA"
+                                      : "\u{20B9} ${NumberFormat.compact().format(
+                                          widget.cryptoData.marketCap,
+                                        )}",
                                   style: GoogleFonts.nunito(
                                     color: Colors.white,
                                     fontSize: 18,
@@ -944,9 +953,11 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                                           ),
                                         ),
                                         subtitle: AutoSizeText(
-                                          "\u{20B9} ${NumberFormat.compact().format(
-                                            widget.cryptoData.low24h,
-                                          )}",
+                                          widget.cryptoData.low24h == 0
+                                              ? "NA"
+                                              : "\u{20B9} ${NumberFormat.compact().format(
+                                                  widget.cryptoData.low24h,
+                                                )}",
                                           style: GoogleFonts.nunito(
                                             color: Colors.white,
                                             fontSize: 18,
@@ -968,9 +979,11 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                                           ),
                                         ),
                                         subtitle: AutoSizeText(
-                                          "\u{20B9} ${NumberFormat.compact().format(
-                                            widget.cryptoData.totalVolume,
-                                          )}",
+                                          widget.cryptoData.totalVolume == 0
+                                              ? "NA"
+                                              : "\u{20B9} ${NumberFormat.compact().format(
+                                                  widget.cryptoData.totalVolume,
+                                                )}",
                                           style: GoogleFonts.nunito(
                                             color: Colors.white,
                                             fontSize: 18,
@@ -996,9 +1009,11 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                                           ),
                                         ),
                                         subtitle: AutoSizeText(
-                                          "\u{20B9} ${NumberFormat.compact().format(
-                                            widget.cryptoData.high24h,
-                                          )}",
+                                          widget.cryptoData.high24h == 0
+                                              ? "NA"
+                                              : "\u{20B9} ${NumberFormat.compact().format(
+                                                  widget.cryptoData.high24h,
+                                                )}",
                                           style: GoogleFonts.nunito(
                                             color: Colors.white,
                                             fontSize: 18,
@@ -1020,9 +1035,13 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                                           ),
                                         ),
                                         subtitle: AutoSizeText(
-                                          "\u{20B9} ${NumberFormat.compact().format(
-                                            widget.cryptoData.circulatingSupply,
-                                          )}",
+                                          widget.cryptoData.circulatingSupply ==
+                                                  0
+                                              ? "NA"
+                                              : "\u{20B9} ${NumberFormat.compact().format(
+                                                  widget.cryptoData
+                                                      .circulatingSupply,
+                                                )}",
                                           style: GoogleFonts.nunito(
                                             color: Colors.white,
                                             fontSize: 18,
@@ -1079,7 +1098,9 @@ class _MarketDataScreenState extends State<MarketDataScreen> {
                                 right: width * 0.04,
                               ),
                               child: ReadMoreText(
-                                _staticDataModel.description,
+                                _staticDataModel.description == "unKnown"
+                                    ? "Not Available"
+                                    : _staticDataModel.description,
                                 trimLines: 8,
                                 trimMode: TrimMode.Line,
                                 colorClickableText: const Color(0xFF52CAF5),

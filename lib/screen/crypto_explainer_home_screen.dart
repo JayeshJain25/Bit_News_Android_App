@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:crypto_news/provider/crypto_explainer_provider.dart';
 import 'package:crypto_news/screen/crypto_explainer_screen.dart';
+import 'package:crypto_news/widget/news_web_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -16,7 +17,7 @@ class CryptoExplainerHomeScreen extends StatefulWidget {
 }
 
 class _CryptoExplainerHomeScreenState extends State<CryptoExplainerHomeScreen> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -212,12 +213,14 @@ class _CryptoExplainerHomeScreenState extends State<CryptoExplainerHomeScreen> {
                           return InkWell(
                             onTap: () {
                               Get.to(
-                                () => CryptoExplainerScreen(
+                                () => NewsWebView(
                                   _selectedIndex == 0
                                       ? data.beginnerlist[index].content
                                       : _selectedIndex == 1
                                           ? data.intermediatelist[index].content
                                           : data.advancelist[index].content,
+                                  true,
+                                  "explainer",
                                 ),
                               );
                             },
@@ -236,7 +239,7 @@ class _CryptoExplainerHomeScreenState extends State<CryptoExplainerHomeScreen> {
                                   ),
                                 ),
                                 elevation: 0,
-                                color: const Color(0xFF121212),
+                                color: const Color(0xFF343434),
                                 child: Column(
                                   children: [
                                     ClipRRect(
@@ -268,6 +271,7 @@ class _CryptoExplainerHomeScreenState extends State<CryptoExplainerHomeScreen> {
                                           bottom: 7,
                                           top: 7,
                                         ),
+                                        height: 30,
                                         child: AutoSizeText(
                                           _selectedIndex == 0
                                               ? data.beginnerlist[index].title
@@ -284,45 +288,49 @@ class _CryptoExplainerHomeScreenState extends State<CryptoExplainerHomeScreen> {
                                           ),
                                         ),
                                       ),
-                                      subtitle: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            margin: const EdgeInsets.only(
-                                              bottom: 7,
-                                            ),
-                                            child: AutoSizeText(
-                                              _selectedIndex == 0
-                                                  ? data.beginnerlist[index]
-                                                      .description
-                                                  : _selectedIndex == 1
-                                                      ? data
-                                                          .intermediatelist[
-                                                              index]
-                                                          .description
-                                                      : data.advancelist[index]
-                                                          .description,
-                                              maxLines: 2,
-                                              overflow: TextOverflow.ellipsis,
-                                              softWrap: false,
-                                              style: GoogleFonts.poppins(
-                                                color: Colors.white70,
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 15,
+                                      subtitle: SizedBox(
+                                        height: 72,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              margin: const EdgeInsets.only(
+                                                bottom: 7,
+                                              ),
+                                              child: AutoSizeText(
+                                                _selectedIndex == 0
+                                                    ? data.beginnerlist[index]
+                                                        .description
+                                                    : _selectedIndex == 1
+                                                        ? data
+                                                            .intermediatelist[
+                                                                index]
+                                                            .description
+                                                        : data
+                                                            .advancelist[index]
+                                                            .description,
+                                                maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
+                                                softWrap: false,
+                                                style: GoogleFonts.poppins(
+                                                  color: Colors.white70,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 15,
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          AutoSizeText(
-                                            "By ${_selectedIndex == 0 ? data.beginnerlist[index].author : _selectedIndex == 1 ? data.intermediatelist[index].author : data.advancelist[index].author}",
-                                            maxLines: 1,
-                                            style: GoogleFonts.poppins(
-                                              color: Colors.white70,
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w500,
+                                            AutoSizeText(
+                                              "By ${_selectedIndex == 0 ? data.beginnerlist[index].author : _selectedIndex == 1 ? data.intermediatelist[index].author : data.advancelist[index].author}",
+                                              maxLines: 1,
+                                              style: GoogleFonts.poppins(
+                                                color: Colors.white70,
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w500,
+                                              ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ],

@@ -15,6 +15,7 @@ class NewsProvider with ChangeNotifier {
   List<NewsModel> bitcoinNewsList = [];
   List<NewsModel> ethereumNewsList = [];
   List<NewsModel> nftNewsList = [];
+  List<NewsModel> metaverseNewsList = [];
   List<NewsModel> newsByReadCount = [];
   List<NewsModel> topHeadlineNewsList = [];
 
@@ -48,6 +49,14 @@ class NewsProvider with ChangeNotifier {
         .map((e) => NewsModel.fromJson(e as Map<String, dynamic>))
         .toList();
     nftNewsList = list;
+  }
+
+  NewsProvider.fromMetaverseJson(List<dynamic> parsedJson) {
+    List<NewsModel> list = [];
+    list = parsedJson
+        .map((e) => NewsModel.fromJson(e as Map<String, dynamic>))
+        .toList();
+    metaverseNewsList = list;
   }
 
   NewsProvider.fromReadCountJson(List<dynamic> parsedJson) {
@@ -137,6 +146,27 @@ class NewsProvider with ChangeNotifier {
       final NewsProvider model = NewsProvider.fromNFTJson(r);
       for (final element in model.nftNewsList) {
         nftNewsList.add(element);
+      }
+
+      notifyListeners();
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  Future<void> getMetaverseNews(
+    int page,
+  ) async {
+    final url =
+        "${ApiEndpoints.baseUrl}news/news/?page=$page&tag=metaverse,Metaverse";
+    try {
+      final response = await http.get(
+        Uri.parse(url),
+      );
+      final r = json.decode(response.body) as List<dynamic>;
+      final NewsProvider model = NewsProvider.fromMetaverseJson(r);
+      for (final element in model.metaverseNewsList) {
+        metaverseNewsList.add(element);
       }
 
       notifyListeners();

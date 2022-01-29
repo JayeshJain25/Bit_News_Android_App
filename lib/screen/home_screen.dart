@@ -24,6 +24,7 @@ import 'package:get/get.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'conversion_tool_screen.dart';
 import 'crypto_explainer_home_screen.dart';
@@ -180,6 +181,7 @@ class _HomeScreenState extends State<HomeScreen>
     Provider.of<NewsProvider>(context, listen: false).getBitcoinNews(1);
     Provider.of<NewsProvider>(context, listen: false).getEthereumNews(1);
     Provider.of<NewsProvider>(context, listen: false).getNFTNews(1);
+    Provider.of<NewsProvider>(context, listen: false).getMetaverseNews(1);
 
     controller =
         AnimationController(vsync: this, duration: const Duration(seconds: 4));
@@ -221,6 +223,7 @@ class _HomeScreenState extends State<HomeScreen>
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     final User? user = FirebaseAuth.instance.currentUser;
+    final double h = MediaQuery.of(context).textScaleFactor;
     return WillPopScope(
       onWillPop: () {
         showExitPopup(width, height, user);
@@ -333,39 +336,63 @@ class _HomeScreenState extends State<HomeScreen>
                     color: const Color(0xFF010101),
                   ),
                 ),
-                expandedHeight: height * 0.36,
+                expandedHeight: h >= 1.33
+                    ? height * 0.5
+                    : (((1 < h) && (h < 1.29)) && height < 850)
+                        ? height * 0.4
+                        : height * 0.36,
                 flexibleSpace: Stack(
                   children: <Widget>[
                     Positioned(
-                      top: 120,
-                      left: 40,
+                      top: height * 0.13,
+                      left: width * 0.1,
                       right: 0,
                       bottom: 0,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          AutoSizeText(
-                            user != null
-                                ? "Hi, ${user.displayName}"
-                                : "Hi, Folk",
-                            maxFontSize: 20,
-                            minFontSize: 20,
-                            style: GoogleFonts.poppins(
-                              color: Colors.white,
+                          FittedBox(
+                            child: SizedBox(
+                              width: width * 0.55,
+                              child: user != null
+                                  ? RichText(
+                                      text: TextSpan(
+                                        text: 'Hi, ',
+                                        style: GoogleFonts.poppins(
+                                          color: Colors.white,
+                                          fontSize: 16.sp,
+                                        ),
+                                        children: <TextSpan>[
+                                          TextSpan(
+                                            text: user.displayName,
+                                            style: GoogleFonts.poppins(
+                                              color: const Color(0xFF429bb8),
+                                              fontSize: 16.sp,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  : AutoSizeText(
+                                      "Hey There,",
+                                      style: GoogleFonts.poppins(
+                                        color: Colors.white,
+                                        fontSize: 16.sp,
+                                      ),
+                                    ),
                             ),
                           ),
                           const SizedBox(
                             height: 10,
                           ),
                           SizedBox(
-                            width: width * 0.6,
+                            width: width * 0.55,
                             child: AutoSizeText(
                               "Join our Discord for NFT giveaway's",
                               maxLines: 2,
-                              maxFontSize: 16,
-                              minFontSize: 16,
                               style: GoogleFonts.rubik(
                                 color: Colors.white,
+                                fontSize: 16.sp,
                               ),
                             ),
                           ),
@@ -389,31 +416,33 @@ class _HomeScreenState extends State<HomeScreen>
                             ),
                             onPressed: () {
                               launch(
-                                "https://discord.gg/CTBpvzDbZT",
+                                "https://discord.gg/v8HPFsV4jQ",
                               );
                             },
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                CachedNetworkImage(
-                                  imageUrl:
-                                      "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/discord.png?alt=media&token=ab6626d5-931e-4a03-bffb-8df4e0949ff9",
-                                  height: 20,
-                                  width: 20,
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                AutoSizeText(
-                                  "Discord",
-                                  maxFontSize: 17,
-                                  minFontSize: 17,
-                                  style: GoogleFonts.poppins(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w500,
+                            child: FittedBox(
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  CachedNetworkImage(
+                                    imageUrl:
+                                        "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/discord.png?alt=media&token=ab6626d5-931e-4a03-bffb-8df4e0949ff9",
+                                    height: 20,
+                                    width: 20,
                                   ),
-                                ),
-                              ],
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  AutoSizeText(
+                                    "Discord",
+                                    maxFontSize: 17,
+                                    minFontSize: 17,
+                                    style: GoogleFonts.poppins(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                           const SizedBox(
@@ -423,24 +452,26 @@ class _HomeScreenState extends State<HomeScreen>
                       ),
                     ),
                     Positioned(
-                      left: width * 0.65,
-                      top: height * 0.13,
-                      child: SizedBox(
-                        width: width * 0.4,
-                        height: height * 0.2,
-                        child: CachedNetworkImage(
-                          imageUrl:
-                              "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/animation.gif?alt=media&token=b0f909f5-4152-4bce-941f-b65b13c8ac5e",
-                          fit: BoxFit.contain,
+                      left: width * 0.57,
+                      top: height * 0.1,
+                      child: FittedBox(
+                        child: SizedBox(
+                          width: width * 0.4,
+                          height: height * 0.25,
+                          child: CachedNetworkImage(
+                            imageUrl:
+                                "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/homepage_aniamtion.png?alt=media&token=7e646e96-de69-422d-a4bc-1cad39404f04",
+                            fit: BoxFit.contain,
+                          ),
                         ),
                       ),
                     ),
                     Positioned(
-                      bottom: -1,
+                      bottom: height * 0.00004,
                       left: 0,
                       right: 0,
                       child: Container(
-                        height: 40,
+                        height: height * 0.04,
                         decoration: const BoxDecoration(
                           color: Color(0xFF010101),
                           borderRadius: BorderRadius.vertical(
@@ -484,34 +515,37 @@ class _HomeScreenState extends State<HomeScreen>
                                   left: 5,
                                   right: 5,
                                 ),
-                                child: Center(
-                                  child: Row(
-                                    children: [
-                                      const SizedBox(
-                                        width: 15,
-                                      ),
-                                      CachedNetworkImage(
-                                        imageUrl:
-                                            "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/explainer.png?alt=media&token=8f56b930-9549-4f6d-9cc3-2362e9943964",
-                                        color: Colors.white,
-                                        width: width * 0.06,
-                                      ),
-                                      SizedBox(
-                                        width: width * 0.03,
-                                      ),
-                                      AutoSizeText(
-                                        "Explainer",
-                                        maxFontSize: 17,
-                                        minFontSize: 17,
-                                        style: GoogleFonts.poppins(
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.white,
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: FittedBox(
+                                    child: Row(
+                                      children: [
+                                        const SizedBox(
+                                          width: 15,
                                         ),
-                                      ),
-                                      SizedBox(
-                                        width: width * 0.01,
-                                      ),
-                                    ],
+                                        CachedNetworkImage(
+                                          imageUrl:
+                                              "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/explainer.png?alt=media&token=8f56b930-9549-4f6d-9cc3-2362e9943964",
+                                          color: Colors.white,
+                                          width: width * 0.06,
+                                        ),
+                                        SizedBox(
+                                          width: width * 0.03,
+                                        ),
+                                        AutoSizeText(
+                                          "Explainer",
+                                          maxFontSize: 17,
+                                          minFontSize: 17,
+                                          style: GoogleFonts.poppins(
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          width: 15,
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -531,34 +565,37 @@ class _HomeScreenState extends State<HomeScreen>
                                   left: 5,
                                   right: 5,
                                 ),
-                                child: Center(
-                                  child: Row(
-                                    children: [
-                                      const SizedBox(
-                                        width: 15,
-                                      ),
-                                      CachedNetworkImage(
-                                        imageUrl:
-                                            "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/conversion.png?alt=media&token=448c4d3f-a9b3-439f-ac45-e8912dd59eef",
-                                        color: Colors.white,
-                                        width: width * 0.06,
-                                      ),
-                                      SizedBox(
-                                        width: width * 0.03,
-                                      ),
-                                      AutoSizeText(
-                                        "Convert",
-                                        maxFontSize: 17,
-                                        minFontSize: 17,
-                                        style: GoogleFonts.poppins(
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.white,
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: FittedBox(
+                                    child: Row(
+                                      children: [
+                                        const SizedBox(
+                                          width: 15,
                                         ),
-                                      ),
-                                      SizedBox(
-                                        width: width * 0.01,
-                                      ),
-                                    ],
+                                        CachedNetworkImage(
+                                          imageUrl:
+                                              "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/conversion.png?alt=media&token=448c4d3f-a9b3-439f-ac45-e8912dd59eef",
+                                          color: Colors.white,
+                                          width: width * 0.06,
+                                        ),
+                                        SizedBox(
+                                          width: width * 0.03,
+                                        ),
+                                        AutoSizeText(
+                                          "Convert",
+                                          maxFontSize: 17,
+                                          minFontSize: 17,
+                                          style: GoogleFonts.poppins(
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          width: 15,
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -605,34 +642,37 @@ class _HomeScreenState extends State<HomeScreen>
                                   left: 5,
                                   right: 5,
                                 ),
-                                child: Center(
-                                  child: Row(
-                                    children: [
-                                      const SizedBox(
-                                        width: 15,
-                                      ),
-                                      CachedNetworkImage(
-                                        imageUrl:
-                                            "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/nft.png?alt=media&token=b479f6e4-5f14-470f-be77-5a31ed262556",
-                                        color: Colors.white,
-                                        width: width * 0.06,
-                                      ),
-                                      SizedBox(
-                                        width: width * 0.03,
-                                      ),
-                                      AutoSizeText(
-                                        "NFT's",
-                                        maxFontSize: 17,
-                                        minFontSize: 17,
-                                        style: GoogleFonts.poppins(
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.white,
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: FittedBox(
+                                    child: Row(
+                                      children: [
+                                        const SizedBox(
+                                          width: 15,
                                         ),
-                                      ),
-                                      SizedBox(
-                                        width: width * 0.01,
-                                      ),
-                                    ],
+                                        CachedNetworkImage(
+                                          imageUrl:
+                                              "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/nft.png?alt=media&token=b479f6e4-5f14-470f-be77-5a31ed262556",
+                                          color: Colors.white,
+                                          width: width * 0.06,
+                                        ),
+                                        SizedBox(
+                                          width: width * 0.03,
+                                        ),
+                                        AutoSizeText(
+                                          "NFT's",
+                                          maxFontSize: 17,
+                                          minFontSize: 17,
+                                          style: GoogleFonts.poppins(
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          width: 15,
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -686,34 +726,37 @@ class _HomeScreenState extends State<HomeScreen>
                                   left: 5,
                                   right: 5,
                                 ),
-                                child: Center(
-                                  child: Row(
-                                    children: [
-                                      const SizedBox(
-                                        width: 15,
-                                      ),
-                                      CachedNetworkImage(
-                                        imageUrl:
-                                            "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/watchlist.png?alt=media&token=e4fea05d-fe35-4ab8-9558-11c0c5e485f9",
-                                        color: Colors.white,
-                                        width: width * 0.06,
-                                      ),
-                                      SizedBox(
-                                        width: width * 0.03,
-                                      ),
-                                      AutoSizeText(
-                                        "Watch List",
-                                        maxFontSize: 17,
-                                        minFontSize: 17,
-                                        style: GoogleFonts.poppins(
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.white,
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: FittedBox(
+                                    child: Row(
+                                      children: [
+                                        const SizedBox(
+                                          width: 15,
                                         ),
-                                      ),
-                                      SizedBox(
-                                        width: width * 0.01,
-                                      ),
-                                    ],
+                                        CachedNetworkImage(
+                                          imageUrl:
+                                              "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/watchlist.png?alt=media&token=e4fea05d-fe35-4ab8-9558-11c0c5e485f9",
+                                          color: Colors.white,
+                                          width: width * 0.06,
+                                        ),
+                                        SizedBox(
+                                          width: width * 0.03,
+                                        ),
+                                        AutoSizeText(
+                                          "Watchlist",
+                                          maxFontSize: 17,
+                                          minFontSize: 17,
+                                          style: GoogleFonts.poppins(
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          width: 15,
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -896,181 +939,188 @@ class _HomeScreenState extends State<HomeScreen>
                                                 ),
                                               ),
                                             ),
-                                            Container(
-                                              padding: const EdgeInsets.only(
-                                                left: 10,
-                                                right: 10,
-                                              ),
-                                              height: height * 0.08,
-                                              child: model.graphDataList.isEmpty
-                                                  ? const Center(
-                                                      child:
-                                                          CircularProgressIndicator(),
-                                                    )
-                                                  : LineChart(
-                                                      LineChartData(
-                                                        lineTouchData:
-                                                            LineTouchData(
-                                                          enabled: false,
-                                                        ),
-                                                        gridData: FlGridData(
-                                                          show: true,
-                                                          drawVerticalLine:
-                                                              false,
-                                                          drawHorizontalLine:
-                                                              false,
-                                                          horizontalInterval: 4,
-                                                          getDrawingHorizontalLine:
-                                                              (value) {
-                                                            return FlLine(
-                                                              color: model
-                                                                          .listModel[
-                                                                              index]
-                                                                          .priceChangePercentage24h >
-                                                                      0
-                                                                  ? const Color(
-                                                                      0xFF00a55b,
-                                                                    ).withOpacity(
-                                                                      0.3,
-                                                                    )
-                                                                  : const Color(
-                                                                      0xFFd82e35,
-                                                                    ).withOpacity(
-                                                                      0.3,
-                                                                    ),
-                                                              strokeWidth: 1,
-                                                            );
-                                                          },
-                                                          getDrawingVerticalLine:
-                                                              (value) {
-                                                            return FlLine(
-                                                              color: model
-                                                                          .listModel[
-                                                                              index]
-                                                                          .priceChangePercentage24h >
-                                                                      0
-                                                                  ? const Color(
-                                                                      0xFF00a55b,
-                                                                    ).withOpacity(
-                                                                      0.3,
-                                                                    )
-                                                                  : const Color(
-                                                                      0xFFd82e35,
-                                                                    ).withOpacity(
-                                                                      0.3,
-                                                                    ),
-                                                              strokeWidth: 1,
-                                                            );
-                                                          },
-                                                        ),
-                                                        titlesData:
-                                                            FlTitlesData(
-                                                          show: false,
-                                                        ),
-                                                        borderData:
-                                                            FlBorderData(
-                                                          show: false,
-                                                        ),
-                                                        minX: 0,
-                                                        maxX: model
-                                                                .dailyGraphDataList[
-                                                                    index]
-                                                                .graphData
-                                                                .length
-                                                                .toDouble() -
-                                                            1,
-                                                        minY: _helper
-                                                            .extractPriceFromGraph(
-                                                              model
-                                                                  .dailyGraphDataList[
-                                                                      index]
-                                                                  .graphData,
-                                                            )
-                                                            .reduce(min)
-                                                            .toDouble(),
-                                                        maxY: _helper
-                                                            .extractPriceFromGraph(
-                                                              model
-                                                                  .dailyGraphDataList[
-                                                                      index]
-                                                                  .graphData,
-                                                            )
-                                                            .reduce(max)
-                                                            .toDouble(),
-                                                        lineBarsData: [
-                                                          LineChartBarData(
-                                                            spots: listData(
-                                                              _helper
-                                                                  .extractPriceFromGraph(
-                                                                model
-                                                                    .dailyGraphDataList[
-                                                                        index]
-                                                                    .graphData,
+                                            if (model.dailyGraphDataList[index]
+                                                .graphData.isNotEmpty)
+                                              Container(
+                                                padding: const EdgeInsets.only(
+                                                  left: 10,
+                                                  right: 10,
+                                                ),
+                                                height: height * 0.08,
+                                                child:
+                                                    model
+                                                            .dailyGraphDataList[
+                                                                index]
+                                                            .graphData
+                                                            .isEmpty
+                                                        ? const Center(
+                                                            child:
+                                                                CircularProgressIndicator(),
+                                                          )
+                                                        : LineChart(
+                                                            LineChartData(
+                                                              lineTouchData:
+                                                                  LineTouchData(
+                                                                enabled: false,
                                                               ),
-                                                            ),
-                                                            colors: [
-                                                              if (model
-                                                                      .listModel[
+                                                              gridData:
+                                                                  FlGridData(
+                                                                show: true,
+                                                                drawVerticalLine:
+                                                                    false,
+                                                                drawHorizontalLine:
+                                                                    false,
+                                                                horizontalInterval:
+                                                                    4,
+                                                                getDrawingHorizontalLine:
+                                                                    (value) {
+                                                                  return FlLine(
+                                                                    color: model.listModel[index].priceChangePercentage24h >
+                                                                            0
+                                                                        ? const Color(
+                                                                            0xFF00a55b,
+                                                                          ).withOpacity(
+                                                                            0.3,
+                                                                          )
+                                                                        : const Color(
+                                                                            0xFFd82e35,
+                                                                          ).withOpacity(
+                                                                            0.3,
+                                                                          ),
+                                                                    strokeWidth:
+                                                                        1,
+                                                                  );
+                                                                },
+                                                                getDrawingVerticalLine:
+                                                                    (value) {
+                                                                  return FlLine(
+                                                                    color: model.listModel[index].priceChangePercentage24h >
+                                                                            0
+                                                                        ? const Color(
+                                                                            0xFF00a55b,
+                                                                          ).withOpacity(
+                                                                            0.3,
+                                                                          )
+                                                                        : const Color(
+                                                                            0xFFd82e35,
+                                                                          ).withOpacity(
+                                                                            0.3,
+                                                                          ),
+                                                                    strokeWidth:
+                                                                        1,
+                                                                  );
+                                                                },
+                                                              ),
+                                                              titlesData:
+                                                                  FlTitlesData(
+                                                                show: false,
+                                                              ),
+                                                              borderData:
+                                                                  FlBorderData(
+                                                                show: false,
+                                                              ),
+                                                              minX: 0,
+                                                              maxX: model
+                                                                      .dailyGraphDataList[
                                                                           index]
-                                                                      .priceChangePercentage24h >
-                                                                  0)
-                                                                const Color(
-                                                                  0xFF00a55b,
-                                                                ).withOpacity(
-                                                                  0.3,
-                                                                )
-                                                              else
-                                                                const Color(
-                                                                  0xFFd82e35,
-                                                                ).withOpacity(
-                                                                  0.3,
-                                                                ),
-                                                            ],
-                                                            barWidth: 3,
-                                                            isStrokeCapRound:
-                                                                true,
-                                                            dotData: FlDotData(
-                                                              show: false,
-                                                            ),
-                                                            belowBarData:
-                                                                BarAreaData(
-                                                              show: true,
-                                                              gradientFrom:
-                                                                  const Offset(
-                                                                0,
-                                                                .9,
-                                                              ),
-                                                              gradientTo:
-                                                                  const Offset(
-                                                                0,
-                                                                0.5,
-                                                              ),
-                                                              colors: [
-                                                                if (model
-                                                                        .listModel[
+                                                                      .graphData
+                                                                      .length
+                                                                      .toDouble() -
+                                                                  1,
+                                                              minY: _helper
+                                                                  .extractPriceFromGraph(
+                                                                    model
+                                                                        .dailyGraphDataList[
                                                                             index]
-                                                                        .priceChangePercentage24h >
-                                                                    0)
-                                                                  const Color(
-                                                                    0xFF00a55b,
-                                                                  ).withOpacity(
-                                                                    0.3,
+                                                                        .graphData,
                                                                   )
-                                                                else
-                                                                  const Color(
-                                                                    0xFFd82e35,
-                                                                  ).withOpacity(
-                                                                    0.3,
+                                                                  .reduce(min)
+                                                                  .toDouble(),
+                                                              maxY: _helper
+                                                                  .extractPriceFromGraph(
+                                                                    model
+                                                                        .dailyGraphDataList[
+                                                                            index]
+                                                                        .graphData,
+                                                                  )
+                                                                  .reduce(max)
+                                                                  .toDouble(),
+                                                              lineBarsData: [
+                                                                LineChartBarData(
+                                                                  spots:
+                                                                      listData(
+                                                                    _helper
+                                                                        .extractPriceFromGraph(
+                                                                      model
+                                                                          .dailyGraphDataList[
+                                                                              index]
+                                                                          .graphData,
+                                                                    ),
                                                                   ),
+                                                                  colors: [
+                                                                    if (model
+                                                                            .listModel[index]
+                                                                            .priceChangePercentage24h >
+                                                                        0)
+                                                                      const Color(
+                                                                        0xFF00a55b,
+                                                                      ).withOpacity(
+                                                                        0.3,
+                                                                      )
+                                                                    else
+                                                                      const Color(
+                                                                        0xFFd82e35,
+                                                                      ).withOpacity(
+                                                                        0.3,
+                                                                      ),
+                                                                  ],
+                                                                  barWidth: 3,
+                                                                  isStrokeCapRound:
+                                                                      true,
+                                                                  dotData:
+                                                                      FlDotData(
+                                                                    show: false,
+                                                                  ),
+                                                                  belowBarData:
+                                                                      BarAreaData(
+                                                                    show: true,
+                                                                    gradientFrom:
+                                                                        const Offset(
+                                                                      0,
+                                                                      .9,
+                                                                    ),
+                                                                    gradientTo:
+                                                                        const Offset(
+                                                                      0,
+                                                                      0.5,
+                                                                    ),
+                                                                    colors: [
+                                                                      if (model
+                                                                              .listModel[index]
+                                                                              .priceChangePercentage24h >
+                                                                          0)
+                                                                        const Color(
+                                                                          0xFF00a55b,
+                                                                        ).withOpacity(
+                                                                          0.3,
+                                                                        )
+                                                                      else
+                                                                        const Color(
+                                                                          0xFFd82e35,
+                                                                        ).withOpacity(
+                                                                          0.3,
+                                                                        ),
+                                                                    ],
+                                                                  ),
+                                                                ),
                                                               ],
                                                             ),
+                                                            swapAnimationDuration:
+                                                                Duration.zero,
                                                           ),
-                                                        ],
-                                                      ),
-                                                      swapAnimationDuration:
-                                                          Duration.zero,
-                                                    ),
-                                            ),
+                                              )
+                                            else
+                                              Container(),
                                             Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,
@@ -1316,153 +1366,124 @@ class _HomeScreenState extends State<HomeScreen>
                                             ),
                                           ),
                                         ),
-                                        Container(
-                                          padding: const EdgeInsets.only(
-                                            left: 10,
-                                            right: 10,
-                                          ),
-                                          height: height * 0.08,
-                                          child: model.graphDataList.isEmpty
-                                              ? const Center(
-                                                  child:
-                                                      CircularProgressIndicator(),
-                                                )
-                                              : LineChart(
-                                                  LineChartData(
-                                                    lineTouchData:
-                                                        LineTouchData(
-                                                      enabled: false,
-                                                    ),
-                                                    gridData: FlGridData(
-                                                      show: true,
-                                                      drawVerticalLine: false,
-                                                      drawHorizontalLine: false,
-                                                      horizontalInterval: 4,
-                                                      getDrawingHorizontalLine:
-                                                          (value) {
-                                                        return FlLine(
-                                                          color: model
-                                                                      .trendingCoins[
-                                                                          index]
-                                                                      .priceChangePercentage24h >
-                                                                  0
-                                                              ? const Color(
-                                                                  0xFF00a55b,
-                                                                ).withOpacity(
-                                                                  0.3,
-                                                                )
-                                                              : const Color(
-                                                                  0xFFd82e35,
-                                                                ).withOpacity(
-                                                                  0.3,
-                                                                ),
-                                                          strokeWidth: 1,
-                                                        );
-                                                      },
-                                                      getDrawingVerticalLine:
-                                                          (value) {
-                                                        return FlLine(
-                                                          color: model
-                                                                      .trendingCoins[
-                                                                          index]
-                                                                      .priceChangePercentage24h >
-                                                                  0
-                                                              ? const Color(
-                                                                  0xFF00a55b,
-                                                                ).withOpacity(
-                                                                  0.3,
-                                                                )
-                                                              : const Color(
-                                                                  0xFFd82e35,
-                                                                ).withOpacity(
-                                                                  0.3,
-                                                                ),
-                                                          strokeWidth: 1,
-                                                        );
-                                                      },
-                                                    ),
-                                                    titlesData: FlTitlesData(
-                                                      show: false,
-                                                    ),
-                                                    borderData: FlBorderData(
-                                                      show: false,
-                                                    ),
-                                                    minX: 0,
-                                                    maxX: model
-                                                            .trendingDailyGraphDataList[
-                                                                0]
-                                                            .graphData
-                                                            .length
-                                                            .toDouble() -
-                                                        1,
-                                                    minY: _helper
-                                                        .extractPriceFromGraph(
-                                                          model
+                                        if (model.trendingDailyGraphDataList[0]
+                                            .graphData.isNotEmpty)
+                                          Container(
+                                            padding: const EdgeInsets.only(
+                                              left: 10,
+                                              right: 10,
+                                            ),
+                                            height: height * 0.08,
+                                            child: model
+                                                    .trendingDailyGraphDataList[
+                                                        0]
+                                                    .graphData
+                                                    .isEmpty
+                                                ? const Center(
+                                                    child:
+                                                        CircularProgressIndicator(),
+                                                  )
+                                                : LineChart(
+                                                    LineChartData(
+                                                      lineTouchData:
+                                                          LineTouchData(
+                                                        enabled: false,
+                                                      ),
+                                                      gridData: FlGridData(
+                                                        show: true,
+                                                        drawVerticalLine: false,
+                                                        drawHorizontalLine:
+                                                            false,
+                                                        horizontalInterval: 4,
+                                                        getDrawingHorizontalLine:
+                                                            (value) {
+                                                          return FlLine(
+                                                            color: model
+                                                                        .trendingCoins[
+                                                                            index]
+                                                                        .priceChangePercentage24h >
+                                                                    0
+                                                                ? const Color(
+                                                                    0xFF00a55b,
+                                                                  ).withOpacity(
+                                                                    0.3,
+                                                                  )
+                                                                : const Color(
+                                                                    0xFFd82e35,
+                                                                  ).withOpacity(
+                                                                    0.3,
+                                                                  ),
+                                                            strokeWidth: 1,
+                                                          );
+                                                        },
+                                                        getDrawingVerticalLine:
+                                                            (value) {
+                                                          return FlLine(
+                                                            color: model
+                                                                        .trendingCoins[
+                                                                            index]
+                                                                        .priceChangePercentage24h >
+                                                                    0
+                                                                ? const Color(
+                                                                    0xFF00a55b,
+                                                                  ).withOpacity(
+                                                                    0.3,
+                                                                  )
+                                                                : const Color(
+                                                                    0xFFd82e35,
+                                                                  ).withOpacity(
+                                                                    0.3,
+                                                                  ),
+                                                            strokeWidth: 1,
+                                                          );
+                                                        },
+                                                      ),
+                                                      titlesData: FlTitlesData(
+                                                        show: false,
+                                                      ),
+                                                      borderData: FlBorderData(
+                                                        show: false,
+                                                      ),
+                                                      minX: 0,
+                                                      maxX: model
                                                               .trendingDailyGraphDataList[
-                                                                  index]
-                                                              .graphData,
-                                                        )
-                                                        .reduce(
-                                                          min,
-                                                        )
-                                                        .toDouble(),
-                                                    maxY: _helper
-                                                        .extractPriceFromGraph(
-                                                          model
-                                                              .trendingDailyGraphDataList[
-                                                                  index]
-                                                              .graphData,
-                                                        )
-                                                        .reduce(
-                                                          max,
-                                                        )
-                                                        .toDouble(),
-                                                    lineBarsData: [
-                                                      LineChartBarData(
-                                                        spots: listData(
-                                                          _helper
-                                                              .extractPriceFromGraph(
+                                                                  0]
+                                                              .graphData
+                                                              .length
+                                                              .toDouble() -
+                                                          1,
+                                                      minY: _helper
+                                                          .extractPriceFromGraph(
                                                             model
                                                                 .trendingDailyGraphDataList[
                                                                     index]
                                                                 .graphData,
-                                                          ),
-                                                        ),
-                                                        colors: [
-                                                          if (model
-                                                                  .trendingCoins[
+                                                          )
+                                                          .reduce(
+                                                            min,
+                                                          )
+                                                          .toDouble(),
+                                                      maxY: _helper
+                                                          .extractPriceFromGraph(
+                                                            model
+                                                                .trendingDailyGraphDataList[
+                                                                    index]
+                                                                .graphData,
+                                                          )
+                                                          .reduce(
+                                                            max,
+                                                          )
+                                                          .toDouble(),
+                                                      lineBarsData: [
+                                                        LineChartBarData(
+                                                          spots: listData(
+                                                            _helper
+                                                                .extractPriceFromGraph(
+                                                              model
+                                                                  .trendingDailyGraphDataList[
                                                                       index]
-                                                                  .priceChangePercentage24h >
-                                                              0)
-                                                            const Color(
-                                                              0xFF00a55b,
-                                                            ).withOpacity(
-                                                              0.3,
-                                                            )
-                                                          else
-                                                            const Color(
-                                                              0xFFd82e35,
-                                                            ).withOpacity(
-                                                              0.3,
+                                                                  .graphData,
                                                             ),
-                                                        ],
-                                                        barWidth: 3,
-                                                        isStrokeCapRound: true,
-                                                        dotData: FlDotData(
-                                                          show: false,
-                                                        ),
-                                                        belowBarData:
-                                                            BarAreaData(
-                                                          show: true,
-                                                          gradientFrom:
-                                                              const Offset(
-                                                            0,
-                                                            .9,
-                                                          ),
-                                                          gradientTo:
-                                                              const Offset(
-                                                            0,
-                                                            0.5,
                                                           ),
                                                           colors: [
                                                             if (model
@@ -1482,14 +1503,53 @@ class _HomeScreenState extends State<HomeScreen>
                                                                 0.3,
                                                               ),
                                                           ],
+                                                          barWidth: 3,
+                                                          isStrokeCapRound:
+                                                              true,
+                                                          dotData: FlDotData(
+                                                            show: false,
+                                                          ),
+                                                          belowBarData:
+                                                              BarAreaData(
+                                                            show: true,
+                                                            gradientFrom:
+                                                                const Offset(
+                                                              0,
+                                                              .9,
+                                                            ),
+                                                            gradientTo:
+                                                                const Offset(
+                                                              0,
+                                                              0.5,
+                                                            ),
+                                                            colors: [
+                                                              if (model
+                                                                      .trendingCoins[
+                                                                          index]
+                                                                      .priceChangePercentage24h >
+                                                                  0)
+                                                                const Color(
+                                                                  0xFF00a55b,
+                                                                ).withOpacity(
+                                                                  0.3,
+                                                                )
+                                                              else
+                                                                const Color(
+                                                                  0xFFd82e35,
+                                                                ).withOpacity(
+                                                                  0.3,
+                                                                ),
+                                                            ],
+                                                          ),
                                                         ),
-                                                      ),
-                                                    ],
+                                                      ],
+                                                    ),
+                                                    swapAnimationDuration:
+                                                        Duration.zero,
                                                   ),
-                                                  swapAnimationDuration:
-                                                      Duration.zero,
-                                                ),
-                                        ),
+                                          )
+                                        else
+                                          Container(),
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,

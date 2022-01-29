@@ -221,83 +221,91 @@ class _MarketScreenState extends State<MarketScreen>
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
-                                        Column(
-                                          children: [
-                                            AutoSizeText(
-                                              "Market Cap",
-                                              style: GoogleFonts.rubik(
-                                                color: Colors.white70,
-                                                fontSize: 15,
+                                        FittedBox(
+                                          child: Column(
+                                            children: [
+                                              AutoSizeText(
+                                                "Market Cap",
+                                                style: GoogleFonts.rubik(
+                                                  color: Colors.white70,
+                                                  fontSize: 15,
+                                                ),
                                               ),
-                                            ),
-                                            const SizedBox(
-                                              height: 7,
-                                            ),
-                                            AutoSizeText(
-                                              NumberFormat.compact().format(
-                                                _globalDataModel.marketCapUSD *
-                                                    _cryptoAndFiatModel.price,
+                                              const SizedBox(
+                                                height: 7,
                                               ),
-                                              style: GoogleFonts.nunito(
-                                                color: Colors.white,
-                                                fontSize: 17,
-                                                fontWeight: FontWeight.w700,
+                                              AutoSizeText(
+                                                NumberFormat.compact().format(
+                                                  _globalDataModel
+                                                          .marketCapUSD *
+                                                      _cryptoAndFiatModel.price,
+                                                ),
+                                                style: GoogleFonts.nunito(
+                                                  color: Colors.white,
+                                                  fontSize: 17,
+                                                  fontWeight: FontWeight.w700,
+                                                ),
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
                                         const VerticalDivider(
                                           color: Colors.white,
                                         ),
-                                        Column(
-                                          children: [
-                                            AutoSizeText(
-                                              "24h Volume",
-                                              style: GoogleFonts.rubik(
-                                                color: Colors.white70,
-                                                fontSize: 15,
+                                        FittedBox(
+                                          child: Column(
+                                            children: [
+                                              AutoSizeText(
+                                                "24h Volume",
+                                                style: GoogleFonts.rubik(
+                                                  color: Colors.white70,
+                                                  fontSize: 15,
+                                                ),
                                               ),
-                                            ),
-                                            const SizedBox(
-                                              height: 7,
-                                            ),
-                                            AutoSizeText(
-                                              NumberFormat.compact().format(
-                                                _globalDataModel.volume24hUSD *
-                                                    _cryptoAndFiatModel.price,
+                                              const SizedBox(
+                                                height: 7,
                                               ),
-                                              style: GoogleFonts.nunito(
-                                                color: Colors.white,
-                                                fontSize: 17,
-                                                fontWeight: FontWeight.w700,
+                                              AutoSizeText(
+                                                NumberFormat.compact().format(
+                                                  _globalDataModel
+                                                          .volume24hUSD *
+                                                      _cryptoAndFiatModel.price,
+                                                ),
+                                                style: GoogleFonts.nunito(
+                                                  color: Colors.white,
+                                                  fontSize: 17,
+                                                  fontWeight: FontWeight.w700,
+                                                ),
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
                                         const VerticalDivider(
                                           color: Colors.white,
                                         ),
-                                        Column(
-                                          children: [
-                                            AutoSizeText(
-                                              "BTC Dominance",
-                                              style: GoogleFonts.rubik(
-                                                color: Colors.white70,
-                                                fontSize: 15,
+                                        FittedBox(
+                                          child: Column(
+                                            children: [
+                                              AutoSizeText(
+                                                "BTC Dominance",
+                                                style: GoogleFonts.rubik(
+                                                  color: Colors.white70,
+                                                  fontSize: 15,
+                                                ),
                                               ),
-                                            ),
-                                            const SizedBox(
-                                              height: 7,
-                                            ),
-                                            AutoSizeText(
-                                              "${_globalDataModel.bitcoinDominancePercentage}%",
-                                              style: GoogleFonts.nunito(
-                                                color: Colors.white,
-                                                fontSize: 17,
-                                                fontWeight: FontWeight.w700,
+                                              const SizedBox(
+                                                height: 7,
                                               ),
-                                            ),
-                                          ],
+                                              AutoSizeText(
+                                                "${_globalDataModel.bitcoinDominancePercentage}%",
+                                                style: GoogleFonts.nunito(
+                                                  color: Colors.white,
+                                                  fontSize: 17,
+                                                  fontWeight: FontWeight.w700,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ],
                                     ),

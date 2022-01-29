@@ -1,10 +1,10 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:crypto_news/provider/google_sign_in_provider.dart';
+import 'package:crypto_news/screen/onboarding_screen.dart';
 import 'package:crypto_news/widget/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:glassmorphism/glassmorphism.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,14 +21,12 @@ class _SignInScreenState extends State<SignInScreen> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color(0xFF010101),
         body: CustomScrollView(
           slivers: <Widget>[
             SliverAppBar(
-              backgroundColor: const Color(0xFF28313b),
               bottom: PreferredSize(
                 preferredSize: const Size(0, 60),
                 child: Container(
@@ -38,19 +36,20 @@ class _SignInScreenState extends State<SignInScreen> {
               expandedHeight: height * 0.5,
               flexibleSpace: Stack(
                 children: <Widget>[
+                  Container(
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [Color(0xFF2a5470), Color(0xFF4c4177)],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                      ),
+                    ),
+                  ),
                   Positioned.fill(
                     child: Align(
-                      child: Container(
+                      child: SizedBox(
                         height: height * 0.94,
                         width: width,
-                        decoration: const BoxDecoration(
-                          image: DecorationImage(
-                            image: CachedNetworkImageProvider(
-                              "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/login_bg.png?alt=media&token=fa6c1091-f9e0-4b24-ad91-c3b1037abdd4",
-                            ),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
                         child: CachedNetworkImage(
                           imageUrl:
                               "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/logo_without_bg.png?alt=media&token=f03f5a0b-b15e-4314-bd26-20468e6f4fb1",
@@ -96,29 +95,35 @@ class _SignInScreenState extends State<SignInScreen> {
               child: SizedBox(height: height * 0.04),
             ),
             SliverToBoxAdapter(
-              child: AutoSizeText(
-                "Keeps you updated",
-                maxLines: 1,
-                minFontSize: 30,
-                style: GoogleFonts.raleway(
-                  color: Colors.white,
-                  fontSize: 38,
-                  fontWeight: FontWeight.w500,
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: AutoSizeText(
+                  "Keeps you updated",
+                  maxLines: 1,
+                  minFontSize: 30,
+                  style: GoogleFonts.raleway(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 38,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
               ),
             ),
             SliverToBoxAdapter(
-              child: AutoSizeText(
-                "with the constantly evolving space",
-                maxLines: 1,
-                minFontSize: 17,
-                style: GoogleFonts.raleway(
-                  color: Colors.white,
-                  fontSize: 21,
-                  fontWeight: FontWeight.w500,
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: AutoSizeText(
+                  "with the constantly evolving space",
+                  maxLines: 1,
+                  minFontSize: 17,
+                  style: GoogleFonts.raleway(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 21,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
               ),
             ),
             SliverToBoxAdapter(
@@ -126,11 +131,10 @@ class _SignInScreenState extends State<SignInScreen> {
             ),
             SliverToBoxAdapter(
               child: Align(
-                alignment: Alignment.center,
                 child: ElevatedButton(
                   style: ButtonStyle(
                     fixedSize: MaterialStateProperty.all<Size>(
-                      Size(width * 0.65, height * 0.06),
+                      Size(width * 0.61, height * 0.06),
                     ),
                     backgroundColor: MaterialStateProperty.all<Color>(
                       signUpComplete
@@ -152,57 +156,62 @@ class _SignInScreenState extends State<SignInScreen> {
                       setState(() {
                         signUpComplete = true;
                       });
-                      Get.off(() => AppBottomNavigationBar());
+                      Get.off(() => OnboardingScreen());
                     });
                   },
                   child: signUpComplete
-                      ? Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                "Sign up Completed",
-                                style: GoogleFonts.rubik(
-                                  color: const Color(0xFF006230),
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w500,
+                      ? FittedBox(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                AutoSizeText(
+                                  "Sign up Completed",
+                                  maxLines: 1,
+                                  minFontSize: 15,
+                                  style: GoogleFonts.raleway(
+                                    color: Colors.white,
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w700,
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              const Icon(
-                                Icons.check,
-                                color: Color(0xFF006230),
-                              )
-                            ],
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                const Icon(
+                                  Icons.check,
+                                  color: Color(0xFF006230),
+                                )
+                              ],
+                            ),
                           ),
                         )
-                      : Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Image.asset(
-                                "lib/assets/google.png",
-                                height: 20,
-                                width: 20,
-                              ),
-                              SizedBox(
-                                width: width * 0.03,
-                              ),
-                              AutoSizeText(
-                                "Sign up with Google",
-                                maxLines: 1,
-                                minFontSize: 15,
-                                style: GoogleFonts.raleway(
-                                  color: Colors.white,
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w700,
+                      : FittedBox(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                Image.asset(
+                                  "lib/assets/google.png",
+                                  height: 20,
+                                  width: 20,
                                 ),
-                              ),
-                            ],
+                                SizedBox(
+                                  width: width * 0.03,
+                                ),
+                                AutoSizeText(
+                                  "Sign up with Google",
+                                  maxLines: 1,
+                                  minFontSize: 15,
+                                  style: GoogleFonts.raleway(
+                                    color: Colors.white,
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                 ),
@@ -217,12 +226,12 @@ class _SignInScreenState extends State<SignInScreen> {
                   final SharedPreferences prefs =
                       await SharedPreferences.getInstance();
                   prefs.setBool('skip', true);
-                  Get.off(() => AppBottomNavigationBar());
+                  Get.off(() => OnboardingScreen());
                 },
                 child: AutoSizeText(
                   "Skip",
                   style: GoogleFonts.raleway(
-                    color: Colors.white70,
+                    color: Colors.white60,
                     fontSize: 17,
                     fontWeight: FontWeight.w600,
                   ),

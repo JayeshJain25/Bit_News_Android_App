@@ -2,7 +2,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:crypto_news/provider/google_sign_in_provider.dart';
 import 'package:crypto_news/screen/advertise_screen.dart';
-import 'package:crypto_news/screen/crypto_explainer_screen.dart';
 import 'package:crypto_news/widget/news_web_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +23,8 @@ class SettingScreen extends StatefulWidget {
 class _SettingScreenState extends State<SettingScreen> {
   String contactUsHtml =
       "https://61d843fb7731b40c582e97a0--elegant-pasteur-7d84bc.netlify.app/";
+  String privacy = "https://elated-raman-42d560.netlify.app/";
+  String developers = "https://tender-mahavira-21e390.netlify.app/";
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -110,345 +111,251 @@ class _SettingScreenState extends State<SettingScreen> {
                             await SharedPreferences.getInstance();
                         prefs.setBool('skip', false);
                       },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Image.asset(
-                              "lib/assets/google.png",
-                              height: 20,
-                              width: 20,
-                            ),
-                            SizedBox(
-                              width: width * 0.03,
-                            ),
-                            AutoSizeText(
-                              "Sign up with Google",
-                              maxLines: 1,
-                              minFontSize: 15,
-                              style: GoogleFonts.raleway(
-                                color: Colors.white,
-                                fontSize: 17,
-                                fontWeight: FontWeight.w700,
+                      child: FittedBox(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              Image.asset(
+                                "lib/assets/google.png",
+                                height: 20,
+                                width: 20,
                               ),
-                            ),
-                          ],
+                              SizedBox(
+                                width: width * 0.03,
+                              ),
+                              AutoSizeText(
+                                "Sign up with Google",
+                                maxLines: 1,
+                                minFontSize: 15,
+                                style: GoogleFonts.raleway(
+                                  color: Colors.white,
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ),
               ],
             ),
-            SizedBox(
-              height: 55,
-              child: ListTile(
-                leading: Container(
-                  margin: EdgeInsets.only(
-                    top: height * 0.02,
-                    left: width * 0.05,
-                  ),
-                  child: const Icon(
-                    Icons.circle,
-                    color: Colors.grey,
-                  ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
                 ),
-                title: Container(
-                  margin: EdgeInsets.only(
-                    top: height * 0.02,
-                    left: width * 0.05,
-                  ),
-                  child: AutoSizeText(
-                    "Layout",
-                    style:
-                        GoogleFonts.poppins(color: Colors.white, fontSize: 20),
-                  ),
-                ),
-                trailing: Container(
-                  margin: EdgeInsets.only(
-                    top: height * 0.02,
-                    left: width * 0.05,
-                  ),
-                  child: const Icon(
-                    Icons.keyboard_arrow_right,
-                    color: Colors.grey,
-                    size: 30,
-                  ),
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(
-                top: height * 0.01,
-              ),
-              child: Divider(
-                indent: width * 0.037,
-                endIndent: width * 0.037,
-                thickness: 1,
-                height: 1,
-                color: const Color(0xFF292f33),
-              ),
-            ),
-            InkWell(
-              onTap: () {
-                Get.to(() => AdvertiseScreen());
-              },
-              child: SizedBox(
-                height: 55,
+                color: const Color(0xFF1B1B1B),
                 child: ListTile(
-                  leading: Container(
-                    margin: EdgeInsets.only(
-                      top: height * 0.02,
-                      left: width * 0.05,
-                    ),
-                    child: CachedNetworkImage(
-                      imageUrl:
-                          "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/advertise.png?alt=media&token=0ed94be2-1360-41ce-be6d-9a7424786589",
-                      color: Colors.grey,
-                      width: 25,
-                      height: 50,
-                    ),
+                  leading: CachedNetworkImage(
+                    imageUrl:
+                        "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/layout.png?alt=media&token=236d6ca3-41ad-41a3-9374-4487e0977354",
+                    color: Colors.white,
+                    width: 20,
+                    height: 40,
                   ),
-                  title: Container(
-                    margin: EdgeInsets.only(
-                      top: height * 0.02,
-                      left: width * 0.05,
-                    ),
-                    child: AutoSizeText(
-                      "Advertise",
-                      style:
-                          GoogleFonts.roboto(color: Colors.white, fontSize: 20),
+                  title: AutoSizeText(
+                    "Layout",
+                    style: GoogleFonts.poppins(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                   trailing: Container(
-                    margin: EdgeInsets.only(
-                      top: height * 0.02,
-                      left: width * 0.05,
+                    width: 50,
+                    height: 30,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.black54,
                     ),
-                    child: const Icon(
-                      Icons.keyboard_arrow_right,
-                      color: Colors.grey,
-                      size: 30,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(
-                top: height * 0.01,
-              ),
-              child: Divider(
-                indent: width * 0.037,
-                endIndent: width * 0.037,
-                thickness: 1,
-                height: 1,
-                color: const Color(0xFF292f33),
-              ),
-            ),
-            SizedBox(
-              height: 55,
-              child: ListTile(
-                leading: Container(
-                  margin: EdgeInsets.only(
-                    top: height * 0.02,
-                    left: width * 0.05,
-                  ),
-                  child: const Icon(
-                    Icons.feedback,
-                    color: Colors.grey,
-                  ),
-                ),
-                title: Container(
-                  margin: EdgeInsets.only(
-                    top: height * 0.02,
-                    left: width * 0.05,
-                  ),
-                  child: AutoSizeText(
-                    "Feedback",
-                    style:
-                        GoogleFonts.roboto(color: Colors.white, fontSize: 20),
-                  ),
-                ),
-                trailing: Container(
-                  margin: EdgeInsets.only(
-                    top: height * 0.02,
-                    left: width * 0.05,
-                  ),
-                  child: const Icon(
-                    Icons.keyboard_arrow_right,
-                    color: Colors.grey,
-                    size: 30,
-                  ),
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(
-                top: height * 0.01,
-              ),
-              child: Divider(
-                indent: width * 0.037,
-                endIndent: width * 0.037,
-                thickness: 1,
-                height: 1,
-                color: const Color(0xFF292f33),
-              ),
-            ),
-            SizedBox(
-              height: 55,
-              child: ListTile(
-                leading: Container(
-                  margin: EdgeInsets.only(
-                    top: height * 0.02,
-                    left: width * 0.05,
-                  ),
-                  child: const Icon(
-                    Icons.privacy_tip,
-                    color: Colors.grey,
-                  ),
-                ),
-                title: Container(
-                  margin: EdgeInsets.only(
-                    top: height * 0.02,
-                    left: width * 0.05,
-                  ),
-                  child: AutoSizeText(
-                    "Privacy Policy",
-                    style:
-                        GoogleFonts.poppins(color: Colors.white, fontSize: 20),
-                  ),
-                ),
-                trailing: Container(
-                  margin: EdgeInsets.only(
-                    top: height * 0.02,
-                    left: width * 0.05,
-                  ),
-                  child: const Icon(
-                    Icons.keyboard_arrow_right,
-                    color: Colors.grey,
-                    size: 30,
-                  ),
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(
-                top: height * 0.01,
-              ),
-              child: Divider(
-                indent: width * 0.037,
-                endIndent: width * 0.037,
-                thickness: 1,
-                height: 1,
-                color: const Color(0xFF292f33),
-              ),
-            ),
-            InkWell(
-              onTap: () {
-                Get.to(
-                  () => NewsWebView(contactUsHtml, false),
-                );
-              },
-              child: SizedBox(
-                height: 55,
-                child: ListTile(
-                  leading: Container(
-                    margin: EdgeInsets.only(
-                      top: height * 0.02,
-                      left: width * 0.05,
-                    ),
-                    child: const Icon(
-                      Icons.phone,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  title: Container(
-                    margin: EdgeInsets.only(
-                      top: height * 0.02,
-                      left: width * 0.05,
-                    ),
-                    child: AutoSizeText(
-                      "Contact Us",
-                      style: GoogleFonts.poppins(
-                        color: Colors.white,
-                        fontSize: 20,
+                    child: Center(
+                      child: Text(
+                        "Dark",
+                        style: GoogleFonts.poppins(
+                          color: Colors.white,
+                          fontSize: 16,
+                        ),
                       ),
                     ),
                   ),
-                  trailing: Container(
-                    margin: EdgeInsets.only(
-                      top: height * 0.02,
-                      left: width * 0.05,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                color: const Color(0xFF1B1B1B),
+                child: Column(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Get.to(() => AdvertiseScreen());
+                      },
+                      child: ListTile(
+                        leading: CachedNetworkImage(
+                          imageUrl:
+                              "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/advertise.png?alt=media&token=b46197fb-fa74-479e-b5d7-d55d32a302b0",
+                          color: Colors.white,
+                          width: 25,
+                          height: 50,
+                        ),
+                        title: AutoSizeText(
+                          "Advertise",
+                          style: GoogleFonts.roboto(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
                     ),
-                    child: const Icon(
-                      Icons.keyboard_arrow_right,
-                      color: Colors.grey,
-                      size: 30,
+                    Divider(
+                      indent: width * 0.037,
+                      endIndent: width * 0.037,
+                      thickness: 1,
+                      height: 1,
+                      color: const Color(0xFF292f33),
                     ),
-                  ),
+                    InkWell(
+                      onTap: () {
+                        Get.to(
+                          () => NewsWebView(contactUsHtml, false, "setting"),
+                        );
+                      },
+                      child: ListTile(
+                        leading: const Icon(
+                          Icons.email,
+                          color: Colors.white,
+                        ),
+                        title: AutoSizeText(
+                          "Contact Us",
+                          style: GoogleFonts.poppins(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Divider(
+                      indent: width * 0.037,
+                      endIndent: width * 0.037,
+                      thickness: 1,
+                      height: 1,
+                      color: const Color(0xFF292f33),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Get.to(
+                          () => NewsWebView(developers, false, "setting"),
+                        );
+                      },
+                      child: ListTile(
+                        leading: const Icon(
+                          Icons.person,
+                          color: Colors.white,
+                        ),
+                        title: AutoSizeText(
+                          "Developer's",
+                          style: GoogleFonts.poppins(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
-            Container(
-              margin: EdgeInsets.only(
-                top: height * 0.01,
-              ),
-              child: Divider(
-                indent: width * 0.037,
-                endIndent: width * 0.037,
-                thickness: 1,
-                height: 1,
-                color: const Color(0xFF292f33),
-              ),
-            ),
-            SizedBox(
-              height: 55,
-              child: ListTile(
-                leading: Container(
-                  margin: EdgeInsets.only(
-                    top: height * 0.02,
-                    left: width * 0.05,
-                  ),
-                  child: const Icon(
-                    Icons.star,
-                    color: Colors.grey,
-                  ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
                 ),
-                title: Container(
-                  margin: EdgeInsets.only(
-                    top: height * 0.02,
-                    left: width * 0.05,
-                  ),
-                  child: AutoSizeText(
-                    "Rate Us",
-                    style:
-                        GoogleFonts.poppins(color: Colors.white, fontSize: 20),
-                  ),
+                color: const Color(0xFF1B1B1B),
+                child: Column(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Get.to(
+                          () => NewsWebView(privacy, false, "setting"),
+                        );
+                      },
+                      child: ListTile(
+                        leading: const Icon(
+                          Icons.privacy_tip,
+                          color: Colors.white,
+                        ),
+                        title: AutoSizeText(
+                          "Privacy Policy",
+                          style: GoogleFonts.poppins(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Divider(
+                      indent: width * 0.037,
+                      endIndent: width * 0.037,
+                      thickness: 1,
+                      height: 1,
+                      color: const Color(0xFF292f33),
+                    ),
+                    ListTile(
+                      leading: CachedNetworkImage(
+                        imageUrl:
+                            "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/feedback.png?alt=media&token=4f9bac74-4bed-4dd6-bec3-b0300e9fd8cc",
+                        color: Colors.white,
+                        width: 25,
+                        height: 50,
+                      ),
+                      title: AutoSizeText(
+                        "Feedback",
+                        style: GoogleFonts.roboto(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                    Divider(
+                      indent: width * 0.037,
+                      endIndent: width * 0.037,
+                      thickness: 1,
+                      height: 1,
+                      color: const Color(0xFF292f33),
+                    ),
+                    ListTile(
+                      leading: CachedNetworkImage(
+                        imageUrl:
+                            "https://firebasestorage.googleapis.com/v0/b/cryptox-aabf8.appspot.com/o/rate.png?alt=media&token=cf924fd4-f6ca-48a1-820d-4672884c4ec9",
+                        color: Colors.white,
+                        width: 30,
+                        height: 50,
+                      ),
+                      title: AutoSizeText(
+                        "Rate Us",
+                        style: GoogleFonts.poppins(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                trailing: Container(
-                  margin: EdgeInsets.only(
-                    top: height * 0.02,
-                    left: width * 0.05,
-                  ),
-                  child: const Icon(
-                    Icons.keyboard_arrow_right,
-                    color: Colors.grey,
-                    size: 30,
-                  ),
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(
-                top: height * 0.02,
-              ),
-              child: Divider(
-                indent: width * 0.037,
-                endIndent: width * 0.037,
-                thickness: 1,
-                height: 1,
-                color: const Color(0xFF292f33),
               ),
             ),
             Container(
@@ -458,7 +365,10 @@ class _SettingScreenState extends State<SettingScreen> {
               ),
               child: AutoSizeText(
                 "Follow Us",
-                style: GoogleFonts.poppins(color: Colors.white, fontSize: 20),
+                style: GoogleFonts.poppins(
+                  color: Colors.white,
+                  fontSize: 20,
+                ),
               ),
             ),
             Container(
@@ -471,7 +381,7 @@ class _SettingScreenState extends State<SettingScreen> {
                   InkWell(
                     onTap: () {
                       launch(
-                        "https://discord.gg/CTBpvzDbZT",
+                        "https://discord.gg/v8HPFsV4jQ",
                       );
                     },
                     child: Container(

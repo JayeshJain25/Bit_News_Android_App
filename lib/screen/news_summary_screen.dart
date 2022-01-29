@@ -293,7 +293,11 @@ class _NewsSummaryScreenState extends State<NewsSummaryScreen> {
                           child: ElevatedButton(
                             onPressed: () {
                               Get.to(
-                                () => NewsWebView(widget.newsData.url, true),
+                                () => NewsWebView(
+                                  widget.newsData.url,
+                                  true,
+                                  "news",
+                                ),
                               );
                             },
                             style: ButtonStyle(

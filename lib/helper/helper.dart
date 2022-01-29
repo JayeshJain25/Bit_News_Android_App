@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:crypto_news/model/graph_data_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
@@ -9,7 +8,9 @@ class Helper {
     final DateTime time1 = DateTime.parse("$input Z");
     final Duration diff = DateTime.now().difference(time1);
 
-    if (diff.inDays >= 1) {
+    if (diff.inDays == 1) {
+      return '${diff.inDays} day ago';
+    } else if (diff.inDays > 1) {
       return '${diff.inDays} days ago';
     } else if (diff.inHours >= 1) {
       return '${diff.inHours} hrs ago';

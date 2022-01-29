@@ -1,12 +1,17 @@
+import 'dart:typed_data';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:crypto_news/helper/helper.dart';
 import 'package:crypto_news/provider/news_provider.dart';
 import 'package:crypto_news/screen/news_summary_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
 
 class TopNews extends StatelessWidget {
   final int index;
@@ -19,6 +24,8 @@ class TopNews extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
+    final double h = MediaQuery.of(context).textScaleFactor;
+
     return Consumer<NewsProvider>(
       builder: (ctx, model, _) => model.topHeadlineNewsList.isEmpty
           ? CachedNetworkImage(
@@ -59,6 +66,14 @@ class TopNews extends StatelessWidget {
                             imageUrl: _helper.extractImgUrl(
                               model.topHeadlineNewsList[index].photoUrl,
                             ),
+                            placeholder: (ctx, _) {
+                              return const BlurHash(
+                                imageFit: BoxFit.fitWidth,
+                                duration: Duration(seconds: 3),
+                                curve: Curves.bounceInOut,
+                                hash: "L5H2EC=PM+yV0g-mq.wG9c010J}I",
+                              );
+                            },
                             errorWidget: (context, url, error) =>
                                 CachedNetworkImage(
                               imageUrl:
@@ -89,11 +104,13 @@ class TopNews extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    top: height * 0.223,
+                    top: h >= 1.33 || height < 850
+                        ? height * 0.2
+                        : height * 0.25,
                     child: Container(
-                      padding: const EdgeInsets.only(
-                        left: 15,
-                        right: 15,
+                      padding: EdgeInsets.only(
+                        left: width * 0.04,
+                        right: width * 0.04,
                       ),
                       width: width,
                       height: height * 0.3,
@@ -103,47 +120,40 @@ class TopNews extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Container(
-                            margin: const EdgeInsets.only(
-                              left: 0.5,
-                              right: 0.5,
-                            ),
+                          SizedBox(
                             width: width,
-                            height: height * 0.1,
-                            child: Container(
-                              margin: const EdgeInsets.only(top: 44),
-                              child: AutoSizeText(
-                                model.topHeadlineNewsList[index].title,
-                                minFontSize: 15,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                softWrap: false,
-                                style: GoogleFonts.poppins(
-                                  color: Colors.white,
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w600,
+                            child: FittedBox(
+                              child: Container(
+                                width: width,
+                                margin: const EdgeInsets.only(top: 44),
+                                child: AutoSizeText(
+                                  model.topHeadlineNewsList[index].title,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  softWrap: false,
+                                  style: GoogleFonts.poppins(
+                                    color: Colors.white,
+                                    fontSize: 13.sp,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                           Container(
                             margin: const EdgeInsets.only(
-                              left: 0.5,
-                              right: 0.5,
                               bottom: 5,
-                              top: 20,
+                              top: 12,
                             ),
                             width: width,
-                            height: height * 0.05,
                             child: AutoSizeText(
                               model.topHeadlineNewsList[index].description,
-                              minFontSize: 14,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               softWrap: false,
                               style: GoogleFonts.rubik(
                                 color: Colors.white70,
-                                fontSize: 16,
+                                fontSize: 14.sp,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
@@ -160,7 +170,7 @@ class TopNews extends StatelessWidget {
                                   maxLines: 1,
                                   style: GoogleFonts.rubik(
                                     color: Colors.white70,
-                                    fontSize: 15,
+                                    fontSize: 11.sp,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
@@ -177,7 +187,7 @@ class TopNews extends StatelessWidget {
                                   maxLines: 1,
                                   style: GoogleFonts.rubik(
                                     color: Colors.white70,
-                                    fontSize: 15,
+                                    fontSize: 11.sp,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
